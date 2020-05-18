@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
-namespace NHS111.Web.Functional.Utils {
-    public class PersonalDetailsPage: LayoutPage
+namespace NHS111.Web.Functional.Utils
+{
+    public class PersonalDetailsPage : LayoutPage
     {
 
         [FindsBy(How = How.Id, Using = "FindService_CurrentPostcode")]

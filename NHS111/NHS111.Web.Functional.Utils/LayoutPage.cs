@@ -1,15 +1,15 @@
-﻿using System;
+﻿using NHS111.Features;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using System.Configuration;
-using NHS111.Web.Functional.Utils.ScreenShot;
 using OpenQA.Selenium.Support.UI;
-using NHS111.Features;
+using System;
+using System.Configuration;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class LayoutPage: IScreenShotPage
+    public class LayoutPage : IScreenShotPage
     {
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
         public readonly IWebDriver Driver;
@@ -27,10 +27,10 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
         internal IWebElement Footer { get; set; }
 
-  
+
         private bool _screenShotsEqual = false;
 
-        public LayoutPage(IWebDriver driver) : this(driver, new VisualRegressionTestingFeature()) {}
+        public LayoutPage(IWebDriver driver) : this(driver, new VisualRegressionTestingFeature()) { }
 
         public LayoutPage(IWebDriver driver, IVisualRegressionTestingFeature visualRegressionTestingFeature)
         {
@@ -55,8 +55,8 @@ namespace NHS111.Web.Functional.Utils
 
         public IWebElement TabToFirstPageBodyElement()
         {
-            var header = HeaderLogo.Tab(Driver);  
-            if (IsElementPresent(By.CssSelector(".nhsuk-global-alert a")))return header.Tab(Driver);
+            var header = HeaderLogo.Tab(Driver);
+            if (IsElementPresent(By.CssSelector(".nhsuk-global-alert a"))) return header.Tab(Driver);
 
             return header;
         }
@@ -127,7 +127,7 @@ namespace NHS111.Web.Functional.Utils
 
         public bool IsElementPresent(By by)
         {
-           return Driver.FindElements(by).Count > 0;
+            return Driver.FindElements(by).Count > 0;
         }
 
         public T CompareAndVerify<T>(T page, string uniqueId) where T : IScreenShotPage
@@ -145,12 +145,12 @@ namespace NHS111.Web.Functional.Utils
             {
                 ScreenShotMaker.CopyBaseline(ScreenShotMaker.GetScreenShotFilename(uniqueId));
                 Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Differences'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, "diff/" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
-                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test Baseline'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName,  "baselines/" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test Baseline'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, "baselines/" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
                 Assert.Fail("Screenshot comparison shows not equal to baseline at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
             }
             return page;
         }
-        
+
         public bool IsDisplayed(IWebElement element)
         {
             try

@@ -13,19 +13,22 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "error")]
         public ErrorObject Error { get; set; }
 
-        public bool ResultListEmpty {
-            get {
+        public bool ResultListEmpty
+        {
+            get
+            {
                 return Error != null || Success == null || (Success.Services == null || Success.Services.Count <= 0);
             }
         }
 
         public bool ServicesUnavailable { get; set; }
 
-        public bool HasITKServices {  get { return !ResultListEmpty && Success.Services.Any(s => s.OnlineDOSServiceType.IsReferral); } }
+        public bool HasITKServices { get { return !ResultListEmpty && Success.Services.Any(s => s.OnlineDOSServiceType.IsReferral); } }
 
         public bool IsValidationRequery { get; set; }
 
-        public bool ContainsService(DosService selectedService) {
+        public bool ContainsService(DosService selectedService)
+        {
             return !ResultListEmpty && selectedService != null && Success.Services.Exists(s => s.Id == selectedService.Id);
         }
 

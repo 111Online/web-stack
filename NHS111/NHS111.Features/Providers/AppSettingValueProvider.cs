@@ -1,8 +1,9 @@
-using System.Configuration;
 using NHS111.Features.Defaults;
 using NHS111.Features.Values;
+using System.Configuration;
 
-namespace NHS111.Features.Providers {
+namespace NHS111.Features.Providers
+{
     public class AppSettingValueProvider : IFeatureSettingValueProvider
     {
         public IFeatureValue GetSetting(IFeature feature, IDefaultSettingStrategy defaultStrategy, string propertyName)
@@ -11,7 +12,7 @@ namespace NHS111.Features.Providers {
             var setting = ConfigurationManager.AppSettings[settingName];
 
             if (setting != null)
-                return new FeatureValue(setting); 
+                return new FeatureValue(setting);
 
             if (defaultStrategy == null)
                 throw new MissingSettingException("Missing setting : " + settingName);

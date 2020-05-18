@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NHS111.Models.Models.Business.Enums;
+using System;
 using System.Collections.Generic;
-using NHS111.Models.Models.Business.Enums;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {

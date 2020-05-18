@@ -5,7 +5,7 @@ namespace NHS111.Functional.Tests.Tools
 {
     public class RequestFormatting
     {
-        public static HttpRequestMessage CreateHTTPRequest(string requestContent, string requestContentWrapper ="\"")
+        public static HttpRequestMessage CreateHTTPRequest(string requestContent, string requestContentWrapper = "\"")
         {
             var debugging = new HttpRequestMessage
             {

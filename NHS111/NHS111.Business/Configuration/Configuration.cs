@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Nest;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using Nest;
-using Newtonsoft.Json;
 
 namespace NHS111.Business.Configuration
 {
@@ -59,7 +57,7 @@ namespace NHS111.Business.Configuration
                 .Replace("{grouped}", grouped.ToString())
                 .Replace("{startingOnly}", startingOnly.ToString());
         }
-        
+
         public string GetDomainApiGroupedPathwaysUrl(bool grouped, bool startingOnly)
         {
             return GetDomainApiUrl("DomainApiGroupedPathwaysUrl")
@@ -91,7 +89,7 @@ namespace NHS111.Business.Configuration
         public string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age)
         {
             return GetDomainApiUrl("DomainApiIdentifiedPathwayUrl").
-                Replace("{pathwayNumbers}",pathwayNumbers).
+                Replace("{pathwayNumbers}", pathwayNumbers).
                 Replace("{gender}", gender).
                 Replace("{age}", age.ToString());
         }
@@ -123,14 +121,16 @@ namespace NHS111.Business.Configuration
                 Replace("{markers}", string.Join(",", markers));
         }
 
-        public string GetDomainApiCareAdviceUrl(string dxCode, string ageCategory, string gender) {
+        public string GetDomainApiCareAdviceUrl(string dxCode, string ageCategory, string gender)
+        {
             return GetDomainApiUrl("DomainApiInterimCareAdviceUrl").
                 Replace("{dxCode}", dxCode).
                 Replace("{ageCategory}", ageCategory).
                 Replace("{gender}", gender);
         }
 
-        public string GetDomainApiListOutcomesUrl() {
+        public string GetDomainApiListOutcomesUrl()
+        {
             return GetDomainApiUrl("DomainApiListOutcomesUrl");
         }
 
@@ -147,7 +147,7 @@ namespace NHS111.Business.Configuration
 
         public string GetLocationPostcodebyGeoUrl(double longitude, double latitude)
         {
-            return 
+            return
                 ConfigurationManager.AppSettings["LocationPostcodebyGeoUrl"]
                     .Replace("{apiKey}", GetLocationApiKey())
                     .Replace("{longitude}", longitude.ToString())
@@ -205,7 +205,8 @@ namespace NHS111.Business.Configuration
             return GetDomainApiUrl("DomainApiSymptomDiscriminatorCodeUrl").Replace("{SymptomDiscriminatorCodeId}", symptomDiscriminatorCode);
         }
 
-        public string GetCategoriesWithPathwaysUrl() {
+        public string GetCategoriesWithPathwaysUrl()
+        {
             return GetDomainApiUrl("DomainApiGetCategoriesWithPathwaysUrl");
         }
 
@@ -302,7 +303,7 @@ namespace NHS111.Business.Configuration
         string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
         string GetLocationByPostcodeUrl(string postcode);
         string GetLocationByUDPRNUrl(string udprn);
-        
+
         /* CCG */
         string GetCCGBaseUrl();
         string CCGBusinessApiGetCCGUrl(string postcode);

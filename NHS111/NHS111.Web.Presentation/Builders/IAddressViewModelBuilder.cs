@@ -1,8 +1,10 @@
 ﻿
-namespace NHS111.Web.Presentation.Builders {
+namespace NHS111.Web.Presentation.Builders
+{
     using NHS111.Models.Models.Web;
 
-    public interface IAddressViewModelBuilder {
+    public interface IAddressViewModelBuilder
+    {
         AddressSearchViewModel Build(OutcomeViewModel model);
     }
 }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper.Internal;
+﻿using AutoMapper.Internal;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
-using SimpleJson;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+//using SimpleJson;
 using DayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek;
 
 namespace NHS111.Business.DOS.Service
@@ -53,32 +50,32 @@ namespace NHS111.Business.DOS.Service
             {
                 foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
                 {
-                    if(dayOfWeek == DayOfWeek.BankHoliday) continue;
-                        var standardScheduledRotaSessions = service.RotaSessions.Where(s => s.StartDayOfWeek == dayOfWeek);
-   
-                        DateTime dayOfWeekDate = _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(dayOfWeek, _clock.Now.DayOfWeek));
+                    if (dayOfWeek == DayOfWeek.BankHoliday) continue;
+                    var standardScheduledRotaSessions = service.RotaSessions.Where(s => s.StartDayOfWeek == dayOfWeek);
 
-                        if ((_publicHolidayData != null &&
-                            _publicHolidayData.PublicHolidays.Any(h => h.Date.Date == dayOfWeekDate.Date)))
-                        {
-                            bankHolidaySessions.Each(s => adjustedSessions.Add(
-                                    new ServiceCareItemRotaSession()
-                                    {
-                                        StartDayOfWeek = dayOfWeek,
-                                        StartTime = s.StartTime,
-                                        EndDayOfWeek = dayOfWeek,
-                                        EndTime = s.EndTime,
-                                        Status = s.Status
-                                    }
-                                )
-                            );
+                    DateTime dayOfWeekDate = _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(dayOfWeek, _clock.Now.DayOfWeek));
 
-                        }
-                        else 
-                        {
-                            adjustedSessions.AddRange(standardScheduledRotaSessions);
-                        }
-                    
+                    if ((_publicHolidayData != null &&
+                        _publicHolidayData.PublicHolidays.Any(h => h.Date.Date == dayOfWeekDate.Date)))
+                    {
+                        bankHolidaySessions.Each(s => adjustedSessions.Add(
+                                new ServiceCareItemRotaSession()
+                                {
+                                    StartDayOfWeek = dayOfWeek,
+                                    StartTime = s.StartTime,
+                                    EndDayOfWeek = dayOfWeek,
+                                    EndTime = s.EndTime,
+                                    Status = s.Status
+                                }
+                            )
+                        );
+
+                    }
+                    else
+                    {
+                        adjustedSessions.AddRange(standardScheduledRotaSessions);
+                    }
+
                 }
             }
             else
@@ -92,8 +89,8 @@ namespace NHS111.Business.DOS.Service
 
         private IEnumerable<ServiceCareItemRotaSession> RemovePublicHolidaySessions(IEnumerable<ServiceCareItemRotaSession> sessions)
         {
-           return sessions != null ? sessions.Where(s => !_publicHolidayData.PublicHolidays.Any(ph =>
-                ph.Date == _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(s.StartDayOfWeek, _clock.Now.DayOfWeek)).Date)) : new List<ServiceCareItemRotaSession>();
+            return sessions != null ? sessions.Where(s => !_publicHolidayData.PublicHolidays.Any(ph =>
+                 ph.Date == _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(s.StartDayOfWeek, _clock.Now.DayOfWeek)).Date)) : new List<ServiceCareItemRotaSession>();
         }
 
 

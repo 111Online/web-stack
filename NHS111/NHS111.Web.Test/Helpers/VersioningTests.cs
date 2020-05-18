@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using NHS111.Web.Helpers;
+﻿using Moq;
 using NUnit.Framework;
+using System.IO;
+using System.Threading.Tasks;
 namespace NHS111.Web.Helpers.Tests
 {
     [TestFixture()]
@@ -19,7 +14,7 @@ namespace NHS111.Web.Helpers.Tests
             string keyToPass = "~/content/css_NhsUk/question.css";
 
             var mockFileIO = new Mock<IFileIO>();
-            mockFileIO.Setup(i => i.OpenRead(It.IsAny<string>())).Returns(() =>ToStream("Test"));
+            mockFileIO.Setup(i => i.OpenRead(It.IsAny<string>())).Returns(() => ToStream("Test"));
 
             var mockPathProvider = new Mock<IPathProvider>();
             mockPathProvider.Setup(i => i.ToAbsolute(It.IsAny<string>())).Returns((string passdString) => passdString);

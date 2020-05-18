@@ -1,24 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Service;
 using NHS111.Business.DOS.WhiteListPopulator;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.ITK;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.Test.ServiceType
 {
     public class OnlineServiceTypeMapperTest
     {
         private Mock<Configuration.IConfiguration> _mockConfiguration;
-        private Mock<IRestClient> _restClient;
         private Mock<IWhiteListPopulator> _mockWhiteListPopulator;
 
         private readonly string _localServiceIdWhiteListUrl = "http://localhost/api/ccg/details/{0}";
@@ -198,7 +194,6 @@ namespace NHS111.Business.DOS.Test.ServiceType
         public void SetUp()
         {
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
-            _restClient = new Mock<IRestClient>();
             _mockWhiteListPopulator = new Mock<IWhiteListPopulator>();
 
             _mockConfiguration.Setup(c => c.CCGApiGetCCGDetailsByPostcode).Returns(_localServiceIdWhiteListUrl);
@@ -209,7 +204,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel { "123", "456", "789", "1419419102" };
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsNoReferralText);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
@@ -228,7 +223,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel();
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsGoToPhoneGoToReferralText);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
@@ -247,7 +242,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel { "123", "456", "789" };
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsGoToPhoneGoToReferralText);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
@@ -336,7 +331,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel { "123", "456", "789", "1419419101" };
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsSinglePhoneReferralText);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
@@ -370,7 +365,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel { "123", "456", "789", "1419419101" };
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsUnknownReferralText);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
@@ -423,7 +418,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel { "123", "456", "789", "1419419102" };
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsSinglePhoneReferralTextNoContactDetails);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
@@ -440,7 +435,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
         {
             ServiceListModel serviceList = new ServiceListModel { "1419419101" };
             _mockWhiteListPopulator.Setup(w => w.PopulateCCGWhitelist(_postcode)).Returns(() => StartedTask(serviceList));
-            
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsReferAndRingReferralText);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
+using NHS111.Utils.Helpers;
+using NHS111.Web.Presentation.Logging;
+using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.Enums;
-using NHS111.Models.Models.Web.Logging;
-using NHS111.Utils.Helpers;
-using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Presentation.Filters
 {
@@ -21,7 +20,8 @@ namespace NHS111.Web.Presentation.Filters
             _auditLogger = auditLogger;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext) {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
             if (filterContext.HttpContext.Response.HeadersWritten)
                 return;
 
@@ -35,12 +35,12 @@ namespace NHS111.Web.Presentation.Filters
             // When the user first lands on the site, store browser info. BrowserInfo is a wrapper that lets us increase accuracy manually.
             var browserInfo = new BrowserInfo(filterContext.HttpContext.Request);
             var pageName = string.Format("{0}/{1}", filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, filterContext.ActionDescriptor.ActionName);
-            
+
             if (!hasCookie && !hasSessionInModel)
             {
                 model.SessionId = Guid.NewGuid();
                 var secureCookies = true;
-                
+
 #if DEBUG
                 secureCookies = false;
 #endif
@@ -61,7 +61,7 @@ namespace NHS111.Web.Presentation.Filters
 
                 _auditLogger.LogEvent(model, EventType.Browser, browserInfo.Browser, pageName);
                 _auditLogger.LogEvent(model, EventType.BrowserVersion, browserInfo.MajorVersionString, pageName);
-                _auditLogger.LogEvent(model, EventType.OperatingSystem,browserInfo.Platform, pageName);
+                _auditLogger.LogEvent(model, EventType.OperatingSystem, browserInfo.Platform, pageName);
                 _auditLogger.LogEvent(model, EventType.DeviceType, browserInfo.DeviceType, pageName);
                 _auditLogger.LogEvent(model, EventType.Referer, referrer, pageName);
             }

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FluentValidation.Attributes;
+using NHS111.Models.Models.Web.Validators;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
-using FluentValidation.Attributes;
-using NHS111.Models.Models.Web.Validators;
-using RestSharp.Extensions;
 
 
 namespace NHS111.Models.Models.Web

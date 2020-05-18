@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -88,7 +88,7 @@ namespace NHS111.Web.Functional.Utils
         public IEnumerable<IWebElement> GetHits()
         {
             new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
-            return Driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")); 
+            return Driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li"));
         }
 
         public void SearchByTerm(string term)
@@ -101,11 +101,12 @@ namespace NHS111.Web.Functional.Utils
         // VerifyTermNoHits is used to check filtering works as expected
         public void VerifyTermNoHits(string pathwayNo)
         {
-            var elements = Driver.FindElements(By.CssSelector("[data-pathway-number=" + pathwayNo + "]")); 
+            var elements = Driver.FindElements(By.CssSelector("[data-pathway-number=" + pathwayNo + "]"));
             Assert.IsTrue(elements.Count == 0);
         }
 
-        public void VerifyTermHits(string expectedHitTitle, int maxRank) {
+        public void VerifyTermHits(string expectedHitTitle, int maxRank)
+        {
             expectedHitTitle = expectedHitTitle.ToLower();
             var rank = 0;
             var linkText = "";
@@ -149,14 +150,15 @@ namespace NHS111.Web.Functional.Utils
 
             Assert.IsTrue(firstSearchResultLink.Text.ToLower().StartsWith(searchTerm.ToLower()));
         }
-        
+
         public void VerifyNoInputValidation()
         {
             Assert.IsTrue(SearchTxtBoxValidationMessage.Displayed);
             Assert.AreEqual(_noInputValidationText, SearchTxtBoxValidationMessage.Text);
         }
 
-        public void VerifyCategoriesLinkPresent() {
+        public void VerifyCategoriesLinkPresent()
+        {
             Driver.FindElement(By.Id("details-summary-0")).Click();
             var link = Driver.FindElement(By.Id("show-categories"));
             Assert.IsTrue(link.Displayed);
@@ -170,7 +172,8 @@ namespace NHS111.Web.Functional.Utils
             return new QuestionPage(Driver);
         }
 
-        public CategoryPage ClickCategoryLink() {
+        public CategoryPage ClickCategoryLink()
+        {
             Driver.IfElementExists(By.Id("details-summary-0"), e => e.Click());
             Driver.FindElement(By.Id("show-categories")).Click();
             return new CategoryPage(Driver);

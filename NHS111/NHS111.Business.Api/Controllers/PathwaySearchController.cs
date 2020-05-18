@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using NHS111.Business.Services;
+﻿using NHS111.Business.Services;
 using NHS111.Models.Models.Business.PathwaySearch;
 using NHS111.Utils.Attributes;
-using NHS111.Utils.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -40,7 +36,7 @@ namespace NHS111.Business.Api.Controllers
 
             if (request.Postcode != null)
             {
-                var filteredresults = await _searchResultFilter.Filter(results, new Dictionary<string, string>(){{"postcode", request.Postcode}});
+                var filteredresults = await _searchResultFilter.Filter(results, new Dictionary<string, string>() { { "postcode", request.Postcode } });
                 return filteredresults.ToList();
             }
 
@@ -56,5 +52,5 @@ namespace NHS111.Business.Api.Controllers
         public string Postcode { get; set; }
     }
 
-  
+
 }

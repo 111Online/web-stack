@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -24,7 +25,7 @@ namespace NHS111.Models.Models.Web.Validators
             var dateTimeViewModel = context.Instance as DateTimeViewModel;
             return IsAValidDay(dateTimeViewModel.Day);
         }
-  
+
 
         private bool IsAValidDay(int? day)
         {

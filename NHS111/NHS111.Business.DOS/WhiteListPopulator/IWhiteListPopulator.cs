@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using NHS111.Models.Models.Web.CCG;
+﻿using NHS111.Models.Models.Web.CCG;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.WhiteListPopulator
 {

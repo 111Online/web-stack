@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -13,7 +7,9 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
 using RestSharp;
-using StructureMap.Query;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using NHS111.Utils.RestTools;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
@@ -25,8 +21,8 @@ namespace NHS111.Web.Controllers
         private readonly IConfiguration _configuration;
         private readonly IViewRouter _viewRouter;
 
-        public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder, 
-            IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
+        public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder,
+            IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, ILoggingRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _registerForSmsViewModelBuilder = registerForSmsViewModelBuilder;
             _configuration = configuration;
@@ -39,7 +35,8 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> GetSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
             var result = await _registerForSmsViewModelBuilder
-                .MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiGenerateVerificationCodeUrl);
+                .MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiGenerateVerificationCodeUrl)
+                .ConfigureAwait(false);
 
             ModelState.Clear();
 
@@ -53,10 +50,11 @@ namespace NHS111.Web.Controllers
                 return View("Enter_Verification_Code_SMS", model);
 
             var result = await _registerForSmsViewModelBuilder
-                .MessageCaseDataCaptureApi<VerifySMSCodeRequest, SMSEnterVerificationCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiVerifyPhoneNumberUrl);
+                .MessageCaseDataCaptureApi<VerifySMSCodeRequest, SMSEnterVerificationCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiVerifyPhoneNumberUrl)
+                .ConfigureAwait(false);
 
             return string.IsNullOrWhiteSpace(result.ViewName)
-                ? await RedirectToNextQuestion(model) : View(result.ViewName, result.SendSmsOutcomeViewModel);
+                ? await RedirectToNextQuestion(model).ConfigureAwait(false) : View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
 
         [HttpPost]
@@ -65,7 +63,8 @@ namespace NHS111.Web.Controllers
             model.VerificationCodeInput = GetVerificationCodeInputFromJourney(model);
 
             var result = await _registerForSmsViewModelBuilder
-                .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl);
+                .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl)
+                .ConfigureAwait(false);
 
             return View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
@@ -89,7 +88,7 @@ namespace NHS111.Web.Controllers
 
             var questionViewModel = CovertSendSmsOutcomeViewModelToQuestionViewModel(model);
 
-            var viewRouter = await _questionNavigiationService.NextQuestion(questionViewModel, ControllerContext);
+            var viewRouter = await _questionNavigiationService.NextQuestion(questionViewModel, ControllerContext).ConfigureAwait(false);
 
             return View(viewRouter.ViewName, viewRouter.JourneyModel);
         }
@@ -117,7 +116,7 @@ namespace NHS111.Web.Controllers
         {
             var verificationCodeInput = JsonConvert.DeserializeObject<Journey>(model.JourneyJson)
                 .GetStepInputValue<string>(QuestionType.String, "DxC112");
-            return new VerificationCodeInputViewModel(){ InputValue = verificationCodeInput };
+            return new VerificationCodeInputViewModel() { InputValue = verificationCodeInput };
         }
     }
 }

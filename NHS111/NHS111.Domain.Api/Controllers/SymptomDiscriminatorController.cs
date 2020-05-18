@@ -1,16 +1,19 @@
 using System.Web.Http.Results;
 
-namespace NHS111.Domain.Api.Controllers {
-    using System.Threading.Tasks;
-    using System.Web.Http;
+namespace NHS111.Domain.Api.Controllers
+{
     using Models.Models.Domain;
     using Repository;
+    using System.Threading.Tasks;
+    using System.Web.Http;
     using Utils.Attributes;
 
     [LogHandleErrorForApi]
-    public class SymptomDiscriminatorController: ApiController {
+    public class SymptomDiscriminatorController : ApiController
+    {
 
-        public SymptomDiscriminatorController(ISymptomDiscriminatorRepository repository) {
+        public SymptomDiscriminatorController(ISymptomDiscriminatorRepository repository)
+        {
             _repository = repository;
         }
 

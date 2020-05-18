@@ -1,14 +1,17 @@
 ﻿
-namespace NHS111.Models.Test.Models.Domain {
-    using System;
+namespace NHS111.Models.Test.Models.Domain
+{
     using NHS111.Models.Models.Domain;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
-    public class AgeCategoryTests {
+    public class AgeCategoryTests
+    {
 
         [Test]
-        public void Ctor_WithValidInt_CreatsValidObject() {
+        public void Ctor_WithValidInt_CreatsValidObject()
+        {
             var sut = new AgeCategory(0);
             Assert.AreEqual("Infant", sut.Value);
             sut = new AgeCategory(1);
@@ -20,7 +23,8 @@ namespace NHS111.Models.Test.Models.Domain {
         }
 
         [Test]
-        public void Ctor_WithValidString_CreatesValidObject() {
+        public void Ctor_WithValidString_CreatesValidObject()
+        {
             var sut = new AgeCategory("Infant");
             Assert.AreEqual("Infant", sut.Value);
             sut = new AgeCategory("I");
@@ -59,7 +63,8 @@ namespace NHS111.Models.Test.Models.Domain {
         }
 
         [Test]
-        public void Ctor_WithEnum_CreatesValidObject() {
+        public void Ctor_WithEnum_CreatesValidObject()
+        {
             var sut = new AgeCategory(AgeCategoryEnum.Infant);
             Assert.AreEqual("Infant", sut.Value);
             sut = new AgeCategory(AgeCategoryEnum.Toddler);
@@ -72,7 +77,8 @@ namespace NHS111.Models.Test.Models.Domain {
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Ctor_WithInvalidString_ThrowsArgumentException() {
+        public void Ctor_WithInvalidString_ThrowsArgumentException()
+        {
             new AgeCategory("SomeNonsense");
         }
 

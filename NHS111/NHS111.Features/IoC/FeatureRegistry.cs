@@ -1,6 +1,5 @@
 ﻿using NHS111.Features.Clock;
 using StructureMap;
-using StructureMap.Graph;
 
 namespace NHS111.Features.IoC
 {

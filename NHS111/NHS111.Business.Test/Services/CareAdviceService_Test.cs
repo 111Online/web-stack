@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Cache;
+using NHS111.Utils.RestTools;
 using RestSharp;
 
 namespace NHS111.Business.Test.Services
@@ -18,7 +19,7 @@ namespace NHS111.Business.Test.Services
     public class CareAdviceService_Test
     {
         private Mock<Configuration.IConfiguration> _configuration;
-        private Mock<IRestClient> _restClient;
+        private Mock<ILoggingRestClient> _restClient;
         private Mock<ICacheManager<string, string>> _cacheManagerMock;
         private ICacheStore _cacheStoreMock;
         private Mock<IRestResponse<IEnumerable<CareAdvice>>> _mockCareAdviceRestResponse;
@@ -27,7 +28,7 @@ namespace NHS111.Business.Test.Services
         public void SetUp()
         {
             _configuration = new Mock<Configuration.IConfiguration>();
-            _restClient = new Mock<IRestClient>();
+            _restClient = new Mock<ILoggingRestClient>();
             _mockCareAdviceRestResponse = new Mock<IRestResponse<IEnumerable<CareAdvice>>>();
             _cacheManagerMock = new Mock<ICacheManager<string, string>>();
             _cacheStoreMock = new RedisCacheStore(_cacheManagerMock.Object, true);
@@ -48,7 +49,7 @@ namespace NHS111.Business.Test.Services
             string keywords = "one,two,three";
             InitialiseMockRestResponse(MOCK_CAREADVICE);
 
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(_mockCareAdviceRestResponse.Object);
 
 
@@ -58,7 +59,7 @@ namespace NHS111.Business.Test.Services
             var result = await sut.GetCareAdvice(ageCategory, gender, keywords, dxCode);
             //Assert
             _configuration.Verify(x => x.GetDomainApiCareAdviceUrl(dxCode, ageCategory, gender), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.That(result, Is.EqualTo(_mockCareAdviceRestResponse.Object.Data));
 
         }
@@ -74,7 +75,7 @@ namespace NHS111.Business.Test.Services
             string keywords = "one,two,three";
             var expectedCacheKey = new CareAdviceCacheKey(ageCategory,gender, keywords, dxCode);
             InitialiseMockRestResponse(null);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(_mockCareAdviceRestResponse.Object);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
@@ -85,7 +86,7 @@ namespace NHS111.Business.Test.Services
             var result = await sut.GetCareAdvice(ageCategory, gender, keywords, dxCode);
             //Assert
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Never);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.That(result, Is.EqualTo(_mockCareAdviceRestResponse.Object.Data));
         }
 
@@ -100,7 +101,7 @@ namespace NHS111.Business.Test.Services
             string keywords = "one,two,three";
             var expectedCacheKey = new CareAdviceCacheKey(ageCategory, gender, keywords, dxCode);
             InitialiseMockRestResponse(MOCK_CAREADVICE);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(_mockCareAdviceRestResponse.Object);
 
             _cacheManagerMock.Setup(x => x.Read(expectedCacheKey.CacheKey)).ReturnsAsync(JsonConvert.SerializeObject(MOCK_CAREADVICE));
@@ -111,7 +112,7 @@ namespace NHS111.Business.Test.Services
             var result = await sut.GetCareAdvice(ageCategory, gender, keywords, dxCode);
             //Assert
             _cacheManagerMock.Verify(x => x.Read(expectedCacheKey.CacheKey), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Never);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Never);
             Assert.That(result.First().Title, Is.EqualTo(MOCK_CAREADVICE.First().Title));
 
         }
@@ -127,7 +128,7 @@ namespace NHS111.Business.Test.Services
             string keywords = "one,two,three";
             var expectedCacheKey = new CareAdviceCacheKey(ageCategory, gender, keywords, dxCode);
             InitialiseMockRestResponse(new CareAdvice[0]);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(_mockCareAdviceRestResponse.Object);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
@@ -138,7 +139,7 @@ namespace NHS111.Business.Test.Services
             var result = await sut.GetCareAdvice(ageCategory, gender, keywords, dxCode);
             //Assert
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Never);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.That(result, Is.EqualTo(_mockCareAdviceRestResponse.Object.Data));
 
         }
@@ -154,7 +155,7 @@ namespace NHS111.Business.Test.Services
             string keywords = "one,two,three";
             var expectedCacheKey = new CareAdviceCacheKey(ageCategory, gender, keywords, dxCode);
             InitialiseMockRestResponse(MOCK_CAREADVICE);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(_mockCareAdviceRestResponse.Object);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
@@ -165,7 +166,7 @@ namespace NHS111.Business.Test.Services
             var result = await sut.GetCareAdvice(ageCategory, gender, keywords, dxCode);
             //Assert
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.That(result, Is.EqualTo(_mockCareAdviceRestResponse.Object.Data));
         }
 
@@ -178,7 +179,7 @@ namespace NHS111.Business.Test.Services
             List<string> markers = new List<string>() {"one", "two", "three"};
             var expectedCacheKey = new CareAdviceCacheKey(age, gender, markers);
             InitialiseMockRestResponse(MOCK_CAREADVICE);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(_mockCareAdviceRestResponse.Object);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
@@ -189,7 +190,7 @@ namespace NHS111.Business.Test.Services
             var result = await sut.GetCareAdvice(age, gender, markers);
             //Assert
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.That(result, Is.EqualTo(_mockCareAdviceRestResponse.Object.Data));
         }
 

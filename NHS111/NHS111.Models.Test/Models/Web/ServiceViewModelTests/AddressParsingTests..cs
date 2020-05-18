@@ -1,5 +1,4 @@
-﻿using System;
-using NHS111.Models.Models.Web;
+﻿using NHS111.Models.Models.Web;
 using NUnit.Framework;
 
 
@@ -13,7 +12,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
         [Test]
         public void Service_MultipleAddressLines_Split()
         {
-            var testService = new ServiceViewModel(){Address = _testAddress};
+            var testService = new ServiceViewModel() { Address = _testAddress };
 
             Assert.AreEqual(4, testService.AddressLines.Count);
         }

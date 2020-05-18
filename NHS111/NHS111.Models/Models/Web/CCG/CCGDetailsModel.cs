@@ -2,7 +2,7 @@
 
 namespace NHS111.Models.Models.Web.CCG
 {
-    public class CCGDetailsModel :CCGModel
+    public class CCGDetailsModel : CCGModel
     {
         [JsonProperty(PropertyName = "stpName")]
         public string StpName { get; set; }

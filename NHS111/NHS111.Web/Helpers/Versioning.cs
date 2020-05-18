@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -29,13 +28,13 @@ namespace NHS111.Web.Helpers
         public static string GetVersionedUriRef(string uri)
         {
             if (_fileHashes.ContainsKey(uri)) return _fileHashes[uri];
-           
+
             var hashvalue = GenerateChecksum(uri);
             var versionedUriRef = _pathProvider.ToAbsolute(String.Format("{0}?{1}", uri, hashvalue));
             if (!_fileHashes.TryAdd(uri, versionedUriRef)) GetVersionedUriRef(uri);
 
             return versionedUriRef;
-            
+
         }
 
         private static string GenerateChecksum(string uri)

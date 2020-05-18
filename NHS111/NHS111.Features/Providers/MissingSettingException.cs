@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NHS111.Features.Providers {
+namespace NHS111.Features.Providers
+{
     [Serializable]
     public class MissingSettingException
         : Exception

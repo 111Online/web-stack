@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NHS111.Domain.Api.Controllers;
 using NHS111.Domain.Repository;
 using NHS111.Models.Models.Domain;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Test.API_Project.Controller
 {
@@ -45,9 +43,9 @@ namespace NHS111.Domain.Test.API_Project.Controller
         public async void should_return_a_single_pathway()
         {
             //Arrange
-             
+
             var id = "PW1234";
-           
+
             _pathwayRepository.Setup(x => x.GetPathway(id)).Returns(Task.FromResult(new Pathway()));
 
             //Act
@@ -58,15 +56,15 @@ namespace NHS111.Domain.Test.API_Project.Controller
             Assert.IsInstanceOf<Pathway>(result.Content);
         }
 
-        
+
 
         [Test]
         public async void should_return_a_single_pathway_metadata()
         {
             //Arrange
-             
+
             var id = "PW1234";
-           
+
             _pathwayRepository.Setup(x => x.GetPathwayMetadata(id)).Returns(Task.FromResult(new PathwayMetaData()));
 
             //Act

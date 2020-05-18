@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Comparer;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Utils.Parser
 {

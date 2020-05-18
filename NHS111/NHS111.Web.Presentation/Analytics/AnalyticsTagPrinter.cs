@@ -1,11 +1,13 @@
 ﻿
-using System.Linq;
 using NHS111.Models.Models.Web;
+using System.Linq;
 
-namespace NHS111.Web.Presentation.Analytics {
+namespace NHS111.Web.Presentation.Analytics
+{
     using System.Web;
 
-    public class AnalyticsTagPrinter {
+    public class AnalyticsTagPrinter
+    {
         public AnalyticsTagPrinter()
         {
             DataLayerVariableName = "dataLayer";

@@ -1,19 +1,22 @@
 ﻿
-namespace NHS111.Domain.Repository {
+namespace NHS111.Domain.Repository
+{
 
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Models.Models.Domain;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class OutcomeRepository
-        : IOutcomeRepository {
+        : IOutcomeRepository
+    {
 
-        public OutcomeRepository(IGraphRepository graphRepository) {
+        public OutcomeRepository(IGraphRepository graphRepository)
+        {
             _graphRepository = graphRepository;
         }
 
-        public async Task<IEnumerable<Outcome>> ListOutcomes() {
+        public async Task<IEnumerable<Outcome>> ListOutcomes()
+        {
             var outcomeNodeName = "Outcome";
 
             return await _graphRepository.Client.Cypher.
@@ -25,7 +28,8 @@ namespace NHS111.Domain.Repository {
         private readonly IGraphRepository _graphRepository;
     }
 
-    public interface IOutcomeRepository {
+    public interface IOutcomeRepository
+    {
         Task<IEnumerable<Outcome>> ListOutcomes();
     }
 }

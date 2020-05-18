@@ -1,12 +1,10 @@
-﻿using System.Configuration;
-using log4net;
+﻿using log4net;
 using NHS111.Business.Configuration;
 using NHS111.Business.Services;
 using NHS111.Utils.IoC;
 using NHS111.Utils.RestTools;
 using RestSharp;
 using StructureMap;
-using StructureMap.Graph;
 
 namespace NHS111.Business.IoC
 {
@@ -18,10 +16,10 @@ namespace NHS111.Business.IoC
         {
             _configuration = configuration;
 
-            For<IRestClient>().Singleton().Use<IRestClient>(GetLoggingRestClientFor(configuration.GetDomainApiBaseUrl()));
+            For<ILoggingRestClient>().Singleton().Use<LoggingRestClient>(GetLoggingRestClientFor(configuration.GetDomainApiBaseUrl()));
             For<ICCGDetailsService>().Singleton()
                 .Use<CCGDetailsService>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(configuration.GetCCGBaseUrl()));
 
             For<ISearchResultFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGDetailsService>();
@@ -29,7 +27,7 @@ namespace NHS111.Business.IoC
 
             For<ILocationService>().Singleton()
                 .Use<LocationService>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(configuration.GetLocationBaseUrl()));
             IncludeRegistry<UtilsRegistry>();
             Scan(scan =>

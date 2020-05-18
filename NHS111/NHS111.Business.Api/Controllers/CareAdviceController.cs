@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using NHS111.Business.Services;
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.Attributes;
+using NHS111.Utils.Cache;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Newtonsoft.Json;
-using NHS111.Business.Services;
-using NHS111.Models.Models.Domain;
-using NHS111.Utils.Attributes;
-using NHS111.Utils.Cache;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -23,10 +23,9 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathways/care-advice/{age}/{gender}")]
         public async Task<JsonResult<IEnumerable<CareAdvice>>> GetCareAdvice(int age, string gender, [FromUri]string markers)
         {
-
-
             markers = markers ?? string.Empty;
             var careAdvice = await _careAdviceService.GetCareAdvice(age, gender, markers.Split(','));
+
             return Json(careAdvice);
         }
 
@@ -38,7 +37,5 @@ namespace NHS111.Business.Api.Controllers
             var careAdvice = await _careAdviceService.GetCareAdvice(ageCategory, gender, keywords, dxCode);
             return Json(careAdvice);
         }
-
-       
     }
 }

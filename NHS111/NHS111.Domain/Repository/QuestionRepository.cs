@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using Neo4jClient.Cypher;
+﻿using Neo4jClient.Cypher;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private readonly IGraphRepository _graphRepository; 
+        private readonly IGraphRepository _graphRepository;
 
         public QuestionRepository(IGraphRepository graphRepository)
         {
@@ -32,7 +30,7 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<Answer>> GetAnswersForQuestion(string id)
         {
-            var res =  await _graphRepository.Client.Cypher.
+            var res = await _graphRepository.Client.Cypher.
                 Match(string.Format("({{ id: \"{0}\" }})-[a:Answer]->()", id)).
                 Return(a => Return.As<Answer>("a")).
                 ResultsAsync;
@@ -67,8 +65,9 @@ namespace NHS111.Domain.Repository
                OptionalMatch("q-[a:Answer]->()").
                Return(q => new QuestionWithAnswers
                {
-                   Question = Return.As<Question>("q"), 
-                   Answers = Return.As<List<Answer>>(string.Format("collect(a)")), Labels = q.Labels()
+                   Question = Return.As<Question>("q"),
+                   Answers = Return.As<List<Answer>>(string.Format("collect(a)")),
+                   Labels = q.Labels()
                }).
                ResultsAsync.
                FirstOrDefault();
@@ -83,20 +82,20 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode, string gender, int age)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
-            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode,  gender,  age);
+            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode, gender, age);
             query = query
                 .With("rows.question as question, rows.answer as answer,rows.pathway as pathway, rows.answers as answers")
                 .OrderBy("rows.step")
                 .Where("answer is not null and  labels(question) is not null");
 
             var resultquery = query.ReturnDistinct(question => new QuestionWithAnswers()
-                {
-                    Answered = Return.As<Answer>("answer"),
-                    Question = Return.As<Question>("question"),
-                    Answers = Return.As<List<Answer>>("answers"),
-                    AssociatedPathway = Return.As<Pathway>("pathway"),
+            {
+                Answered = Return.As<Answer>("answer"),
+                Question = Return.As<Question>("question"),
+                Answers = Return.As<List<Answer>>("answers"),
+                AssociatedPathway = Return.As<Pathway>("pathway"),
                 Labels = question.Labels()
-                }
+            }
             );
             var questionWithAnswerses = await resultquery.ResultsAsync;
             return questionWithAnswerses;
@@ -118,7 +117,7 @@ namespace NHS111.Domain.Repository
                     .With("rows + collect({question:nds[i], answer:rls[i], step:-1}) as allrows")
                 .Unwind("allrows", "rows");
 
-             
+
             return modifiedQuery;
         }
 
@@ -176,7 +175,7 @@ namespace NHS111.Domain.Repository
                             .With("nds,pw, rls, rows, n, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node, instructions")
 
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "x")
-                            
+
                             .With(String.Format(
                                 "rows + collect({{question:nds[x], answer:CASE WHEN nds[x] = node.leadingnode THEN CASE WHEN type(rls[x]) = 'Answer' THEN rls[x] ELSE null END ELSE null END, answers:node.nodeanswers,pathway:pw, step:{0}.2}}) + collect({{question:n, answer:{{}}, answers:instructions, step:{0}.3}}) as newrows",
                                 index));
@@ -220,7 +219,7 @@ namespace NHS111.Domain.Repository
             return index == steps.Count - 1;
         }
 
-      
+
         private async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string justToBeSafePart)
         {
             return await _graphRepository.Client.Cypher.

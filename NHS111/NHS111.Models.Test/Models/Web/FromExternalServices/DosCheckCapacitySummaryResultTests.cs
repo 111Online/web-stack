@@ -1,30 +1,38 @@
 ﻿
-namespace NHS111.Models.Test.Models.Web.FromExternalServices {
-    using System.Collections.Generic;
+namespace NHS111.Models.Test.Models.Web.FromExternalServices
+{
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.FromExternalServices;
     using NUnit.Framework;
+    using System.Collections.Generic;
 
     [TestFixture]
-    public class DosCheckCapacitySummaryResultTests {
+    public class DosCheckCapacitySummaryResultTests
+    {
         [Test]
-        public void ResultListEmpty_WithoutErrorOrSuccess_ReturnsTrue() {
+        public void ResultListEmpty_WithoutErrorOrSuccess_ReturnsTrue()
+        {
             var sut = new DosCheckCapacitySummaryResult();
             Assert.True(sut.ResultListEmpty);
         }
 
         [Test]
-        public void ResultListEmpty_WithSuccessObjectOnly_ReturnsTrue() {
-            var sut = new DosCheckCapacitySummaryResult {
+        public void ResultListEmpty_WithSuccessObjectOnly_ReturnsTrue()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
                 Success = new SuccessObject<ServiceViewModel>()
             };
             Assert.True(sut.ResultListEmpty);
         }
 
         [Test]
-        public void ResultListEmpty_WithEmptyServiceList_ReturnsTrue() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel>() {
+        public void ResultListEmpty_WithEmptyServiceList_ReturnsTrue()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>()
+                {
                     Services = new List<ServiceViewModel>()
                 }
             };
@@ -32,17 +40,22 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
         }
 
         [Test]
-        public void ResultListEmpty_WithError_ReturnsTrue() {
-            var sut = new DosCheckCapacitySummaryResult {
+        public void ResultListEmpty_WithError_ReturnsTrue()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
                 Error = new ErrorObject()
             };
             Assert.True(sut.ResultListEmpty);
         }
 
         [Test]
-        public void ResultListEmpty_WithResultsAndNoError_ReturnsFalse() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel>() {
+        public void ResultListEmpty_WithResultsAndNoError_ReturnsFalse()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>()
+                {
                     Services = new List<ServiceViewModel> {
                         new ServiceViewModel()
                     }
@@ -52,9 +65,12 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
         }
 
         [Test]
-        public void HasITKServices_WithCallbackServiceTypes_ReturnsTrue() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel> {
+        public void HasITKServices_WithCallbackServiceTypes_ReturnsTrue()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
                     Services = new List<ServiceViewModel> {
                         new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.Callback},
                         new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.Callback},
@@ -66,9 +82,12 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
         }
 
         [Test]
-        public void HasITKServices_WithNoCallbackServiceTypes_ReturnsFalse() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel> {
+        public void HasITKServices_WithNoCallbackServiceTypes_ReturnsFalse()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
                     Services = new List<ServiceViewModel> {
                         new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone}
                     }
@@ -78,18 +97,24 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
         }
 
         [Test]
-        public void HasITKServices_WithError_ReturnsFalse() {
-            var sut = new DosCheckCapacitySummaryResult {
+        public void HasITKServices_WithError_ReturnsFalse()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
                 Error = new ErrorObject()
             };
             Assert.False(sut.HasITKServices);
         }
 
         [Test]
-        public void HasITKServices_WithNoServices_ReturnsFalse() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel> {
-                    Services = new List<ServiceViewModel> {
+        public void HasITKServices_WithNoServices_ReturnsFalse()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
+                    Services = new List<ServiceViewModel>
+                    {
                         //empty list
                     }
                 }
@@ -98,9 +123,12 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
         }
 
         [Test]
-        public void ContainsService_WithNull_ReturnsFalse() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel> {
+        public void ContainsService_WithNull_ReturnsFalse()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
                     Services = new List<ServiceViewModel> {
                         new ServiceViewModel()
                     }
@@ -109,12 +137,16 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
             Assert.False(sut.ContainsService(null));
         }
 
-        
+
         [Test]
-        public void ContainsService_WithEmptyList_ReturnFalse() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel> {
-                    Services = new List<ServiceViewModel> {
+        public void ContainsService_WithEmptyList_ReturnFalse()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
+                    Services = new List<ServiceViewModel>
+                    {
                         //empty
                     }
                 }
@@ -123,9 +155,12 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
         }
 
         [Test]
-        public void ContainsService_WithServiceInList_ReturnTrue() {
-            var sut = new DosCheckCapacitySummaryResult {
-                Success = new SuccessObject<ServiceViewModel> {
+        public void ContainsService_WithServiceInList_ReturnTrue()
+        {
+            var sut = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
                     Services = new List<ServiceViewModel> {
                         new ServiceViewModel { Id = 123}
                     }

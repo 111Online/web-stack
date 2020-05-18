@@ -1,19 +1,22 @@
-namespace NHS111.Utils.Test.Parser {
+namespace NHS111.Utils.Test.Parser
+{
     using Models.Models.Domain;
     using NUnit.Framework;
     using Utils.Parser;
 
     [TestFixture]
-    public class PathwayIdParserTests {
+    public class PathwayIdParserTests
+    {
 
         [Test]
-        public void TryParse_WithCorrectFormat_ReturnsCorrectAgeAndGender() {
+        public void TryParse_WithCorrectFormat_ReturnsCorrectAgeAndGender()
+        {
             var number = "PW999MaleAdult";
 
             string pathwayId;
             AgeCategory age;
             Gender gender;
-            
+
             var result = PathwayIdParser.TryParse(number, out pathwayId, out gender, out age);
             Assert.IsTrue(result);
             Assert.IsTrue(pathwayId == "PW999");

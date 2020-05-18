@@ -1,5 +1,4 @@
-﻿using System.Xml.Schema;
-using log4net;
+﻿using log4net;
 using log4net.Config;
 
 namespace NHS111.Utils.Logging

@@ -24,25 +24,25 @@ namespace NHS111.Web.Functional.Utils
             homepage.Visit(medium);
             return homepage;
         }
-        
+
         public static FeedbackSection FeedbackSection(LayoutPage page)
         {
             return new FeedbackSection(page.Driver);
         }
-        
+
         public static DirectLinking DirectLinking(IWebDriver driver, string path)
         {
             var directLink = new DirectLinking(driver);
             directLink.Visit(path);
             return directLink;
         }
-      
+
         public static LocationPage EPDeeplink(HomePage page)
         {
             return page.ClickEPDeeplink();
         }
 
-      
+
         public static LocationPage Location(HomePage page)
         {
             return page.ClickStart();
@@ -57,7 +57,7 @@ namespace NHS111.Web.Functional.Utils
         {
             return page.ClickNoneApplyButton();
         }
-        
+
         // This should only be used for journeys bypassing search
         public static QuestionInfoPage QuestionInfo(DemographicsPage page, string gender, int age)
         {

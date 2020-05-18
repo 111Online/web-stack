@@ -1,10 +1,9 @@
-using System.Web.Mvc;
-
-namespace NHS111.Models.Models.Domain {
+namespace NHS111.Models.Models.Domain
+{
     using System;
-    using System.CodeDom;
 
-    public enum AgeCategoryEnum {
+    public enum AgeCategoryEnum
+    {
         Unknown,
         Adult,
         Child,
@@ -12,7 +11,8 @@ namespace NHS111.Models.Models.Domain {
         Infant
     }
 
-    public class AgeCategory {
+    public class AgeCategory
+    {
 
         public static AgeCategory Adult = new AgeCategory(AgeCategoryEnum.Adult);
         public static AgeCategory Child = new AgeCategory(AgeCategoryEnum.Child);
@@ -25,30 +25,38 @@ namespace NHS111.Models.Models.Domain {
 
         public int MaximumAge { get; private set; }
 
-        public AgeCategory(AgeCategoryEnum ageCategory) {
+        public AgeCategory(AgeCategoryEnum ageCategory)
+        {
             Initialise(ageCategory);
         }
 
-        public AgeCategory(int age) {
+        public AgeCategory(int age)
+        {
             Initialise(age);
         }
 
-        public AgeCategory(string ageCategory) {
+        public AgeCategory(string ageCategory)
+        {
             var lower = ageCategory.ToLower();
 
-            if (lower == "adult" || lower == "a") {
+            if (lower == "adult" || lower == "a")
+            {
                 Initialise(AgeCategoryEnum.Adult);
             }
-            else if (lower == "child" || lower == "c") {
+            else if (lower == "child" || lower == "c")
+            {
                 Initialise(AgeCategoryEnum.Child);
             }
-            else if (lower == "toddler" || lower == "t") {
+            else if (lower == "toddler" || lower == "t")
+            {
                 Initialise(AgeCategoryEnum.Toddler);
             }
-            else if (lower == "infant" || lower == "i") {
+            else if (lower == "infant" || lower == "i")
+            {
                 Initialise(AgeCategoryEnum.Infant);
             }
-            else {
+            else
+            {
                 int age;
                 if (!int.TryParse(ageCategory, out age))
                     throw new ArgumentException(string.Format("Unable to parse age category of ({0}), expected one of \"Adult\", \"A\", \"Child\", \"C\", \"Toddler\", \"T\", \"Infant\", \"I\" (case insensitive) or a string representation of an integer.", ageCategory));
@@ -57,15 +65,18 @@ namespace NHS111.Models.Models.Domain {
             }
         }
 
-        private void Initialise(int age) {
+        private void Initialise(int age)
+        {
             if (age >= 16) Initialise(AgeCategoryEnum.Adult);
-            else if (5 <= age && age <= 15) Initialise(AgeCategoryEnum.Child); 
-            else if (1 <= age && age <= 4) Initialise(AgeCategoryEnum.Toddler); 
+            else if (5 <= age && age <= 15) Initialise(AgeCategoryEnum.Child);
+            else if (1 <= age && age <= 4) Initialise(AgeCategoryEnum.Toddler);
             else Initialise(AgeCategoryEnum.Infant);
         }
 
-        private void Initialise(AgeCategoryEnum ageCategory) {
-            switch (ageCategory) {
+        private void Initialise(AgeCategoryEnum ageCategory)
+        {
+            switch (ageCategory)
+            {
                 case AgeCategoryEnum.Adult:
                     Value = "Adult";
                     MinimumAge = 16;
@@ -87,12 +98,21 @@ namespace NHS111.Models.Models.Domain {
                     MaximumAge = 0;
                     break;
             }
-         
+
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return this.Value == ((AgeCategory) obj).Value;
+            if (!(obj is AgeCategory))
+            {
+                return false;
+            }
+            return Value == ((AgeCategory) obj).Value;
         }
     }
 }

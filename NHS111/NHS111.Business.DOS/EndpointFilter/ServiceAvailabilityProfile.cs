@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using NHS111.Models.Models.Business;
+﻿using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -19,7 +19,7 @@ namespace NHS111.Business.DOS.EndpointFilter
         public int ProfileId { get; set; }
 
         public string ProfileName { get; set; }
-        
+
         public DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
         {
             var timeFrameDateTime = dispositionDateTime.AddMinutes(timeFrameMinutes);
@@ -51,7 +51,7 @@ namespace NHS111.Business.DOS.EndpointFilter
             var containsInHoursPeriod = _profileHoursOfOperation.ContainsInHoursPeriod(dispositionDateTime, timeFrameDateTime);
             if (dispositionServiceTime == ProfileServiceTimes.OutOfHours && timeFrameServiceTime == ProfileServiceTimes.OutOfHours && containsInHoursPeriod)
                 return DispositionTimePeriod.DispositionAndTimeFrameOutOfHoursTraversesInHours;
-            
+
             return DispositionTimePeriod.DispositionAndTimeFrameOutOfHours;
         }
 

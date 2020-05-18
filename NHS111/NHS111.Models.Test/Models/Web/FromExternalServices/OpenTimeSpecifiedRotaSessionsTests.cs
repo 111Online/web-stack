@@ -1,8 +1,8 @@
-﻿using System;
-using Moq;
+﻿using Moq;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
+using System;
 
 namespace NHS111.Models.Test.Models.Web.FromExternalServices
 {

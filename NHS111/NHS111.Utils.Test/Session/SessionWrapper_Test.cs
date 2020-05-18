@@ -12,7 +12,7 @@
 //    [TestFixture]
 //    public class SessionWrapper_Test
 //    {
-    
+
 //        [SetUp]
 //        public void TestSetup()
 //        {
@@ -58,7 +58,7 @@
 
 
 //            SessionWrapper.NHSUserGuid = testGuid;
-           
+
 //            //Act
 //            string myString = SessionWrapper.NHSUserGuid;
 

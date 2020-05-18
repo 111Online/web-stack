@@ -1,23 +1,23 @@
 ﻿
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using NUnit.Framework;
 
-namespace NHS111.Domain.Test.Repository {
-    using System;
-    using System.Linq.Expressions;
+namespace NHS111.Domain.Test.Repository
+{
     using Domain.Repository;
     using Models.Models.Domain;
     using Moq;
     using Neo4jClient;
     using Neo4jClient.Cypher;
     using NUnit.Framework;
+    using System;
+    using System.Linq.Expressions;
 
 
 
     [TestFixture]
-    internal class CareAdviceRepositoryTests {
+    internal class CareAdviceRepositoryTests
+    {
         private readonly string[] _keywords = { "Keyword1", "Keyword2" };
         private readonly DispositionCode _dxCode = new DispositionCode("Dx042");
         private readonly AgeCategory _ageCategory = new AgeCategory("child");
@@ -31,7 +31,8 @@ namespace NHS111.Domain.Test.Repository {
         private Mock<IRawGraphClient> _mockRawGraphClient;
 
         [Test]
-        public async void GetCareAdvice_WithArgs_BuildsCorrectQuery() {
+        public async void GetCareAdvice_WithArgs_BuildsCorrectQuery()
+        {
 
             SetupMockImplimentations();
 
@@ -84,7 +85,7 @@ namespace NHS111.Domain.Test.Repository {
         {
             SetupMockImplimentations();
 
-            var expectedAndWhereClause = "o.id = \""+_dxCode.Value +"\"";
+            var expectedAndWhereClause = "o.id = \"" + _dxCode.Value + "\"";
             var sut = new CareAdviceRepository(_mockGraph.Object);
             await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
 
@@ -95,7 +96,7 @@ namespace NHS111.Domain.Test.Repository {
         public async void GetCareAdvice_WithArgs_Builds_GenderAndAge_Where_Statement()
         {
             SetupMockImplimentations();
-            var expectedAndWhereClause = "i.id =~ \".*-" + _ageCategory.Value + "-" +_gender.Value+ "\"";
+            var expectedAndWhereClause = "i.id =~ \".*-" + _ageCategory.Value + "-" + _gender.Value + "\"";
             var sut = new CareAdviceRepository(_mockGraph.Object);
             await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
             _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s == expectedAndWhereClause)), Times.Once);
@@ -139,9 +140,15 @@ namespace NHS111.Domain.Test.Repository {
         {
             return new CareAdviceRepository.CareAdviceFlattened()
             {
-                CareAdviceItem = new CareAdvice(){Id= "PARENT_CARE-ADVICE-1", Keyword = "TEST_KEYWORD", Title = "TEST_TITLE", Items = new List<CareAdviceText>()
-                {   
-                }},
+                CareAdviceItem = new CareAdvice()
+                {
+                    Id = "PARENT_CARE-ADVICE-1",
+                    Keyword = "TEST_KEYWORD",
+                    Title = "TEST_TITLE",
+                    Items = new List<CareAdviceText>()
+                    {
+                    }
+                },
                 CareAdvcieTextDecendants = new List<CareAdviceTextWithParent>()
                 {
                     new CareAdviceTextWithParent() { Id = "CareAdvice_NO_CHILD_2", OrderNo = 3, Text = "CareAdviecNoChild1", ParentId = "PARENT_CARE-ADVICE-1"},
@@ -150,7 +157,7 @@ namespace NHS111.Domain.Test.Repository {
                     new CareAdviceTextWithParent() { Id = "CareAdvice_CHILD_2", OrderNo = 1, Text = "CareAdviceParent1", ParentId = "CareAdvice_PARENT_1"},
                     new CareAdviceTextWithParent() { Id = "CareAdvice_PARENT_3", OrderNo =2, Text = "CareAdviceParent1", ParentId = "PARENT_CARE-ADVICE-1" },
                     new CareAdviceTextWithParent() { Id = "CareAdvice_CHILD_3_1", OrderNo = 0, Text = "CareAdviceChild1", ParentId = "CareAdvice_PARENT_3"},
-                    new CareAdviceTextWithParent() { Id = "CareAdvice_CHILD_3_3", OrderNo = 2, Text = "CareAdviceChild3", ParentId = "CareAdvice_PARENT_3"}, 
+                    new CareAdviceTextWithParent() { Id = "CareAdvice_CHILD_3_3", OrderNo = 2, Text = "CareAdviceChild3", ParentId = "CareAdvice_PARENT_3"},
                     new CareAdviceTextWithParent() { Id = "CareAdvice_CHILD_3_2", OrderNo = 1, Text = "CareAdviceChild2", ParentId = "CareAdvice_PARENT_3"},
                     new CareAdviceTextWithParent() { Id = "CareAdvice_PARENT_1", OrderNo = 0, Text = "CareAdviecParent1", ParentId = "PARENT_CARE-ADVICE-1"},
                 }
@@ -159,7 +166,8 @@ namespace NHS111.Domain.Test.Repository {
 
 
         [SetUp]
-        public void Setup() {
+        public void Setup()
+        {
             _mockGraph = new Mock<IGraphRepository>();
             _mockClient = new Mock<IGraphClient>();
             _mockQuery = new Mock<ICypherFluentQuery>();

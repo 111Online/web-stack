@@ -1,10 +1,10 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class OutcomePage : DispositionPage<OutcomePage> {
+    public class OutcomePage : DispositionPage<OutcomePage>
+    {
 
         public const string Cat2999Text = "Phone 999 now for an ambulance";
         public const string Cat3999Text = "Phone 999 now for an ambulance";
@@ -43,7 +43,8 @@ namespace NHS111.Web.Functional.Utils
             return new OutcomePage(Driver);
         }
 
-        public void VerifyIsCallbackAcceptancePage() {
+        public void VerifyIsCallbackAcceptancePage()
+        {
             VerifyOutcome("A nurse needs to phone you", "Get a phone call from a nurse");
         }
 
@@ -61,7 +62,7 @@ namespace NHS111.Web.Functional.Utils
 
         public OutcomePage CompareAndVerify(string uniqueId)
         {
-           return base.CompareAndVerify(this, uniqueId);
+            return base.CompareAndVerify(this, uniqueId);
         }
 
         public OtherServicesPage ClickCantGetAppointment()

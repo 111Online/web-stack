@@ -14,7 +14,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.privacy > h1")]
         public IWebElement PrivacyHeader { get; set; }
 
-        [FindsBy(How=How.CssSelector, Using = "main[id='content'] > div > p:nth-of-type(1)")]
+        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div > p:nth-of-type(1)")]
         public IWebElement PrivacyParagraph { get; set; }
 
         public PrivacyStatementPage(IWebDriver driver) : base(driver)

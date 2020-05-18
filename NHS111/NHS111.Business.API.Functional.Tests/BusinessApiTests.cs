@@ -1,35 +1,27 @@
-﻿
-
-using System;
+﻿using NHS111.Functional.Tests.Tools;
+using NHS111.Models.Models.Business.Question;
+using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.RestTools;
+using NUnit.Framework;
+using RestSharp;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
-using Newtonsoft.Json;
-using NHS111.Functional.Tests.Tools;
-using NHS111.Models.Models.Business.Question;
-using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.RestTools;
-using NUnit.Framework;
-using RestSharp;
+using log4net;
 
 namespace NHS111.Business.API.Functional.Tests
 {
     [TestFixture]
     public class BusinessApiTests
     {
-        private string _testQuestionId = "PW1346.1000";
         private string _testPathwayNo2 = "PW752";
         private string _testPathwayNo3 = "PW628";
         private string _testPathwayNo = "PW1708";
-        private string _expectedNodeId = "PW752.200";
-        private  string DxCode1 = "Dx12";
-        private string _testQuestionId2 = "PW628.9800";
-  
 
-        private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"]);
+
+        private ILoggingRestClient _restClient = new LoggingRestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], LogManager.GetLogger("log"));
 
         private static string BusinessApiPathwayUrl
         {
@@ -56,7 +48,7 @@ namespace NHS111.Business.API.Functional.Tests
         {
             var getQuestionEndpoint = "/Female/16";
 
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var response = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
             var result = response.Content;
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -73,7 +65,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidAge1()
         {
             var getQuestionEndpoint = "/Female/1";
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var response = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
             var result = response.Content;
 
             //this checks a responce is returned
@@ -83,7 +75,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidAge200()
         {
             var getQuestionEndpoint = "/Female/200";
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var response = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
             var result = response.Content;
 
             //this checks a responce is returned
@@ -93,7 +85,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidAge15()
         {
             var getQuestionEndpoint = "/Female/15";
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var response = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
             var result = response.Content;
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -102,7 +94,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidGender()
         {
             var getQuestionEndpoint = "/Male/16";
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var response = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
             var result = response.Content;
 
             //this checks a responce is returned
@@ -112,7 +104,7 @@ namespace NHS111.Business.API.Functional.Tests
         [Test]
         public async void BusinessApiTests_returns_valid_Pathway_Symptom_Group()
         {
-            var response = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(string.Format(BusinessApiPathwaySymptomGroupUrl, _testPathwayNo), Method.GET));
+            var response = await _restClient.ExecuteAsync<string>(new JsonRestRequest(string.Format(BusinessApiPathwaySymptomGroupUrl, _testPathwayNo), Method.GET));
             var result = response.Data;
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -127,7 +119,7 @@ namespace NHS111.Business.API.Functional.Tests
         [Test]
         public async void BusinessApiTests_returns_valid_Pathway()
         {
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl, string.Empty), Method.GET));
+            var response = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl, string.Empty), Method.GET));
             var result = response.Content;
 
             //this checks a responce is returned
@@ -155,13 +147,13 @@ namespace NHS111.Business.API.Functional.Tests
         {
             var expectedNexQuestionId = "PW628.13100";
             var NodeId = "PW628.10700";
-            var state="{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
-            var requestUrl = string.Format(BusinessApiNextNodeUrl, _testPathwayNo3, "Question", NodeId,  HttpUtility.UrlEncode(state));
+            var state = "{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
+            var requestUrl = string.Format(BusinessApiNextNodeUrl, _testPathwayNo3, "Question", NodeId, HttpUtility.UrlEncode(state));
 
             var request = new JsonRestRequest(requestUrl, Method.POST);
             request.AddJsonBody("No");
-            var response = await _restClient.ExecuteTaskAsync(request);
-            
+            var response = await _restClient.ExecuteAsync(request);
+
             //this checks a responce is returned
             Assert.IsNotNull(response);
 
@@ -169,7 +161,7 @@ namespace NHS111.Business.API.Functional.Tests
 
             //these check the right fields are returned
             Assert.IsTrue(content.Contains("\"id\":\"" + expectedNexQuestionId + "\""));
-           SchemaValidation.AssertValidResponseSchema(content, SchemaValidation.ResponseSchemaType.Question);
+            SchemaValidation.AssertValidResponseSchema(content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
             Assert.IsTrue(content.Contains("\"questionNo\":\"TX220118"));
@@ -189,7 +181,7 @@ namespace NHS111.Business.API.Functional.Tests
             };
             var request = new JsonRestRequest(BusinessApiFullJourneyUrl, Method.POST);
             request.AddJsonBody(fullPathwayJourney);
-            var result = await _restClient.ExecuteTaskAsync<List<QuestionWithAnswers>>(request);
+            var result = await _restClient.ExecuteAsync<List<QuestionWithAnswers>>(request);
 
             //this checks a response is returned
             Assert.IsNotNull(result);

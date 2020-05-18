@@ -16,7 +16,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using NHS111.IoC.DependencyResolution;
 using StructureMap;
 
 namespace NHS111.Domain.Api.IoC

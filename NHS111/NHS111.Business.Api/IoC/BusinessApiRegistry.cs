@@ -3,8 +3,6 @@ using NHS111.Models.IoC;
 using NHS111.Utils.Cache;
 using NHS111.Utils.IoC;
 using StructureMap;
-using StructureMap.Configuration.DSL;
-using StructureMap.Graph;
 
 namespace NHS111.Business.Api.IoC
 {

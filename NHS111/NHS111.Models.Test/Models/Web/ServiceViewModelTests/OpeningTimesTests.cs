@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Linq;
-using NUnit.Framework;
 
 namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
 {
@@ -204,7 +204,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
             };
 
             var todaysOpeningTimes = service.NextOpenDayRotaSessions;
-            Assert.AreEqual(2,todaysOpeningTimes.Count());
+            Assert.AreEqual(2, todaysOpeningTimes.Count());
             Assert.AreEqual(DayOfWeek.Thursday, todaysOpeningTimes.First().Day);
             Assert.IsTrue(_serviceViewModelTestHelper.IsSameTime(todaysOpeningTimes.First().OpeningTime, _serviceViewModelTestHelper.THURSDAY_MORNING_SESSION.StartTime));
             Assert.IsTrue(_serviceViewModelTestHelper.IsSameTime(todaysOpeningTimes.First().ClosingTime, _serviceViewModelTestHelper.THURSDAY_MORNING_SESSION.EndTime));

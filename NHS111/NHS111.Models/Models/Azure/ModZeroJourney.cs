@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
-using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Azure
 {

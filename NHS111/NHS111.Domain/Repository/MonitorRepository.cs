@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Neo4jClient.Cypher;
+﻿using Neo4jClient.Cypher;
 using NHS111.Utils.Extensions;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Repository
 {

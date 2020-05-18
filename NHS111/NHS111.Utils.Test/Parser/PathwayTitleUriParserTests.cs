@@ -1,6 +1,6 @@
-﻿using System;
-using NHS111.Utils.Parser;
+﻿using NHS111.Utils.Parser;
 using NUnit.Framework;
+using System;
 
 namespace NHS111.Utils.Test.Parser
 {
@@ -10,7 +10,7 @@ namespace NHS111.Utils.Test.Parser
         [SetUp]
         public void SetUp()
         {
-            
+
         }
 
         [Test]

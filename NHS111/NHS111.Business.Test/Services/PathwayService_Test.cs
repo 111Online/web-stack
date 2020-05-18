@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Moq;
 using NHS111.Business.Services;
 using NHS111.Utils.Helpers;
 using NUnit.Framework;
-using Moq;
 using System.Threading.Tasks;
-using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Cache;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using NHS111.Models.Models.Business.Caching;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Business.Test.Services
 {
@@ -18,7 +18,7 @@ namespace NHS111.Business.Test.Services
     {
 
         private Mock<Configuration.IConfiguration> _configuration;
-        private Mock<IRestClient> _restClient;
+        private Mock<ILoggingRestClient> _restClient;
         private Mock<ICacheManager<string, string>> _cacheManagerMock;
         private ICacheStore _cacheStoreMock;
 
@@ -26,10 +26,9 @@ namespace NHS111.Business.Test.Services
         public void SetUp()
         {
             _configuration = new Mock<Configuration.IConfiguration>();
-            _restClient = new Mock<IRestClient>();
+            _restClient = new Mock<ILoggingRestClient>();
             _cacheManagerMock = new Mock<ICacheManager<string, string>>();
             _cacheStoreMock = new RedisCacheStore(_cacheManagerMock.Object, true);
-
         }
 
         [Test]
@@ -38,13 +37,13 @@ namespace NHS111.Business.Test.Services
             //Arrange
             var url = "http://mytest.com/";
             var unique = true;
-            var pathways = new[] {new Pathway {Title = "pathway1"}, new Pathway {Title = "pathway2"},};
+            var pathways = new[] { new Pathway { Title = "pathway1" }, new Pathway { Title = "pathway2" }, };
 
             var response = new Mock<IRestResponse<IEnumerable<Pathway>>>();
             response.Setup(_ => _.Data).Returns(pathways);
 
             _configuration.Setup(x => x.GetDomainApiPathwaysUrl(unique, false)).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -54,7 +53,7 @@ namespace NHS111.Business.Test.Services
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique, false), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.Count(), 2);
             Assert.AreEqual(result.First().Title, "pathway1");
         }
@@ -72,7 +71,7 @@ namespace NHS111.Business.Test.Services
             response.Setup(_ => _.Data).Returns(pathways);
 
             _configuration.Setup(x => x.GetDomainApiPathwaysUrl(unique, false)).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -82,7 +81,7 @@ namespace NHS111.Business.Test.Services
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique, false, gender, age), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.Count(), 2);
             Assert.AreEqual(result.First().Title, "pathway1");
         }
@@ -102,7 +101,7 @@ namespace NHS111.Business.Test.Services
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
             _configuration.Setup(x => x.GetDomainApiPathwaysUrl(unique, false)).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -113,7 +112,7 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
             _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique, false, gender, age), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.Count(), 2);
             Assert.AreEqual(result.First().Title, "pathway1");
         }
@@ -132,7 +131,7 @@ namespace NHS111.Business.Test.Services
             var expectedCacheKey = new GroupedPathwaysCacheKey(grouped, true);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
-            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<GroupedPathways>>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<IEnumerable<GroupedPathways>>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -143,7 +142,7 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
             _configuration.Verify(x => x.GetDomainApiGroupedPathwaysUrl(grouped, true), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<GroupedPathways>>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<IEnumerable<GroupedPathways>>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.First().Group, "TestGroup");
         }
 
@@ -161,7 +160,7 @@ namespace NHS111.Business.Test.Services
             response.Setup(_ => _.Data).Returns(pathway);
 
             _configuration.Setup(x => x.GetDomainApiPathwayUrl(id)).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<Pathway>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -171,7 +170,7 @@ namespace NHS111.Business.Test.Services
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwayUrl(id), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.Title, "pathway1");
         }
         [Test]
@@ -186,7 +185,7 @@ namespace NHS111.Business.Test.Services
             var response = new Mock<IRestResponse<Pathway>>();
             response.Setup(_ => _.Data).Returns(pathway);
 
-            _restClient.Setup(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<Pathway>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -197,10 +196,9 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
             _configuration.Verify(x => x.GetDomainApiPathwayUrl(id), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.Title, "pathway1");
         }
-
 
         [Test]
         public async void GetPathwayMetaData_should_return_a_single_pathway_metadata_by_id()
@@ -215,7 +213,7 @@ namespace NHS111.Business.Test.Services
             response.Setup(_ => _.Data).Returns(pathway);
 
             _configuration.Setup(x => x.GetDomainApiPathwayMetadataUrl(id)).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<PathwayMetaData>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<PathwayMetaData>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -225,7 +223,7 @@ namespace NHS111.Business.Test.Services
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwayMetadataUrl(id), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<PathwayMetaData>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<PathwayMetaData>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.DigitalTitle, "pathway1");
         }
 
@@ -242,7 +240,7 @@ namespace NHS111.Business.Test.Services
             response.Setup(_ => _.Data).Returns(pathway);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
-            _restClient.Setup(x => x.ExecuteTaskAsync<PathwayMetaData>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<PathwayMetaData>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -253,7 +251,7 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
             _configuration.Verify(x => x.GetDomainApiPathwayMetadataUrl(id), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<PathwayMetaData>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<PathwayMetaData>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.DigitalTitle, "pathway1");
         }
 
@@ -273,7 +271,7 @@ namespace NHS111.Business.Test.Services
             response.Setup(_ => _.Data).Returns(pathway);
 
             _configuration.Setup(x => x.GetDomainApiIdentifiedPathwayUrl(pathwayNo, gender, age)).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<Pathway>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new PathwayService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -283,7 +281,7 @@ namespace NHS111.Business.Test.Services
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiIdentifiedPathwayUrl(pathwayNo, gender, age), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
             Assert.AreEqual(result.Title, "identified pathway");
         }
     }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NHS111.Business.DOS.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHS111.Business.DOS.Configuration;
 
 namespace NHS111.Business.DOS.DispositionMapper
 {

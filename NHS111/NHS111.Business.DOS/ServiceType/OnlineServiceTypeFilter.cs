@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NHS111.Models.Models.Web.FromExternalServices;
+using System.Collections.Generic;
 using System.Linq;
-using NHS111.Models.Models.Web.FromExternalServices;
 using BusinessModels = NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS.Service

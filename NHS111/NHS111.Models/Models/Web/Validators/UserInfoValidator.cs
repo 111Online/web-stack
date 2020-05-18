@@ -1,6 +1,6 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Attributes;
+using System;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -17,7 +17,7 @@ namespace NHS111.Models.Models.Web.Validators
 
     public class DateTimeInPastValidator : DateTimeValidator
     {
-        public DateTimeInPastValidator() :base()
+        public DateTimeInPastValidator() : base()
         {
             RuleFor(p => p.Date.HasValue).Equal(true).WithMessage("Enter a valid date");
             RuleFor(p => p.Date).LessThanOrEqualTo(DateTime.Now).WithMessage("The date must not be in the future");
@@ -46,8 +46,8 @@ namespace NHS111.Models.Models.Web.Validators
             int yearInt;
             int.TryParse(day, out dayInt);
             int.TryParse(month, out monthInt);
-            int.TryParse(year, out yearInt); 
-            return new DateTimeViewModel(){Day = dayInt, Month = monthInt, Year = yearInt};
+            int.TryParse(year, out yearInt);
+            return new DateTimeViewModel() { Day = dayInt, Month = monthInt, Year = yearInt };
         }
         public int? Day { get; set; }
         public int? Month { get; set; }

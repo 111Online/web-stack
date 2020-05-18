@@ -1,11 +1,8 @@
 ﻿using NHS111.Web.Functional.Utils;
-using NHS111.Web.Functional.Utils.ScreenShot;
 
 namespace NHS111.Web.Functional.Tests
 {
-    using System.Linq;
     using NUnit.Framework;
-    using OpenQA.Selenium;
 
     [TestFixture]
     class PersonalDetailsTests : BaseTests
@@ -48,7 +45,7 @@ namespace NHS111.Web.Functional.Tests
 
             var addressID = "22180492"; // Belong Macclesfield, Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
             currentAddressPage.VerifyAddressDisplays(addressID);
-            
+
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
@@ -83,7 +80,7 @@ namespace NHS111.Web.Functional.Tests
 
             var addressID = "22180498"; // 60 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
             currentAddressPage.VerifyAddressDisplays(addressID);
-            
+
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are they at home?");
             atHomePage.SelectAtHomeYes();
@@ -116,7 +113,7 @@ namespace NHS111.Web.Functional.Tests
 
             var addressID = "22180497"; // 109 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
             currentAddressPage.VerifyAddressDisplays(addressID);
-            
+
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeNo();
@@ -152,11 +149,11 @@ namespace NHS111.Web.Functional.Tests
 
             var addressID = "22180496"; // 107 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
             currentAddressPage.VerifyAddressDisplays(addressID);
-            
+
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are they at home?");
             atHomePage.SelectAtHomeNo();
-            
+
             var homePostcodePage = atHomePage.SubmitAtHome();
             homePostcodePage.TypeHomePostcode("LS17 7NZ");
             var confirmDetails = homePostcodePage.SubmitHomePostcode();
@@ -185,7 +182,7 @@ namespace NHS111.Web.Functional.Tests
 
             var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
             currentAddressPage.VerifyHeading("Where are they right now?");
-            
+
             var checkAddressPage = currentAddressPage.ClickAddressNotListed();
             checkAddressPage.VerifyHeading("Check address again");
         }

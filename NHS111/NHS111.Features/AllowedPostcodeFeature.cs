@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NHS111.Features.Defaults;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Features.Defaults;
 
 namespace NHS111.Features
 {

@@ -1,11 +1,13 @@
 using RestSharp;
 
-namespace NHS111.Web.Presentation.Builders {
-    using System.Net.Http;
+namespace NHS111.Web.Presentation.Builders
+{
     using System.Web;
 
-    public abstract class BaseBuilder {
-        protected void CheckResponse(IRestResponse response) {
+    public abstract class BaseBuilder
+    {
+        protected void CheckResponse(IRestResponse response)
+        {
             if (response.IsSuccessful)
                 return;
 

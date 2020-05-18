@@ -1,18 +1,17 @@
-﻿using System.Collections;
+﻿using Moq;
+using NHS111.Utils.Helpers;
+using NUnit.Framework;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Web;
 using System.Web.Configuration;
-using Moq;
-using NHS111.Models.Models.Domain;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.Parser;
-using NUnit.Framework;
 
 namespace NHS111.Utils.Test.Helpers
 {
     [TestFixture]
-    public class BrowserInfoTests {
-        
+    public class BrowserInfoTests
+    {
+
         [Test]
         public void CorrectBrowserInfo_Edge_Windows()
         {
@@ -24,7 +23,7 @@ namespace NHS111.Utils.Test.Helpers
             Assert.IsTrue(browserInfo.Platform == "Windows");
             Assert.IsTrue(browserInfo.DeviceType == "Desktop");
         }
-        
+
         [Test]
         public void CorrectBrowserInfo_Firefox_Windows()
         {
@@ -157,7 +156,8 @@ namespace NHS111.Utils.Test.Helpers
             Assert.IsTrue(browserInfo.DeviceType == "Desktop");
         }
 
-        private BrowserInfo getBrowserInfo(string userAgent ) {
+        private BrowserInfo getBrowserInfo(string userAgent)
+        {
             var browser = new HttpBrowserCapabilities
             {
                 Capabilities = new Hashtable { { string.Empty, userAgent } }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -12,6 +6,12 @@ using NHS111.Models.Models.Web.PersonalDetails;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Controllers
 {
@@ -21,7 +21,7 @@ namespace NHS111.Web.Controllers
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IEmailCollectionFeature _emailCollectionFeature;
 
-        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder, 
+        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder,
             IEmailCollectionFeature emailCollectionFeature)
         {
             _auditLogger = auditLogger;
@@ -35,7 +35,7 @@ namespace NHS111.Web.Controllers
             Regex regex = new Regex(@"^[a-zA-Z0-9]+$");
             if (!regex.IsMatch(postCode.Replace(" ", ""))) return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
 
-            var results = await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(postCode);
+            var results = await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(postCode).ConfigureAwait(false);
             return Mapper.Map<AddressInfoCollectionViewModel>(results);
         }
 
@@ -45,7 +45,7 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
 
             _auditLogger.LogSelectedService(model);
-           
+
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
         }
 
@@ -59,7 +59,7 @@ namespace NHS111.Web.Controllers
                 postcodeToUseForSearch = model.AddressInformation.ChangePostcode.Postcode;
 
             //pre-populate picker fields from postcode lookup service
-            var postcodes = await GetPostcodeResults(postcodeToUseForSearch);
+            var postcodes = await GetPostcodeResults(postcodeToUseForSearch).ConfigureAwait(false);
             if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound) return model;
 
             var items = new List<SelectListItem>();
@@ -72,7 +72,7 @@ namespace NHS111.Web.Controllers
 
         private async Task<PersonalDetailViewModel> PopulateChosenCurrentAddress(string udprn, PersonalDetailViewModel model)
         {
-            var result = await _locationResultBuilder.LocationResultByUDPRNBuilder(udprn);
+            var result = await _locationResultBuilder.LocationResultByUDPRNBuilder(udprn).ConfigureAwait(false);
             var mappedResult = Mapper.Map<CurrentAddressViewModel>(result);
 
             model.AddressInformation.PatientCurrentAddress = mappedResult;
@@ -82,16 +82,16 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ChangeCurrentAddressPostcode(PersonalDetailViewModel model)
-        {          
+        {
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
 
-            return await DirectToPopulatedCurrentAddressPicker(model);
+            return await DirectToPopulatedCurrentAddressPicker(model).ConfigureAwait(false);
         }
 
         public async Task<ActionResult> DirectToPopulatedCurrentAddressPicker(PersonalDetailViewModel model)
         {
-            model = await PopulateAddressPickerFields(model);
+            model = await PopulateAddressPickerFields(model).ConfigureAwait(false);
 
             if (model.AddressInformation.PatientCurrentAddress.AddressPicker.Count > 0)
             {
@@ -121,13 +121,13 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             else
             {
-                var postcodes = await GetPostcodeResults(model.AddressInformation.ChangePostcode.Postcode);
+                var postcodes = await GetPostcodeResults(model.AddressInformation.ChangePostcode.Postcode).ConfigureAwait(false);
                 if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
                 {
                     ModelState.AddModelError("AddressInformation.ChangePostcode.Postcode", new Exception());
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
-                
+
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
@@ -172,7 +172,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model));
             }
 
-            return await DirectToPopulatedCurrentAddressPicker(Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model));
+            return await DirectToPopulatedCurrentAddressPicker(Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model)).ConfigureAwait(false);
         }
 
         [HttpPost]
@@ -185,9 +185,9 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> SubmitCurrentAddress(PersonalDetailViewModel model, string currentAddress)
         {
             if (currentAddress == "AddressNotListed")
-                return await EnterDifferentCurrentAddress(model);
+                return await EnterDifferentCurrentAddress(model).ConfigureAwait(false);
 
-            model = await PopulateChosenCurrentAddress(currentAddress, model);
+            model = await PopulateChosenCurrentAddress(currentAddress, model).ConfigureAwait(false);
 
             return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
         }
@@ -197,11 +197,11 @@ namespace NHS111.Web.Controllers
         {
             switch (changeCurrentAddress)
             {
-                case "changeCurrentPostcode" :
+                case "changeCurrentPostcode":
                     return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
                 case "enterCurrentAddressManually":
                     return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
-                case "dontKnowCurrentAddress": 
+                case "dontKnowCurrentAddress":
                     return View("~\\Views\\PersonalDetails\\UnknownAddress.cshtml", model);
                 default: return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
             }
@@ -211,7 +211,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
-            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode);
+            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode).ConfigureAwait(false);
             if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
             {
                 ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());
@@ -256,11 +256,11 @@ namespace NHS111.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                return await DirectToPopulatedCurrentAddressPicker(model);
+                return await DirectToPopulatedCurrentAddressPicker(model).ConfigureAwait(false);
             }
 
             return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
         }
-        
+
     }
 }

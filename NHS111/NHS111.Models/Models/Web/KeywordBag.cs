@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Web
 {
@@ -26,7 +22,7 @@ namespace NHS111.Models.Models.Web
 
     public class Keyword
     {
-        public string Value { get; set; } 
+        public string Value { get; set; }
 
         public bool IsFromAnswer { get; set; }
     }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NHS111.Models.Models.Web.FromExternalServices;
+﻿using NHS111.Models.Models.Web.FromExternalServices;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Web
 {

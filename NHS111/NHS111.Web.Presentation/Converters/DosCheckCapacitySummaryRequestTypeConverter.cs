@@ -1,8 +1,7 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Web.Presentation.Models;
+using System;
 
 namespace NHS111.Web.Presentation.Converters
 {
@@ -28,16 +27,17 @@ namespace NHS111.Web.Presentation.Converters
         }
     }
 
-    public class DispositionResolver : ValueResolver<String, int>{
+    public class DispositionResolver : ValueResolver<String, int>
+    {
         protected override int ResolveCore(string source)
         {
- 	       if(!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
+            if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
 
             return Convert.ToInt32(source.Replace("Dx", "10"));
         }
     }
 
-      
+
 
 
 

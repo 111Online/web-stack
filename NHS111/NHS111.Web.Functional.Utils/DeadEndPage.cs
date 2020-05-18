@@ -2,8 +2,9 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-namespace NHS111.Web.Functional.Utils {
-    public class DeadEndPage: LayoutPage //currently the DispositionPage<T> markup doesn't match the Dead End page so can't inherit from that
+namespace NHS111.Web.Functional.Utils
+{
+    public class DeadEndPage : LayoutPage //currently the DispositionPage<T> markup doesn't match the Dead End page so can't inherit from that
     {
 
         [FindsBy(How = How.CssSelector, Using = "h2")]

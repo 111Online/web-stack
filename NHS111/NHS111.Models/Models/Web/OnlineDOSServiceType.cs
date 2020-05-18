@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
 {
@@ -10,7 +10,8 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         private readonly string _id;
 
         [JsonProperty(PropertyName = "Id")]
-        public string Id {
+        public string Id
+        {
             get { return _id; }
             set
             {
@@ -35,6 +36,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             IsReferral = isReferral;
         }
 
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is OnlineDOSServiceType))
@@ -57,9 +63,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         public static OnlineDOSServiceType Unknown = new OnlineDOSServiceType();
         public static OnlineDOSServiceType Callback = new OnlineDOSServiceType("Callback", string.Empty, true);
-        public static OnlineDOSServiceType GoTo = new OnlineDOSServiceType("GoTo","You can go straight to this service. You do not need to telephone beforehand", false);
-        public static OnlineDOSServiceType PublicPhone = new OnlineDOSServiceType("PublicPhone","You must telephone this service before attending", false);
-        public static OnlineDOSServiceType ReferRingAndGo = new OnlineDOSServiceType("ReferRingAndGo","This service accepts electronic referrals. You should ring before you go there" , true);
+        public static OnlineDOSServiceType GoTo = new OnlineDOSServiceType("GoTo", "You can go straight to this service. You do not need to telephone beforehand", false);
+        public static OnlineDOSServiceType PublicPhone = new OnlineDOSServiceType("PublicPhone", "You must telephone this service before attending", false);
+        public static OnlineDOSServiceType ReferRingAndGo = new OnlineDOSServiceType("ReferRingAndGo", "This service accepts electronic referrals. You should ring before you go there", true);
 
         public static Dictionary<string, OnlineDOSServiceType> TypeList = new Dictionary<string, OnlineDOSServiceType>
         {
