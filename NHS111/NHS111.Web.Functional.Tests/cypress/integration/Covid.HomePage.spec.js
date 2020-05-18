@@ -1,9 +1,8 @@
 /// <reference types="cypress" />
 
+
 describe('Covid homepage', () => {
-    const staging = 'https://111live:ATeam@staging.111.nhs.uk';
-    const develop = 'http://localhost:59010';
-    const url = Cypress.env('Test_Website_url') || staging;
+    const url = Cypress.env('Test_Website_url');
 
     const startup = () => {
         cy.visit(`${url}/service/covid-19`);

@@ -1,0 +1,113 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.ITK
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PersonalDetails.InformantTypeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Enter Personal Details
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PersonalDetailsViewModel.PathwayNo), Url.Encode(Model.PersonalDetailsViewModel.OutcomeGroup.Text), Url.Encode(Model.PersonalDetailsViewModel.Id), Url.Encode(Model.PersonalDetailsViewModel.SelectedServiceId), Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit" : Url.Encode(Model.PersonalDetailsViewModel.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.PersonalDetailsViewModel.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': 'Personal Details'
+        }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "personal-details"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.PersonalDetailsViewModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model.PersonalDetailsViewModel) })
+}
+<div class="nhsuk-core">
+    @using (Html.BeginForm("YourName", "PersonalDetails", FormMethod.Post, new { id = "personalDetailForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+
+        <section class="measure">
+            <div class="form-group @(@ViewData.ModelState.IsValidField("Informant") ? "" : "form-group-error")">
+                <fieldset>
+                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
+                        <h2 class="nhsuk-fieldset__heading">Who needs help?</h2>
+                    </legend>
+                    @Html.ValidationMessageFor(m => m.Informant, "Who needs help?", new { @class = "nhsuk-u-margin-bottom-4" })
+
+                    @*@Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
+                        <label for="PatientInformantDetails_Informant_Self" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="self-data">Me</label>
+
+                        @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "PatientInformantDetails_Informant_ThirdParty", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
+                        <label for="PatientInformantDetails_Informant_ThirdParty" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="other-data">Someone else</label>*@
+
+                    <div class="panel-group">
+                        @Html.RadioButtonFor(m => m.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "Informant_Self", name = "Informant", @class = "multiple-choice__input" })
+                        <label for="Informant_Self" class="multiple-choice--radio" name="Informant" data-target="self-data">Me</label>
+                    </div>
+
+                    <div class="panel-group">
+                        @Html.RadioButtonFor(m => m.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "Informant_ThirdParty", name = "Informant", @class = "multiple-choice__input" })
+                        <label for="Informant_ThirdParty" class="multiple-choice--radio" name="Informant" data-target="other-data">Someone else</label>
+                    </div>
+
+                </fieldset>
+            </div>
+
+
+            <script type="text/javascript">
+                jQuery(function () {
+                    var formSubmitted = false;
+
+                    AddAdapter('informant');
+
+                    // This uses jQuery Validator's internal check method, this is undocumented functionality.
+                    // The reason for using it is that the public .valid() method has bad side effects when trying to
+                    // check validity of a single element.
+                    function isValid(el) {
+                        return $("form").validate().check(el);
+                    }
+
+                    jQuery.validator.addMethod('informant', function (value, element, params) {
+                        if ($('input[name="Informant"]:checked').val() !== "undefined") {
+                            return false;
+                        } else
+                            return true;
+                        //var personelement = $(element);
+                        //if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "Self" &&
+                        //    personelement.attr('name').startsWith("PatientInformantDetails.SelfName")) {
+                        //    return (value) !== "";
+                        //}
+                        //if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "ThirdParty" &&
+                        //    (personelement.attr('name').startsWith("PatientInformantDetails.PatientName")
+                        //        || (personelement.attr('name').startsWith("PatientInformantDetails.InformantName")))) {
+                        //    return (value) !== "";
+                        //}
+                        //return true;
+                    });
+
+                    jQuery("#personalDetailForm").on("submit", function () {
+                        formSubmitted = true;
+                    })
+
+
+                })
+            </script>
+
+            <div class="personal-details-content">
+                <div class="inline-details">
+                    <button type="submit" class="button--next" id="submitDetails">Next</button>
+                </div>
+            </div>
+        </section>
+    }
+</div>

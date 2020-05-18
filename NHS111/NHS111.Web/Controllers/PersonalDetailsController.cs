@@ -12,6 +12,7 @@ using NHS111.Models.Models.Web.PersonalDetails;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
+using PersonViewModel = NHS111.Models.Models.Web.PersonalDetails.PersonViewModel;
 
 namespace NHS111.Web.Controllers
 {
@@ -46,7 +47,7 @@ namespace NHS111.Web.Controllers
 
             _auditLogger.LogSelectedService(model);
            
-            return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            return View("~\\Views\\PersonalDetails\\InformantType.cshtml", new InformantTypeViewModel(model));
         }
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
@@ -136,7 +137,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult TelephoneNumber(DateOfBirthViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", model);
@@ -147,37 +147,47 @@ namespace NHS111.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult DateOfBirth(PersonalDetailViewModel model)
+        public ActionResult DateOfBirth(PersonViewModel model)
         {
-
+            model.PersonalDetailsViewModel.UserInfo.FirstName = model.Forename;
+            model.PersonalDetailsViewModel.UserInfo.LastName = model.Surname;
+            
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+                if (model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
+                    return View("~\\Views\\PersonalDetails\\TheirName.cshtml", model);
+
+                return View("~\\Views\\PersonalDetails\\YourName.cshtml", model);
             }
 
-            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model));
+            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model.PersonalDetailsViewModel));
         }
 
         [HttpPost]
-        public ActionResult YourName(PersonalDetailViewModel model)
+        public ActionResult YourName(InformantTypeViewModel model)
         {
+            ModelState.Clear();
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+                return View("~\\Views\\PersonalDetails\\InformantType.cshtml", model);
             }
-
-            return View("~\\Views\\PersonalDetails\\YourName.cshtml", model);
+            model.PersonalDetailsViewModel.Informant.InformantType = model.Informant;
+            ModelState.Clear(); 
+            return View("~\\Views\\PersonalDetails\\YourName.cshtml", new NHS111.Models.Models.Web.PersonalDetails.PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.Informant.Forename, model.PersonalDetailsViewModel.Informant.Surname));
         }
 
         [HttpPost]
-        public ActionResult TheirName(PersonalDetailViewModel model)
+        public ActionResult TheirName(NHS111.Models.Models.Web.PersonalDetails.PersonViewModel model)
         {
+            ModelState.Clear(); 
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+                return View("~\\Views\\PersonalDetails\\YourName.cshtml", model);
             }
+            model.PersonalDetailsViewModel.Informant.Forename = model.Forename;
+            model.PersonalDetailsViewModel.Informant.Surname = model.Surname;
 
-            return View("~\\Views\\PersonalDetails\\TheirName.cshtml", model);
+            return View("~\\Views\\PersonalDetails\\TheirName.cshtml", new NHS111.Models.Models.Web.PersonalDetails.PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.UserInfo.FirstName, model.PersonalDetailsViewModel.UserInfo.LastName));
         }
 
 

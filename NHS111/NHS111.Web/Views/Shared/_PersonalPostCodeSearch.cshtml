@@ -156,7 +156,7 @@
         });
         jQuery.validator.addMethod('homeaddress', function (value, element, params) {
             var addressElement = $(element);
-            if ($('input[name="@Html.NameFor(m => m.HomeAddressSameAsCurrent)"]:checked').val() == "No" &&
+            if ($('input[name="@Html.NameFor(m => m.HomeAddressSameAsCurrentWrapper)"]:checked').val() == "No" &&
                 addressElement.attr('name').startsWith("AddressInformation.PatientHomeAddress")) {
                 return value != null &&  (value) !== "";
             }
