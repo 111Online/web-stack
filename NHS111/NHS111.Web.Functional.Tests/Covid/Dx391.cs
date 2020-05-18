@@ -21,6 +21,7 @@ namespace NHS111.Web.Functional.Tests.Covid
                 .Answer(2) // no
                 .Answer(1) // yes
                 .Answer(3) // no
+                .Answer(3) // no
                 .Answer(1) // Normal,warmorhot
                 .Answer<OutcomePage>(1); // Yes, I stopped doing everything what i do
             outcomePage.VerifyHiddenField("Id", "Dx1113");
@@ -46,6 +47,7 @@ namespace NHS111.Web.Functional.Tests.Covid
                 .Answer(2) // no
                 .Answer(1) // yes
                 .Answer(3) // no
+                .Answer(3) // no
                 .Answer(1) // Normal,warmorhot
                 .Answer(3) // No - I feel well enough to do most of my usual daily activities 
                 .Answer<OutcomePage>(1); // Yes
@@ -63,6 +65,7 @@ namespace NHS111.Web.Functional.Tests.Covid
             var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "6")
                 .Answer(2) // no
                 .Answer(1) // yes
+                .Answer(3) // no
                 .Answer(3) // no
                 .Answer(1) // Normal,warmorhot
                 .Answer(3) // No - I feel well enough to do most of my usual daily activities 

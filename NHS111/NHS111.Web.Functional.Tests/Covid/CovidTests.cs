@@ -19,6 +19,7 @@ namespace NHS111.Web.Functional.Tests
             var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "2")
                 .Answer(2) // no
                 .Answer(3) // no
+                .Answer(3) // no
                 .Answer<OutcomePage>(3); // no
 
             outcomePage.VerifyDispositionCode(dispositionCode);
@@ -59,6 +60,7 @@ namespace NHS111.Web.Functional.Tests
 
             return questionPage.AnswerText("SymptomsStart_Day", "6")
                .Answer(2) // no
+               .Answer(3) // no
                .Answer(3) // no
                .Answer<OutcomePage>(1); // yes
         }
