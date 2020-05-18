@@ -381,7 +381,6 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
     <Content Include="Views\Shared\_AlternativeServices.cshtml" />
-    <Content Include="Views\Shared\_InformantDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceBookingUnavailable.cshtml" />
     <Content Include="Views\Outcome\DuplicateBookingFailure.cshtml" />
     <Content Include="Views\Shared\_CallbackServices.cshtml" />
