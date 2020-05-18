@@ -33,8 +33,8 @@ namespace NHS111.Web.Functional.Utils {
 
         public void EnterTheirName(string forename, string surname)
         {
-            Driver.FindElement(By.Id("PatientInformantDetails_InformantName_Forename")).SendKeys(forename);
-            Driver.FindElement(By.Id("PatientInformantDetails_InformantName_Surname")).SendKeys(surname);
+            Driver.FindElement(By.Id("Forename")).SendKeys(forename);
+            Driver.FindElement(By.Id("Surname")).SendKeys(surname);
         }
 
         public DateOfBirthPage SubmitTheirNameDetails()

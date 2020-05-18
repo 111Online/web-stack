@@ -23,7 +23,7 @@
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "current-address"));
-    var self = (Model.PatientInformantDetails.Informant == InformantType.Self);
+    var self = (Model.Informant.InformantType == InformantType.Self);
     var heading = self ? "What is your home postcode?" : "What is their home postcode?";
     var subHeading = self ? "Your postcode helps us find your NHS number." : "Their postcode helps us find their NHS number.";
 }
