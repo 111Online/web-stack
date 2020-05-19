@@ -1,19 +1,20 @@
-﻿
-using System.Collections.Generic;
-using NHS111.Features.Defaults;
+﻿using NHS111.Features.Defaults;
 using NHS111.Features.Providers;
 using NHS111.Features.Values;
 
-namespace NHS111.Features {
+namespace NHS111.Features
+{
 
     public abstract class BaseFeature : IFeature
     {
 
-        protected BaseFeature() {
+        protected BaseFeature()
+        {
             SettingValueProvider = new AppSettingValueProvider();
         }
 
-        protected BaseFeature(IFeatureSettingValueProvider settingValueProvider) {
+        protected BaseFeature(IFeatureSettingValueProvider settingValueProvider)
+        {
             SettingValueProvider = settingValueProvider;
         }
 
@@ -27,7 +28,8 @@ namespace NHS111.Features {
             return SettingValueProvider.GetSetting(this, defaultSettingStrategy, featureName);
         }
 
-        public virtual bool IsEnabled {
+        public virtual bool IsEnabled
+        {
             get { return FeatureValue(DefaultIsEnabledSettingStrategy, "IsEnabled").Value.ToLower() == "true"; }
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
@@ -9,6 +8,7 @@ using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Parser;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -99,7 +99,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _mappingEngine.Setup(x => x.Mapper).Returns(Mapper.Instance);
             var result = _sut.BuildPreviousQuestion(null, questionModel);
 
-            
+
             Assert.IsNotNull(result.CollectedKeywords);
             Assert.IsNotNull(result.CollectedKeywords.Keywords);
             Assert.AreEqual(3, result.CollectedKeywords.Keywords.Count);

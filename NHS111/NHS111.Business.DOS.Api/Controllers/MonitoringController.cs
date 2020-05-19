@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using NHS111.Utils.Attributes;
+﻿using NHS111.Utils.Attributes;
 using NHS111.Utils.Monitoring;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace NHS111.Business.DOS.Api.Controllers
 {

@@ -8,6 +8,7 @@ using NUnit.Framework;
 using RestSharp;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Web.Presentation.Test.Helpers
 {
@@ -15,17 +16,20 @@ namespace NHS111.Web.Presentation.Test.Helpers
     public class QuestionNavigationServiceTests
     {
         private Mock<Configuration.IConfiguration> _configuration;
-        private Mock<IRestClient> _restClient;
+        private Mock<ILoggingRestClient> _restClient;
         private Mock<IViewRouter> _viewRouter;
         private Mock<IJourneyViewModelBuilder> _journeyViewModelBuilder;
         private QuestionNavigationService _sut;
 
         private static Answer _answer = new Answer { Title = "Answer1" };
-        private QuestionViewModel _questionViewModel = new QuestionViewModel { 
-                PathwayId = "pathwayId", NodeType = NodeType.PathwaySelectionJump, StateJson = "", 
-                SelectedAnswer = "{  \"title\": \"Answer1\",  \"titleWithoutSpaces\": \"\",  \"symptomDiscriminator\": null,  \"supportingInformation\": null,  \"keywords\": null,  \"excludeKeywords\": null,  \"reportText\": null,  \"dispositionDisplayText\": null,  \"order\": 0,  \"isPositive\": false,  \"specifyText\": null}",
-                Answers = new List<Answer> { _answer}
-                };
+        private QuestionViewModel _questionViewModel = new QuestionViewModel
+        {
+            PathwayId = "pathwayId",
+            NodeType = NodeType.PathwaySelectionJump,
+            StateJson = "",
+            SelectedAnswer = "{  \"title\": \"Answer1\",  \"titleWithoutSpaces\": \"\",  \"symptomDiscriminator\": null,  \"supportingInformation\": null,  \"keywords\": null,  \"excludeKeywords\": null,  \"reportText\": null,  \"dispositionDisplayText\": null,  \"order\": 0,  \"isPositive\": false,  \"specifyText\": null}",
+            Answers = new List<Answer> { _answer }
+        };
 
         [SetUp]
         public void SetUp()
@@ -41,8 +45,8 @@ namespace NHS111.Web.Presentation.Test.Helpers
 
             var response = new Mock<IRestResponse<QuestionWithAnswers>>();
             response.Setup(_ => _.Data).Returns(new QuestionWithAnswers { });
-            _restClient = new Mock<IRestClient>();
-            _restClient.Setup(x => x.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<IRestRequest>())).ReturnsAsync(response.Object);
+            _restClient = new Mock<ILoggingRestClient>();
+            _restClient.Setup(x => x.ExecuteAsync<QuestionWithAnswers>(It.IsAny<IRestRequest>())).ReturnsAsync(response.Object);
 
             _viewRouter = new Mock<IViewRouter>();
             _viewRouter.Setup(x => x.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(new QuestionResultViewModel(null) { });

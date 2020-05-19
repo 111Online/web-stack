@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -16,7 +13,7 @@ namespace NHS111.Web.Presentation.Builders
             //will need to implement a proper solution to custom content if/when we introduce other
             //service types - maybe a new type/properties in neo4j?
             var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
-            if (recommendedService == null) return await Task.FromResult((RecommendedServiceViewModel) null);
+            if (recommendedService == null) return await Task.FromResult((RecommendedServiceViewModel)null);
 
             recommendedService.ReasonText = "This service needs some more details from you. To use it, fill in the form and they’ll be in touch.";
             recommendedService.Details = new DetailsViewModel

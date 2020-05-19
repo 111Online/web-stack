@@ -1,26 +1,30 @@
 ﻿
-namespace NHS111.Domain.Test.API_Project.Controller {
-    using System.Threading.Tasks;
+namespace NHS111.Domain.Test.API_Project.Controller
+{
     using Api.Controllers;
     using Domain.Repository;
     using Models.Models.Domain;
     using Moq;
     using NUnit.Framework;
+    using System.Threading.Tasks;
 
     [TestFixture]
-    public class SymptomDiscriminatorControllerTests {
+    public class SymptomDiscriminatorControllerTests
+    {
 
         private Mock<ISymptomDiscriminatorRepository> _mockRepo;
 
         [SetUp]
-        public void SetUp() {
+        public void SetUp()
+        {
             _mockRepo = new Mock<ISymptomDiscriminatorRepository>();
         }
 
         [Test]
-        public async void Get_WithExistingSDCode_ReturnsCorrectSD() {
+        public async void Get_WithExistingSDCode_ReturnsCorrectSD()
+        {
             _mockRepo.Setup(r => r.Get(It.IsAny<int>()))
-                .Returns((int i) => Task.FromResult((new SymptomDiscriminator {Id = i})));
+                .Returns((int i) => Task.FromResult((new SymptomDiscriminator { Id = i })));
 
             var sut = new SymptomDiscriminatorController(_mockRepo.Object);
             var sd = await sut.Get(123);
@@ -29,7 +33,8 @@ namespace NHS111.Domain.Test.API_Project.Controller {
         }
 
         [Test]
-        public async void Get_WithNonexistingSDCode_ReturnsNull() {
+        public async void Get_WithNonexistingSDCode_ReturnsNull()
+        {
             _mockRepo.Setup(r => r.Get(It.IsAny<int>()))
                 .Returns((int i) => Task.FromResult<SymptomDiscriminator>(null));
 

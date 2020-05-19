@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace NHS111.Utils.Storage
 {

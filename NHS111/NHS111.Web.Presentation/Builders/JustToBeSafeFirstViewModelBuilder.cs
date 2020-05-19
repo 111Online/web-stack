@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -11,6 +7,11 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -19,11 +20,11 @@ namespace NHS111.Web.Presentation.Builders
     {
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
 
-        public JustToBeSafeFirstViewModelBuilder(IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
+        public JustToBeSafeFirstViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
         {
             _restClient = restClient;
             _configuration = configuration;
@@ -32,13 +33,14 @@ namespace NHS111.Web.Presentation.Builders
             _userZoomDataBuilder = userZoomDataBuilder;
         }
 
-        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
+        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
+        {
 
             if (model.PathwayId != null)
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
 
             var identifiedModel = await BuildIdentifiedModel(model);
-            var questionsWithAnswers = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId), Method.GET));
+            var questionsWithAnswers = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId), Method.GET));
 
             CheckResponse(questionsWithAnswers);
 
@@ -66,7 +68,7 @@ namespace NHS111.Web.Presentation.Builders
                     EntrySearchTerm = model.EntrySearchTerm
                 };
 
-                var question = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
+                var question = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
 
                 CheckResponse(question);
 
@@ -94,9 +96,10 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model) {
+        private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model)
+        {
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayUrl(model.PathwayId);
-            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+            var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
             CheckResponse(response);
 
@@ -132,7 +135,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<JustToBeSafeViewModel> BuildIdentifiedModel(JustToBeSafeViewModel model)
         {
-            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age), Method.GET));
+            var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age), Method.GET));
 
             CheckResponse(response);
 
@@ -143,7 +146,7 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
             model.PathwayTraumaType = pathway.TraumaType;
-            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
+            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords, false).ToList(), _keywordCollector.ParseKeywords(pathway.ExcludeKeywords, false).ToList());
             return model;

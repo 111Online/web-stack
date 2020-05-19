@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FluentValidation.Validators;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using FluentValidation.Validators;
@@ -29,7 +29,7 @@ namespace NHS111.Models.Models.Web.Validators
 
         private bool IsAValidYear(int? year)
         {
-           return (year > 1900 && year < (DateTime.Now.Year + 1));
+            return (year > 1900 && year < (DateTime.Now.Year + 1));
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

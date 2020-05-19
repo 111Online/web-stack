@@ -1,11 +1,13 @@
 ﻿
-namespace NHS111.Models.Models.Web {
+namespace NHS111.Models.Models.Web
+{
+    using FromExternalServices;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using FromExternalServices;
 
-    public interface IJourneyViewModelEqualityComparer : IEqualityComparer<JourneyViewModel> {
+    public interface IJourneyViewModelEqualityComparer : IEqualityComparer<JourneyViewModel>
+    {
         bool ComparePathwayNo { get; set; }
         bool CompareAge { get; set; }
         bool CompareSex { get; set; }
@@ -15,7 +17,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class JourneyViewModelEqualityComparer
-        : IJourneyViewModelEqualityComparer {
+        : IJourneyViewModelEqualityComparer
+    {
 
         public bool ComparePathwayNo { get; set; }
         public bool CompareAge { get; set; }
@@ -23,7 +26,8 @@ namespace NHS111.Models.Models.Web {
         public bool CompareQuestionNos { get; set; }
         public bool CompareAnswers { get; set; }
 
-        public JourneyViewModelEqualityComparer() {
+        public JourneyViewModelEqualityComparer()
+        {
             ComparePathwayNo = true;
             CompareAge = false;
             CompareSex = false;
@@ -31,7 +35,8 @@ namespace NHS111.Models.Models.Web {
             CompareAnswers = true;
         }
 
-        public bool Equals(JourneyViewModel x, JourneyViewModel y) {
+        public bool Equals(JourneyViewModel x, JourneyViewModel y)
+        {
             //a lot of these checks can be pulled out into their respective types
             if (x == null && y == null)
                 return true;
@@ -54,7 +59,8 @@ namespace NHS111.Models.Models.Web {
             return JourneysEquals(x.Journey, y.Journey);
         }
 
-        private bool JourneysEquals(Journey x, Journey y) {
+        private bool JourneysEquals(Journey x, Journey y)
+        {
             if (x == null && y == null)
                 return true;
 
@@ -70,7 +76,8 @@ namespace NHS111.Models.Models.Web {
             if (!x.Steps.Any() && !y.Steps.Any())
                 return true;
 
-            for (var i = 0; i < x.Steps.Count; i++) {
+            for (var i = 0; i < x.Steps.Count; i++)
+            {
 
                 if (x.Steps[i] == null && y.Steps[i] == null)
                     continue; //no need to compare these two any further
@@ -99,14 +106,16 @@ namespace NHS111.Models.Models.Web {
             return true;
         }
 
-        private bool SexEquals(UserInfo x, UserInfo y) {
+        private bool SexEquals(UserInfo x, UserInfo y)
+        {
             if (!DemographyEquals(x, y))
                 return false;
 
             return x.Demography.Age == y.Demography.Age;
         }
 
-        private static bool DemographyEquals(UserInfo x, UserInfo y) {
+        private static bool DemographyEquals(UserInfo x, UserInfo y)
+        {
             if (x == null && y == null)
                 return true;
 
@@ -122,14 +131,16 @@ namespace NHS111.Models.Models.Web {
             return false;
         }
 
-        private bool AgeEquals(UserInfo x, UserInfo y) {
+        private bool AgeEquals(UserInfo x, UserInfo y)
+        {
             if (!DemographyEquals(x, y))
                 return false;
 
             return x.Demography.Gender == y.Demography.Gender;
         }
 
-        public int GetHashCode(JourneyViewModel obj) {
+        public int GetHashCode(JourneyViewModel obj)
+        {
             throw new NotImplementedException();
         }
     }

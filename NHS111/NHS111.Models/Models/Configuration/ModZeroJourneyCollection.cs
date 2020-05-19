@@ -60,7 +60,7 @@ namespace NHS111.Models.Models.Configuration
         public ModZeroJourneyElement GetModZeroJourneyElement(string gender, string age, bool isTrauma)
         {
             var element = this.FirstOrDefault(j => j.Age == age && j.Gender == gender && j.IsTraumaJourney == isTrauma);
-            if(element == null) throw new ConfigurationErrorsException(string.Format("A module zero journey has not been defined for {0} {1} with {2}", gender, age, isTrauma ? "Trauma" : "Non-Trauma"));
+            if (element == null) throw new ConfigurationErrorsException(string.Format("A module zero journey has not been defined for {0} {1} with {2}", gender, age, isTrauma ? "Trauma" : "Non-Trauma"));
             return this.First(j => j.Age == age && j.Gender == gender && j.IsTraumaJourney == isTrauma);
         }
     }

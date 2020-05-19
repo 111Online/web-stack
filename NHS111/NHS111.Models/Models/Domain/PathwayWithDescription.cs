@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NHS111.Models.Models.Domain
+﻿namespace NHS111.Models.Models.Domain
 {
     public class PathwayWithDescription
     {

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Configuration;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.RestTools;
+﻿using NHS111.Utils.RestTools;
 using NUnit.Framework;
 using RestSharp;
+using System.Configuration;
+using log4net;
 
 namespace NHS111.Domain.Functional.Tests
 {
@@ -16,7 +15,7 @@ namespace NHS111.Domain.Functional.Tests
         {
             get
             {
-                return ConfigurationManager.AppSettings["DomainApiBaseUrl"]; 
+                return ConfigurationManager.AppSettings["DomainApiBaseUrl"];
             }
         }
 
@@ -25,8 +24,7 @@ namespace NHS111.Domain.Functional.Tests
         private string _testPathwayNo = "PW1708";
         private string _expectedNextId = "PW756.300";
 
-        private IRestClient _restClient = new RestClient(DomainApiBaseUrl);
-        private string DxCode = "Dx12";
+        private ILoggingRestClient _restClient = new LoggingRestClient(DomainApiBaseUrl, LogManager.GetLogger("log"));
 
         /// <summary>
         /// Example test method for a HTTP GET.
@@ -36,7 +34,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_response()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Content.Contains("\"id\":\"" + _testQuestionId + "\""));
@@ -46,7 +44,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_fields()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
 
             //this checks a responce is returned.
             Assert.IsNotNull(result);
@@ -62,7 +60,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_answers()
         {
             var getQuestionEndpoint = "questions/{0}/answers";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
 
             //this checks a responce is returned.
             Assert.IsNotNull(result);
@@ -86,7 +84,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_first_question()
         {
             var getQuestionEndpoint = "pathways/{0}/questions/first";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayId), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayId), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -103,7 +101,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Fields()
         {
             var getQuestionEndpoint = "pathways";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -121,7 +119,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_ID()
         {
             var getQuestionEndpoint = "pathways/{0}";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayId), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayId), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -139,7 +137,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Numbers()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=0&gender=Male";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -158,7 +156,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Numbers_InvalidAge()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=55&gender=Male";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             //this checks a responce is returned
             Assert.IsTrue(result.Content.Contains("null"));
@@ -169,7 +167,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Numbers_GenderChange()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=0&gender=Female";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -188,7 +186,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Symptom_Group()
         {
             var getQuestionEndpoint = "pathways/symptomGroup/{0}";
-            var result = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+            var result = await _restClient.ExecuteAsync<string>(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             var response = result.Data;
 
@@ -212,9 +210,9 @@ namespace NHS111.Domain.Functional.Tests
             var expectedNextId = "PW756.300";
             var url = string.Format(getNextQuestionEndpoint, _testQuestionId);
 
-           var request = new JsonRestRequest(url, Method.POST);
+            var request = new JsonRestRequest(url, Method.POST);
             request.AddJsonBody("Yes");
-            var result = await _restClient.ExecuteTaskAsync(request);
+            var result = await _restClient.ExecuteAsync(request);
 
             var resultContent = result.Content;
 
@@ -235,7 +233,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_expected_Next_Question()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _expectedNextId), Method.GET));
+            var result = await _restClient.ExecuteAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _expectedNextId), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);

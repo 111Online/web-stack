@@ -1,20 +1,22 @@
 ﻿
+using NHS111.Models.Models.Domain;
 using System.Collections.Generic;
 using System.Web.Http.Results;
-using NHS111.Models.Models.Domain;
 
-namespace NHS111.Business.Api.Controllers {
+namespace NHS111.Business.Api.Controllers
+{
+    using Services;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Services;
     using Utils.Attributes;
-    using Utils.Extensions;
 
     [LogHandleErrorForApi]
     public class OutcomeController
-        : ApiController {
+        : ApiController
+    {
 
-        public OutcomeController(IOutcomeService outcomeService) {
+        public OutcomeController(IOutcomeService outcomeService)
+        {
             _outcomeService = outcomeService;
         }
 

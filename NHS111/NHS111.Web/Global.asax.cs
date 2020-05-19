@@ -5,7 +5,11 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
 using NHS111.Web.Presentation.Logging;
 
-namespace NHS111.Web {
+namespace NHS111.Web
+{
+    using Authentication;
+    using Models.Models.Web;
+    using Presentation.ModelBinders;
     using System;
     using System.Collections;
     using System.Configuration;
@@ -21,9 +25,11 @@ namespace NHS111.Web {
     using Utils.Logging;
 
     public class MvcApplication
-        : System.Web.HttpApplication {
+        : System.Web.HttpApplication
+    {
 
-        protected void Application_Start() {
+        protected void Application_Start()
+        {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             // Register Web APIs
@@ -31,7 +37,7 @@ namespace NHS111.Web {
             // Register MVC Routes
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
+            ModelBinders.Binders[typeof(JourneyViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(OutcomeViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
@@ -49,7 +55,7 @@ namespace NHS111.Web {
             var auditLogger = DependencyResolver.Current.GetService<IAuditLogger>();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(auditLogger));
-            
+
             // StartSession requires logger so it can capture browser info at start of user's session.
             // It can be used on globally as it doesn't set a new session ID if one already exists.
             GlobalFilters.Filters.Add(new StartSessionFilterAttribute(auditLogger));
@@ -70,7 +76,8 @@ namespace NHS111.Web {
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            try {
+            try
+            {
                 var currentUrl = "";
 
                 var context = HttpContext.Current;
@@ -89,12 +96,14 @@ namespace NHS111.Web {
                     lastException.GetType().FullName, currentUrl, lastException.Message,
                     lastException.StackTrace, data, Environment.NewLine));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Log4Net.Error(string.Format("Exception occured in OnError: [{0}]", ex.Message));
             }
         }
 
-        private Exception GetException() {
+        private Exception GetException()
+        {
             var lastException = Server.GetLastError();
             if (lastException == null && HttpContext.Current.AllErrors.Any())
                 lastException = HttpContext.Current.AllErrors.First();

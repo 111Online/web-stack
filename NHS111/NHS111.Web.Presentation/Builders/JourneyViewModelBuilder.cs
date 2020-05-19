@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Parser;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Newtonsoft.Json;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.Enums;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class JourneyViewModelBuilder
         : IJourneyViewModelBuilder
@@ -34,7 +32,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var outcomeGroup = _mappingEngine.Mapper.Map<OutcomeGroup>(nextNode);
             var nodeType = _mappingEngine.Mapper.Map<NodeType>(nextNode);
-            return new NodeDetailsViewModel() {OutcomeGroup = outcomeGroup, NodeType = nodeType};
+            return new NodeDetailsViewModel() { OutcomeGroup = outcomeGroup, NodeType = nodeType };
         }
 
 
@@ -94,7 +92,8 @@ namespace NHS111.Web.Presentation.Builders
             model.JourneyJson = JsonConvert.SerializeObject(model.Journey);
 
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-            if (nextNode.Labels.First() == "Outcome") {
+            if (nextNode.Labels.First() == "Outcome")
+            {
                 answer.Keywords += "|" + nextNode.NonQuestionKeywords;
                 answer.ExcludeKeywords += "|" + nextNode.NonQuestionExcludeKeywords;
             }
@@ -121,7 +120,7 @@ namespace NHS111.Web.Presentation.Builders
             model.RemoveLastStep();
 
 
-            
+
 
             model.CollectedKeywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(model.CollectedKeywords,
                 model.Journey.Steps);
@@ -134,7 +133,6 @@ namespace NHS111.Web.Presentation.Builders
         private readonly ISymptomDiscriminatorCollector _symptomDiscriminatorCollector;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
-        private readonly IConfiguration _configuration;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
     }
 

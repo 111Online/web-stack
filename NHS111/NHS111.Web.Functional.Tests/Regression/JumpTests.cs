@@ -18,7 +18,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(4)
                 .Answer(3)
                 .Answer<OutcomePage>("Yes");
-            
+
             outcomePage.VerifyDispositionCode("Dx05");
         }
 

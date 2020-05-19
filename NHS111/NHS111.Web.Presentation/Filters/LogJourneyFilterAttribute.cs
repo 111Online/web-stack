@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NHS111.Web.Presentation.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Presentation.Filters
 {
@@ -65,7 +65,7 @@ namespace NHS111.Web.Presentation.Filters
                 PathwayTitle = model.PathwayTitle,
                 State = GetAuditedState(model.StateJson),
                 DxCode = model is OutcomeViewModel ? model.Id : "",
-                Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?) null,
+                Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?)null,
                 Gender = model.UserInfo.Demography != null ? model.UserInfo.Demography.Gender : string.Empty,
                 Search = model.EntrySearchTerm,
                 PostCodePart = AuditedModelMappers.GetPartialPostcode(model.CurrentPostcode)
@@ -89,7 +89,7 @@ namespace NHS111.Web.Presentation.Filters
 
             return audit;
         }
-        
+
         private static void AddLatestJourneyStepToAuditEntry(Journey journey, AuditEntry auditEntry)
         {
             if (journey == null || journey.Steps == null || journey.Steps.Count <= 0) return;

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NHS111.Models.Models.Web
+﻿namespace NHS111.Models.Models.Web
 {
 
     public class SendSmsOutcomeViewModel : OutcomeViewModel
     {
         public VerificationCodeInputViewModel VerificationCodeInput { get; set; }
         private string _mobileNumber;
-        public string MobileNumber {
+        public string MobileNumber
+        {
             get { return _mobileNumber; }
             set { _mobileNumber = value.Replace(" ", ""); }
         }

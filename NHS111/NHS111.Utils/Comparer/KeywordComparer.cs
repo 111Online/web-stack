@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web;
+﻿using NHS111.Models.Models.Web;
+using System.Collections.Generic;
 
 namespace NHS111.Utils.Comparer
 {

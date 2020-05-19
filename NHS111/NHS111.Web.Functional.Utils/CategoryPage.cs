@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using System;
+using System.Linq;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -72,12 +72,13 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(result, string.Format("VerifyPathwayNotInCategoryList : {0}", xpath));
         }
 
-        public void VerifyTabbingOrder(string topicToSelect) {
+        public void VerifyTabbingOrder(string topicToSelect)
+        {
             var backLink = TabToFirstPageBodyElement();
             var topic = Driver.TabFrom(backLink);
             Assert.IsTrue(topic.Text.Contains(topicToSelect));
             topic.SendKeys(Keys.Enter);
-            
+
             var questionInfoPage = new QuestionInfoPage(Driver);
             var questionPage = questionInfoPage.ClickIUnderstand();
             questionPage.VerifyQuestionPageLoaded();
@@ -98,7 +99,8 @@ namespace NHS111.Web.Functional.Utils
             return new QuestionInfoPage(Driver);
         }
 
-        public void VerifyOtherProblems(string pathwayNumber) {
+        public void VerifyOtherProblems(string pathwayNumber)
+        {
             Driver.FindElement(By.Id("details-summary-0")).Click();
 
             bool result = true;

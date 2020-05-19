@@ -1,23 +1,26 @@
 ﻿
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
 
-namespace NHS111.Web.Functional.Utils {
+namespace NHS111.Web.Functional.Utils
+{
     public static class IWebDriverExtensions
     {
         private static string _currentImageUniqueId = "1";
 
-        public static bool ElementExists(this IWebDriver driver, By by) {
+        public static bool ElementExists(this IWebDriver driver, By by)
+        {
             return driver.FindElements(by).Any();
         }
 
-        public static bool IfElementExists(this IWebDriver driver, By by, Action<IWebElement> action) {
+        public static bool IfElementExists(this IWebDriver driver, By by, Action<IWebElement> action)
+        {
             var elements = driver.FindElements(by);
             if (!elements.Any())
                 return false;
@@ -27,7 +30,8 @@ namespace NHS111.Web.Functional.Utils {
             return true;
         }
 
-        public static IWebElement TabFrom(this IWebDriver driver, IWebElement element) {
+        public static IWebElement TabFrom(this IWebDriver driver, IWebElement element)
+        {
             element.SendKeys(Keys.Tab);
             return driver.SwitchTo().ActiveElement();
         }
@@ -56,7 +60,7 @@ namespace NHS111.Web.Functional.Utils {
             // Get the total size of the page
             var totalWidth = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return document.body.offsetWidth"); //documentElement.scrollWidth");
             var totalHeight = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return  document.body.parentNode.scrollHeight");
-            
+
             // Get the size of the viewport
             var viewportWidth = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return document.body.clientWidth"); //documentElement.scrollWidth");
             var viewportHeight = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return window.innerHeight"); //documentElement.scrollWidth");

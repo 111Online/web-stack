@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Controllers
 {
@@ -26,7 +26,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> JustToBeSafeFirst(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
-            var viewData = await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(model);
+            var viewData = await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(model).ConfigureAwait(false);
             return View(viewData.Item1, viewData.Item2);
         }
 
@@ -34,7 +34,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> JustToBeSafeNext(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
-            var next = await _justToBeSafeViewModelBuilder.JustToBeSafeNextBuilder(model);
+            var next = await _justToBeSafeViewModelBuilder.JustToBeSafeNextBuilder(model).ConfigureAwait(false);
             return View(next.Item1, next.Item2);
         }
 
@@ -43,21 +43,23 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> SmsFirstQuestion(JustToBeSafeViewModel model)
         {
             var firstModel = BuildModel("PC111", model);
-            return await JustToBeSafeFirst(firstModel);
+            return await JustToBeSafeFirst(firstModel).ConfigureAwait(false);
         }
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args) {
+        public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args)
+        {
             var model = BuildModel(pathwayNumber, gender, age, args);
-            return await JustToBeSafeFirst(model);
+            return await JustToBeSafeFirst(model).ConfigureAwait(false);
         }
 
         [HttpPost]
         [Route("Question/First")]
-        public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {
+        public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model)
+        {
             ModelState.Clear();
-            return await JustToBeSafeFirst(model);
+            return await JustToBeSafeFirst(model).ConfigureAwait(false);
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, JustToBeSafeViewModel jtbsModel)
@@ -82,7 +84,7 @@ namespace NHS111.Web.Controllers
             else
                 state.Add("PATIENT_AGE", "-1");
 
-            
+
             var model = new QuestionInfoViewModel
             {
                 SessionId = jtbsModel.SessionId,
@@ -103,19 +105,23 @@ namespace NHS111.Web.Controllers
             return model;
         }
 
-        private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args) {
+        private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args)
+        {
             var decryptedArgs = new QueryStringEncryptor(args);
             var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) ||
                                           bool.Parse(decryptedArgs["filterServices"]);
 
-            var model = new QuestionInfoViewModel {
+            var model = new QuestionInfoViewModel
+            {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 PathwayNo = pathwayNumber,
                 DigitalTitle = decryptedArgs["digitalTitle"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 CurrentPostcode = decryptedArgs["postcode"],
-                UserInfo = new UserInfo {
-                    Demography = new AgeGenderViewModel {
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
                         Age = age,
                         Gender = gender
                     }

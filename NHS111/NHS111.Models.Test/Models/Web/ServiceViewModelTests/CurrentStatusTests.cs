@@ -8,7 +8,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
     class CurrentStatusTests
     {
         private readonly ServiceViewModelTestHelper _serviceViewModelTestHelper = new ServiceViewModelTestHelper();
-        
+
         [Test]
         public void CurrentStatus_Returns_24Hours_When_Service_Open_All_Hours()
         {
@@ -34,7 +34,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                     _serviceViewModelTestHelper.TUESDAY_SESSION,
                     _serviceViewModelTestHelper.WEDNESDAY_SESSION,
                     _serviceViewModelTestHelper.THURSDAY_SESSION,
-                    _serviceViewModelTestHelper.FRIDAY_SESSION,            
+                    _serviceViewModelTestHelper.FRIDAY_SESSION,
                     new ServiceCareItemRotaSession()
                     {
                         StartDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Saturday,

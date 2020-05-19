@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CsvHelper.TypeConversion;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ServiceDetails = NHS111.Models.Models.Web.ITK.ServiceDetails;
 
 namespace NHS111.Models.Mappers.WebMappings
@@ -58,14 +55,14 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.StartingPathwayType = outcome.PathwayTraumaType;
             caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<ReportItem>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
-            caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() {QuestionId = s.QuestionId, QuestionNo = string.IsNullOrEmpty(s.QuestionNo) ? string.Empty : s.QuestionNo, AnswerOrder = s.Answer.Order});
+            caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() { QuestionId = s.QuestionId, QuestionNo = string.IsNullOrEmpty(s.QuestionNo) ? string.Empty : s.QuestionNo, AnswerOrder = s.Answer.Order });
             var state = outcome.Journey.GetLastState();
             caseDetails.SetVariables = !string.IsNullOrEmpty(state) ? JsonConvert.DeserializeObject<IDictionary<string, string>>(outcome.Journey.GetLastState()) : new Dictionary<string, string>();
             return caseDetails;
         }
     }
 
-  
+
 
     public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<ReportItem>>
     {
@@ -117,8 +114,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 Surname = personalDetailViewModel.Informant.Surname,
                 TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber,
                 Type = personalDetailViewModel.Informant.IsInformantForPatient ? NHS111.Models.Models.Web.ITK.InformantType.NotSpecified : NHS111.Models.Models.Web.ITK.InformantType.Self
-            };           
-            
+            };
+
             return patientDetails;
         }
 
@@ -157,7 +154,7 @@ namespace NHS111.Models.Mappers.WebMappings
             serviceDetails.PostCode = outcome.SelectedService.PostCode;
             serviceDetails.Ccg = outcome.Source;
             serviceDetails.Stp = outcome.Campaign;
-            
+
             return serviceDetails;
         }
     }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Business.Location;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using AddressLocationResult = NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes.AddressLocationResult;
 
 
@@ -58,7 +58,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     city = locationResult.AdministrativeArea;
                     county = string.Empty;
                 }
-                else if(tempCity.Trim().Equals(locationResult.AdministrativeArea.Trim()))
+                else if (tempCity.Trim().Equals(locationResult.AdministrativeArea.Trim()))
                 {
                     city = tempCity;
                     county = string.Empty;
@@ -85,7 +85,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     else
                     {
                         addressLine1 = locationResult.BuildingName;
-                        addressLine2 = locationResult.StreetDescription;    
+                        addressLine2 = locationResult.StreetDescription;
                     }
                 }
                 else
@@ -123,11 +123,12 @@ namespace NHS111.Models.Mappers.WebMappings
                 if (source.Code == "4000" || source.Code == "4001") validatedResponse = Models.Web.Validators.PostcodeValidatorResponse.InvalidSyntax;
                 if (source.Code == "4040") validatedResponse = Models.Web.Validators.PostcodeValidatorResponse.PostcodeNotFound;
 
-                return new AddressInfoCollectionViewModel() {
+                return new AddressInfoCollectionViewModel()
+                {
                     Addresses = Mapper.Map<List<AddressInfoViewModel>>(source.Result),
                     ValidatedPostcodeResponse = validatedResponse
-                    };
-               
+                };
+
             }
         }
 

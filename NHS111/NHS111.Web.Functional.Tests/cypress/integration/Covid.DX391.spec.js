@@ -42,11 +42,7 @@ describe('Covid', () => {
     cy.get(`input[id="I'mnotsure"]`).click();
     cy.get('#nextScreen').click();
 
-    
-
   };
-
-
 
   it(`- DX391`, () => {
     navigateToDispositionDx391();
@@ -56,17 +52,7 @@ describe('Covid', () => {
 
   it(`- Dx391 to stay at home`, () => {
     navigateToDispositionDx391();
-
-    cy.get('button[name="stayathome"]').click();
-
     cy.get('a[data-event-value="gov.uk coronavirus testing page"]').should('exist');
 
-    
-    
-
-
-
   });
-
-
 });

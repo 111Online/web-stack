@@ -1,10 +1,5 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.Web.Functional.Utils
 {

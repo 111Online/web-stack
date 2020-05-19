@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web;
-using NHS111.Business.DOS.Configuration;
-using NHS111.Business.DOS.WhiteListPopulator;
-using NHS111.Models.Models.Web.CCG;
+﻿using NHS111.Business.DOS.WhiteListPopulator;
 using NHS111.Models.Models.Web.FromExternalServices;
-using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BusinessModels = NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS.Service
@@ -23,11 +18,12 @@ namespace NHS111.Business.DOS.Service
 
         public async Task<List<BusinessModels.DosService>> Map(List<BusinessModels.DosService> resultsToMap, string postCode)
         {
-           var localisedReferralWhiteList = await _whiteListPopulator.PopulateCCGWhitelist(postCode);
+            var localisedReferralWhiteList = await _whiteListPopulator.PopulateCCGWhitelist(postCode);
 
             foreach (var service in resultsToMap)
             {
-                if (localisedReferralWhiteList.Contains(service.Id.ToString())) { 
+                if (localisedReferralWhiteList.Contains(service.Id.ToString()))
+                {
                     service.OnlineDOSServiceType = SetCallbackType(service.ReferralText, service.ContactDetails);
                 }
                 else if (string.IsNullOrEmpty(service.ReferralText))
@@ -52,7 +48,7 @@ namespace NHS111.Business.DOS.Service
             {
                 return !string.IsNullOrEmpty(contactDetails) ? OnlineDOSServiceType.ReferRingAndGo : OnlineDOSServiceType.Unknown;
             }
-            
+
             return OnlineDOSServiceType.Callback;
         }
 

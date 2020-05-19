@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
 using NHS111.Business.Transformers;
@@ -13,20 +9,24 @@ using NHS111.Utils.Cache;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
 {
     public class QuestionService : IQuestionService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IAnswersForNodeBuilder _answersForNodeBuilder;
         private readonly IModZeroJourneyStepsBuilder _modZeroJourneyStepsBuilder;
         private readonly IKeywordCollector _keywordCollector;
         private readonly ICareAdviceService _careAdviceService;
         private readonly ICareAdviceTransformer _careAdviceTransformer;
         private readonly ICacheStore _cacheStore;
-        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, 
+        public QuestionService(IConfiguration configuration, ILoggingRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, 
             IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, 
             ICareAdviceTransformer careAdviceTransformer, ICacheStore cacheStore)
         {
@@ -44,7 +44,7 @@ namespace NHS111.Business.Services
         {
             return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithNodeId(id), async () => 
             {
-                var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
+                var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
                 return questions.Data;
             });
            
@@ -54,7 +54,7 @@ namespace NHS111.Business.Services
         {
             return await _cacheStore.GetOrAdd(new AnswersCacheKey(id), async () =>
             {
-                var questions = await _restClient.ExecuteTaskAsync<Answer[]>(
+                var questions = await _restClient.ExecuteAsync<Answer[]>(
                     new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
                 return questions.Data;
             });
@@ -67,7 +67,7 @@ namespace NHS111.Business.Services
             {
                 var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
                 request.AddJsonBody(answer);
-                var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
+                var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(request);
                 return questions.Data;
             });
         }
@@ -76,7 +76,7 @@ namespace NHS111.Business.Services
         {
             return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithPathwayId(pathwayId), async () => 
             {
-                var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
+                var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
                 return questions.Data;
             });
            
@@ -84,7 +84,7 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId)
         {
-            var questions = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId), Method.GET));
+            var questions = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId), Method.GET));
             return questions.Data;
         }
 
@@ -203,7 +203,7 @@ namespace NHS111.Business.Services
 
             var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId, gender, age), Method.POST);
             request.AddJsonBody(steps);
-            var moduleZeroJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
+            var moduleZeroJourney = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(request);
 
             var state = BuildState(gender, age, pathwayJourney.State);
             var filteredModZeroJourney = NavigateReadNodeLogic(steps.ToArray(), moduleZeroJourney.Data.ToList(), state);
@@ -215,14 +215,14 @@ namespace NHS111.Business.Services
         {
             var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode, gender, age), Method.POST);
             request.AddJsonBody(steps);
-            var pathwayJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
+            var pathwayJourney = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(request);
 
             return pathwayJourney.Data;
         }
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId)
         {
-            var questions = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId), Method.GET));
+            var questions = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId), Method.GET));
             return questions.Data;
         }
     }
@@ -235,7 +235,7 @@ namespace NHS111.Business.Services
         Task<IEnumerable<QuestionWithAnswers>> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<Answer[]> GetAnswersForQuestion(string id);
-        Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel,  string answer);
+        Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);

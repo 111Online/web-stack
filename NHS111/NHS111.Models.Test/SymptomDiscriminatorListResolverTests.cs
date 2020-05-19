@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using NHS111.Models.Mappers.WebMappings;
+﻿using NHS111.Models.Mappers.WebMappings;
 using NUnit.Framework;
+using System;
+using System.Linq;
 
 namespace NHS111.Models.Test
 {
@@ -21,8 +21,8 @@ namespace NHS111.Models.Test
             var sdString = "4000";
             var result = _testSymptomDiscriminatorListResolver.ResolveCore(sdString);
 
-            Assert.AreEqual(result.Count(),1);
-            Assert.AreEqual(4000,result.First());
+            Assert.AreEqual(result.Count(), 1);
+            Assert.AreEqual(4000, result.First());
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace NHS111.Models.Test
         public void Empty_SDCode_ThowsExcpetion()
         {
             var sdString = "";
-           _testSymptomDiscriminatorListResolver.ResolveCore(sdString);
+            _testSymptomDiscriminatorListResolver.ResolveCore(sdString);
         }
 
         [Test]

@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Mappers;
 
 namespace NHS111.Models.Models.Domain
 {
-    using System;
-
     public class Answer
     {
         [JsonProperty(PropertyName = "title")]
@@ -33,13 +30,14 @@ namespace NHS111.Models.Models.Domain
         public string DispositionDisplayText { get; set; }
 
         [JsonIgnore]
-        public string SupportingInformationHtml {
+        public string SupportingInformationHtml
+        {
             get { return StaticTextToHtml.Convert(SupportingInformation); }
         }
 
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
-        
+
         [JsonProperty(PropertyName = "isPositive")]
         public bool IsPositive { get; set; }
 

@@ -1,15 +1,17 @@
 ﻿
 namespace NHS111.Models.Test.Models.Domain
 {
-    using System;
     using NHS111.Models.Models.Domain;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
-    public class GenderTests {
+    public class GenderTests
+    {
 
         [Test]
-        public void Ctor_WithValidStrings_CreatesCorrectObject() {
+        public void Ctor_WithValidStrings_CreatesCorrectObject()
+        {
             var sut = new Gender("Male");
             Assert.AreEqual("Male", sut.Value);
             sut = new Gender("M");
@@ -30,12 +32,14 @@ namespace NHS111.Models.Test.Models.Domain
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Ctor_WithInvalidString_ThrowsArgumentException() {
+        public void Ctor_WithInvalidString_ThrowsArgumentException()
+        {
             new Gender("SomethingInvalid");
         }
 
         [Test]
-        public void Ctor_WithEnum_CreatesCorrectObject() {
+        public void Ctor_WithEnum_CreatesCorrectObject()
+        {
             var sut = new Gender(GenderEnum.Male);
             Assert.AreEqual("Male", sut.Value);
             sut = new Gender(GenderEnum.Female);

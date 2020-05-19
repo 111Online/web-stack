@@ -1,9 +1,8 @@
-﻿using NUnit.Framework;
+﻿using NHS111.Business.Transformers;
+using NHS111.Models.Models.Domain;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using NHS111.Business.Transformers;
-using NHS111.Models.Models.Domain;
-using Newtonsoft.Json;
 
 namespace NHS111.Business.Test.Transformers
 {

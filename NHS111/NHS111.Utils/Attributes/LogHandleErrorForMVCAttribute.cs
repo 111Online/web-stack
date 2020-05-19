@@ -1,12 +1,10 @@
-﻿using System.Web.Mvc;
-using NHS111.Utils.Logging;
-using System.Linq;
+﻿using NHS111.Utils.Logging;
+using System.Web.Mvc;
 
 namespace NHS111.Utils.Attributes
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
 
     public class LogHandleErrorForMVCAttribute : HandleErrorAttribute
     {
@@ -19,7 +17,8 @@ namespace NHS111.Utils.Attributes
             }
 
             string data = "";
-            foreach (DictionaryEntry pair in filterContext.Exception.Data) {
+            foreach (DictionaryEntry pair in filterContext.Exception.Data)
+            {
                 data += string.Format("{0}: {1}{2}", pair.Key, pair.Value, Environment.NewLine);
             }
 

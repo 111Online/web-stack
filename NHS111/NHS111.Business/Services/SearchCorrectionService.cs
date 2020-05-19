@@ -1,11 +1,7 @@
-﻿using System;
+﻿using NHS111.Models.Models.Domain;
+using NHS111.Utils.Comparer;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Business;
-using NHS111.Models.Models.Domain;
-using NHS111.Utils.Comparer;
 
 namespace NHS111.Business.Services
 {

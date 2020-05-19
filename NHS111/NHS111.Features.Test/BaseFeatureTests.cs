@@ -1,19 +1,22 @@
-﻿using System.Configuration;
-using Moq;
+﻿using Moq;
 using NHS111.Features.Defaults;
 using NHS111.Features.Providers;
 using NHS111.Features.Values;
 using NUnit.Framework;
+using System.Configuration;
 
-namespace NHS111.Features.Test {
+namespace NHS111.Features.Test
+{
     [TestFixture]
-    public class BaseFeatureTests {
+    public class BaseFeatureTests
+    {
 
         private class TestFeature : BaseFeature { }
 
         [Test]
         [Ignore("Can't isolate configuration manager.")]
-        public void IsEnabled_WithDefaultProvider_QueriesDefaultProvider() {
+        public void IsEnabled_WithDefaultProvider_QueriesDefaultProvider()
+        {
             var basicFeature = new TestFeature();
 
             ConfigurationManager.AppSettings["TestFeature"] = "true";
@@ -26,7 +29,8 @@ namespace NHS111.Features.Test {
         }
 
         [Test]
-        public void IsEnabled_WithProvider_QueriesSuppliedProvider() {
+        public void IsEnabled_WithProvider_QueriesSuppliedProvider()
+        {
             var mockProvider = new Mock<IFeatureSettingValueProvider>();
             var basicFeature = new TestFeature { SettingValueProvider = mockProvider.Object };
             mockProvider.Setup(
@@ -39,7 +43,8 @@ namespace NHS111.Features.Test {
         }
 
         [Test]
-        public void IsEnabled_Always_PassesDefaultSettingStrategyIntoValueProvider() {
+        public void IsEnabled_Always_PassesDefaultSettingStrategyIntoValueProvider()
+        {
             var mockProvider = new Mock<IFeatureSettingValueProvider>();
             var mockStrategy = new Mock<IDefaultSettingStrategy>();
             var basicFeature = new TestFeature { SettingValueProvider = mockProvider.Object, DefaultIsEnabledSettingStrategy = mockStrategy.Object };

@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
 
 namespace NHS111.Models.Mappers.WebMappings

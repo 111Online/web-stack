@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
-using NHS111.Models.Models.Web.Logging;
+using System;
+using System.Linq;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -46,7 +45,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
                 .ForMember(s => s.RecommendedService, opt => opt.Ignore());
 
-            
+
             Mapper.CreateMap<JourneyViewModel, SearchJourneyViewModel>()
                 .ForMember(s => s.SanitisedSearchTerm, o => o.Ignore())
                 .ForMember(s => s.Results, o => o.Ignore())
@@ -77,7 +76,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(d => d.VerificationCodeInput, o => o.Ignore())
                 .ForMember(d => d.AnswerInputValue, o => o.Ignore())
                 .ForMember(d => d.SelectedAnswer, o => o.Ignore());
-                
+
             Mapper.CreateMap<SendSmsOutcomeViewModel, QuestionViewModel>()
                 .ForMember(d => d.DateAnswer, o => o.Ignore());
 

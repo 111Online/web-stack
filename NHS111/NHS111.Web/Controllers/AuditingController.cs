@@ -1,26 +1,26 @@
-﻿
-using System;
-using AutoMapper;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Web.Enums;
+﻿using AutoMapper;
 using NHS111.Utils.Attributes;
 
-namespace NHS111.Web.Controllers {
-    using System.Net;
-    using System.Web.Mvc;
+namespace NHS111.Web.Controllers
+{
     using Models.Models.Web.Logging;
     using NHS111.Web.Presentation.Logging;
+    using System.Net;
+    using System.Web.Mvc;
 
     [LogHandleErrorForMVC]
     public class AuditingController
-        : Controller {
-        
-        public AuditingController(IAuditLogger auditLogger) {
+        : Controller
+    {
+
+        public AuditingController(IAuditLogger auditLogger)
+        {
             _auditLogger = auditLogger;
         }
 
         [HttpPost]
-        public ActionResult Log(PublicAuditViewModel audit) {
+        public ActionResult Log(PublicAuditViewModel audit)
+        {
             var model = Mapper.Map<PublicAuditViewModel, AuditViewModel>(audit);
             _auditLogger.Log(model.ToAuditEntry());
 

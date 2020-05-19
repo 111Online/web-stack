@@ -54,6 +54,6 @@ namespace NHS111.Models.Models.Configuration
             get { return (JourneyStepCollection)base[JourneyStepCollectionName]; }
         }
 
-        public bool IsTraumaJourney { get { return Type.Equals("Trauma"); }  }
+        public bool IsTraumaJourney { get { return Type.Equals("Trauma"); } }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Moq;
+﻿using Moq;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
-using NodaTime;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using IClock = NHS111.Models.Models.Web.Clock.IClock;
 
 namespace NHS111.Business.DOS.Test
@@ -13,7 +12,7 @@ namespace NHS111.Business.DOS.Test
     [TestFixture()]
     public class ServiceAvailabilityProfileTests
     {
-        private readonly IEnumerable<int> FILTERED_DOS_SERVICCE_TYPES = new List<int>(); 
+        private readonly IEnumerable<int> FILTERED_DOS_SERVICCE_TYPES = new List<int>();
         private readonly Mock<IProfileHoursOfOperation> _mockProfileHoursOfConfiguration = new Mock<IProfileHoursOfOperation>();
         private ServiceAvailabilityProfile _serviceAvailabilityProfile;
 
@@ -21,13 +20,13 @@ namespace NHS111.Business.DOS.Test
 
         public static IClock OutOfHoursClock = new OutOfHoursClock();
 
-        private static readonly Tuple<DateTime, int> InHoursToOoHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 12*60);
+        private static readonly Tuple<DateTime, int> InHoursToOoHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 12 * 60);
 
         private static readonly Tuple<DateTime, int> OoHoursToOoHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 60);
 
-        private static readonly Tuple<DateTime, int> OoHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 12*60);
+        private static readonly Tuple<DateTime, int> OoHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 12 * 60);
 
-        private static readonly Tuple<DateTime, int> OoHoursToOoHoursTraverseInHoursPeriodWeekday = new Tuple<DateTime, int>(new DateTime(2016, 11, 17, 3, 0, 0), 18*60);
+        private static readonly Tuple<DateTime, int> OoHoursToOoHoursTraverseInHoursPeriodWeekday = new Tuple<DateTime, int>(new DateTime(2016, 11, 17, 3, 0, 0), 18 * 60);
 
         [Test()]
         public void GetServiceAvailability_In_Hours_And_Timeframe_In_hours_Test()
@@ -194,7 +193,7 @@ namespace NHS111.Business.DOS.Test
     public class InHoursClock : IClock
     {
         // Thurs 17 Nov 10am
-        public DateTime Now { get { return new DateTime(2016, 11, 17, 10, 0, 0); } } 
+        public DateTime Now { get { return new DateTime(2016, 11, 17, 10, 0, 0); } }
     }
 
     public class OutOfHoursClock : IClock

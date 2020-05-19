@@ -1,16 +1,16 @@
 ﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Business.DOS.DispositionMapper;
-using RestSharp;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Business.DOS.WhiteListPopulator
 {
-    public class WhiteListManager: IWhiteListManager
+    public class WhiteListManager : IWhiteListManager
     {
         private readonly IDispositionMapper _dispositionMapper;
-        private readonly IRestClient _restCCGApi;
+        private readonly ILoggingRestClient _restCCGApi;
         private readonly IConfiguration _configuration;
 
-        public WhiteListManager(IDispositionMapper dispositionMapper, IRestClient restClient, IConfiguration configuration)
+        public WhiteListManager(IDispositionMapper dispositionMapper, ILoggingRestClient restClient, IConfiguration configuration)
         {
             _dispositionMapper = dispositionMapper;
             _restCCGApi = restClient;

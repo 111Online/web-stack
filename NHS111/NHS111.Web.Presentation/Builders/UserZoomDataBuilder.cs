@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web;
 using System.Web;
 using System.Web.Mvc;
-using NHS111.Models.Models.Web;
+using System.Web.Routing;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -16,7 +16,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public void SetFieldsForOutcome(JourneyViewModel model)
         {
-            UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            UrlHelper urlHelper = new UrlHelper();
 
             var outcomeGroup = model.OutcomeGroup == null ? "NoGroup" : urlHelper.Encode(model.OutcomeGroup.Text);
             var url = string.Format("outcome/{0}/{1}/{2}/disposition/", urlHelper.Encode(model.PathwayNo), outcomeGroup, urlHelper.Encode(model.Id));
@@ -56,7 +56,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private static string GetQuestionUrl(JourneyViewModel model)
         {
-            UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            UrlHelper urlHelper = new UrlHelper();
 
             return string.Format("{0}/{1}/{2}/", urlHelper.Encode(model.PathwayId), urlHelper.Encode(model.PathwayTitle), urlHelper.Encode(model.QuestionNo));
         }

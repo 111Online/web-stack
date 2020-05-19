@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Web.Functional.Utils;
+﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
@@ -26,7 +21,7 @@ namespace NHS111.Web.Functional.Tests
             getTextMessagesPage.VerifyPageContent();
 
             var questionPage = getTextMessagesPage.NextPage();
-            var verifySmsPage =  questionPage.AnswerSMSPhoneNumberAndSubmit(mobileNumber);
+            var verifySmsPage = questionPage.AnswerSMSPhoneNumberAndSubmit(mobileNumber);
             verifySmsPage.VerifyPageContent();
 
             var enterVerificationCodeSmsPage = verifySmsPage.Submit();
@@ -36,8 +31,8 @@ namespace NHS111.Web.Functional.Tests
             questionPage = questionPage.EnterSMSAgeAndSubmit(age);
             questionPage = questionPage.EnterDaysSinceSymptomsStartedAndSubmit(daysSinceSymptomsStarted);
             var registrationPage = questionPage.AnswerDoYouLiveAloneAndSubmit(livesAlone);
-            
-            registrationPage.VerifyPageContent(mobileNumber, age.ToString(), daysSinceSymptomsStarted.ToString() + " days ago", 
+
+            registrationPage.VerifyPageContent(mobileNumber, age.ToString(), daysSinceSymptomsStarted.ToString() + " days ago",
                 livesAlone ? "Yes" : "No");
         }
     }

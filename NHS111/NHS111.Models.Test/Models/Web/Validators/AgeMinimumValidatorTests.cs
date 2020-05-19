@@ -1,9 +1,9 @@
-﻿using System;
-using Moq;
+﻿using Moq;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Validators;
 using NUnit.Framework;
+using System;
 
 namespace NHS111.Models.Test.Models.Web.Validators
 {

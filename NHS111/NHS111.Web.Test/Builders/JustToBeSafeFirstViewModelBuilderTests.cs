@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.Parser;
-using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using NHS111.Utils.RestTools;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders.Tests
@@ -22,7 +17,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
     public class JustToBeSafeFirstViewModelBuilderTests
     {
 
-        Mock<IRestClient> _restClient;
+        Mock<ILoggingRestClient> _restClient;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<IKeywordCollector> _keywordCollector;
@@ -49,7 +44,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void SetUp()
         {
 
-            _restClient = new Mock<IRestClient>();
+            _restClient = new Mock<ILoggingRestClient>();
             _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
             _keywordCollector = new Mock<IKeywordCollector>();
@@ -58,10 +53,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             _configuration.Setup(c => c.GetBusinessApiPathwayIdUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(MOCK_BusinessApiPathwayIdUrl);
             _configuration.Setup(c => c.GetBusinessApiJustToBeSafePartOneUrl(It.IsAny<string>())).Returns(MOCK_GetBusinessApiJustToBeSafePartOneUrl);
-            _configuration.Setup(c => c.GetBusinessApiFirstQuestionUrl(It.IsAny<string>(),It.IsAny<string>())).Returns(MOCK_GetBusinessApiFirstQuestionUrl);
+            _configuration.Setup(c => c.GetBusinessApiFirstQuestionUrl(It.IsAny<string>(), It.IsAny<string>())).Returns(MOCK_GetBusinessApiFirstQuestionUrl);
 
 
-            var pathwayJson = 
+            var pathwayJson =
                     "{'id':'" + testPathwayId + "'," +
                     "'title':'" + testPathwayTitle + "'," +
                     "'pathwayNo':'" + testPathwayNo + "'," +
@@ -74,7 +69,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             pathwayResponse.Setup(_ => _.IsSuccessful).Returns(true);
             pathwayResponse.Setup(_ => _.Data).Returns(pathway);
             pathwayResponse.Setup(_ => _.Content).Returns(pathwayJson);
-            _restClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
+            _restClient.Setup(r => r.ExecuteAsync<Pathway>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
                 .ReturnsAsync(pathwayResponse.Object);
 
 
@@ -83,7 +78,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             emptyQuestionListResponse.Setup(_ => _.IsSuccessful).Returns(true);
             emptyQuestionListResponse.Setup(_ => _.Data).Returns(emptyQuestionList);
             emptyQuestionListResponse.Setup(_ => _.Content).Returns("[]");
-            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiJustToBeSafePartOneUrl)))
+            _restClient.Setup(r => r.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiJustToBeSafePartOneUrl)))
                 .ReturnsAsync(emptyQuestionListResponse.Object);
 
 
@@ -99,7 +94,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             emptyQuestionWithAnswersResponse.Setup(_ => _.IsSuccessful).Returns(true);
             emptyQuestionWithAnswersResponse.Setup(_ => _.Data).Returns(questionWithAnswers);
             emptyQuestionWithAnswersResponse.Setup(_ => _.Content).Returns(questionWithAnswersJson);
-            _restClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiFirstQuestionUrl)))
+            _restClient.Setup(r => r.ExecuteAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiFirstQuestionUrl)))
                 .ReturnsAsync(emptyQuestionWithAnswersResponse.Object);
 
             _mappingEngine.Setup(m => m.Mapper).Returns(_mapper.Object);
@@ -109,17 +104,17 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 .Returns(testKeywordsCollection);
 
             _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restClient.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object);
-            
+
 
         }
 
         [Test()]
         public async void JustToBeSafeFirstBuilder_Builds_Pathways_Data_Test()
         {
-            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel(){UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = 22, Gender = testGender } }, PathwayNo = testPathwayNo});
+            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel() { UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = 22, Gender = testGender } }, PathwayNo = testPathwayNo });
             Assert.IsNotNull(result);
 
-            Assert.AreEqual(testPathwayTitle,result.Item2.PathwayTitle);
+            Assert.AreEqual(testPathwayTitle, result.Item2.PathwayTitle);
             Assert.AreEqual(testPathwayId, result.Item2.PathwayId);
             Assert.AreEqual(testPathwayNo, result.Item2.PathwayNo);
 

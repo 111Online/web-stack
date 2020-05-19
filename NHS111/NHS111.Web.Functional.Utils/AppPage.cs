@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class AppPage: LayoutPage, ISubmitPostcodeResult
+    public class AppPage : LayoutPage, ISubmitPostcodeResult
     {
 
         public AppPage(IWebDriver driver)

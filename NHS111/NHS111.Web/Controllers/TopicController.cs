@@ -1,32 +1,35 @@
 ﻿
+using NHS111.Utils.RestTools;
 using RestSharp;
 
-namespace NHS111.Web.Controllers {
+namespace NHS111.Web.Controllers
+{
+    using Models.Models.Domain;
+    using Models.Models.Web;
+    using Presentation.Configuration;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
-    using Models.Models.Domain;
-    using Models.Models.Web;
-    using Newtonsoft.Json;
-    using Presentation.Configuration;
-    using Utils.Helpers;
 
-    public class TopicController : Controller {
+    public class TopicController : Controller
+    {
 
-        public TopicController(IRestClient restClientBusinessApi, IConfiguration configuration) {
+        public TopicController(ILoggingRestClient restClientBusinessApi, IConfiguration configuration)
+        {
             _restClientBusinessApi = restClientBusinessApi;
             _configuration = configuration;
         }
 
-        public async Task<ActionResult> Search(string q, string gender, int age) {
+        public async Task<ActionResult> Search(string q, string gender, int age)
+        {
             var ageGroup = new AgeCategory(age);
             var url = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(new RestRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(new RestRequest(url, Method.GET)).ConfigureAwait(false);
 
             return View(new SearchJourneyViewModel { Results = response.Data });
         }
 
-        private readonly IRestClient _restClientBusinessApi;
+        private readonly ILoggingRestClient _restClientBusinessApi;
         private readonly IConfiguration _configuration;
     }
 

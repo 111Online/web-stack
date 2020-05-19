@@ -1,10 +1,9 @@
-﻿using System;
+﻿using NHS111.Models.Models.Business.PathwaySearch;
+using NHS111.Models.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using NHS111.Models.Models.Business.PathwaySearch;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Business.Services
 {
@@ -19,7 +18,7 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<PathwaySearchResult>> Filter(IEnumerable<PathwaySearchResult> resultsToFilter, IDictionary<string, string> parameters)
         {
-            if(!parameters.ContainsKey("postcode")) throw new ArgumentException("Requires postcode key param");
+            if (!parameters.ContainsKey("postcode")) throw new ArgumentException("Requires postcode key param");
 
             var ccg = await _ccgService.FillCCGDetailsModel(parameters["postcode"]);
             var results = resultsToFilter;
@@ -34,7 +33,7 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<CategoryWithPathways>> Filter(IEnumerable<CategoryWithPathways> resultsToFilter, IDictionary<string, string> parameters)
         {
-            if(!parameters.ContainsKey("postcode")) throw new ArgumentException("Requires postcode key param");
+            if (!parameters.ContainsKey("postcode")) throw new ArgumentException("Requires postcode key param");
 
             var ccg = await _ccgService.FillCCGDetailsModel(parameters["postcode"]);
             var results = resultsToFilter;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Configuration;
-using NHS111.Web.Functional.Utils.ScreenShot;
-using System.Drawing;
-using NHS111.Features;
+﻿using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
+using System.Configuration;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -45,7 +43,7 @@ namespace NHS111.Web.Functional.Utils
             if (TestContext.CurrentContext.Result.Status != TestStatus.Failed) return;
 
             //output the failed screenshot to results screen in Team City
-            if(!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
+            if (!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
                 ScreenShotMaker.MakeScreenShot(Driver.GetCurrentImageUniqueId());
             Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test screen' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
         }

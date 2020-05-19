@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.ComponentModel;
 
 namespace NHS111.Functional.Tests.Tools
 {
@@ -34,7 +34,7 @@ namespace NHS111.Functional.Tests.Tools
                     AssertValidCheckServiceDetailsByIdResponseSchema(result);
                     break;
                 default:
-                    throw new InvalidEnumArgumentException(string.Format("{0}{1}{2}","ResponseSchemaType of ", schemaType.ToString(), "is unsupported"));
+                    throw new InvalidEnumArgumentException(string.Format("{0}{1}{2}", "ResponseSchemaType of ", schemaType.ToString(), "is unsupported"));
             }
         }
 

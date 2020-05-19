@@ -40,7 +40,7 @@
 //                PathwayNo = "PathwayNo",
 //                Title = "Title"
 //            }; 
-           
+
 //            //Act
 //            var result = PathwaysComparer.Equals(UniquePathway1, UniquePathway2);
 
@@ -404,7 +404,7 @@
 //            Assert.That(UniquePathway.PathwayNo, Is.EqualTo(""));
 //            Assert.That(UniquePathway.Title, Is.EqualTo("Title"));
 //            Assert.That(result, Is.EqualTo(UniquePathway.PathwayNo.GetHashCode() ^ UniquePathway.Title.GetHashCode()));
-            
+
 //        }
 
 //        [Test]

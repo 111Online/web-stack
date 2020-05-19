@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using NHS111.Web.Presentation.Builders;
+﻿using NHS111.Web.Presentation.Builders;
+using NUnit.Framework;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {

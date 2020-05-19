@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Web.FromExternalServices;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Business.Question
 {

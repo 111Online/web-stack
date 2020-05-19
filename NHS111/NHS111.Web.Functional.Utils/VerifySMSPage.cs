@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -11,9 +6,9 @@ namespace NHS111.Web.Functional.Utils
 {
     public class VerifySMSPage : LayoutPage
     {
-        [FindsBy(How = How.Id, Using= "book-call")]
+        [FindsBy(How = How.Id, Using = "book-call")]
         public IWebElement SendCodeButton { get; set; }
-        
+
         [FindsBy(How = How.ClassName, Using = "nhsuk-heading-l")]
         public IWebElement HeadingElement { get; set; }
 

@@ -1,41 +1,49 @@
 ﻿namespace NHS111.DOS.Functional.Tests
 {
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.IO;
-    using OpenQA.Selenium;
-    using OpenQA.Selenium.Chrome;
 
-    public class BaseTests {
+    public class BaseTests
+    {
         public IWebDriver Driver;
 
-        public BaseTests() {
+        public BaseTests()
+        {
             Driver = new ChromeDriver();
         }
 
-        ~BaseTests() {
-            try {
+        ~BaseTests()
+        {
+            try
+            {
                 Driver.Quit();
                 Driver.Dispose();
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 // Ignore errors if unable to close the browser
             }
         }
 
-        public void SaveScreenAsPNG(string filename) {
+        public void SaveScreenAsPNG(string filename)
+        {
             var screenshotDriver = Driver as ITakesScreenshot;
             var screenshot = screenshotDriver.GetScreenshot();
             screenshot.SaveAsFile(Path.Combine("C:\\", filename + ".png"));
         }
 
-        protected string EncryptArgs(Dictionary<string, string> args) {
+        protected string EncryptArgs(Dictionary<string, string> args)
+        {
             var key = ConfigurationManager.AppSettings["QueryStringEncryptionKey"];
             var bytes = ConfigurationManager.AppSettings["QueryStringEncryptionBytes"];
 
             var encryptor = new QueryStringEncryptor(key, bytes);
-            foreach (var arg in args) {
+            foreach (var arg in args)
+            {
                 encryptor.Add(arg.Key, arg.Value);
             }
 

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using NHS111.Business.Configuration;
+﻿using NHS111.Business.Configuration;
 using NHS111.Utils.Monitoring;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Monitoring
 {
@@ -11,10 +11,10 @@ namespace NHS111.Business.Monitoring
 
     public class Monitor : BaseMonitor
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public Monitor(IRestClient restClientDomainApi, IConfiguration configuration)
+        public Monitor(ILoggingRestClient restClientDomainApi, IConfiguration configuration)
         {
             _restClient = restClientDomainApi;
             _configuration = configuration;
@@ -29,16 +29,17 @@ namespace NHS111.Business.Monitoring
         {
             try
             {
-                var health = await _restClient.ExecuteTaskAsync<bool>(new JsonRestRequest(_configuration.GetDomainApiMonitorHealthUrl(), Method.GET));
+                var health = await _restClient.ExecuteAsync<bool>(new JsonRestRequest(_configuration.GetDomainApiMonitorHealthUrl(), Method.GET));
                 return health.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        public override string Version() {
+        public override string Version()
+        {
             return Assembly.GetCallingAssembly().GetName().Version.ToString();
         }
     }

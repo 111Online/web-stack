@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Nest;
+using NHS111.Business.Configuration;
+using NHS111.Models.Models.Business.PathwaySearch;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nest;
-using NHS111.Business.Configuration;
-using NHS111.Models.Models.Business.PathwaySearch;
 
 namespace NHS111.Business.Services
 {
@@ -41,7 +41,7 @@ namespace NHS111.Business.Services
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
                     BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query), bodytagsResponse.Hits)
                 );
-            
+
             var highlightedResults = BuildHighlights(res.Hits, highlight);
 
             return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
@@ -49,14 +49,14 @@ namespace NHS111.Business.Services
 
         public async Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score)
         {
-            
+
             var bodytagsResponse = await _elastic.SearchAsync<BodytagResult>(s => BuildBodytagsQuery(s.Index("bodytags"), Uri.UnescapeDataString(query)));
 
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
                 AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query), bodytagsResponse.Hits), gender, ageGroup));
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
-            
+
             return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
         }
 
@@ -102,8 +102,9 @@ namespace NHS111.Business.Services
             return hits.Select(h => h.Source);
         }
 
-        private string TitleOrHighLight(string title, IReadOnlyCollection<string> highlights) {
-            var highlightedTitle = highlights.FirstOrDefault(t=> title == PathwaySearchResult.StripHighlightMarkup(t));
+        private string TitleOrHighLight(string title, IReadOnlyCollection<string> highlights)
+        {
+            var highlightedTitle = highlights.FirstOrDefault(t => title == PathwaySearchResult.StripHighlightMarkup(t));
             return highlightedTitle != null ? highlightedTitle : title;
         }
 
@@ -111,7 +112,7 @@ namespace NHS111.Business.Services
             SearchDescriptor<BodytagResult> searchDescriptor, string query)
         {
             var bodytagQuery = searchDescriptor.Query(q => q
-                .MultiMatch(m => 
+                .MultiMatch(m =>
                     m.Query(query)
                     .Fields(f => f.Field("tag"))
                 ));
@@ -143,9 +144,9 @@ namespace NHS111.Business.Services
                                     AddPhraseMatchQuery(query, 10),
                                     AddFuzzyTitleAndDescriptionMatchQuery(query, 0.1),
                                     AddFuzzyPhraseMatchQuery(query, 0.1)
-                                    
+
                                 )
-                                
+
                                 .MinimumShouldMatch(1)
                             ))
                         .Negative(n => n
@@ -177,7 +178,7 @@ namespace NHS111.Business.Services
                             .Value(query)
                         )
                     ).Boost(boostScore)
-                                          
+
                     .ScoreMode(ChildScoreMode.Sum)
                 );
         }
@@ -201,9 +202,9 @@ namespace NHS111.Business.Services
 
         private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddPhraseMatchQuery(string query, double boostScore)
         {
-            return s => s.HasChild<PathwayPhraseResult>(c => 
-                c.Query(q2 => 
-                    q2.Match(m => 
+            return s => s.HasChild<PathwayPhraseResult>(c =>
+                c.Query(q2 =>
+                    q2.Match(m =>
                         m.Field("CommonPhrase")
                             .Query(query)
                             .Boost(boostScore)
@@ -214,7 +215,7 @@ namespace NHS111.Business.Services
                 );
         }
 
-        private  Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddPhoneticsMatchQuery(string query)
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddPhoneticsMatchQuery(string query)
         {
             return s => s.MultiMatch(m =>
                 m.Fields(f => f
@@ -311,5 +312,5 @@ namespace NHS111.Business.Services
         Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score);
         Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score);
     }
-    
+
 }

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web;
+using NHS111.Web.Presentation.Builders;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Web;
-using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
 {
@@ -19,7 +17,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitFeedback(FeedbackViewModel feedbackData)
         {
-            var model = await _feedbackViewModelBuilder.FeedbackResultBuilder(feedbackData);
+            var model = await _feedbackViewModelBuilder.FeedbackResultBuilder(feedbackData).ConfigureAwait(false);
             return Content(model.Message, "text/html");
         }
     }

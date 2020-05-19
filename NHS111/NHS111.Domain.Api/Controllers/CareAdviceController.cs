@@ -1,16 +1,13 @@
-﻿using System.Net.Http;
+﻿using NHS111.Domain.Repository;
+using NHS111.Utils.Attributes;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using NHS111.Domain.Repository;
-using NHS111.Utils.Attributes;
-using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Api.Controllers
 {
-    using System.Collections.Generic;
-    using System.Configuration;
     using Models.Models.Domain;
+    using System.Collections.Generic;
 
     [LogHandleErrorForApi]
     public class CareAdviceController : ApiController
