@@ -25,7 +25,10 @@
 {
 
     @Html.Partial("_CommonHiddenFieldsNode", Model)
-    <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())" />
+    if (@Model.Answers.Any())
+    {
+        <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())"/>
+    }
 
     if (DirectLinkingFeature.IsEnabled)
     {
