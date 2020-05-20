@@ -19,6 +19,7 @@ namespace NHS111.Web.Functional.Tests.Covid
 
             var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "6")
                 .Answer(2) // no
+                .Answer(3) // no
                 .Answer(1) // yes
                 .Answer(3) // no
                 .Answer(3) // no
@@ -45,6 +46,7 @@ namespace NHS111.Web.Functional.Tests.Covid
 
             var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "6")
                 .Answer(2) // no
+                .Answer(3) // no
                 .Answer(1) // yes
                 .Answer(3) // no
                 .Answer(3) // no
