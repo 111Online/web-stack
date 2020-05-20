@@ -25,8 +25,8 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyDispositionCode(dispositionCode);
         }
 
-        [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "PX119.0.PW1851.0", TestName = "NotCovidPregnancyDisposition Female Adult")]
-        [TestCase(TestScenerioSex.Female, 11, "PX120.0.PW1852.0", TestName = "NotCovidPregnancyDisposition Female Child")]
+        [TestCase(TestScenerioSex.Female, 54, "PX113.3.PW1851.3", TestName = "NotCovidPregnancyDisposition Pregnancy Female Adult")]
+        [TestCase(TestScenerioSex.Female, 11, "PX117.1.PW1852.1", TestName = "NotCovidPregnancyDisposition Pregnancy Female Child")]
         public void NotCovidPregnancyDisposition(string gender, int ageGroup, string dispositionCode)
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, gender, ageGroup, "LS17 7NZ");
@@ -34,7 +34,24 @@ namespace NHS111.Web.Functional.Tests
 
             var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "2")
                 .Answer(2) // no
-                .Answer<OutcomePage>(2); // no
+                .Answer(2) // no
+                .Answer(3) // no
+                .Answer(3) // no
+                .Answer<OutcomePage>(3); // no
+
+            outcomePage.VerifyDispositionCode(dispositionCode);
+        }
+
+        [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "PX119.0.PW1851.0", TestName = "CovidFeverPregnancyDisposition Female Adult")]
+        [TestCase(TestScenerioSex.Female, 11, "PX120.0.PW1852.0", TestName = "CovidFeverPregnancyDisposition Female Child")]
+        public void CovidFeverPregnancyDisposition(string gender, int ageGroup, string dispositionCode)
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, gender, ageGroup, "LS17 7NZ");
+            var questionPage = searchPage.ClickBannerDirectLink();
+
+            var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "2")
+                .Answer(1) // yes
+                .Answer<OutcomePage>(1); // yes
 
             outcomePage.VerifyDispositionCode(dispositionCode);
         }
