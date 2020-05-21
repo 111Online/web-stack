@@ -24,7 +24,7 @@ namespace NHS111.Web.Presentation.Filters
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var result = filterContext.Result as ViewResultBase;
-            if (result == null)
+            if (result == null || result.Model == null)
                 return;
 
             var model = result.Model as JourneyViewModel;
