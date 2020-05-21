@@ -445,15 +445,20 @@ namespace NHS111.Web.Functional.Tests
                 "Your answers suggest you need urgent attention for your dental problem within 4 hours");
             outcomePage.FindAService();
             Driver.FindElement(By.XPath("//input[@value = '2000014914']"));
-            var personalDetailsPage = outcomePage.UseThisService("0");
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.SelectMe();
-            personalDetailsPage.EnterForenameAndSurname("Dx18 first", "Dx18 last");
-            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
-            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            var personalDetailsInFormantPage = outcomePage.UseThisService("0");
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectMe();
+
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterForenameAndSurname("Dx18 first", "Dx18 last");
+            personalDetailsNamePage.VerifyNameDisplayed();
+
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
             personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
@@ -467,7 +472,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
 
-            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            var confirmDetails = atHomePage.SubmitAtHome();
             confirmDetails.VerifyHeading("Check details");
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
