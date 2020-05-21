@@ -31,7 +31,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectMe();
-            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
 
             var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
             dateofBirthPage.VerifyDateOfBirthDisplayed();
@@ -64,7 +64,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
-            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
 
             var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
@@ -99,7 +99,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
             
             personalDetailsPage.SelectMe();
-            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
 
             var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
             dateofBirthPage.VerifyDateOfBirthDisplayed();
@@ -134,7 +134,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
-            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
 
             var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
@@ -169,7 +169,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
-            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
 
             var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
