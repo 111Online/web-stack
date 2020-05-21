@@ -1,12 +1,16 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace NHS111.Web.Functional.Utils
 {
     public class PersonalDetailsPage : LayoutPage
     {
+        const string patientForename = "Forename";
+        const string patientSurname = "Surname";
 
         [FindsBy(How = How.Id, Using = "FindService_CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
@@ -29,16 +33,20 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyNameDisplayed()
         {
-            var nameHeading = SectionHeadings[0];
-            Assert.IsTrue(nameHeading.Displayed);
-            Assert.AreEqual("Who needs help?", nameHeading.Text);
+            var forename = Driver.FindElement(By.Id(patientForename));
+            var surname = Driver.FindElement(By.Id(patientSurname));
+            Assert.IsTrue(forename.Displayed);
+            Assert.IsTrue(surname.Displayed);
+            Assert.IsFalse(String.IsNullOrEmpty(forename.GetAttribute("value")));
+            Assert.IsFalse(String.IsNullOrEmpty(surname.GetAttribute("value")));
         }
 
         public void VerifyDateOfBirthDisplayed()
         {
-            var nameHeading = SectionHeadings[1];
-            Assert.IsTrue(nameHeading.Displayed);
-            Assert.IsTrue(nameHeading.Text == "Date of birth");
+            string expectedDateOfBirthSectionHeading = "What is your date of birth?";
+            var datOfBirthSectionHeading = SectionHeadings[0];
+            Assert.IsTrue(datOfBirthSectionHeading.Displayed);
+            Assert.IsTrue(datOfBirthSectionHeading.Text == expectedDateOfBirthSectionHeading);
         }
 
         public void VerifyNumberDisplayed()
@@ -55,6 +63,13 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(nameHeading.Text == "What number should we call?");
         }
 
+        public void VerifyWhoNeedsHelpDisplayed()
+        {
+            var nameHeading = SectionHeadings[0];
+            Assert.IsTrue(nameHeading.Displayed);
+            Assert.IsTrue(nameHeading.Text == "Who needs help?");
+        }
+
         public void SelectMe()
         {
             Driver.FindElement(By.Id("Informant_Self")).Click();
@@ -68,17 +83,10 @@ namespace NHS111.Web.Functional.Utils
         public void EnterPatientName(string forename, string surname)
         {
             // For first party
-            if (Driver.FindElement(By.Id("PatientInformantDetails_SelfName_Forename")).Displayed)
+            if (Driver.FindElement(By.Id(patientForename)).Displayed)
             {
-                Driver.FindElement(By.Id("PatientInformantDetails_SelfName_Forename")).SendKeys(forename);
-                Driver.FindElement(By.Id("PatientInformantDetails_SelfName_Surname")).SendKeys(surname);
-            }
-
-            // For third party
-            if (Driver.FindElement(By.Id("PatientInformantDetails_PatientName_Forename")).Displayed)
-            {
-                Driver.FindElement(By.Id("PatientInformantDetails_PatientName_Forename")).SendKeys(forename);
-                Driver.FindElement(By.Id("PatientInformantDetails_PatientName_Surname")).SendKeys(surname);
+                Driver.FindElement(By.Id(patientForename)).SendKeys(forename);
+                Driver.FindElement(By.Id(patientSurname)).SendKeys(surname);
             }
         }
 
@@ -97,22 +105,17 @@ namespace NHS111.Web.Functional.Utils
         {
             Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
         }
-
-        public void EnterPhoneNumberOnSeparatePage(string phone)
+        public void EnterDateOfBirth(string date, string month, string year)
         {
-            Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
+            Driver.FindElement(By.Id("Day")).SendKeys(date);
+            Driver.FindElement(By.Id("Month")).SendKeys(month);
+            Driver.FindElement(By.Id("Year")).SendKeys(year);
         }
 
         public PersonalDetailsPage SubmitPersonalDetails()
         {
             Driver.FindElement(By.Id("submitDetails")).Click();
             return new PersonalDetailsPage(Driver);
-        }
-
-        public YourNamePage SubmitInformantDetails()
-        {
-            Driver.FindElement(By.Id("submitDetails")).Click();
-            return new YourNamePage(Driver);
         }
         public DateOfBirthPage SubmitNameDetails()
         {
@@ -161,6 +164,11 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyThirdPartyBannerNotDisplayed()
         {
             Assert.False(Driver.ElementExists(By.Id("confirm-details-third-party")));
+        }
+
+        public void VerifyIsPersonalDetailsPage()
+        {
+            VerifyHeading("Enter details");
         }
 
         public void TypeHomePostcode(string postcode)
