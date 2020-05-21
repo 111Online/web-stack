@@ -148,9 +148,15 @@ namespace NHS111.Web.Functional.Tests
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)
-                .AnswerSuccessiveByOrder(3, 3)
-                .Answer(5)
-                .AnswerSuccessiveByOrder(3, 6)
+                .Answer(3)
+                .Answer(3)
+                .AnswerSuccessiveByOrder(3, 5)
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
                 .Answer<OutcomePage>(3);
 
             outcomePage.VerifyFindService(FindServiceTypes.Midwife);
@@ -160,15 +166,34 @@ namespace NHS111.Web.Functional.Tests
             //need to select DoS ID 2000006999
             Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
 
-            var personalDetailsPage = outcomePage.UseThisService("1");
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.SelectMe();
-            personalDetailsPage.EnterPatientName("Dx30 first", "Dx30 last");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
+            //var personalDetailsPage = outcomePage.UseThisService("1");
+            //personalDetailsPage.VerifyIsPersonalDetailsPage();
+            //personalDetailsPage.SelectMe();
+            //personalDetailsPage.EnterPatientName("Dx30 first", "Dx30 last");
+            //personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            //personalDetailsPage.VerifyNameDisplayed();
+            //personalDetailsPage.VerifyDateOfBirthDisplayed();
 
-            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            //var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            //personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            //personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            //var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            //currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var personalDetailsInFormantPage = outcomePage.UseThisService("1");
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectMe();
+
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterPatientName("Dx30 first", "Dx30 last");
+            personalDetailsNamePage.VerifyNameDisplayed();
+
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
             personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
@@ -182,7 +207,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
 
-            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            var confirmDetails = atHomePage.SubmitAtHome();
             confirmDetails.VerifyHeading("Check details");
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();

@@ -207,6 +207,7 @@ namespace NHS111.Web.Functional.Utils
                 string.Format("Possible unexpected Id. Expected Id text of '{0}' but was '{1}'.",
                     expectedId, secondSectionId));
         }
+
         public void VerifyCallConfirmation(int duration, string unitOfTime)
         {
             string heading = "Your call is confirmed";
