@@ -25,7 +25,10 @@
 {
 
     @Html.Partial("_CommonHiddenFieldsNode", Model)
-    <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())" />
+    if (@Model.Answers.Any())
+    {
+        <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())"/>
+    }
 
     if (DirectLinkingFeature.IsEnabled)
     {
@@ -41,7 +44,7 @@
         <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">@Model.NextButtonText</button>
     }
 
-    if (!Model.IsFirstStep)
+    if (!Model.IsFirstStep && Model.Answers.Any())
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Previous question</button>
     }
