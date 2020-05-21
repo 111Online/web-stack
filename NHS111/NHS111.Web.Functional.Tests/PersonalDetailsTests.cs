@@ -31,6 +31,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
 
             var yourNamePage = personalDetailsPage.SubmitInformantDetails();
             yourNamePage.EnterYourName("Test1", "Tester1");
@@ -66,6 +67,8 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
 
             var yourNamePage = personalDetailsPage.SubmitInformantDetails();
             yourNamePage.EnterYourName("Test1", "Tester1");
@@ -105,8 +108,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
             
             personalDetailsPage.SelectMe();
-            var yourNamePage = personalDetailsPage.SubmitInformantDetails();
-            yourNamePage.EnterYourName("Test1", "Tester1");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
 
             var dateofBirthPage = yourNamePage.SubmitYourNameDetails();
             dateofBirthPage.VerifyDateOfBirthDisplayed();
@@ -141,11 +143,8 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
-            var yourNamePage = personalDetailsPage.SubmitInformantDetails();
-            yourNamePage.EnterYourName("Test1", "Tester1");
-
-            var theirNamePage = yourNamePage.SubmitYourNameAsInformant();
-            theirNamePage.EnterTheirName("Test2", "Tester2");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
 
             var dateofBirthPage = theirNamePage.SubmitTheirNameDetails();
             dateofBirthPage.VerifyDateOfBirthDisplayed();
@@ -179,11 +178,8 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
-            var yourNamePage = personalDetailsPage.SubmitInformantDetails();
-            yourNamePage.EnterYourName("Test1", "Tester1");
-
-            var theirNamePage = yourNamePage.SubmitYourNameAsInformant();
-            theirNamePage.EnterTheirName("Test2", "Tester2");
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
 
             var dateofBirthPage = theirNamePage.SubmitTheirNameDetails();
             dateofBirthPage.VerifyDateOfBirthDisplayed();

@@ -80,7 +80,7 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(By.Id("Informant_ThirdParty")).Click();
         }
 
-        public void EnterPatientName(string forename, string surname)
+        public void EnterForenameAndSurname(string forename, string surname)
         {
             // For first party
             if (Driver.FindElement(By.Id(patientForename)).Displayed)
@@ -105,11 +105,20 @@ namespace NHS111.Web.Functional.Utils
         {
             Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
         }
+
         public void EnterDateOfBirth(string date, string month, string year)
         {
             Driver.FindElement(By.Id("Day")).SendKeys(date);
             Driver.FindElement(By.Id("Month")).SendKeys(month);
             Driver.FindElement(By.Id("Year")).SendKeys(year);
+        }
+
+        public void VerifyDateOfBirthByInformantDisplayed()
+        {
+            string expectedDateOfBirthSectionHeading = "What is their date of birth?";
+            var datOfBirthSectionHeading = SectionHeadings[0];
+            Assert.IsTrue(datOfBirthSectionHeading.Displayed);
+            Assert.IsTrue(datOfBirthSectionHeading.Text == expectedDateOfBirthSectionHeading);
         }
 
         public PersonalDetailsPage SubmitPersonalDetails()
