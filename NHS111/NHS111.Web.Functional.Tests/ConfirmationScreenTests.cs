@@ -494,15 +494,31 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyOutcome("Book a call with a 111 nurse now");
             Driver.FindElement(By.XPath("//input[@value = '2000004969']"));
 
+            // var personalDetailsPage = outcomePage.ClickBookCallback();
+            // personalDetailsPage.VerifyIsPersonalDetailsPage();
+            // personalDetailsPage.SelectMe();
+            // personalDetailsPage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
+            // personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
+            // personalDetailsPage.VerifyNameDisplayed();
+            // personalDetailsPage.VerifyDateOfBirthDisplayed();
+            //
+            // var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            // personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            // personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
             var personalDetailsPage = outcomePage.ClickBookCallback();
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.SelectMe();
-            personalDetailsPage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
-            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
-            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            var personalDetailsNamePage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
+            personalDetailsNamePage.VerifyNameDisplayed();
+
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
             personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
