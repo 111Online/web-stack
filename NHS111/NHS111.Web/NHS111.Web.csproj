@@ -299,7 +299,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
-    <Content Include="Views\PersonalDetails\PersonalDetails.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -412,7 +411,6 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
     <Content Include="Views\Shared\_AlternativeServices.cshtml" />
-    <Content Include="Views\Shared\_InformantDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceBookingUnavailable.cshtml" />
     <Content Include="Views\Outcome\DuplicateBookingFailure.cshtml" />
     <Content Include="Views\Shared\_CallbackServices.cshtml" />
@@ -547,6 +545,9 @@
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\Confirmation.cshtml" />
     <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
     <Content Include="Views\PersonalDetails\DateOfBirth.cshtml" />
+    <Content Include="Views\PersonalDetails\PatientName.cshtml" />
+    <Content Include="Views\PersonalDetails\InformantName.cshtml" />
+    <Content Include="Views\PersonalDetails\InformantType.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

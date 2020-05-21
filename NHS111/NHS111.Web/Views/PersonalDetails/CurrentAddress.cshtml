@@ -39,7 +39,7 @@
     <div class="nhsuk-core">
         @{
             string heading;
-            var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+            var self = Model.Informant.InformantType == InformantType.Self;
             if (Model.OutcomeGroup.IsCoronaVirusCallback)
             {
                 heading = self ? "Where will you self-isolate (stay inside)?" : "Where will they self-isolate (stay inside)?";

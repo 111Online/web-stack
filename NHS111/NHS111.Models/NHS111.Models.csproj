@@ -249,6 +249,8 @@
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
     <Compile Include="Models\Web\PersonalDetails\DateOfBirthViewModel.cs" />
+    <Compile Include="Models\Web\PersonalDetails\InformantTypeViewModel.cs" />
+    <Compile Include="Models\Web\PersonalDetails\PersonViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
@@ -355,9 +357,7 @@
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />
-    <Compile Include="Models\Web\Validators\InformantForenameValidator.cs" />
-    <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
-    <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\InformantTypeValidator.cs" />
     <Compile Include="Models\Web\Validators\IPostcodeAllowedValidator.cs" />
     <Compile Include="Models\Web\Validators\JourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\LocationInfoViewModelValidator.cs" />

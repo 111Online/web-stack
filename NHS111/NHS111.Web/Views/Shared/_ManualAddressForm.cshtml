@@ -6,7 +6,7 @@
 
 @if (Model.OutcomeGroup.IsCoronaVirus)
 {
-    title = (Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.ThirdParty) ? "Tell us the address where they will self-isolate" : "Tell us the address you plan to self-isolate in";
+    title = (Model.Informant.InformantType == NHS111.Models.Models.Web.InformantType.ThirdParty) ? "Tell us the address where they will self-isolate" : "Tell us the address you plan to self-isolate in";
 }
 
 <div class="nhsuk-core">

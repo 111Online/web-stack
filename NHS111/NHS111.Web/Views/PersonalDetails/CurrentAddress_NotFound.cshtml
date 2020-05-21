@@ -23,7 +23,7 @@
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "postcode-not-found-current-address"));
-    var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+    var self = Model.Informant.InformantType == InformantType.Self;
     var locationPostcode = (Model.AddressInformation.ChangePostcode != null && !string.IsNullOrEmpty(Model.AddressInformation.ChangePostcode.Postcode)) ? Model.AddressInformation.ChangePostcode.Postcode : Model.CurrentPostcode;
 }
 

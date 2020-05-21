@@ -33,7 +33,7 @@
     <h1 class="nhsuk-heading-l">Check details</h1>
 
     @{
-        var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
+        var isProxy = Model.Informant.IsInformantForPatient;
         var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
         var showSex = false;
 
@@ -42,10 +42,10 @@
         }
     }
 
-    @if (isProxy && !Model.OutcomeGroup.IsCoronaVirus)
+    @if (isProxy)
     {
         <div class="callout callout--info nhsuk-u-margin-bottom-4" id="confirm-details-third-party">
-            <p>We'll call your number. @Model.PatientInformantDetails.PatientName.Forename might have to answer some questions during the call.</p>
+            <p>We'll call your number. @Model.UserInfo.FirstName might have to answer some questions during the call.</p>
         </div>
     }
 
@@ -56,7 +56,7 @@
         <dl class="summary-list">
             <div>
                 <dt>Name</dt>
-                <dd>@Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</dd>
+                <dd>@Model.UserInfo.FirstName @Model.UserInfo.LastName</dd>
             </div>
 
             <div>
@@ -93,7 +93,7 @@
         <dl class="summary-list">
             <div>
                 <dt>Name</dt>
-                <dd>@Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</dd>
+                <dd>@Model.Informant.Forename @Model.Informant.Surname</dd>
             </div>
 
             <div>
@@ -141,7 +141,7 @@
         <dl class="summary-list">
             <div>
                 <dt>Your name</dt>
-                <dd>@Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</dd>
+                <dd>@Model.Informant.Forename @Model.Informant.Surname</dd>
             </div>
 
             <div>
@@ -153,7 +153,7 @@
         <dl class="summary-list nhsuk-u-margin-top-5">
             <div>
                 <dt>Who needs help</dt>
-                <dd>@Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</dd>
+                <dd>@Model.UserInfo.FirstName @Model.UserInfo.LastName</dd>
             </div>
 
             <div>
@@ -184,7 +184,7 @@
         <dl class="summary-list">
             <div>
                 <dt>Your name</dt>
-                <dd>@Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</dd>
+                <dd>@Model.Informant.Forename @Model.Informant.Surname</dd>
             </div>
 
             <div>
@@ -197,7 +197,7 @@
         <dl class="summary-list nhsuk-u-margin-top-5">
             <div>
                 <dt>Who needs help</dt>
-                <dd>@Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</dd>
+                <dd>@Model.UserInfo.FirstName @Model.UserInfo.LastName</dd>
             </div>
 
             <div>
