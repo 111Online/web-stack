@@ -1,4 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -6,12 +12,7 @@ using NHS111.Models.Models.Web.PersonalDetails;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using PersonViewModel = NHS111.Models.Models.Web.PersonalDetails.PersonViewModel;
 
 namespace NHS111.Web.Controllers
 {
@@ -45,8 +46,8 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
 
             _auditLogger.LogSelectedService(model);
-
-            return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+           
+            return View("~\\Views\\PersonalDetails\\InformantType.cshtml", new InformantTypeViewModel(model));
         }
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
@@ -136,7 +137,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult TelephoneNumber(DateOfBirthViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", model);
@@ -145,16 +145,67 @@ namespace NHS111.Web.Controllers
             return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", new TelephoneNumberViewModel(Mapper.Map<DateOfBirthViewModel, PersonalDetailViewModel>(model)));
         }
 
+
         [HttpPost]
-        public ActionResult DateOfBirth(PersonalDetailViewModel model)
+        public ActionResult DateOfBirth(PersonViewModel model)
         {
+           
 
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+                if (model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
+                    return View("~\\Views\\PersonalDetails\\PatientName.cshtml", model);
+
+                return View("~\\Views\\PersonalDetails\\InformantName.cshtml", model);
+            }
+            if (!model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
+            {
+                model.PersonalDetailsViewModel.UserInfo.FirstName = model.Forename;
+                model.PersonalDetailsViewModel.UserInfo.LastName = model.Surname;
             }
 
-            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model));
+            model.PersonalDetailsViewModel.Informant.Forename = model.Forename;
+            model.PersonalDetailsViewModel.Informant.Surname = model.Surname;
+        
+
+
+            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model.PersonalDetailsViewModel));
+        }
+
+        [HttpPost]
+        public ActionResult PatientName(InformantTypeViewModel model)
+        {
+            ModelState.Clear();
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\InformantType.cshtml", model);
+            }
+
+            if (model.InformantChanged) 
+                model.ClearInformantDetails();
+
+            model.PersonalDetailsViewModel.Informant.InformantType = model.Informant;
+            ModelState.Clear(); 
+            if(model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty) 
+                return View("~\\Views\\PersonalDetails\\InformantName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.UserInfo.FirstName, model.PersonalDetailsViewModel.UserInfo.LastName));
+           
+            return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.Informant.Forename, model.PersonalDetailsViewModel.Informant.Surname));
+        }
+
+        [HttpPost]
+        public ActionResult InformantName(PersonViewModel model)
+        {
+            ModelState.Clear(); 
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\InformantName.cshtml", model);
+            }
+            model.PersonalDetailsViewModel.UserInfo.FirstName = model.Forename;
+            model.PersonalDetailsViewModel.UserInfo.LastName = model.Surname;
+            if (model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty) 
+                return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.Informant.Forename, model.PersonalDetailsViewModel.Informant.Surname));
+
+            return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.UserInfo.FirstName, model.PersonalDetailsViewModel.UserInfo.LastName));
         }
 
 
@@ -164,7 +215,7 @@ namespace NHS111.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model.PersonalDetailsViewModel);
+                return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", model);
             }
             
             if (_emailCollectionFeature.IsEnabled && (model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus || model.PersonalDetailsViewModel.OutcomeGroup.RequiresEmail))

@@ -1,11 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
+using InformantType = NHS111.Models.Models.Web.InformantType;
 
 namespace NHS111.Models.Test.Mappers.WebMappings
 {
@@ -105,9 +106,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 Informant = new InformantViewModel()
-                {
-                    IsInformantForPatient = false
-                }
+                
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
@@ -155,7 +154,8 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    IsInformantForPatient = true
+                    InformantType = InformantType.ThirdParty
+                   
                 }
             };
 
@@ -255,7 +255,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    IsInformantForPatient = true
+                    InformantType = InformantType.ThirdParty
                 }
             };
 
@@ -303,7 +303,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    IsInformantForPatient = true
+                   InformantType = InformantType.ThirdParty
                 }
             };
 

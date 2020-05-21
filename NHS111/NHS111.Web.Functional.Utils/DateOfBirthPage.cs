@@ -27,7 +27,7 @@ namespace NHS111.Web.Functional.Utils {
         {
             var nameHeading = SectionHeadings[0];
             Assert.IsTrue(nameHeading.Displayed);
-            if (Driver.FindElement(By.Id("PersonalDetailsViewModel_PatientInformantDetails_Informant")).GetAttribute("value") == "Self")
+            if (Driver.FindElement(By.Id("PersonalDetailsViewModel_Informant_InformantType")).GetAttribute("value") == "Self")
             {
                 Assert.AreEqual(nameHeading.Text, "What is your date of birth?");
             } else

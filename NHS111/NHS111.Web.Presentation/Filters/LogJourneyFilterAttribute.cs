@@ -29,7 +29,15 @@ namespace NHS111.Web.Presentation.Filters
 
             var model = result.Model as JourneyViewModel;
             if (model == null)
-                return;
+            {
+                var journeyViewModelProperty = result.Model.GetType()
+                    .GetProperties().FirstOrDefault(p => typeof(JourneyViewModel).IsAssignableFrom(p.PropertyType));
+                if(journeyViewModelProperty != null) 
+                    model = journeyViewModelProperty.GetValue(result.Model) as JourneyViewModel;
+                else
+                    return; 
+            }
+        
 
             var pageName = !string.IsNullOrEmpty(result.ViewName)
                 ? result.ViewName

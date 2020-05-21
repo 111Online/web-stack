@@ -71,6 +71,8 @@
     <Compile Include="GetTextMessagesPage.cs" />
     <Compile Include="OtherServicesPage.cs" />
     <Compile Include="DateOfBirthPage.cs" />
+    <Compile Include="TheirNamePage.cs" />
+    <Compile Include="YourNamePage.cs" />
     <Compile Include="SendSMSRegistrationPage.cs" />
     <Compile Include="SurveyInterstitial.cs" />
     <Compile Include="ReferralExplanationPage.cs" />

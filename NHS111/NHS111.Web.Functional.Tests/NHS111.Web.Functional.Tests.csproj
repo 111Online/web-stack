@@ -76,6 +76,8 @@
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="PersonalDetailsTests.cs" />
+    <Compile Include="PersonalDetials\DirectLinkAppJumpToPersonalDetails.cs" />
+    <Compile Include="PersonalDetials\PersonalDetialsDirectLinkTest.cs" />
     <Compile Include="QuestionPageTests.cs" />
     <Compile Include="RecommendedServiceTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />
