@@ -77,12 +77,6 @@ namespace NHS111.Web.Functional.Utils
             return new QuestionPage(Driver);
         }
 
-        public CovidStayAtHomePage ClickStayAtHome()
-        {
-            StayHomeButton.Click();
-            return new CovidStayAtHomePage(Driver);
-        }
-
         public PersonalDetailsPage UseThisService(string id)
         {
             string elementId = $"details-summary-{id}";

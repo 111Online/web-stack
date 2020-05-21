@@ -37,19 +37,19 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.ClickCantGetAppointment();
             Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
 
-            //var personalDetailsPage = //??
-            var personalDetailsPage = outcomePage.UseThisGPService("0");
+            var personalDetailsInFormantPage = outcomePage.UseThisGPService("0");
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectMe();
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.SelectMe();
-            personalDetailsPage.EnterPatientName("Test1", "Tester1");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterPatientName("Test1", "Tester1");
+            personalDetailsNamePage.VerifyNameDisplayed();
 
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
 
-            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
             personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
@@ -64,7 +64,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
 
-            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            var confirmDetails = atHomePage.SubmitAtHome();
             confirmDetails.VerifyHeading("Check details");
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
