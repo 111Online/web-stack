@@ -148,15 +148,9 @@ namespace NHS111.Web.Functional.Tests
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)
-                .Answer(3)
-                .Answer(3)
-                .AnswerSuccessiveByOrder(3, 5)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
+                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(5)
+                .AnswerSuccessiveByOrder(3, 6)
                 .Answer<OutcomePage>(3);
 
             outcomePage.VerifyFindService(FindServiceTypes.Midwife);
@@ -627,18 +621,6 @@ namespace NHS111.Web.Functional.Tests
             var outcomeRejectionPage = outcomePage.RejectCallback();
             outcomeRejectionPage.VerifyHeader("Go to an emergency treatment centre urgently");
 
-            // var personalDetailsPage = outcomeRejectionPage.ClickBookCallback();
-            // personalDetailsPage.VerifyIsPersonalDetailsPage();
-            // personalDetailsPage.SelectSomeoneElse();
-            // personalDetailsPage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
-            // personalDetailsPage.EnterThirdPartyName("Test Carer", "Test Carer");
-            // personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
-            // personalDetailsPage.VerifyNameDisplayed();
-            // personalDetailsPage.VerifyDateOfBirthDisplayed();
-            //
-            // var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            // personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
-            // personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
             var personalDetailsInFormantPage = outcomePage.ClickBookCallback();
             personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
             personalDetailsInFormantPage.SelectSomeoneElse();
