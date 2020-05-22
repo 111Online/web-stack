@@ -378,11 +378,11 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsNamePage.EnterForenameAndSurname("Dx18 first", "Dx18 last");
             personalDetailsNamePage.VerifyNameDisplayed();
 
-            var personalDetailsInformantPage = personalDetailsNamePage.SubmitPersonalDetails();
-            personalDetailsInformantPage.EnterForenameAndSurname("Test Carer", "Test Carer");
-            personalDetailsInformantPage.VerifyNameDisplayed();
+            var personalDetailsInformantNamePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsInformantNamePage.EnterForenameAndSurname("Test Carer", "Test Carer");
+            personalDetailsInformantNamePage.VerifyNameDisplayed();
 
-            var personalDetailsAgePage = personalDetailsInformantPage.SubmitPersonalDetails();
+            var personalDetailsAgePage = personalDetailsInformantNamePage.SubmitPersonalDetails();
             personalDetailsAgePage.EnterDateOfBirth("01", "07", "1971");
             personalDetailsAgePage.VerifyDateOfBirthByInformantDisplayed();
 
@@ -493,11 +493,12 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyOutcome("Book a call with a 111 nurse now");
             Driver.FindElement(By.XPath("//input[@value = '2000004969']"));
 
-            var personalDetailsPage = outcomePage.ClickBookCallback();
-            personalDetailsPage.VerifyWhoNeedsHelpDisplayed();
-            personalDetailsPage.SelectMe();
+            var personalDetailsInFormantPage = outcomePage.ClickBookCallback();
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectMe();
 
-            var personalDetailsNamePage = personalDetailsPage.SubmitPersonalDetails();
+
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
             personalDetailsNamePage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
             personalDetailsNamePage.VerifyNameDisplayed();
 
@@ -519,7 +520,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
 
-            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            var confirmDetails = personalDetailsInFormantPage.SubmitAtHome();
             confirmDetails.VerifyHeading("Check details");
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
@@ -624,11 +625,11 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsNamePage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
             personalDetailsNamePage.VerifyNameDisplayed();
 
-            var personalDetailsInformantPage = personalDetailsNamePage.SubmitPersonalDetails();
-            personalDetailsInformantPage.EnterForenameAndSurname("Test Carer", "Test Carer");
-            personalDetailsInformantPage.VerifyNameDisplayed();
+            var personalDetailsInformantNamePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsInformantNamePage.EnterForenameAndSurname("Test Carer", "Test Carer");
+            personalDetailsInformantNamePage.VerifyNameDisplayed();
 
-            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            var personalDetailsAgePage = personalDetailsInformantNamePage.SubmitPersonalDetails();
             personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
             personalDetailsAgePage.VerifyDateOfBirthByInformantDisplayed();
 
