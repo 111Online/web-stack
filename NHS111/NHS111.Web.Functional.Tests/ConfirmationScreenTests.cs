@@ -657,6 +657,64 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", true);
         }
 
+        //Scenario 11
+        [Test]
+        public void ConfirmationScreenMentalHealthAdolescentMale()
+        {
+            string telNumber = GenerateTelephoneNumber();
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adolescent, "E173AX");
+
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(5)
+                .Answer(3)
+                .Answer(5)
+                .Answer(3)
+                .Answer(1)
+                .Answer<OutcomePage>(4);
+
+            outcomePage.VerifyOutcome("Get help from a mental health service within 4 hours");
+            Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
+
+            var personalDetailsInFormantPage = outcomePage.ClickBookCallback();
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectSomeoneElse();
+
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterForenameAndSurname("Dx92 first", "Dx92 last");
+            personalDetailsNamePage.VerifyNameDisplayed();
+
+            var personalDetailsInformantNamePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsInformantNamePage.EnterForenameAndSurname("Test Carer", "Test Carer");
+            personalDetailsInformantNamePage.VerifyNameDisplayed();
+
+            var personalDetailsAgePage = personalDetailsInformantNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsAgePage.VerifyDateOfBirthByInformantDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            var addressID = "55629068";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            currentAddressPage.ClickAddress(addressID);
+            currentAddressPage.VerifyHeading("Are they at home?");
+            currentAddressPage.SelectAtHomeNo();
+
+            var homePostcodePage = currentAddressPage.SubmitAtHome();
+            homePostcodePage.TypeHomePostcode("OX1 1DJ");
+
+            var confirmHomePostcodeDetails = homePostcodePage.SubmitHomePostcode();
+            confirmHomePostcodeDetails.VerifyHeading("Check details");
+
+            //need to submit call
+            var callConfirmationPage = confirmHomePostcodeDetails.SubmitCall();
+        }
+
         private string GenerateTelephoneNumber()
         {
             Random generator = new Random();
