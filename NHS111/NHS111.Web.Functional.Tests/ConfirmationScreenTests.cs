@@ -84,55 +84,65 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenPharmacy()
         {
-            // string telNumber = GenerateTelephoneNumber();
+            string telNumber = GenerateTelephoneNumber();
 
-            // var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or eyelid problems",
-            //     TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems",
+                TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
 
-            // questionPage.VerifyQuestion("What is the main problem?");
-            // var outcomePage = questionPage
-            //     .AnswerSuccessiveByOrder(3, 3)
-            //     .Answer(2)
-            //     .AnswerSuccessiveByOrder(3, 6)
-            //     .Answer(4)
-            //     .Answer<OutcomePage>(1);
+            questionPage.VerifyQuestion("What is the main problem?");
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(2)
+                .AnswerSuccessiveByOrder(3, 6)
+                .Answer(4)
+                .Answer<OutcomePage>(1);
 
-            // outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 24 hours");
+            outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 24 hours");
 
-            //need to insert clicking 'Find a pharmacy link'
-
+            //need to insert clicking 'Find a service link'
+            outcomePage.FindAService();
             //need to select DoS ID 2000014051
+            Driver.FindElement(By.XPath("//input[@value = '2000014051']"));
 
+            var personalDetailsInFormantPage = outcomePage.UseThisService("1");
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectMe();
 
-            //personalDetailsPage.VerifyIsPersonalDetailsPage();
-            //personalDetailsPage.VerifyNameDisplayed();
-            //personalDetailsPage.VerifyNumberDisplayed();
-            //personalDetailsPage.VerifyDateOfBirthDisplayed();
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsNamePage.VerifyNameDisplayed();
 
-            //personalDetailsPage.SelectMe();
-            //personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
 
-            //personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            //personalDetailsPage.EnterPhoneNumber(telNumber);
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
-            //var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
-            //currentAddressPage.VerifyHeading("Where are you right now?");
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
 
-            //var addressID = "5150786";
-            //currentAddressPage.VerifyAddressDisplays(addressID);
+            var addressID = "5150786";
+            currentAddressPage.VerifyAddressDisplays(addressID);
 
-            //var atHomePage = currentAddressPage.ClickAddress(addressID);
-            //atHomePage.VerifyHeading("Are you at home?");
-            //atHomePage.SelectAtHomeYes();
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
 
-            //var confirmDetails = personalDetailsPage.SubmitAtHome();
-            //confirmDetails.VerifyHeading("Check details");
+            var confirmDetails = atHomePage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
             //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(1, "hour", "Advice_CX220428-Adult-Male", "Eye discharge");
+
             //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-
-
+            resubmitCallConfirmationPage.VerifyCallConfirmation(1, "hour", "Advice_CX220428-Adult-Male",
+                "Eye discharge");
         }
 
         //Scenario 3
@@ -159,21 +169,6 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.FindAService();
             //need to select DoS ID 2000006999
             Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
-
-            //var personalDetailsPage = outcomePage.UseThisService("1");
-            //personalDetailsPage.VerifyIsPersonalDetailsPage();
-            //personalDetailsPage.SelectMe();
-            //personalDetailsPage.EnterForenameAndSurname("Dx30 first", "Dx30 last");
-            //personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            //personalDetailsPage.VerifyNameDisplayed();
-            //personalDetailsPage.VerifyDateOfBirthDisplayed();
-
-            //var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            //personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
-            //personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
-
-            //var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
-            //currentAddressPage.VerifyHeading("Where are you right now?");
 
             var personalDetailsInFormantPage = outcomePage.UseThisService("1");
             personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
