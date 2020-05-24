@@ -66,6 +66,7 @@
     <Compile Include="AppPage.cs" />
     <Compile Include="BaseTests.cs" />
     <Compile Include="CategoryPage.cs" />
+    <Compile Include="BritishSignLanguagePage.cs" />
     <Compile Include="CovidHomePage.cs" />
     <Compile Include="EnterVerificationCodeSMSPage.cs" />
     <Compile Include="GetTextMessagesPage.cs" />

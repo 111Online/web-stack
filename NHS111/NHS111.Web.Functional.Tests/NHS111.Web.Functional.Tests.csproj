@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="BasicAuthTests.cs" />
     <Compile Include="CareAdviceTests.cs" />
+    <Compile Include="BritishSignLanguageTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="Covid\CovidHomePageTests.cs" />
     <Compile Include="Covid\Dx391.cs" />
