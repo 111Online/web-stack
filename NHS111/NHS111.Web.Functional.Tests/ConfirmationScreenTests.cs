@@ -617,7 +617,7 @@ namespace NHS111.Web.Functional.Tests
             var outcomeRejectionPage = outcomePage.RejectCallback();
             outcomeRejectionPage.VerifyHeader("Go to an emergency treatment centre urgently");
 
-            var personalDetailsInFormantPage = outcomePage.ClickNextToGoToPersonalDetailsPage();
+            var personalDetailsInFormantPage = outcomePage.ClickBookCallback();
             personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
             personalDetailsInFormantPage.SelectSomeoneElse();
 
