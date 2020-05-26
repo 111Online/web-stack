@@ -811,6 +811,21 @@ namespace NHS111.Web.Functional.Tests
             var addressID = "14039550";
             currentAddressPage.VerifyAddressDisplays(addressID);
             currentAddressPage.ClickAddress(addressID);
+
+            currentAddressPage.VerifyHeading("Are you at home?");
+            currentAddressPage.SelectAtHomeYes();
+
+            //need to submit call
+            var submitAtHomePage = currentAddressPage.SubmitAtHome();
+            //need to submit call
+            var callConfirmationPage = submitAtHomePage.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyEmergencyPrescriptionConfirmation();
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = callConfirmationPage.SubmitCall();
+
+            resubmitCallConfirmationPage.VerifyEmergencyPrescriptionConfirmation();
         }
 
         private string GenerateTelephoneNumber()
