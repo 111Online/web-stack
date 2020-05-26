@@ -73,6 +73,7 @@
     <Compile Include="DisclaimerPopupFeature.cs" />
     <Compile Include="EmailCollectionFeature.cs" />
     <Compile Include="EmergencyAlertFeature.cs" />
+    <Compile Include="FeatureRouter.cs" />
     <Compile Include="FilterPathwaysByAgeFeature.cs" />
     <Compile Include="FilterServicesFeature.cs" />
     <Compile Include="IFeature.cs" />

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using NHS111.Features;
 
 namespace NHS111.Web.Controllers
 {
@@ -20,8 +21,15 @@ namespace NHS111.Web.Controllers
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, ILoggingRestClient restClientBusinessApi, IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder)
+        public SearchController(
+            IDirectLinkingFeature directLinkingFeature,
+            IConfiguration configuration,
+            IUserZoomDataBuilder userZoomDataBuilder,
+            ILoggingRestClient restClientBusinessApi,
+            IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder
+            )
         {
+            _directLinkingFeature = directLinkingFeature;
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
@@ -116,31 +124,46 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SearchResults(SearchJourneyViewModel model)
         {
-            if (!ModelState.IsValidField("SanitisedSearchTerm")) return View("~\\Views\\Search\\NoResults.cshtml", model);
+            //Could combine these no results?
+            if (!ModelState.IsValidField("SanitisedSearchTerm")) return NoResults(model);
 
-            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
             model.EntrySearchTerm = model.SanitisedSearchTerm;
 
-            _userZoomDataBuilder.SetFieldsForSearchResults(model);
+            if (model.SanitisedSearchTerm == null) return NoResults(model);
 
-            var requestPath = _configuration.GetBusinessApiPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
+            if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm) return GuidedSelection(model);
 
-            var request = new RestRequest(requestPath, Method.POST);
-            if (model.SanitisedSearchTerm == null)
-                return View("~\\Views\\Search\\NoResults.cshtml", model);
+            return await SearchResultsView(model).ConfigureAwait(false);
+        }
 
-            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()), postcode = Uri.EscapeDataString(model.CurrentPostcode) });
+        [HttpGet]
+        [Route("{gender}/{age}/SearchResultsDirect")]
+        public async Task<ActionResult> SearchResultsDirect(string gender, int age, string searchTerm, string args)
+        {
+            if (!_directLinkingFeature.IsEnabled)
+            {
+                return HttpNotFound();
+            }
 
-            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(request).ConfigureAwait(false);
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
 
-            model.Results = response.Data
-                .Take(MAX_SEARCH_RESULTS)
-                .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
+            var model = new SearchJourneyViewModel
+            {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
+                CurrentPostcode = decryptedArgs["postcode"],
+                UserInfo = new UserInfo
+                {
+                    Demography = ageGenderViewModel,
+                },
+                FilterServices = bool.Parse(decryptedArgs["filterServices"]),
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"],
+                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"]),
+                SanitisedSearchTerm = searchTerm
+            };
 
-            if (!model.Results.Any())
-                return View("~\\Views\\Search\\NoResults.cshtml", model);
-
-            return View(model);
+            return await SearchResults(model);
         }
 
         [HttpGet]
@@ -241,7 +264,38 @@ namespace NHS111.Web.Controllers
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
 
             return View(model);
+        }
 
+        private ViewResult GuidedSelection(SearchJourneyViewModel model)
+        {
+            return View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", model);
+        }
+
+        private ViewResult NoResults(SearchJourneyViewModel model)
+        {
+            return View("~\\Views\\Search\\NoResults.cshtml", model);
+        }
+
+        private async Task<ViewResult> SearchResultsView(SearchJourneyViewModel model)
+        {
+            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
+
+            _userZoomDataBuilder.SetFieldsForSearchResults(model);
+
+            var requestPath = _configuration.GetBusinessApiPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
+
+            var request = new RestRequest(requestPath, Method.POST);
+
+
+            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()), postcode = Uri.EscapeDataString(model.CurrentPostcode) });
+
+            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(request).ConfigureAwait(false);
+
+            model.Results = response.Data
+                .Take(MAX_SEARCH_RESULTS)
+                .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
+
+            return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\SearchResults.cshtml", model);
         }
 
         private IEnumerable<PathwayWithDescription> FlattenCategories(IEnumerable<CategoryWithPathways> categories, List<PathwayWithDescription> results = null)
@@ -315,6 +369,7 @@ namespace NHS111.Web.Controllers
             }
         }
 
+        private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly ILoggingRestClient _restClientBusinessApi;

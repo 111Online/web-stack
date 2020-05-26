@@ -66,6 +66,7 @@
     <Compile Include="AllowedPostcodeFeatureTests.cs" />
     <Compile Include="BaseFeatureTests.cs" />
     <Compile Include="DOSSpecifyDispoTimeFeatureTests.cs" />
+    <Compile Include="FeatureRouterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AppSettingValueProviderTests.cs" />
   </ItemGroup>
