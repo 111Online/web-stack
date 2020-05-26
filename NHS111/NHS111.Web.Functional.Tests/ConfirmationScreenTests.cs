@@ -135,13 +135,13 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(1, "hour", "Advice_CX220428-Adult-Male", "Eye discharge");
+            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX220428-Adult-Male", "Eye discharge");
 
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            resubmitCallConfirmationPage.VerifyCallConfirmation(1, "hour", "Advice_CX220428-Adult-Male",
+            resubmitCallConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX220428-Adult-Male",
                 "Eye discharge");
         }
 
@@ -617,7 +617,7 @@ namespace NHS111.Web.Functional.Tests
             var outcomeRejectionPage = outcomePage.RejectCallback();
             outcomeRejectionPage.VerifyHeader("Go to an emergency treatment centre urgently");
 
-            var personalDetailsInFormantPage = outcomePage.ClickBookCallback();
+            var personalDetailsInFormantPage = outcomePage.ClickNextToGoToPersonalDetailsPage();
             personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
             personalDetailsInFormantPage.SelectSomeoneElse();
 
