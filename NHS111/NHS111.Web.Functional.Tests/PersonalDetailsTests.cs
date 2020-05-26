@@ -33,9 +33,6 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.SelectMe();
             personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
 
-            var yourNamePage = personalDetailsPage.SubmitInformantDetails();
-            yourNamePage.EnterYourName("Test1", "Tester1");
-
             var dateofBirthPage = yourNamePage.SubmitYourNameDetails();
             dateofBirthPage.VerifyDateOfBirthDisplayed();
             dateofBirthPage.EnterDateOfBirth("31", "07", "1980");

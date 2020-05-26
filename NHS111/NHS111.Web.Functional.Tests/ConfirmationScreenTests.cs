@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using NHS111.Web.Functional.Utils;
 
 namespace NHS111.Web.Functional.Tests
@@ -7,7 +6,17 @@ namespace NHS111.Web.Functional.Tests
     using NUnit.Framework;
     using OpenQA.Selenium;
 
+    [TestFixture]
+    public class ConfirmationScreenTests : BaseTests
+    {
+        //Scenario 1
+        [Test]
+        public void ConfirmationScreenGP()
         {
+            string telNumber = GenerateTelephoneNumber();
+
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "E173AX");
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
@@ -20,6 +29,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer<OutcomePage>(3);
 
+            Driver.FindElement(By.XPath("//input[@value = 'Dx05']"));
             outcomePage.VerifyOutcome("Contact your GP now");
 
             //need to click 'I can't get an appointment today link
@@ -30,7 +40,6 @@ namespace NHS111.Web.Functional.Tests
             var personalDetailsInFormantPage = outcomePage.UseThisGPService("0");
             personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
             personalDetailsInFormantPage.SelectMe();
-
 
             var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
             personalDetailsNamePage.EnterForenameAndSurname("Test1", "Tester1");
@@ -46,6 +55,7 @@ namespace NHS111.Web.Functional.Tests
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
 
+            currentAddressPage.VerifyHeading("Where are you right now?");
 
             var addressID = "55629068";
             currentAddressPage.VerifyAddressDisplays(addressID);
