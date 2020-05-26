@@ -18,6 +18,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.Id, Using = "cookie-link")]
         internal IWebElement CookiesLink { get; set; }
 
+        [FindsBy(How = How.Id, Using = "language-link")]
+        internal IWebElement languageLink { get; set; }
+
         [FindsBy(How = How.Id, Using = "CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
 
@@ -104,6 +107,19 @@ namespace NHS111.Web.Functional.Utils
             }
 
             return new CookiesStatementPage(Driver);
+        }
+
+        public BritishSignLanguagePage ClickBritishSignLanguageLink()
+        {
+            languageLink.Click();
+
+            //link opens in new tab, grab the new tab
+            foreach (var winHandle in Driver.WindowHandles)
+            {
+                Driver.SwitchTo().Window(winHandle);
+            }
+
+            return new BritishSignLanguagePage(Driver);
         }
 
         public TermsAndConditionsPage ClickTermsLink()

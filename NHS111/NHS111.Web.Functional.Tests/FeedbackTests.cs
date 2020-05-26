@@ -15,6 +15,12 @@ namespace NHS111.Web.Functional.Tests
             return TestScenarioPart.FeedbackSection(moduleZero);
         }
 
+        private FeedbackSection GetFeedbackSectionOnQuestionPage()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, 20);
+            return TestScenarioPart.FeedbackSection(questionPage);
+        }
+
         [Test]
         public void Feedback_Displays()
         {
@@ -69,6 +75,15 @@ namespace NHS111.Web.Functional.Tests
         public void Feedback_Submission_Success()
         {
             var feedbackSection = GetFeedbackSection();
+            feedbackSection.TypeInTextarea("test");
+            feedbackSection.ClickSubmitButton();
+            feedbackSection.VerifySuccessTextCorrect();
+        }
+
+        [Test]
+        public void Feedback_Submission_Success_On_Question_Page()
+        {
+            var feedbackSection = GetFeedbackSectionOnQuestionPage();
             feedbackSection.TypeInTextarea("test");
             feedbackSection.ClickSubmitButton();
             feedbackSection.VerifySuccessTextCorrect();
