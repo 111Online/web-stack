@@ -198,6 +198,12 @@ namespace NHS111.Web.Functional.Utils
             return new PersonalDetailsPage(Driver);
         }
 
+        public PersonalDetailsPage EnterDetailsForPharmacyContact()
+        {
+            Driver.FindElement(By.CssSelector("button[type='submit']")).Click();
+            return new PersonalDetailsPage(Driver);
+        }
+
         public void VerifyCallConfirmation(int duration, string unitOfTime, string adviceId, string expectedId)
         {
             VerifyHeading("Your call is confirmed");

@@ -773,6 +773,46 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.VerifyEmergencyServicesCallConfirmation(30, "minutes", true);
         }
 
+        //Scenario 13
+        [Test]
+        public void ConfirmationScreenEmergencyPrescription()
+        {
+            string telNumber = GenerateTelephoneNumber();
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Emergency Prescription",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "LS177NZ", "Emergency Prescription 111 online");
+
+            var outcomePage = questionPage
+                .Answer(2)
+                .Answer<OutcomePage>(1);
+
+            var servicePage = outcomePage.ShowServiceThatCanHelp();
+
+            servicePage.VerifyOutcome("Where to get help");
+
+            var detailsConfirmationPage = servicePage.UserThisPharmacyService();
+            var personalDetailsPage = detailsConfirmationPage.EnterDetailsForPharmacyContact();
+            personalDetailsPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsPage.SelectMe();
+
+            var personalDetailsNamePage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterForenameAndSurname("Dx85 first", "Dx85 last");
+            personalDetailsNamePage.VerifyNameDisplayed();
+
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            var addressID = "14039550";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            currentAddressPage.ClickAddress(addressID);
+        }
+
         private string GenerateTelephoneNumber()
         {
             Random generator = new Random();

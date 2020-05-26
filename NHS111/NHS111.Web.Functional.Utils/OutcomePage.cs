@@ -107,5 +107,17 @@ namespace NHS111.Web.Functional.Utils
         {
             Driver.FindElement(By.Id("availableServices")).Click();
         }
+
+        public OutcomePage ShowServiceThatCanHelp()
+        {
+            Driver.FindElement(By.Name("service")).Click();
+            return new OutcomePage(Driver);
+        }
+
+        public PersonalDetailsPage UserThisPharmacyService()
+        {
+            Driver.FindElement(By.ClassName("nhsuk-action-link__text")).Click();
+            return new PersonalDetailsPage(Driver);
+        }
     }
 }
