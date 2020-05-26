@@ -280,5 +280,20 @@ namespace NHS111.Web.Functional.Utils
                 string.Format("Possible unexpected header. Expected header text of '{0}' but was '{1}'.",
                     expectedConfirmationMessage, firstSectionHeading));
         }
+
+        public void VerifyEmergencyServicesCallConfirmation(int duration, string unitOfTime, Boolean hasBeenResubmitted)
+        {
+            string heading = hasBeenResubmitted ? "Your call has already been booked" : $"You should get a call within {duration} {unitOfTime}.";
+            VerifyHeading(heading);
+            var firstSectionHeading = hasBeenResubmitted ? Driver.FindElement(By.CssSelector("div.callout.callout--warning > p")).Text :
+                Driver.FindElement(By.ClassName("local-header__intro")).Text;
+            string expectedConfirmationMessage = hasBeenResubmitted ?
+                $"If you did not get a call within 30 minutes, or you've got worse, call 999" :
+                "Emergency services might be sent to check you're ok if we can't speak to you in that time. If your symptoms get worse call 999.";
+
+            Assert.AreEqual(expectedConfirmationMessage, firstSectionHeading,
+                string.Format("Possible unexpected header. Expected header text of '{0}' but was '{1}'.",
+                    expectedConfirmationMessage, firstSectionHeading));
+        }
     }
 }

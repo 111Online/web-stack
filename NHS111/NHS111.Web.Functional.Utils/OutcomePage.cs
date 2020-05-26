@@ -77,6 +77,12 @@ namespace NHS111.Web.Functional.Utils
             return new QuestionPage(Driver);
         }
 
+        public PersonalDetailsPage ClickNextToGoToPersonalDetailsPage()
+        {
+            Driver.FindElement(By.Id("next")).Click();
+            return new PersonalDetailsPage(Driver);
+        }
+
         public PersonalDetailsPage UseThisService(string id)
         {
             string elementId = $"details-summary-{id}";

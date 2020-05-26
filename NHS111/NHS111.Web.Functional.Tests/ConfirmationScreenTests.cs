@@ -703,6 +703,64 @@ namespace NHS111.Web.Functional.Tests
 
             //need to submit call
             var callConfirmationPage = confirmHomePostcodeDetails.SubmitCall();
+            //Verify text has not been outlined in selenium recording
+            //callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", false);
+            //resubmit has not been outlined in selenium recording
+        }
+
+        //Scenario 12
+        [Test]
+        public void ConfirmationScreenNotQuiteSureYet()
+        {
+            string telNumber = GenerateTelephoneNumber();
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "Al74HL");
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(1, 2)
+                .Answer(3)
+                .Answer(1)
+                .Answer<OutcomePage>(1);
+
+            outcomePage.VerifyOutcome("A nurse needs to phone you");
+            Driver.FindElement(By.XPath("//input[@value = '2000011053']"));
+
+            var personalDetailsInFormantPage = outcomePage.ClickNextToGoToPersonalDetailsPage();
+            personalDetailsInFormantPage.VerifyWhoNeedsHelpDisplayed();
+            personalDetailsInFormantPage.SelectMe();
+
+            var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
+            personalDetailsNamePage.EnterForenameAndSurname("Dx333 first", "Dx333 last");
+            personalDetailsNamePage.VerifyNameDisplayed();
+            
+            var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
+            personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsAgePage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsAgePage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            var addressID = "301572";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            currentAddressPage.ClickAddress(addressID);
+            currentAddressPage.VerifyHeading("Are you at home?");
+            currentAddressPage.SelectAtHomeYes();
+
+            //need to submit call
+            var confirmDetails = currentAddressPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyEmergencyServicesCallConfirmation(30, "minutes", false);
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = callConfirmationPage.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyEmergencyServicesCallConfirmation(30, "minutes", true);
         }
 
         private string GenerateTelephoneNumber()
