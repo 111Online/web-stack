@@ -39,5 +39,14 @@ namespace NHS111.Models.Models.Web
 
             return pathway;
         }
+
+
+        public bool IsReservedCovidSearchTerm
+        {
+            get
+            {
+                return SanitisedSearchTerm != null && SearchReservedCovidTerms.SearchTerms.Contains(SanitisedSearchTerm.ToLower());
+            }
+        }
     }
 }

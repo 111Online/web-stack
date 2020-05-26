@@ -252,6 +252,7 @@
     <Compile Include="Models\Web\PersonalDetails\InformantTypeViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\PersonViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
+    <Compile Include="Models\Web\SearchReservedCovidTerms.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
