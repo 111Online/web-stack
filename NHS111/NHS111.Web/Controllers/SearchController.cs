@@ -131,7 +131,8 @@ namespace NHS111.Web.Controllers
 
             if (model.SanitisedSearchTerm == null) return NoResults(model);
 
-            if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm) return GuidedSelection(model);
+            if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm)
+                return await GuidedSelection(model).ConfigureAwait(false);
 
             return await SearchResultsView(model).ConfigureAwait(false);
         }
@@ -266,9 +267,20 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
 
-        private ViewResult GuidedSelection(SearchJourneyViewModel model)
+        private async Task<ViewResult> GuidedSelection(SearchJourneyViewModel model)
         {
-            return View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", model);
+            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
+            var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
+
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim().ToLower()) });
+
+            var response = await _restClientBusinessApi.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
+
+            model.Results = response.Data
+                .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
+
+            return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", model);
         }
 
         private ViewResult NoResults(SearchJourneyViewModel model)

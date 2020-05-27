@@ -16,4 +16,9 @@
         public object Score { get; set; }
 
     }
+
+    public class GuidedSearchResultViewModel : SearchResultViewModel
+    {
+
+    }
 }
