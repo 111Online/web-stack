@@ -45,9 +45,9 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(datOfBirthSectionHeading.Text == expectedDateOfBirthSectionHeading);
         }
 
-        public void VerifyNumberDisplayed()
+        public void VerifyNumberDisplayed(int index = 2)
         {
-            var nameHeading = SectionHeadings[2];
+            var nameHeading = SectionHeadings[index];
             Assert.IsTrue(nameHeading.Displayed);
             Assert.IsTrue(nameHeading.Text == "What number should we call?");
         }
@@ -88,13 +88,13 @@ namespace NHS111.Web.Functional.Utils
 
         public void EnterThirdPartyName(string forename, string surname)
         {
-            Driver.FindElement(By.Id("PatientInformantDetails_InformantName_Forename")).SendKeys(forename);
-            Driver.FindElement(By.Id("PatientInformantDetails_InformantName_Surname")).SendKeys(surname);
+            Driver.FindElement(By.Id("Forename")).SendKeys(forename);
+            Driver.FindElement(By.Id("Surname")).SendKeys(surname);
         }
 
         public void EnterPhoneNumber(string phone)
         {
-            Driver.FindElement(By.Id("UserInfo_TelephoneNumber")).SendKeys(phone);
+            Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
         }
 
         public void EnterPhoneNumberOnSeparatePage(string phone)

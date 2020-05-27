@@ -19,6 +19,10 @@ namespace NHS111.Web.Functional.Tests
                 .ClickShowServices();
             var referralExplanationPage = recommendedServicePage.ClickActionLink();
             var personalDetailsPage = referralExplanationPage.ClickButton();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+
             personalDetailsPage.VerifyNameDisplayed();
         }
 
@@ -28,24 +32,27 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
-
             personalDetailsPage.SelectMe();
+            personalDetailsPage.SubmitPersonalDetails();
             personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
 
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.VerifyNameDisplayed();
 
-            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
-            currentAddressPage.VerifyHeading("Where are you right now?");
+            personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
+            personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.VerifyNumberDisplayed(0);
+            personalDetailsPage.SubmitPersonalDetails();
+
+            personalDetailsPage.VerifyHeading("Where are you right now?");
 
             var addressID = "22180492"; // Belong Macclesfield, Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
-            currentAddressPage.VerifyAddressDisplays(addressID);
+            personalDetailsPage.VerifyAddressDisplays(addressID);
 
-            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            var atHomePage = personalDetailsPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
 
@@ -60,23 +67,20 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyNameDisplayed();
-
             personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.SubmitPersonalDetails();
             personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
 
-            var yourNamePage = personalDetailsPage.SubmitPersonalDetails();
-            yourNamePage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.VerifyDateOfBirthByInformantDisplayed();
 
-            var theirNamePage = yourNamePage.SubmitPersonalDetails();
-            theirNamePage.EnterForenameAndSurname("Test2", "Tester2");
-
-            var dateofBirthPage = theirNamePage.SubmitPersonalDetails();
-            dateofBirthPage.VerifyDateOfBirthDisplayed();
-            dateofBirthPage.EnterDateOfBirth("31", "07", "1980");
-
-            var telephoneNumberPage = dateofBirthPage.SubmitPersonalDetails();
+            var telephoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
             telephoneNumberPage.EnterPhoneNumber("07793346301");
 
             var currentAddressPage = telephoneNumberPage.SubmitPersonalDetails();
@@ -100,17 +104,19 @@ namespace NHS111.Web.Functional.Tests
         public void PersonalDetailsFirstPartyNotAtHome()
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
-
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
-
             personalDetailsPage.SelectMe();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
 
             personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.VerifyNumberDisplayed(0);
 
             var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
             currentAddressPage.VerifyHeading("Where are you right now?");
@@ -132,18 +138,23 @@ namespace NHS111.Web.Functional.Tests
         public void PersonalDetailsThirdPartyNotAtHome()
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
-
-
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
-
             personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.VerifyDateOfBirthByInformantDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.VerifyNumberDisplayed(0);
 
             var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
             currentAddressPage.VerifyHeading("Where are they right now?");
@@ -166,17 +177,24 @@ namespace NHS111.Web.Functional.Tests
         public void PersonalDetailsAddressNotListed()
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
-
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
-
+            
             personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterForenameAndSurname("Test1", "Tester1");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.VerifyDateOfBirthByInformantDisplayed();
+            personalDetailsPage.SubmitPersonalDetails();
+
             personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.VerifyNumberDisplayed(0);
 
             var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
             currentAddressPage.VerifyHeading("Where are they right now?");
