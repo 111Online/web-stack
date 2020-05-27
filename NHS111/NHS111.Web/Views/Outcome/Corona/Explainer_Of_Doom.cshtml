@@ -1,0 +1,60 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    NHS 111 - Call 111 and speak to a nurse
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': '@Model.TitleWithoutBullets'
+            }];
+    </script>
+}
+
+
+@Html.HiddenFor(x => Model.Id)
+
+
+<div class="measure nhsuk-core">
+    <h1 class="nhsuk-heading-xl">@Model.OutcomeGroup.Text</h1>
+
+    <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
+        <p>
+            The phone service will be busy but you <b>must</b> wait to speak to someone.
+            Tell 111 that you are calling about coronavirus symptoms.
+        </p>
+    </div>
+
+    <p>
+        Your symptoms suggest that you might have a coronavirus infection.
+    </p>
+    <p>
+        The nurse will:
+    </p>
+    <ul>
+        <li>ask you more about your symptoms</li>
+        <li>tell you what to do next</li>
+    </ul>
+
+    <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
+        <p>
+            You need to stay away from other people until you have spoken to 111.
+        </p>
+        <p>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
+                Read more self-isolation advice on NHS.UK
+            </a>
+        </p>
+    </div>
+
+</div>
