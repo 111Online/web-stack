@@ -37,7 +37,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var ruleEmail = new ModelClientValidationRule()
             {
-                ErrorMessage = this.ErrorMessageSource.GetString(),
+                ErrorMessage = this.Options.ErrorMessageSource.GetString(null),
                 ValidationType = "emailaddress"
             };
 

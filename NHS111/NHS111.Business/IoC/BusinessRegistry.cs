@@ -39,7 +39,7 @@ namespace NHS111.Business.IoC
 
         private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
         {
-            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.GetServicePointManagerDefaultConnectionLimit());
+            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.GetServicePointManagerDefaultConnectionLimit(), _configuration.GetRestClientTimeoutMs());
         }
     }
 }

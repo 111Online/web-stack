@@ -27,7 +27,17 @@ namespace NHS111.Web.Presentation.Configuration
         public string FeedbackApiBaseUrl { get { return ConfigurationManager.AppSettings["FeedbackApiBaseUrl"]; } }
         public string FeedbackAddFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackAddFeedbackUrl"]; } }
         public string FeedbackDeleteFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackDeleteFeedbackUrl"]; } }
-        public string FeedbackAuthorization { get { return ConfigurationManager.AppSettings["FeedbackAuthorization"]; } }
+        public string FeedbackApiUsername { get { return ConfigurationManager.AppSettings["FeedbackApiUsername"]; } }
+        public string FeedbackApiPassword { get { return ConfigurationManager.AppSettings["FeedbackApiPassword"]; } }
+        public bool FeedbackEnabled
+        {
+            get
+            {
+                bool res;
+                return bool.TryParse(ConfigurationManager.AppSettings["FeedbackEnabled"], out res) ? res : true;
+            }
+        }
+
         public string PostcodeApiBaseUrl { get { return ConfigurationManager.AppSettings["PostcodeApiBaseUrl"]; } }
         public string PostcodeSearchByIdUrl { get { return ConfigurationManager.AppSettings["PostcodeSearchByIdUrl"]; } }
         public string PostcodeSubscriptionKey { get { return ConfigurationManager.AppSettings["PostcodeSubscriptionKey"]; } }
@@ -110,6 +120,14 @@ namespace NHS111.Web.Presentation.Configuration
             }
         }
 
+        public int RestClientTimeoutMs
+        {
+            get
+            {
+                int timeout;
+                return int.TryParse(ConfigurationManager.AppSettings["RestClientTimeoutMs"], out timeout) ? timeout : 30000;
+            }
+        }
         public string AuditEventHubConnectionString { get { return ConfigurationManager.AppSettings["AuditEventHubConnectionString"]; } }
 
         public bool AuditEventHubEnabled
@@ -250,6 +268,20 @@ namespace NHS111.Web.Presentation.Configuration
             return Uri.TryCreate(url, UriKind.Absolute, out result);
         }
 
+        public string GetBusinessApiMonitorHealthUrl()
+        {
+            return ConfigurationManager.AppSettings["BusinessApiMonitorHealthUrl"];
+        }
+
+        public string GetCCGApiMonitorHealthUrl()
+        {
+            return ConfigurationManager.AppSettings["CCGApiMonitorHealthUrl"];
+        }
+
+        public string GetBusinessDosApiMonitorHealthUrl()
+        {
+            return ConfigurationManager.AppSettings["BusinessDosApiMonitorHealthUrl"];
+        }
     }
 
 
@@ -268,6 +300,7 @@ namespace NHS111.Web.Presentation.Configuration
         string CCGBusinessApiBaseProtocolandDomain { get; }
         string CCGBusinessApiGetCCGUrl(string postcode);
         string CCGApiGetCCGDetailsByPostcode(string postcode);
+        string GetCCGApiMonitorHealthUrl();
         string GetBusinessApiPathwayUrl(string pathwayId, bool pathOnly = false);
         string GetBusinessApiGroupedPathwaysUrl(string searchString);
         string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age, bool pathOnly = false);
@@ -295,14 +328,19 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetAddressByUDPRNUrl(string udprn);
 
         string GetBusinessApiGetValidatedAddressByPostcodeUrl(string postcode);
+        string GetBusinessApiMonitorHealthUrl();
         string BusinessDosApiBaseUrl { get; }
         string BusinessDosApiCheckCapacitySummaryUrl { get; }
         string BusinessDosApiServicesByClinicalTermUrl { get; }
         string BusinessDosApiServiceDetailsByIdUrl { get; }
+        string GetBusinessDosApiMonitorHealthUrl();
         string FeedbackApiBaseUrl { get; }
         string FeedbackAddFeedbackUrl { get; }
         string FeedbackDeleteFeedbackUrl { get; }
-        string FeedbackAuthorization { get; }
+        string FeedbackApiUsername { get; }
+        string FeedbackApiPassword { get; }
+        bool FeedbackEnabled { get; }
+
         string PostcodeApiBaseUrl { get; }
         string PostcodeSearchByIdUrl { get; }
         string PostcodeSubscriptionKey { get; }
@@ -322,6 +360,7 @@ namespace NHS111.Web.Presentation.Configuration
         string DosMobileUsername { get; }
         string DosMobilePassword { get; }
         int ServicePointManagerDefaultConnectionLimit { get; }
+        int RestClientTimeoutMs { get; }
 
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }

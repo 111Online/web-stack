@@ -3,7 +3,6 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
-using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
 using RestSharp;
 
@@ -15,7 +14,7 @@ namespace NHS111.Web.Presentation.Logging
     using System.Web.Hosting;
     using Azure.Messaging.EventHubs;
     using Azure.Messaging.EventHubs.Producer;
-    using Configuration;
+    using NHS111.Web.Presentation.Configuration;
     using Newtonsoft.Json;
     using NHS111.Models.Models.Web.Logging;
 

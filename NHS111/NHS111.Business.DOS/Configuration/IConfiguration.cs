@@ -40,5 +40,6 @@ namespace NHS111.Business.DOS.Configuration
         string CCGApiBaseUrl { get; }
         int DoSSearchDistance { get; }
         int ServicePointManagerDefaultConnectionLimit { get; }
+        int RestClientTimeoutMs { get; }
     }
 }

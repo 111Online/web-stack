@@ -66,7 +66,7 @@ namespace NHS111.Web.Presentation.IoC
 
         private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
         {
-            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.ServicePointManagerDefaultConnectionLimit);
+            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.ServicePointManagerDefaultConnectionLimit, _configuration.RestClientTimeoutMs);
         }
     }
 }

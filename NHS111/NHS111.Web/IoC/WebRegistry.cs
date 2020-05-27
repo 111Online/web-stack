@@ -23,12 +23,17 @@ namespace NHS111.Web.IoC
 
         public WebRegistry(IConfiguration configuration)
         {
-            For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
+            // Init Redis only if connection string is set
+            if (!string.IsNullOrEmpty(configuration.RedisConnectionString))
+            {
+                For<ICacheManager<string, string>>().Singleton().Use(new RedisManager(configuration.RedisConnectionString));
+            }
             For<ILoggingRestClient>().Singleton().Use(
                     new LoggingRestClient(
                         configuration.BusinessApiProtocolandDomain,
                         LogManager.GetLogger("log"),
-                        configuration.ServicePointManagerDefaultConnectionLimit
+                        configuration.ServicePointManagerDefaultConnectionLimit,
+                        configuration.RestClientTimeoutMs
                     )).Named("restClientBusinessApi");
             Configure();
         }
