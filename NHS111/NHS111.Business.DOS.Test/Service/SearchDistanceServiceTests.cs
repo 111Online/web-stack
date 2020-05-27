@@ -53,6 +53,19 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
+        public async void bad_response_returns_default_from_config()
+        {
+            const string postcode = "SO302UN";
+            var ccgUrl = string.Format(_localCCGServiceUrl, postcode);
+            _restClient.Setup(r => r.ExecuteAsync(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse)new RestResponse() { StatusCode = HttpStatusCode.BadRequest }));
+
+            var sut = new SearchDistanceService(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.GetSearchDistanceByPostcode(postcode);
+
+            Assert.AreEqual(result, 60);
+        }
+
+        [Test]
         public async void valid_response_returns_search_distance()
         {
             const string postcode = "SO302UN";

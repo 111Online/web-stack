@@ -13,6 +13,8 @@ namespace NHS111.Business.DOS.Tests
         private readonly Mock<IConfiguration> _mockConfiguration = new Mock<IConfiguration>();
         private ProfileHoursOfOperation _profileHoursOfOperation;
         private DentalProfileHoursOfOperation _dentalProfileHoursOfOperation;
+        private RepeatPrescriptionProfileHoursOfOperation _repeatPrescriptionProfileHoursOfOperation;
+        private ClinicianCallbackProfileHoursOfOperation _clinicianCallbackProfileHoursOfOperation;
 
         [SetUp]
         public void SetupConfig()
@@ -22,10 +24,13 @@ namespace NHS111.Business.DOS.Tests
             var workingDayPrimaryCareInHoursStartTime = new LocalTime(8, 0);
             _profileHoursOfOperation = new ProfileHoursOfOperation(workingDayPrimaryCareInHoursStartTime, workingDayPrimaryCareInHoursShoulderEndTime, workingDayPrimaryCareInHoursEndTime, _mockConfiguration.Object);
 
-            var workingDayDentalInHoursEndTime = new LocalTime(22, 0);
+            var workingDayDentalInHoursEndTime = new LocalTime(22, 30);
             var workingDayDentalInHoursShoulderEndTime = new LocalTime(7, 30);
             var workingDayDentalInHoursStartTime = new LocalTime(7, 30);
             _dentalProfileHoursOfOperation = new DentalProfileHoursOfOperation(workingDayDentalInHoursStartTime, workingDayDentalInHoursShoulderEndTime, workingDayDentalInHoursEndTime, _mockConfiguration.Object);
+
+            _repeatPrescriptionProfileHoursOfOperation = new RepeatPrescriptionProfileHoursOfOperation();
+            _clinicianCallbackProfileHoursOfOperation = new ClinicianCallbackProfileHoursOfOperation();
         }
 
         [Test()]
@@ -175,6 +180,40 @@ namespace NHS111.Business.DOS.Tests
             Assert.IsFalse(result);
         }
 
+        [Test()]
+        public void Dental_ContainsInHoursPeriod_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.ContainsInHoursPeriod(new DateTime(2016, 11, 19, 3, 0, 0), new DateTime(2016, 11, 19, 20, 0, 0));
+            Assert.IsTrue(result);
+        }
+
+        [Test()]
+        public void Dental_Doesnt_Contain_InHoursPeriod_Before_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.ContainsInHoursPeriod(new DateTime(2016, 11, 19, 3, 0, 0), new DateTime(2016, 11, 19, 7, 0, 0));
+            Assert.IsFalse(result);
+        }
+
+        [Test()]
+        public void Dental_Doesnt_Contain_InHoursPeriod_After_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.ContainsInHoursPeriod(new DateTime(2016, 11, 19, 22, 30, 0), new DateTime(2016, 11, 19, 23, 0, 0));
+            Assert.IsFalse(result);
+        }
+
+        [Test()]
+        public void ClinicianCallback_Always_In_Hours()
+        {
+            var result = _clinicianCallbackProfileHoursOfOperation.ContainsInHoursPeriod(new DateTime(2016, 11, 19, 22, 30, 0), new DateTime(2016, 11, 19, 23, 0, 0));
+            Assert.IsTrue(result);
+        }
+
+        [Test()]
+        public void RepeatPrescription_Always_In_Hours()
+        {
+            var result = _repeatPrescriptionProfileHoursOfOperation.ContainsInHoursPeriod(new DateTime(2016, 11, 19, 22, 30, 0), new DateTime(2016, 11, 19, 23, 0, 0));
+            Assert.IsTrue(result);
+        }
 
         [Test()]
         public void GetServiceTime_Dental_Weekend_InHours_Test()
@@ -193,7 +232,7 @@ namespace NHS111.Business.DOS.Tests
         [Test()]
         public void GetServiceTime_Dental_Weekday_End_In_Hours_Limit_Test()
         {
-            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 18, 21, 59, 59));
+            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 18, 22, 29, 59));
             Assert.AreEqual(ProfileServiceTimes.InHours, result);
         }
 
@@ -204,6 +243,12 @@ namespace NHS111.Business.DOS.Tests
             Assert.AreEqual(ProfileServiceTimes.OutOfHours, result);
         }
 
+        [Test()]
+        public void GetServiceTime_Dental_Weekdays_Start_In_Hours_Limit_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 19, 07, 31, 00));
+            Assert.AreEqual(ProfileServiceTimes.InHours, result);
+        }
 
         [Test()]
         public void GetServiceTime_Test_BankHoliday_Out_Of_Hours_Limit_Test()
@@ -211,6 +256,20 @@ namespace NHS111.Business.DOS.Tests
             _mockConfiguration.Setup(s => s.TestPublicHolidayDates).Returns("29-05-2018");
             var result = _profileHoursOfOperation.GetServiceTime(new DateTime(2018, 05, 29, 11, 00, 00));
             Assert.AreEqual(ProfileServiceTimes.OutOfHours, result);
+        }
+
+        [Test()]
+        public void ClinicianCallback_Always_Open()
+        { 
+            var result = _clinicianCallbackProfileHoursOfOperation.GetServiceTime(new DateTime(2018, 05, 29, 11, 00, 00));
+            Assert.AreEqual(ProfileServiceTimes.InHours, result);
+        }
+
+        [Test()]
+        public void RepeatPrescription_Always_Open()
+        {
+            var result = _repeatPrescriptionProfileHoursOfOperation.GetServiceTime(new DateTime(2018, 05, 29, 11, 00, 00));
+            Assert.AreEqual(ProfileServiceTimes.InHours, result);
         }
     }
 }

@@ -79,5 +79,46 @@ namespace NHS111.Business.DOS.Test.ServiceType
 
             Assert.AreEqual(0, result.Count);
         }
+
+
+        [Test]
+        public void OnlineServiceTypeFilter_Closed_Referal_Services_Not_Returned()
+        {
+            var dosResult1 = new Models.Models.Business.DosService
+            {
+                OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone
+            };
+            var dosResult2 = new Models.Models.Business.DosService
+            {
+                OnlineDOSServiceType = OnlineDOSServiceType.GoTo
+            };
+            var dosResult3 = new Models.Models.Business.DosService
+            {
+                OnlineDOSServiceType = OnlineDOSServiceType.Callback
+            };
+            var dosResult4 = new Models.Models.Business.DosService
+            {
+                OnlineDOSServiceType = OnlineDOSServiceType.Unknown
+            };
+            var dosResult5 = new Models.Models.Business.DosService
+            {
+                OnlineDOSServiceType = OnlineDOSServiceType.Callback
+            };
+
+            dosResult3.OpenAllHours = true;
+            dosResult5.OpenAllHours = false;
+            dosResult5.RotaSessions = null;
+
+
+            var dosResultsList = new List<Models.Models.Business.DosService> { dosResult1, dosResult2, dosResult3, dosResult4, dosResult5 };
+
+            //Act
+            var sut = new OnlineServiceTypeFilter();
+            var result = sut.FilterClosedCallbackServices(dosResultsList);
+
+            Assert.AreEqual(4, result.Count);
+        }
+
+
     }
 }

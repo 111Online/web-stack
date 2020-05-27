@@ -40,6 +40,12 @@ namespace NHS111.Business.DOS.Test.Service
         private const string FILTERED_CLINICIAN_DISPOSITION_CODES = "11329|11106|1034|11327|11325|1035|1032";
         private const string FILTERED_CLINICIAN_DOS_SERVICE_IDS = "40";
 
+        private const string FILTERED_REPEAT_PRESCRIPTION_DISPOSITION_CODES = "1100|1101|1102|1103";
+        private const string FILTERED_REPEAT_PRESCRIPTION_SERVICE_IDS = "100|40|25";
+
+        private const string FILTERED_GENERIC_DISPOSITION_CODES = "1200|1201|1202|1203";
+        private const string FILTERED_GENERIC_SERVICE_IDS = "100|40|25";
+
         private static readonly string CheckCapacitySummaryResults = @"{
             ""CheckCapacitySummaryResult"": [{
                     ""idField"": 1419419101,
@@ -61,7 +67,7 @@ namespace NHS111.Business.DOS.Test.Service
                     ""serviceTypeField"": {
                         ""idField"": 46,
                     }
-                },
+                }
             ]}";
 
         [SetUp]
@@ -98,6 +104,12 @@ namespace NHS111.Business.DOS.Test.Service
             _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns(FILTERED_DENTAL_DISPOSITION_CODES);
             _mockConfiguration.Setup(c => c.FilteredClinicianCallbackDispositionCodes).Returns(FILTERED_CLINICIAN_DISPOSITION_CODES);
             _mockConfiguration.Setup(c => c.FilteredClinicianCallbackDosServiceIds).Returns(FILTERED_CLINICIAN_DOS_SERVICE_IDS);
+
+            _mockConfiguration.Setup(c => c.FilteredRepeatPrescriptionDispositionCodes).Returns(FILTERED_REPEAT_PRESCRIPTION_DISPOSITION_CODES);
+            _mockConfiguration.Setup(c => c.FilteredRepeatPrescriptionDosServiceIds).Returns(FILTERED_REPEAT_PRESCRIPTION_SERVICE_IDS);
+            _mockConfiguration.Setup(c => c.FilteredGenericDispositionCodes).Returns(FILTERED_GENERIC_DISPOSITION_CODES);
+            _mockConfiguration.Setup(c => c.FilteredGenericDosServiceIds).Returns(FILTERED_GENERIC_SERVICE_IDS);
+
             _mockConfiguration.Setup(c => c.WorkingDayPrimaryCareInHoursStartTime)
                 .Returns(workingDayPrimaryCareInHoursStartTime);
             _mockConfiguration.Setup(c => c.WorkingDayPrimaryCareInHoursShoulderEndTime)
@@ -298,7 +310,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public void Dental_No_Blacklited_Services_Returns_All_CheckCapacitySummaryResults()
+        public void Dental_No_Blacklisted_Services_Returns_All_CheckCapacitySummaryResults()
         {
             _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns("");
 
@@ -338,6 +350,62 @@ namespace NHS111.Business.DOS.Test.Service
             //Assert 
 
             Assert.AreEqual(1, result.Count());
+        }
+
+        [Test]
+        public void RepeatPrescription_should_return_filtered_CheckCapacitySummaryResult()
+        {
+            var dispoCode = 1100;
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+
+            Assert.AreEqual(1, result.Count());
+        }
+
+        [Test]
+        public void Generic_should_return_filtered_CheckCapacitySummaryResult()
+        {
+            var dispoCode = 1200;
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+
+            Assert.AreEqual(1, result.Count());
+        }
+
+        [Test]
+        public void ClinicianCallback_should_return_all_CheckCapacitySummaryResult()
+        {
+            var dispoCode = 1032;
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+            Assert.AreEqual(3, result.Count());
         }
     }
 }
