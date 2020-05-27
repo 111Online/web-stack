@@ -40,7 +40,6 @@ namespace NHS111.Models.Models.Web
             return pathway;
         }
 
-
         public bool IsReservedCovidSearchTerm
         {
             get
@@ -48,5 +47,11 @@ namespace NHS111.Models.Models.Web
                 return SanitisedSearchTerm != null && SearchReservedCovidTerms.SearchTerms.Contains(SanitisedSearchTerm.ToLower());
             }
         }
+
+
+    }
+
+    public class GuidedSearchJourneyViewModel : SearchJourneyViewModel
+    {
     }
 }

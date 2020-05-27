@@ -4,14 +4,15 @@ using NHS111.Models.Models.Web;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
 using NHS111.Features;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
 {
@@ -279,8 +280,8 @@ namespace NHS111.Web.Controllers
 
             model.Results = response.Data
                 .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
-
-            return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", model);
+            
+            return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", Mapper.Map<GuidedSearchJourneyViewModel>(model));
         }
 
         private ViewResult NoResults(SearchJourneyViewModel model)
