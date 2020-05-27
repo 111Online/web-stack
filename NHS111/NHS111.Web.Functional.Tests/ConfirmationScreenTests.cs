@@ -1,19 +1,19 @@
 ﻿using System;
 using NHS111.Web.Functional.Utils;
+using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace NHS111.Web.Functional.Tests
 {
-    using NUnit.Framework;
-    using OpenQA.Selenium;
-
     [TestFixture]
+    [Category("NightlyOnly")]
     public class ConfirmationScreenTests : BaseTests
     {
         //Scenario 1
         [Test]
-        public void ConfirmationScreenGP()
+        public void ConfirmationScreenPrimaryCare_2hours_Dx05()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "E173AX");
@@ -82,9 +82,9 @@ namespace NHS111.Web.Functional.Tests
 
         //Scenario 2
         [Test]
-        public void ConfirmationScreenPharmacy()
+        public void ConfirmationScreenPharmacy_24hours_Dx28()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems",
                 TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
@@ -147,9 +147,9 @@ namespace NHS111.Web.Functional.Tests
 
         //Scenario 3
         [Test]
-        public void ConfirmationScreenMidwifery()
+        public void ConfirmationScreenMidwifery_1hour_Dx30()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adolescent, "E173AX");
@@ -213,9 +213,9 @@ namespace NHS111.Web.Functional.Tests
 
         //Scenario 4
         [Test]
-        public void ConfirmationScreenMidwiferyLabour()
+        public void ConfirmationScreenMidwifery_immediate_Dx50()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Abdominal Pain", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "E173AX");
@@ -276,15 +276,15 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(20, "minutes", "Advice_CX221093-Adult-Female",
+            resubmitCallConfirmationPage.VerifyCallConfirmation(20, "minutes", "Advice_CX221093-Adult-Female",
                 "Pregnancy, labour");
         }
 
         //Scenario 5
         [Test]
-        public void ConfirmationScreenSexualHealthAdultFemale()
+        public void ConfirmationScreenGUM_3days_Dx31()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
                 TestScenerioSex.Female,
@@ -345,15 +345,15 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female",
+            resubmitCallConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female",
                 "Genital discharge/irritation");
         }
 
         //Scenario 6
         [Test]
-        public void ConfirmationScreenDentistForAdultMale()
+        public void ConfirmationScreenDental_2hours_Dx18()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "LS72BQ");
@@ -410,14 +410,14 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(2, "hours", "Advice_CX221021-Adult-Male", "Toothache");
+            resubmitCallConfirmationPage.VerifyCallConfirmation(2, "hours", "Advice_CX221021-Adult-Male", "Toothache");
         }
 
         //Scenario 7
         [Test]
-        public void ConfirmationScreenDentistForAdultFemale()
+        public void ConfirmationScreenDental_4hours_Dx118()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "LS72BQ");
@@ -440,7 +440,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsInFormantPage.SelectMe();
 
             var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
-            personalDetailsNamePage.EnterForenameAndSurname("Dx18 first", "Dx18 last");
+            personalDetailsNamePage.EnterForenameAndSurname("Dx118 first", "Dx118 last");
             personalDetailsNamePage.VerifyNameDisplayed();
 
             var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
@@ -471,14 +471,14 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(4, "hours", "Advice_CX220593-Adult-Female", "Tooth extraction");
+            resubmitCallConfirmationPage.VerifyCallConfirmation(4, "hours", "Advice_CX220593-Adult-Female", "Tooth extraction");
         }
 
         //Scenario 8
         [Test]
-        public void ConfirmationScreenGynaecology()
+        public void ConfirmationScreenClinicalCallback_20mins_Dx20()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Something in the vagina",
                 TestScenerioSex.Female,
@@ -530,14 +530,14 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(20, "minutes");
+            resubmitCallConfirmationPage.VerifyCallConfirmation(20, "minutes");
         }
 
         //Scenario 9
         [Test]
-        public void ConfirmationScreenDermatology()
+        public void ConfirmationScreenEDValidation_30mins_Dx334_dx02()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
 
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sunburn", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "AL74HL", "Burn, Sun");
@@ -586,19 +586,19 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn", false);
+            callConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn");
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn", true);
+            resubmitCallConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn", true);
         }
 
         //Scenario 10
         [Test]
-        public void ConfirmationScreenSexualHealthAdultMale()
+        public void ConfirmationScreenED_4hour_Dx03()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns",
                 TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "Al74HL");
@@ -622,7 +622,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsInFormantPage.SelectSomeoneElse();
 
             var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
-            personalDetailsNamePage.EnterForenameAndSurname("Dx32 first", "Dx32 last");
+            personalDetailsNamePage.EnterForenameAndSurname("Dx03 first", "Dx03 last");
             personalDetailsNamePage.VerifyNameDisplayed();
 
             var personalDetailsInformantNamePage = personalDetailsNamePage.SubmitPersonalDetails();
@@ -649,19 +649,19 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", false);
+            callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours");
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = callConfirmationPage.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", true);
+            resubmitCallConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", true);
         }
 
         //Scenario 11
         [Test]
-        public void ConfirmationScreenMentalHealthAdolescentMale()
+        public void ConfirmationScreenMentalHealthED_4hour_Dx92()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems",
                 TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adolescent, "E173AX");
@@ -714,15 +714,19 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmHomePostcodeDetails.SubmitCall();
             //Verify text has not been outlined in selenium recording
+            callConfirmationPage.VerifyMentalHealthEDCallConfirmation(4, "hours");
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = callConfirmationPage.SubmitCall();
             //callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", false);
-            //resubmit has not been outlined in selenium recording
+            resubmitCallConfirmationPage.VerifyMentalHealthEDCallConfirmation(4, "hours", true);
         }
 
         //Scenario 12
         [Test]
-        public void ConfirmationScreenNotQuiteSureYet()
+        public void ConfirmationScreen999Validation_30mins_Dx333_Dx012()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache",
                 TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "Al74HL");
@@ -743,7 +747,7 @@ namespace NHS111.Web.Functional.Tests
             var personalDetailsNamePage = personalDetailsInFormantPage.SubmitPersonalDetails();
             personalDetailsNamePage.EnterForenameAndSurname("Dx333 first", "Dx333 last");
             personalDetailsNamePage.VerifyNameDisplayed();
-            
+
             var personalDetailsAgePage = personalDetailsNamePage.SubmitPersonalDetails();
             personalDetailsAgePage.EnterDateOfBirth("01", "01", "1971");
             personalDetailsAgePage.VerifyDateOfBirthDisplayed();
@@ -770,14 +774,14 @@ namespace NHS111.Web.Functional.Tests
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = callConfirmationPage.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyEmergencyServicesCallConfirmation(30, "minutes", true);
+            resubmitCallConfirmationPage.VerifyEmergencyServicesCallConfirmation(30, "minutes", true);
         }
 
         //Scenario 13
         [Test]
-        public void ConfirmationScreenEmergencyPrescription()
+        public void ConfirmationScreenEPITKRingGo_2hour_Dx85()
         {
-            string telNumber = GenerateTelephoneNumber();
+            var telNumber = GenerateTelephoneNumber();
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Emergency Prescription",
                 TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "LS177NZ", "Emergency Prescription 111 online");
@@ -824,15 +828,15 @@ namespace NHS111.Web.Functional.Tests
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = callConfirmationPage.SubmitCall();
-
+            //Verify text 
             resubmitCallConfirmationPage.VerifyEmergencyPrescriptionConfirmation();
         }
 
-        private string GenerateTelephoneNumber()
+        private static string GenerateTelephoneNumber()
         {
-            Random generator = new Random();
-            string prefix = "0777";
-            string suffix = generator.Next(0, 999999).ToString("D6");
+            var generator = new Random();
+            var prefix = "0777";
+            var suffix = generator.Next(0, 999999).ToString("D6");
             return $"{prefix}{suffix}";
         }
     }
