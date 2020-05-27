@@ -1,6 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Web.Helpers
-@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.SearchJourneyViewModel>
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.GuidedSearchJourneyViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -37,16 +37,11 @@
 
 <div id="SearchResults" class="measure search-typography">
     <h1>Choose the 1 thing that's bothering you most:</h1>
-    <div class="multiple-choice">
-        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="cough" value="" checked="" />
-        <label for="cough" class="multiple-choice--radio"><strong>Cough</strong><p>Hacking, tickling etc</p></label>
-    </div>
-    <div class="multiple-choice">
-        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Gergo" value="" checked="" />
-        <label for="Gergo" class="multiple-choice--radio"><strong>Cold and flu symptoms</strong><p>Aching muscles etc...</p></label>
-    </div>
-    <div class="multiple-choice">
-        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Kristina" value="" checked="" />
-        <label for="Kristina" class="multiple-choice--radio"><strong>Breathlessness</strong><p>Wheezing, panting or feeling out of breath etc...</p></label>
-    </div>
+    @foreach (var result in Model.Results)
+    {
+        <div class="multiple-choice">
+            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@result.PathwayTitle" value="" checked="" />
+            <label for="@result.PathwayTitle" class="multiple-choice--radio"><strong>@result.Title.First()</strong><p>@result.Description</p></label>
+        </div>
+    }
 </div>
