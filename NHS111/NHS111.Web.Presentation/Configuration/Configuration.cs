@@ -141,6 +141,11 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiPathwaySearchUrl", pathOnly), gender, age);
         }
 
+        public string GetBusinessApiGuidedPathwaySearchUrl(string gender, string age, bool pathOnly = false)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGuidedPathwaySearchUrl", pathOnly), gender, age);
+        }
+
         public string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age, bool pathOnly = false)
         {
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathwaysGenderAge", pathOnly), gender, age);
@@ -289,6 +294,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
         string GetBusinessApiPathwayMetadataUrl(string pathwayNo);
         string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly = false);
+        string GetBusinessApiGuidedPathwaySearchUrl(string gender, string age, bool pathOnly = false);
         string GetBusinessApiVersionUrl(bool pathOnly = false);
         string GetBusinessApiGetAddressByGeoUrl(string latlong);
         string GetBusinessApiGetAddressByPostcodeUrl(string postcode);
