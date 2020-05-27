@@ -47,7 +47,7 @@ namespace NHS111.Business.DOS.IoC
 
         private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
         {
-            return new LoggingRestClient(baseUrl, _logger, _configuration.ServicePointManagerDefaultConnectionLimit);
+            return new LoggingRestClient(baseUrl, _logger, _configuration.ServicePointManagerDefaultConnectionLimit, _configuration.RestClientTimeoutMs);
         }
     }
 }

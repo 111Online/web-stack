@@ -36,7 +36,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var ruleDay = new ModelClientValidationRule
             {
-                ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
+                ErrorMessage = this.Options.ErrorMessageSource.GetString(null), // default error message
                 ValidationType = "day" // name of the validation which will be used inside unobtrusive library
             };
 

@@ -191,5 +191,14 @@ namespace NHS111.Business.DOS.Configuration
                 return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out limit) ? limit : 5;
             }
         }
+
+        public int RestClientTimeoutMs
+        {
+            get
+            {
+                int timeout;
+                return int.TryParse(ConfigurationManager.AppSettings["RestClientTimeoutMs"], out timeout) ? timeout : 30000;
+            }
+        }
     }
 }

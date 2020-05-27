@@ -1,9 +1,11 @@
 ﻿using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Configuration;
+using System.IO;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -11,7 +13,7 @@ namespace NHS111.Web.Functional.Utils
     {
         public IWebDriver Driver;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             // Ideally we could have multiple size screenshots (mobile, tablet, desktop etc)
@@ -27,11 +29,12 @@ namespace NHS111.Web.Functional.Utils
             chromeOptions.AddArgument("--disable-dev-shm-usage"); //https://stackoverflow.com/a/50725918/1689770
             chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
             chromeOptions.AddArgument("--disable-gpu"); //https://stackoverflow.com/questions/51959986/how-to-solve-selenium-chromedriver-timed-out-receiving-message-from-renderer-exc
+            if (RunHeadless) chromeOptions.AddArgument("--headless");
             Driver = new ChromeDriver(chromeOptions);
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownTestFixture()
         {
             Driver.Quit();
@@ -40,12 +43,17 @@ namespace NHS111.Web.Functional.Utils
         [TearDown]
         public void TearDownTest()
         {
-            if (TestContext.CurrentContext.Result.Status != TestStatus.Failed) return;
+            if (TestContext.CurrentContext.Result.Outcome.Status != ResultState.Failure.Status) return;
 
             //output the failed screenshot to results screen in Team City
             if (!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
                 ScreenShotMaker.MakeScreenShot(Driver.GetCurrentImageUniqueId());
-            Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test screen' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
+
+            var screenshotFilename = ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId());
+            var screenshotPath = Path.Combine(TestContext.CurrentContext.WorkDirectory, "Screenshots", screenshotFilename);
+
+            TestContext.AddTestAttachment(screenshotPath, TestContext.CurrentContext.Test.FullName);
+            Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test screen' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, screenshotFilename);
         }
 
         public IScreenShotMaker ScreenShotMaker
@@ -55,5 +63,7 @@ namespace NHS111.Web.Functional.Utils
 
         public PostcodeProvider Postcodes = new PostcodeProvider();
         protected static readonly string BaseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
+        protected static readonly bool RunHeadless = ConfigurationManager.AppSettings["RunHeadless"] != null 
+                                                     && ConfigurationManager.AppSettings["RunHeadless"]  == "true";
     }
 }

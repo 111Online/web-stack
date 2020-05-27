@@ -144,6 +144,12 @@ namespace NHS111.Business.Configuration
             return ConfigurationManager.AppSettings["RedisUrl"];
         }
 
+        public int GetRedisExpiryMinutes()
+        {
+            int res;
+            return int.TryParse(ConfigurationManager.AppSettings["RedisExpiryMinutes"], out res) ? res : 300;
+        }
+
 
         public string GetLocationPostcodebyGeoUrl(double longitude, double latitude)
         {
@@ -249,6 +255,12 @@ namespace NHS111.Business.Configuration
             int limit;
             return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out limit) ? limit : 5;
         }
+
+        public int GetRestClientTimeoutMs()
+        {
+            int timeout;
+            return int.TryParse(ConfigurationManager.AppSettings["RestClientTimeoutMs"], out timeout) ? timeout : 30000;
+        }
     }
 
     public interface IConfiguration
@@ -286,6 +298,7 @@ namespace NHS111.Business.Configuration
         string GetDomainApiListOutcomesUrl();
 
         string GetRedisUrl();
+        int GetRedisExpiryMinutes();
 
         /* Symptom disciminator */
         string GetDomainApiSymptomDisciminatorUrl(string symptomDiscriminatorCode);
@@ -312,5 +325,6 @@ namespace NHS111.Business.Configuration
         string GetDomainApiVersionUrl();
 
         int GetServicePointManagerDefaultConnectionLimit();
+        int GetRestClientTimeoutMs();
     }
 }

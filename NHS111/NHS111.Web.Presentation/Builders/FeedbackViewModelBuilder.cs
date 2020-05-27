@@ -30,7 +30,10 @@ namespace NHS111.Web.Presentation.Builders
             {
                 var request = new JsonRestRequest(_configuration.FeedbackAddFeedbackUrl, Method.POST);
                 request.AddJsonBody(feedback);
-                request.AddHeader("Authorization", _configuration.FeedbackAuthorization);
+                if (!string.IsNullOrEmpty(_configuration.FeedbackApiUsername) && !string.IsNullOrEmpty(_configuration.FeedbackApiPassword))
+                {
+                    request.Credentials = new NetworkCredential(_configuration.FeedbackApiUsername, _configuration.FeedbackApiPassword);
+                }
                 var response = await _restClient.ExecuteAsync(request);
 
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)

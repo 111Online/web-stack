@@ -19,7 +19,9 @@ namespace NHS111.Web.Functional.Tests
             var testUrl = ConfigurationManager.AppSettings["UnauthenticatedTestWebsiteUrl"];
             if (string.IsNullOrEmpty(testUrl))
                 throw new ConfigurationErrorsException("This test requires an address without credentials in the config called 'UnauthenticatedTestWebsiteUrl'");
-            _client = new HttpClient { BaseAddress = new Uri(testUrl) };
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            _client = new HttpClient {BaseAddress = new Uri(testUrl)};
         }
 
         [Test]

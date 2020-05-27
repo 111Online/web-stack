@@ -14,6 +14,7 @@ namespace NHS111.Web
     using System.Collections;
     using System.Configuration;
     using System.Linq;
+    using System.Net;
     using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
@@ -28,8 +29,10 @@ namespace NHS111.Web
         : System.Web.HttpApplication
     {
 
-        protected void Application_Start()
-        {
+        protected void Application_Start() {
+            // Enable TLS 1.2 for outbound connections so that TLS 1.2 on the downstream App Services can be enabled
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             // Register Web APIs

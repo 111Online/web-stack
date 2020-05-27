@@ -10,10 +10,12 @@ namespace NHS111.Business.Api.IoC
     {
         public BusinessApiRegistry()
         {
+            var config = new Configuration.Configuration();
+            
             IncludeRegistry<ModelsRegistry>();
             IncludeRegistry<UtilsRegistry>();
-            IncludeRegistry(new BusinessRegistry(new Configuration.Configuration()));
-            For<ICacheManager<string, string>>().Use(new RedisManager(new Configuration.Configuration().GetRedisUrl()));
+            IncludeRegistry(new BusinessRegistry(config));
+            For<ICacheManager<string, string>>().Use(new RedisManager(config.GetRedisUrl(), config.GetRedisExpiryMinutes()));
             For<ICacheStore>().Use<RedisCacheStore>()
                 .Ctor<bool>().Is(true).Singleton();
             Scan(scan =>

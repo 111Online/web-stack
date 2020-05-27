@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 
 namespace NHS111.Business.Monitoring
 {
+    using Nest;
     using System.Reflection;
 
     public class Monitor : BaseMonitor
     {
         private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
+        private readonly IElasticClient _elasticClient;
 
         public Monitor(ILoggingRestClient restClientDomainApi, IConfiguration configuration)
         {
             _restClient = restClientDomainApi;
             _configuration = configuration;
+            _elasticClient = _configuration.GetElasticClient();
         }
 
         public override string Metrics()
@@ -29,8 +32,12 @@ namespace NHS111.Business.Monitoring
         {
             try
             {
-                var health = await _restClient.ExecuteAsync<bool>(new JsonRestRequest(_configuration.GetDomainApiMonitorHealthUrl(), Method.GET));
-                return health.Data;
+                var elasticHealth = _elasticClient.CatHealthAsync();
+                var domainHealth = _restClient.ExecuteAsync<bool>(new JsonRestRequest(_configuration.GetDomainApiMonitorHealthUrl(), Method.GET));
+
+                await Task.WhenAll(elasticHealth, domainHealth).ConfigureAwait(false);
+
+                return elasticHealth.Result.ApiCall.Success && domainHealth.Result.Data;
             }
             catch (Exception)
             {

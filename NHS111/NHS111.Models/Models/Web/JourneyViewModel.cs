@@ -5,6 +5,7 @@ using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace NHS111.Models.Models.Web
@@ -174,8 +175,13 @@ namespace NHS111.Models.Models.Web
 
         public string NextButtonText { get; set; }
 
+        public bool FeedbackEnabled { get; set; }
+
         public JourneyViewModel()
         {
+            bool fb;
+            var feedbackEnabled = bool.TryParse(ConfigurationManager.AppSettings.Get("FeedbackEnabled"), out fb) ? fb : true;
+            
             Answers = new List<Answer>();
             JourneyJson = JsonConvert.SerializeObject(new Journey());
             Bullets = new List<string>();
@@ -184,6 +190,7 @@ namespace NHS111.Models.Models.Web
             CollectedKeywords = new KeywordBag();
             FilterServices = true;
             UserInfo = new UserInfo { CurrentAddress = new FindServicesAddressViewModel() };
+            FeedbackEnabled = feedbackEnabled;
         }
 
         public List<Answer> OrderedAnswers()

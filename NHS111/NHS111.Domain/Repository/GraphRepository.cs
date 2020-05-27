@@ -10,7 +10,7 @@ namespace NHS111.Domain.Repository
 
         public GraphRepository(IConfiguration configuration)
         {
-            var client = new GraphClient(new Uri(configuration.GetGraphDbUrl()));
+            var client = new GraphClient(new Uri(configuration.GetGraphDbUrl()), configuration.GetGraphDbUsername(), configuration.GetGraphDbPassword());
 
             client.Connect();
             Client = client;

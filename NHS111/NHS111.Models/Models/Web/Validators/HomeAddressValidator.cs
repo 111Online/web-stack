@@ -25,7 +25,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var ruleYear = new ModelClientValidationRule
             {
-                ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
+                ErrorMessage = this.Options.ErrorMessageSource.GetString(null), // default error message
                 ValidationType = "homeaddress" // name of the validation which will be used inside unobtrusive library
             };
 

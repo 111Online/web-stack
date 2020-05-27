@@ -23,7 +23,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var ruleYear = new ModelClientValidationRule
             {
-                ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
+                ErrorMessage = this.Options.ErrorMessageSource.GetString(null), // default error message
                 ValidationType = "personname" // name of the validation which will be used inside unobtrusive library
             };
 

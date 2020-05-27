@@ -1,10 +1,12 @@
-using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Web.UI;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Business.Caching;
 using StackExchange.Redis;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace NHS111.Utils.Cache
@@ -13,28 +15,97 @@ namespace NHS111.Utils.Cache
     {
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
+        private readonly TimeSpan _expiry;
+        private readonly string _serverName;
+        private readonly TelemetryClient _tc = new TelemetryClient();
 
-        public RedisManager(string connString)
+        public RedisManager(string connString, int expiryInMinutes = 300)
         {
             _redis = ConnectionMultiplexer.Connect(connString);
             _database = _redis.GetDatabase();
+            _expiry = TimeSpan.FromMinutes(expiryInMinutes);
+
+            // Parse server hostname and port for later logging
+            var endpoint = _redis.GetEndPoints()?.FirstOrDefault() as DnsEndPoint;
+            _serverName = endpoint != null ? $"{endpoint.Host}:{endpoint.Port}" : "unknown host";
         }
 
-        public void Set(string key, string value)
+        /// <summary>
+        /// Writes a Key-Value pair into Redis
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public async Task Set(string key, string value)
         {
             if (_redis.IsConnected)
-                _database.StringSetAsync(key, value);
+            {
+                var success = true;
+                var startTime = DateTimeOffset.UtcNow;
+                var sw = Stopwatch.StartNew();
+                try
+                {
+                    await _database.StringSetAsync(key, value, _expiry);
+                }
+                catch (Exception e)
+                {
+                    success = false;
+                    _tc.TrackException(e);
+                }
+                finally
+                {
+                    sw.Stop();
+                    var telemetry = new DependencyTelemetry()
+                    {
+                        Target = _serverName,
+                        Name = $"SET Key={key}",
+                        Type = "Redis",
+                        Duration = sw.Elapsed,
+                        Timestamp = startTime,
+                        Success = success
+                    };
+                    _tc.TrackDependency(telemetry);
+                }
+            }
+
         }
 
         public async Task<string> Read(string key)
         {
-            return _redis.IsConnected ? (string)await _database.StringGetAsync(key) : string.Empty;
+            if (!_redis.IsConnected)
+                return string.Empty;
+
+            var success = true;
+            var startTime = DateTimeOffset.UtcNow;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                return await _database.StringGetAsync(key);
+            }
+            catch (Exception e)
+            {
+                success = false;
+                _tc.TrackException(e);
+                return string.Empty;
+            }
+            finally
+            {
+                sw.Stop();
+                _tc.TrackDependency(new DependencyTelemetry()
+                {
+                    Target = _serverName,
+                    Name = $"GET Key={key}",
+                    Type = "Redis",
+                    Duration = sw.Elapsed,
+                    Timestamp = startTime,
+                    Success = success
+                });
+            }
         }
     }
 
     public interface ICacheStore
     {
-        void Add<TItem>(TItem item, ICacheKey<TItem> key);
+        Task Add<TItem>(TItem item, ICacheKey<TItem> key);
 
         Task<TItem> Get<TItem>(ICacheKey<TItem> key) where TItem : class;
         Task<TItem> GetOrAdd<TItem>(ICacheKey<TItem> key, Func<Task<TItem>> expression) where TItem : class;
@@ -46,12 +117,12 @@ namespace NHS111.Utils.Cache
 
         private bool _useCache = false;
 
-        public RedisCacheStore(ICacheManager<string, string> cacheManager) 
+        public RedisCacheStore(ICacheManager<string, string> cacheManager)
         {
             _cacheManager = cacheManager;
-        #if !DEBUG 
+#if !DEBUG
             _useCache=true;
-        #endif
+#endif
         }
 
         public RedisCacheStore(ICacheManager<string, string> cacheManager, bool useCache)
@@ -62,10 +133,10 @@ namespace NHS111.Utils.Cache
 
 
 
-        public void Add<TItem>(TItem item, ICacheKey<TItem> key)
+        public async Task Add<TItem>(TItem item, ICacheKey<TItem> key)
         {
-            if(key.ValidToAdd(item) && _useCache)
-                _cacheManager.Set(key.CacheKey, JsonConvert.SerializeObject(item));
+            if (key.ValidToAdd(item) && _useCache)
+                await _cacheManager.Set(key.CacheKey, JsonConvert.SerializeObject(item));
         }
 
         public async Task<TItem> Get<TItem>(ICacheKey<TItem> key) where TItem : class
@@ -87,7 +158,7 @@ namespace NHS111.Utils.Cache
             if (item == null)
             {
                 item = await expression.Invoke();
-                Add(item, key);
+                await Add(item, key);
             }
 
             return item;
