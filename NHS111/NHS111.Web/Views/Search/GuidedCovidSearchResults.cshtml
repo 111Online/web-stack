@@ -17,6 +17,11 @@
     </script>
 }
 
+@{
+    var previousAction = "Search";
+    var previousController = "Search";
+}
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
     {
@@ -25,31 +30,56 @@
     })
 }
 
-@using (Html.BeginForm("Search", "Search", FormMethod.Post))
-{
-    @Html.HiddenFor(m => Model.SessionId)
-    @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
-    @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
-    @Html.HiddenFor(m => Model.CurrentPostcode)
-    @Html.HiddenFor(m => Model.FilterServices)
-    @Html.HiddenFor(x => Model.Campaign)
-    @Html.HiddenFor(x => Model.Source)
-    @Html.HiddenFor(x => Model.IsCustomJourney)
-    @Html.HiddenFor(x => Model.SanitisedSearchTerm)
-
-<div id="SearchResults" class="measure search-typography">
-    <h1>Choose the 1 thing that's bothering you most:</h1>
-    @foreach (var result in Model.Results)
+<div class="content-block measure">
+    @using (Html.BeginForm(previousAction, previousController, FormMethod.Post))
     {
-        <div class="multiple-choice">
-            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@result.PathwayTitleWithoutSpaces" value="@result.PathwayNo" checked="" />
-            <label for="@result.PathwayTitle" class="multiple-choice--radio"><strong>@result.Title.First()</strong><p>@result.Description</p></label>
-        </div>
+        @Html.HiddenFor(m => Model.SessionId)
+        @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
+        @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
+        @Html.HiddenFor(m => Model.CurrentPostcode)
+        @Html.HiddenFor(m => Model.FilterServices)
+        @Html.HiddenFor(x => Model.Campaign)
+        @Html.HiddenFor(x => Model.Source)
+        @Html.HiddenFor(x => Model.IsCustomJourney)
+        @Html.HiddenFor(x => Model.SanitisedSearchTerm)
+        <button class="button--link search__button--back">Back</button>
     }
-    <div class="multiple-choice">
-        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="noneofthese" value="" checked="" />
-        <label for="noneofthese" class="multiple-choice--radio"><strong>None of these</strong></label>
+    <h2 class="nhsuk-heading-xl">
+        <span class="nhsuk-caption-l">
+            Coronavirus (COVID-19)
+        </span>
+        Choose the 1 thing that’s bothering you most:
+    </h2>
+    <div class="form-group nhsuk-u-margin-top-2">
+        @using (Html.BeginForm("Search", "Search", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => Model.SessionId)
+            @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
+            @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
+            @Html.HiddenFor(m => Model.CurrentPostcode)
+            @Html.HiddenFor(m => Model.FilterServices)
+            @Html.HiddenFor(x => Model.Campaign)
+            @Html.HiddenFor(x => Model.Source)
+            @Html.HiddenFor(x => Model.IsCustomJourney)
+            @Html.HiddenFor(x => Model.SanitisedSearchTerm)
+            @Html.Hidden("DisplayLoadingPage")
+            <fieldset>
+                @foreach (var result in Model.Results)
+                {
+                    <div class="multiple-choice">
+                        <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="@result.PathwayTitleWithoutSpaces" value="@result.PathwayNo"/>
+                        <label for="@result.PathwayTitleWithoutSpaces" class="multiple-choice--radio">
+                            <strong>@result.Title.First()</strong>
+                            <p>@result.Description</p>
+                        </label>
+                    </div>
+                }
+                <div class="multiple-choice">
+                    <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="noneofthese" value=""/>
+                    <label for="noneofthese" class="multiple-choice--radio"><strong>None of these</strong></label>
+                </div>
+                <button class="button--next button--spinner" id="nextScreen" type="submit" name="GuidedSearch" value="GuidedSearch">Next @Html.Partial("_InlineSpinner")</button>
+            </fieldset>
+        }
     </div>
-    <button class="button--next button--spinner" id="nextScreen" type="submit" name="GuidedSearch" value="GuidedSearch">Next @Html.Partial("_InlineSpinner")</button>
 </div>
-}
