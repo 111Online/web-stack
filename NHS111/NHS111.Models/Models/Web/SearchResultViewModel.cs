@@ -19,6 +19,8 @@
 
     public class GuidedSearchResultViewModel : SearchResultViewModel
     {
-        
+        public string GuidedTitle { get; set; }
+        public string GuidedDescription { get; set; }
+        public string GuidedTitleWithoutSpaces { get { return GuidedTitle != null ? GuidedTitle.Replace(" ", string.Empty) : string.Empty; } }
     }
 }

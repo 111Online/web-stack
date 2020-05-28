@@ -64,13 +64,13 @@
             @Html.HiddenFor(x => Model.SanitisedSearchTerm)
             @Html.Hidden("DisplayLoadingPage")
             <fieldset>
-                @foreach (var result in Model.Results)
+                @foreach (var result in Model.GuidedResults)
                 {
                     <div class="multiple-choice">
-                        <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="@result.PathwayTitleWithoutSpaces" value="@result.PathwayNo"/>
-                        <label for="@result.PathwayTitleWithoutSpaces" class="multiple-choice--radio">
-                            <strong>@result.Title.First()</strong>
-                            <p>@result.Description</p>
+                        <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="@result.GuidedTitleWithoutSpaces" value="@result.PathwayNo"/>
+                        <label for="@result.GuidedTitleWithoutSpaces" class="multiple-choice--radio">
+                            <strong>@result.GuidedTitle</strong>
+                            <p>@result.GuidedDescription</p>
                         </label>
                     </div>
                 }
