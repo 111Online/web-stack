@@ -549,6 +549,7 @@
     <Content Include="Views\PersonalDetails\PatientName.cshtml" />
     <Content Include="Views\PersonalDetails\InformantName.cshtml" />
     <Content Include="Views\PersonalDetails\InformantType.cshtml" />
+    <Content Include="Views\Outcome\Corona\Explainer_Of_Doom.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
