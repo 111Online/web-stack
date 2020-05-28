@@ -53,5 +53,10 @@ namespace NHS111.Models.Models.Web
 
     public class GuidedSearchJourneyViewModel : SearchJourneyViewModel
     {
+        public GuidedSearchJourneyViewModel()
+        {
+            GuidedResults = new List<GuidedSearchResultViewModel>();
+        }
+        public IEnumerable<GuidedSearchResultViewModel> GuidedResults { get; set; }
     }
 }

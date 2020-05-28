@@ -278,10 +278,10 @@ namespace NHS111.Web.Controllers
 
             var response = await _restClientBusinessApi.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
 
-            model.Results = response.Data
-                .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
+            var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
+            guidedModel.GuidedResults = response.Data;
             
-            return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", Mapper.Map<GuidedSearchJourneyViewModel>(model));
+            return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
         }
 
         private ViewResult NoResults(SearchJourneyViewModel model)
@@ -306,7 +306,7 @@ namespace NHS111.Web.Controllers
 
             model.Results = response.Data
                 .Take(MAX_SEARCH_RESULTS)
-                .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
+                .Select(Transform);
 
             return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\SearchResults.cshtml", model);
         }
@@ -357,7 +357,7 @@ namespace NHS111.Web.Controllers
             return response.Data;
         }
 
-        private SearchResultViewModel Transform(SearchResultViewModel result, string searchTerm)
+        private SearchResultViewModel Transform(SearchResultViewModel result)
         {
             result.Description += ".";
             result.Description = result.Description.Replace("\\n\\n", ". ");

@@ -10,11 +10,11 @@ namespace NHS111.Models.Models.Business.PathwaySearch
     [ElasticsearchType(IdProperty = "id", Name = "reserved")]
     public class ReservedSearchResult
     {
-        [Keyword(Name = "PathwayTitle")]
-        public string PathwayTitle { get; set; }
+        [Keyword(Name = "GuidedTitle")]
+        public string GuidedTitle { get; set; }
 
-        [Text(Name = "DigitalDescriptions")]
-        public List<string> Title { get; set; }
+        [Text(Name = "GuidedDescription")]
+        public string GuidedDescription { get; set; }
         
         [Text(Name = "KP_Use")]
         public string Description { get; set; }
