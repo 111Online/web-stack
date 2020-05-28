@@ -69,6 +69,7 @@
     <Compile Include="BasicAuthTests.cs" />
     <Compile Include="CareAdviceTests.cs" />
     <Compile Include="BritishSignLanguageTests.cs" />
+    <Compile Include="ConfirmationScreenTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="Covid\CovidHomePageTests.cs" />
     <Compile Include="Covid\Dx391.cs" />
@@ -78,8 +79,6 @@
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="PersonalDetailsTests.cs" />
-    <Compile Include="PersonalDetials\DirectLinkAppJumpToPersonalDetails.cs" />
-    <Compile Include="PersonalDetials\PersonalDetialsDirectLinkTest.cs" />
     <Compile Include="QuestionPageTests.cs" />
     <Compile Include="RecommendedServiceTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />

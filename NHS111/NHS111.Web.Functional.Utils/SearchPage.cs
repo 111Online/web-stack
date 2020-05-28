@@ -61,8 +61,26 @@ namespace NHS111.Web.Functional.Utils
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
             this.ClickNextButton();
-            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
-            Driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
+            var xpathFilter = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li";
+            var xpathTitleFilter = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']";
+
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath(xpathFilter)));
+            var xpath = Driver.PageSource;
+            Driver.FindElement(By.XPath(xpathTitleFilter)).Click();
+            return new QuestionInfoPage(Driver);
+        }
+
+        public QuestionInfoPage TypeSearchTextAndSelect(string pathway, string title)
+        {
+            SearchTxtBox.Clear();
+            SearchTxtBox.SendKeys(pathway);
+            this.ClickNextButton();
+            var xpathFilter = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li";
+            var xpathTitleFilter = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + title + "']";
+
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath(xpathFilter)));
+            var xpath = Driver.PageSource;
+            Driver.FindElement(By.XPath(xpathTitleFilter)).Click();
             return new QuestionInfoPage(Driver);
         }
 

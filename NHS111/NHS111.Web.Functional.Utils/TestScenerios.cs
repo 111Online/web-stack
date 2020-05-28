@@ -11,6 +11,7 @@ namespace NHS111.Web.Functional.Utils
     public static class TestScenerioAgeGroups
     {
         public const int Adult = 22;
+        public const int Adolescent = 16;
         public const int Child = 8;
         public const int Toddler = 2;
         public const int Infant = 0;
@@ -75,6 +76,17 @@ namespace NHS111.Web.Functional.Utils
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
+            return TestScenarioPart.Question(questionInfoPage);
+        }
+
+        public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode, string pathwayTitle)
+        {
+            var homePage = TestScenarioPart.HomePage(driver);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage, postcode);
+            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
+            var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
+            var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic, pathwayTitle);
             return TestScenarioPart.Question(questionInfoPage);
         }
 

@@ -78,8 +78,13 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(subHeadertext, SubHeader.Text);
         }
 
-        public void VerifyNoWorseningAdvice()
+        public void VerifyHeader(string headerText)
         {
+            Assert.IsTrue(Header.Displayed);
+            Assert.AreEqual(headerText, Header.Text);
+        }
+
+        public void VerifyNoWorseningAdvice() {
             Assert.IsFalse(Driver.ElementExists(By.CssSelector(".callout--attention p")));
         }
 
