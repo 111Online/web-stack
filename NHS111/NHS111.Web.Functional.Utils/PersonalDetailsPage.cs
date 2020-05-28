@@ -307,7 +307,7 @@ namespace NHS111.Web.Functional.Utils
 
             var firstSectionHeading = Driver.FindElement(By.CssSelector("div.callout.callout--attention > p")).Text;
 
-            var expectedConfirmationMessage = "Call the pharmacy on 0113 2673470 and give them this reference number:";
+            var expectedConfirmationMessage = "Call the pharmacy on 0113 2685602 and give them this reference number:";
 
             Assert.AreEqual(expectedConfirmationMessage, firstSectionHeading,
                 $"Possible unexpected header. Expected header text of '{expectedConfirmationMessage}' but was '{firstSectionHeading}'.");
