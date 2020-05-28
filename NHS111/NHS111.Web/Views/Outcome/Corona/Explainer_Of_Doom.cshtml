@@ -25,36 +25,57 @@
 @Html.HiddenFor(x => Model.Id)
 
 
-<div class="measure nhsuk-core">
-    <h1 class="nhsuk-heading-xl">@Model.OutcomeGroup.Text</h1>
+<div class="nhsuk-core measure">
 
-    <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
-        <p>
-            The phone service will be busy but you <b>must</b> wait to speak to someone.
-            Tell 111 that you are calling about coronavirus symptoms.
-        </p>
-    </div>
+    <button class="button--stacked button--link nhsuk-back-link__link nhsuk-u-margin-bottom-5" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>
+        <svg class="nhsuk-icon nhsuk-icon__chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
+        </svg>
+        Go back
+    </button>
+
+    <h2 class="nhsuk-heading-l">
+        <span class="nhsuk-caption-l">
+            Coronavirus (COVID-19) symptoms
+        </span>
+        If you have none of the symptoms listed
+    </h2>
 
     <p>
-        Your symptoms suggest that you might have a coronavirus infection.
-    </p>
-    <p>
-        The nurse will:
+        The main symptoms of coronavirus are:
     </p>
     <ul>
-        <li>ask you more about your symptoms</li>
-        <li>tell you what to do next</li>
+        <li>a new continuous cough</li>
+        <li>high temperature</li>
+        <li>loss or change in sense of smell or taste</li>
     </ul>
 
-    <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
+    <div class="callout callout--info">
         <p>
-            You need to stay away from other people until you have spoken to 111.
-        </p>
-        <p>
-            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
-                Read more self-isolation advice on NHS.UK
-            </a>
+            If you have symptoms like a runny nose or diarrhoea , they are not usually enough on their own to suggest coronavirus.
         </p>
     </div>
+
+    <br>
+
+    <p>
+        The chief medical officer will decide if the symptoms in the list should change as we find out more about the virus.
+    </p>
+
+    <hr>
+
+    <p>
+        If you have other symptoms, find the topic that most closely applies.
+    </p>
+
+    <p>
+        <a class="nhsuk-action-link__link" href="/finding-pathways/start">
+            <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
+            </svg>
+            <span class="nhsuk-action-link__text">Find a topic</span>
+        </a>
+    </p>
 
 </div>
