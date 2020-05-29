@@ -19,7 +19,7 @@
         @{
             Model.SanitisedSearchTerm = SearchReservedCovidTerms.SearchTerms.First();
             var encryptedQueryStringValuesSearchResult = KeyValueEncryptor.EncryptedKeys(Model);
-            var covidPathwayLink = String.Format("/Search/GuidedSearch?gender={0}&age={1}&args={2}", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
+            var covidPathwayLink = String.Format("/Search/GuidedSelection?gender={0}&age={1}&args={2}", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
             Model.SanitisedSearchTerm = string.Empty;
         }
         

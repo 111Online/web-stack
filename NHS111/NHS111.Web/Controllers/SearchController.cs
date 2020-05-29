@@ -48,7 +48,7 @@ namespace NHS111.Web.Controllers
 
             if (model.IsCovidJourney)
             {
-                return RedirectToGuidedSearch(SearchReservedCovidTerms.SearchTerms.First(), model, true);
+                return RedirectToGuidedSelection(SearchReservedCovidTerms.SearchTerms.First(), model, true);
             }
 
             if (model.PathwayNo != null && model.PathwayNo.Equals("none"))
@@ -80,7 +80,7 @@ namespace NHS111.Web.Controllers
             return View(startOfJourney);
         }
 
-        private ActionResult RedirectToGuidedSearch(string searchTerm, JourneyViewModel model, bool isCovidJourney = false)
+        private ActionResult RedirectToGuidedSelection(string searchTerm, JourneyViewModel model, bool isCovidJourney = false)
         {
             var searchJourneyViewModel = new SearchJourneyViewModel()
             {
@@ -94,7 +94,7 @@ namespace NHS111.Web.Controllers
                 IsCovidJourney = isCovidJourney
             };
 
-            return RedirectToAction("GuidedSearch", new RouteValueDictionary {
+            return RedirectToAction("GuidedSelection", new RouteValueDictionary {
                 { "gender", model.UserInfo.Demography.Gender},
                 { "age", model.UserInfo.Demography.Age},
                 { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
@@ -181,7 +181,7 @@ namespace NHS111.Web.Controllers
             if (model.SanitisedSearchTerm == null) return NoResults(model);
 
             if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm)
-                return RedirectToGuidedSearch(model.SanitisedSearchTerm, model);
+                return RedirectToGuidedSelection(model.SanitisedSearchTerm, model);
 
             return await SearchResultsView(model).ConfigureAwait(false);
         }
@@ -207,7 +207,7 @@ namespace NHS111.Web.Controllers
             return View("~\\Views\\Search\\Coronavirus_Explainer.cshtml", model);
         }
 
-        public async Task<ViewResult> GuidedSearch(string gender, int age, string args)
+        public async Task<ViewResult> GuidedSelection(string gender, int age, string args)
         {
             var decryptedArgs = new QueryStringEncryptor(args);
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };

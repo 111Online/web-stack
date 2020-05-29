@@ -27,7 +27,7 @@
 }
 
 <div class="content-block measure">
-    @using (Html.BeginForm("GuidedSearch", "Search", FormMethod.Post))
+    @using (Html.BeginForm("GuidedSelection", "Search", FormMethod.Post))
     {
         var encryptedArgs = KeyValueEncryptor.EncryptedKeys(Model);
         @Html.HiddenFor(x => Model.SanitisedSearchTerm)
