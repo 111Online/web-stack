@@ -38,7 +38,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search(JourneyViewModel model)
+        public async Task<ActionResult> Search(SearchJourneyViewModel model)
         {
             if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
             {
@@ -48,10 +48,14 @@ namespace NHS111.Web.Controllers
 
             if (model.IsCovidJourney)
             {
-                return RedirectToSearchResultsDirect(model);
+                return RedirectToGuidedSearch(SearchReservedCovidTerms.SearchTerms.First(), model, true);
             }
 
-
+            if (model.PathwayNo != null && model.PathwayNo.Equals("none"))
+            {
+                return RedirectToExplainer(model);
+            } 
+            
             if (model.PathwayNo != null)
             {
                 return await RedirectToFirstTriageQuestion(model).ConfigureAwait(false);
@@ -74,6 +78,45 @@ namespace NHS111.Web.Controllers
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
 
             return View(startOfJourney);
+        }
+
+        private ActionResult RedirectToGuidedSearch(string searchTerm, JourneyViewModel model, bool isCovidJourney = false)
+        {
+            var searchJourneyViewModel = new SearchJourneyViewModel()
+            {
+                SessionId = model.SessionId,
+                CurrentPostcode = model.CurrentPostcode,
+                UserInfo = model.UserInfo,
+                FilterServices = model.FilterServices,
+                Campaign = model.Campaign,
+                Source = model.Source,
+                SanitisedSearchTerm = searchTerm,
+                IsCovidJourney = isCovidJourney
+            };
+
+            return RedirectToAction("GuidedSearch", new RouteValueDictionary {
+                { "gender", model.UserInfo.Demography.Gender},
+                { "age", model.UserInfo.Demography.Age},
+                { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
+        }
+
+        private ActionResult RedirectToExplainer(SearchJourneyViewModel model)
+        {
+            var searchJourneyViewModel = new SearchJourneyViewModel()
+            {
+                SessionId = model.SessionId,
+                CurrentPostcode = model.CurrentPostcode,
+                UserInfo = model.UserInfo,
+                FilterServices = model.FilterServices,
+                Campaign = model.Campaign,
+                Source = model.Source,
+                SanitisedSearchTerm = model.SanitisedSearchTerm
+            };
+
+            return RedirectToAction("Explainer", new RouteValueDictionary {
+                { "gender", model.UserInfo.Demography.Gender},
+                { "age", model.UserInfo.Demography.Age},
+                { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
         }
 
         private async Task<ActionResult> RedirectToFirstTriageQuestion(JourneyViewModel model)
@@ -101,26 +144,6 @@ namespace NHS111.Web.Controllers
                 { "age", searchJourneyViewModel.UserInfo.Demography.Age},
                 { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
         }
-
-        private ActionResult RedirectToSearchResultsDirect(JourneyViewModel model)
-        {
-            var searchJourneyViewModel = new SearchJourneyViewModel()
-            {
-                SessionId = model.SessionId,
-                CurrentPostcode = model.CurrentPostcode,
-                UserInfo = model.UserInfo,
-                FilterServices = model.FilterServices,
-                Campaign = model.Campaign,
-                Source = model.Source
-            };
-
-            return RedirectToAction("SearchResultsDirect", new RouteValueDictionary {
-                { "gender", model.UserInfo.Demography.Gender},
-                { "age", model.UserInfo.Demography.Age},
-                { "searchTerm", SearchReservedCovidTerms.SearchTerms.First() },
-                { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
-        }
-
 
         [HttpGet]
         [Route("{gender}/{age}/Search", Name = "SearchUrl")]
@@ -158,9 +181,64 @@ namespace NHS111.Web.Controllers
             if (model.SanitisedSearchTerm == null) return NoResults(model);
 
             if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm)
-                return await GuidedSelection(model).ConfigureAwait(false);
+                return RedirectToGuidedSearch(model.SanitisedSearchTerm, model);
 
             return await SearchResultsView(model).ConfigureAwait(false);
+        }
+
+        public ViewResult Explainer(string gender, int age, string args)
+        {
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
+
+            var model = new SearchJourneyViewModel
+            {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
+                CurrentPostcode = decryptedArgs["postcode"],
+                UserInfo = new UserInfo
+                {
+                    Demography = ageGenderViewModel,
+                },
+                FilterServices = bool.Parse(decryptedArgs["filterServices"]),
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
+            };
+
+            return View("~\\Views\\Search\\Coronavirus_Explainer.cshtml", model);
+        }
+
+        public async Task<ViewResult> GuidedSearch(string gender, int age, string args)
+        {
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
+
+            var model = new SearchJourneyViewModel
+            {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
+                CurrentPostcode = decryptedArgs["postcode"],
+                UserInfo = new UserInfo
+                {
+                    Demography = ageGenderViewModel,
+                },
+                SanitisedSearchTerm = decryptedArgs["searchTerm"],
+                FilterServices = bool.Parse(decryptedArgs["filterServices"]),
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"],
+                IsCovidJourney = bool.Parse(decryptedArgs["isCovidjourney"])
+            };
+
+            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
+            var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
+
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim().ToLower()) });
+
+            var response = await _restClientBusinessApi.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
+
+            var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
+            guidedModel.GuidedResults = response.Data;
+
+            return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
         }
 
         [HttpGet]
@@ -282,22 +360,6 @@ namespace NHS111.Web.Controllers
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
 
             return View(model);
-        }
-
-        private async Task<ViewResult> GuidedSelection(SearchJourneyViewModel model)
-        {
-            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
-            var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
-
-            var request = new RestRequest(requestPath, Method.POST);
-            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim().ToLower()) });
-
-            var response = await _restClientBusinessApi.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
-
-            var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
-            guidedModel.GuidedResults = response.Data;
-            
-            return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
         }
 
         private ViewResult NoResults(SearchJourneyViewModel model)
