@@ -85,14 +85,14 @@ namespace NHS111.Web.Functional.Utils
 
         public PersonalDetailsPage UseThisService(string id)
         {
-            string elementId = $"details-summary-{id}";
+            string elementId = "details-summary-" + "{id}";
             Driver.FindElement(By.Id(elementId)).Click();
             Driver.FindElement(By.Name("PersonalDetails")).Click();
             return new PersonalDetailsPage(Driver);
         }
         public PersonalDetailsPage UseThisGPService(string id)
         {
-            string elementId = $"details-summary-{id}";
+            string elementId = "details-summary-" + "{id}";
             Driver.FindElement(By.Id(elementId)).Click();
             Driver.FindElement(By.ClassName("nhsuk-action-link__text")).Click();
             return new PersonalDetailsPage(Driver);
