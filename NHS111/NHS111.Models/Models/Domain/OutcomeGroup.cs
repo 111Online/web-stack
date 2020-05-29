@@ -74,6 +74,7 @@ namespace NHS111.Models.Models.Domain
         public static OutcomeGroup JumpToSearch = new OutcomeGroup { Id = "111_Search_Jump", Text = "", DefaultTitle = "", Label = "" };
 
         #region Corona virus specific outcomes
+        public static OutcomeGroup Coronavirus_Explainer = new OutcomeGroup { Id = "Coronavirus_Explainer", Text = "Coronavirus_Explainer", DefaultTitle = "If you have none of the sysmptoms listed", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = true };
         public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = true };
         public static OutcomeGroup Isolate_SelfCare = new OutcomeGroup { Id = "Isolate_SelfCare", Text = "Isolate_SelfCare", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Isolate_999 = new OutcomeGroup { Id = "Isolate_999", Text = "Isolate_999", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
@@ -114,7 +115,8 @@ namespace NHS111.Models.Models.Domain
             { NoFurtherAction.Id, NoFurtherAction },
             { JumpToSearch.Id, JumpToSearch },
 
-        #region Corona virus specific outcomes
+            #region Corona virus specific outcomes
+            { Coronavirus_Explainer.Id, Coronavirus_Explainer },
             { Isolate111.Id, Isolate111 },
             { Isolate_SelfCare.Id, Isolate_SelfCare },
             { Isolate_999.Id, Isolate_999 },
@@ -201,7 +203,7 @@ namespace NHS111.Models.Models.Domain
         {
             get
             {
-                return Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999);
+                return Equals(Coronavirus_Explainer) || Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999);
             }
         }
 
