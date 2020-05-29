@@ -46,32 +46,15 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\Question\\Gender.cshtml", model);
             }
 
+            if (model.IsCovidJourney)
+            {
+                return RedirectToSearchResultsDirect(model);
+            }
+
 
             if (model.PathwayNo != null)
             {
-                var pathwayMetadata = await _restClientBusinessApi.ExecuteAsync<PathwayMetaData>(
-                            new RestRequest(_configuration.GetBusinessApiPathwayMetadataUrl(model.PathwayNo),
-                                Method.GET)).ConfigureAwait(false);
-                var digitalTitle = pathwayMetadata.Data.DigitalTitle;
-
-                var searchJourneyViewModel = new SearchJourneyViewModel()
-                {
-                    SessionId = model.SessionId,
-                    PathwayNo = model.PathwayNo.ToUpper(),
-                    DigitalTitle = digitalTitle,
-                    CurrentPostcode = model.CurrentPostcode,
-                    UserInfo = model.UserInfo,
-                    FilterServices = model.FilterServices,
-                    Campaign = model.Campaign,
-                    Source = model.Source,
-                    IsCustomJourney = model.IsCustomJourney
-                };
-
-                return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
-                    { "pathwayNumber", searchJourneyViewModel.PathwayNo },
-                    { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
-                    { "age", searchJourneyViewModel.UserInfo.Demography.Age},
-                    { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
+                return await RedirectToFirstTriageQuestion(model).ConfigureAwait(false);
             }
 
             var startOfJourney = new SearchJourneyViewModel
@@ -85,14 +68,57 @@ namespace NHS111.Web.Controllers
                 },
                 FilterServices = model.FilterServices,
                 Campaign = model.Campaign,
-                Source = model.Source,
-                IsCustomJourney = model.IsCustomJourney
+                Source = model.Source
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
 
             return View(startOfJourney);
+        }
 
+        private async Task<ActionResult> RedirectToFirstTriageQuestion(JourneyViewModel model)
+        {
+            var pathwayMetadata = await _restClientBusinessApi.ExecuteAsync<PathwayMetaData>(
+                new RestRequest(_configuration.GetBusinessApiPathwayMetadataUrl(model.PathwayNo),
+                    Method.GET)).ConfigureAwait(false);
+            var digitalTitle = pathwayMetadata.Data.DigitalTitle;
+
+            var searchJourneyViewModel = new SearchJourneyViewModel()
+            {
+                SessionId = model.SessionId,
+                PathwayNo = model.PathwayNo.ToUpper(),
+                DigitalTitle = digitalTitle,
+                CurrentPostcode = model.CurrentPostcode,
+                UserInfo = model.UserInfo,
+                FilterServices = model.FilterServices,
+                Campaign = model.Campaign,
+                Source = model.Source
+            };
+
+            return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
+                { "pathwayNumber", searchJourneyViewModel.PathwayNo },
+                { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
+                { "age", searchJourneyViewModel.UserInfo.Demography.Age},
+                { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
+        }
+
+        private ActionResult RedirectToSearchResultsDirect(JourneyViewModel model)
+        {
+            var searchJourneyViewModel = new SearchJourneyViewModel()
+            {
+                SessionId = model.SessionId,
+                CurrentPostcode = model.CurrentPostcode,
+                UserInfo = model.UserInfo,
+                FilterServices = model.FilterServices,
+                Campaign = model.Campaign,
+                Source = model.Source
+            };
+
+            return RedirectToAction("SearchResultsDirect", new RouteValueDictionary {
+                { "gender", model.UserInfo.Demography.Gender},
+                { "age", model.UserInfo.Demography.Age},
+                { "searchTerm", SearchReservedCovidTerms.SearchTerms.First() },
+                { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
         }
 
 
@@ -112,8 +138,7 @@ namespace NHS111.Web.Controllers
                 },
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 Campaign = decryptedArgs["campaign"],
-                Source = decryptedArgs["source"],
-                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
+                Source = decryptedArgs["source"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -142,11 +167,6 @@ namespace NHS111.Web.Controllers
         [Route("{gender}/{age}/SearchResultsDirect")]
         public async Task<ActionResult> SearchResultsDirect(string gender, int age, string searchTerm, string args)
         {
-            if (!_directLinkingFeature.IsEnabled)
-            {
-                return HttpNotFound();
-            }
-
             var decryptedArgs = new QueryStringEncryptor(args);
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
 
@@ -161,7 +181,6 @@ namespace NHS111.Web.Controllers
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"]),
                 SanitisedSearchTerm = searchTerm
             };
 
@@ -190,8 +209,7 @@ namespace NHS111.Web.Controllers
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                HasResults = hasResults,
-                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
+                HasResults = hasResults
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -223,8 +241,7 @@ namespace NHS111.Web.Controllers
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                HasResults = hasResults,
-                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
+                HasResults = hasResults
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -259,8 +276,7 @@ namespace NHS111.Web.Controllers
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                HasResults = hasResults,
-                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
+                HasResults = hasResults
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
