@@ -4,14 +4,15 @@ using NHS111.Models.Models.Web;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
 using NHS111.Features;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
 {
@@ -131,7 +132,8 @@ namespace NHS111.Web.Controllers
 
             if (model.SanitisedSearchTerm == null) return NoResults(model);
 
-            if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm) return GuidedSelection(model);
+            if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm)
+                return await GuidedSelection(model).ConfigureAwait(false);
 
             return await SearchResultsView(model).ConfigureAwait(false);
         }
@@ -266,9 +268,20 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
 
-        private ViewResult GuidedSelection(SearchJourneyViewModel model)
+        private async Task<ViewResult> GuidedSelection(SearchJourneyViewModel model)
         {
-            return View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", model);
+            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
+            var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
+
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim().ToLower()) });
+
+            var response = await _restClientBusinessApi.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
+
+            var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
+            guidedModel.GuidedResults = response.Data;
+            
+            return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
         }
 
         private ViewResult NoResults(SearchJourneyViewModel model)
@@ -293,7 +306,7 @@ namespace NHS111.Web.Controllers
 
             model.Results = response.Data
                 .Take(MAX_SEARCH_RESULTS)
-                .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
+                .Select(Transform);
 
             return !model.Results.Any() ? NoResults(model) : View("~\\Views\\Search\\SearchResults.cshtml", model);
         }
@@ -344,7 +357,7 @@ namespace NHS111.Web.Controllers
             return response.Data;
         }
 
-        private SearchResultViewModel Transform(SearchResultViewModel result, string searchTerm)
+        private SearchResultViewModel Transform(SearchResultViewModel result)
         {
             result.Description += ".";
             result.Description = result.Description.Replace("\\n\\n", ". ");
