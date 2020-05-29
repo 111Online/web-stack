@@ -1,6 +1,7 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
+    // Direct link for testing: /question/direct/PW1042MaleAdult/26/Cold or Flu Symptoms/PO228PB/?answers=0,2,2,2,2,2,2,2,5,2,2
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
 
@@ -34,11 +35,15 @@
 }
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "It's safe to look after yourself" } })
-@Html.HiddenFor(x => Model.Id)
-<section>
+
+
+<section class="nhsuk-core nhsuk-u-margin-top-4">
+
+    @Html.Partial("_CovidEliminator", Model)
+
     @if (Model.CareAdvices != null && Model.CareAdvices.Any())
     {
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" } })
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" }, { "NoHR", true } })
     }
     else
     {
@@ -47,3 +52,4 @@
 </section>
 
 @Html.Partial("_WorseningAdvice", Model)
+@Html.HiddenFor(x => Model.Id)

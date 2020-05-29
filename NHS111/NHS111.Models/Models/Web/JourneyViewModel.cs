@@ -32,7 +32,8 @@ namespace NHS111.Models.Models.Web
         public string Id { get; set; }
         public string EntrySearchTerm { get; set; }
 
-        public bool ViaGuidedSearch { get; set; }
+
+        public bool? ViaGuidedSelection { get; set; } // Null: Not offered. True: Chose a symptom. False: Declined symptoms.
 
         public string TriggerQuestionNo { get; set; }
         public string TriggerQuestionAnswer { get; set; }

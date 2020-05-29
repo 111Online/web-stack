@@ -67,6 +67,10 @@ namespace NHS111.Web.Controllers
                     IsCustomJourney = model.IsCustomJourney
                 };
 
+                // ViaGuidedSelection will be null if not offered.
+                // So as PathwayNo is not null, if this is not null too, we know a pathway was selected.
+                if (model.ViaGuidedSelection.HasValue) model.ViaGuidedSelection = true;
+
                 return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
                     { "pathwayNumber", searchJourneyViewModel.PathwayNo },
                     { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
@@ -280,7 +284,10 @@ namespace NHS111.Web.Controllers
 
             var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
             guidedModel.GuidedResults = response.Data;
-            model.ViaGuidedSearch = true;
+
+            // Guided selection has been offered so un-null it.
+            // This will default it to no symptom and the Search action will set to true if a PW is chosen.
+            model.ViaGuidedSelection = false;
 
             return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
         }

@@ -45,6 +45,12 @@
   border-top: $baseline-grid-unit * 2 solid $red;
 }
 
+.callout--disposition {
+  background-color: $blue;
+  color: #fff;
+  border: none;
+}
+
 .callout--severe {
   background-color: $red;
   color: $white;
