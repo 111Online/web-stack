@@ -30,7 +30,7 @@
     })
 }
 
-<div class="content-block measure">
+<div class="measure">
     @using (Html.BeginForm(previousAction, previousController, FormMethod.Post))
     {
         @Html.HiddenFor(m => Model.SessionId)
@@ -62,6 +62,7 @@
             @Html.HiddenFor(x => Model.Source)
             @Html.HiddenFor(x => Model.IsCustomJourney)
             @Html.HiddenFor(x => Model.SanitisedSearchTerm)
+            @Html.HiddenFor(x => Model.ViaGuidedSearch) // CHANGE THIS TO INDICATE IF NO WAS CHOSEN
             @Html.Hidden("DisplayLoadingPage")
             <fieldset>
                 @foreach (var result in Model.GuidedResults)

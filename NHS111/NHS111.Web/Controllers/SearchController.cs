@@ -72,8 +72,8 @@ namespace NHS111.Web.Controllers
                     { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
                     { "age", searchJourneyViewModel.UserInfo.Demography.Age},
                     { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
-            }
-
+            } 
+            
             var startOfJourney = new SearchJourneyViewModel
             {
                 SessionId = model.SessionId,
@@ -280,7 +280,8 @@ namespace NHS111.Web.Controllers
 
             var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
             guidedModel.GuidedResults = response.Data;
-            
+            model.ViaGuidedSearch = true;
+
             return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
         }
 
