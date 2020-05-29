@@ -61,7 +61,7 @@
             @Html.HiddenFor(x => Model.Campaign)
             @Html.HiddenFor(x => Model.Source)
             @Html.HiddenFor(x => Model.SanitisedSearchTerm)
-            @Html.HiddenFor(x => Model.ViaGuidedSearch) // CHANGE THIS TO INDICATE IF NO WAS CHOSEN
+            @Html.HiddenFor(x => Model.ViaGuidedSelection)
             @Html.Hidden("DisplayLoadingPage")
             <fieldset>
                 @foreach (var result in Model.GuidedResults)
