@@ -47,7 +47,7 @@ namespace NHS111.Models.Models.Web
             PersonalDetailsChangeCurrentPostcode,
             PersonalDetailsChangeHomePostcode,
             Explainer,
-            GuidedSearch
+            GuidedSelection
         }
 
         public PageDataViewModel()
