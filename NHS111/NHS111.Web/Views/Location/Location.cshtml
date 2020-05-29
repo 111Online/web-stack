@@ -34,7 +34,7 @@
     @Html.HiddenFor(m => m.Campaign)
     @Html.HiddenFor(m => m.FilterServices)
     @Html.HiddenFor(m => m.PathwayNo)
-    @Html.HiddenFor(m => m.IsCustomJourney)
+    @Html.HiddenFor(m => m.IsCovidJourney)
 </div>
 
     <button type="submit" class="button--next">Next</button>
@@ -51,7 +51,7 @@
         startPageLoadingIndicator('Searching for your current location ...');
         navigator.geolocation.getCurrentPosition(function (pos) {
             var coords = pos.coords.longitude + "," + pos.coords.latitude;
-            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices", "PathwayNo": "@Model.PathwayNo", "IsCustomJourney": "@Model.IsCustomJourney" });
+            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices", "PathwayNo": "@Model.PathwayNo", "IsCovidJourney": "@Model.IsCovidJourney" });
         }, showError);
     });
 
