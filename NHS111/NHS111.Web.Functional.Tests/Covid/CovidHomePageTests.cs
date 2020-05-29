@@ -32,13 +32,5 @@ namespace NHS111.Web.Functional.Tests
             covidHomePage.Visit();
             covidHomePage.VerifyNHSUKLink();
         }
-
-        [TestCase(TestName = "Can go to isolation note")]
-        public void IsolationNoteLink()
-        {
-            var covidHomePage = TestScenarioPart.CovidHomePage(Driver);
-            covidHomePage.Visit();
-            covidHomePage.VerifyIsoNoteLink();
-        }
     }
 }
