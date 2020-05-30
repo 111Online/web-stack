@@ -100,12 +100,6 @@
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
     <Compile Include="FeedbackTests.cs" />
-    <Compile Include="v19Pathways\CovidHomePageTests.cs" />
-    <Compile Include="v19Pathways\CovidTests.cs" />
-    <Compile Include="v19Pathways\Dx1112.cs" />
-    <Compile Include="v19Pathways\Dx1113.cs" />
-    <Compile Include="v19Pathways\Dx1115.cs" />
-    <Compile Include="v19Pathways\Dx391.cs" />
     <Compile Include="v19Pathways\GuidedSearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
