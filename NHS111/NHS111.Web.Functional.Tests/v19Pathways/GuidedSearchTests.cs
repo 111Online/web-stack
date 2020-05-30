@@ -27,25 +27,25 @@ namespace NHS111.Web.Functional.Tests.v19Pathways
         //--Cough----------------------------
 
         [Test]
-        public void NavigateToCoughPW975FemaleAdult()
+        public void NavigateToCough_PW975FemaleAdult()
         {
             GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Cough", "PW975");
         }
 
         [Test]
-        public void NavigateToCoughPW976MaleAdult()
+        public void NavigateToCough_PW976MaleAdult()
         {
             GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "Cough", "PW976");
         }
 
         [Test]
-        public void NavigateToCoughPW978FemaleChild()
+        public void NavigateToCough_PW978FemaleChild()
         {
             GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Cough", "PW978");
         }
 
         [Test]
-        public void NavigateToCoughPW979MaleChild()
+        public void NavigateToCough_PW979MaleChild()
         {
             GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Cough", "PW979");
         }
@@ -53,25 +53,25 @@ namespace NHS111.Web.Functional.Tests.v19Pathways
         //--Coldandflusymptoms-----------------------------------------
 
         [Test]
-        public void NavigateToColdandflusymptomsPW975FemaleAdult()
+        public void NavigateToColdandflusymptoms_PW1040FemaleAdult()
         {
             GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldandflusymptoms", "PW1040");
         }
 
         [Test]
-        public void NavigateToColdandflusymptomsPW976MaleAdult()
+        public void NavigateToColdandflusymptoms_PW1042MaleAdult()
         {
             GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "Coldandflusymptoms", "PW1042");
         }
 
         [Test]
-        public void NavigateToColdandflusymptomsPW978FemaleChild()
+        public void NavigateToColdandflusymptoms_PW1041FemaleChild()
         {
             GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Coldandflusymptoms", "PW1041");
         }
 
         [Test]
-        public void NavigateToColdandflusymptomsPW979MaleChild()
+        public void NavigateToColdandflusymptoms_PW1043MaleChild()
         {
             GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Coldandflusymptoms", "PW1043");
         }
