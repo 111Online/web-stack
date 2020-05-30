@@ -58,6 +58,10 @@ namespace NHS111.Web.Controllers
             
             if (model.PathwayNo != null)
             {
+                // ViaGuidedSelection will be null if not offered.
+                // So as PathwayNo is not null, if this is not null too, we know a pathway was selected.
+                //TODO: check EP doesn't break this logic.
+                if (model.ViaGuidedSelection.HasValue) model.ViaGuidedSelection = true;
                 return await RedirectToFirstTriageQuestion(model).ConfigureAwait(false);
             }
 
@@ -94,9 +98,7 @@ namespace NHS111.Web.Controllers
                 IsCovidJourney = isCovidJourney
             };
 
-            // ViaGuidedSelection will be null if not offered.
-            // So as PathwayNo is not null, if this is not null too, we know a pathway was selected.
-            if (model.ViaGuidedSelection.HasValue) model.ViaGuidedSelection = true;
+            model.ViaGuidedSelection = false;
 
             return RedirectToAction("GuidedSelection", new RouteValueDictionary {
                 { "gender", model.UserInfo.Demography.Gender},
@@ -187,6 +189,7 @@ namespace NHS111.Web.Controllers
             if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm)
                 return RedirectToGuidedSelection(model.SanitisedSearchTerm, model);
 
+            model.ViaGuidedSelection = false;
             return await SearchResultsView(model).ConfigureAwait(false);
         }
 

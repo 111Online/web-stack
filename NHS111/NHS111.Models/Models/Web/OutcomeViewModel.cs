@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NHS111.Models.Models.Web.Parsers;
+using StructureMap.Query;
 
 namespace NHS111.Models.Models.Web
 {
@@ -67,6 +69,16 @@ namespace NHS111.Models.Models.Web
                         && (this.DosCheckCapacitySummaryResult.HasITKServices ||
                             string.IsNullOrEmpty(this.CurrentPostcode)));
             }
+        }
+
+        public bool IsSuspectedCovidSymptoms
+        {
+            get
+            {
+                var jsonParser = new JourneyJsonParser(this.JourneyJson);
+                var lastPathwayNo = jsonParser.LastPathwayNo;
+                return lastPathwayNo.Equals("PW1853");
+            }   
         }
 
         public ServiceViewModel RemoveFirstDOSService()
