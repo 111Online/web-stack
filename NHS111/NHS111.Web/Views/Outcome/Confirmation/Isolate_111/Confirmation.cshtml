@@ -42,15 +42,20 @@
         </p>
     </div>
 
+    @{ var takeSoLongText = (Model.OutcomeModel.Id == "Dx1117") ?
+                "The COVID clinical response team calls the most seriously ill people first. As your symptoms suggest you don't need to speak to someone now, they will call to check you haven't got worse." :
+                "The COVID clinical response service is very busy at the moment. The most seriously ill people are called back first. You are in a queue and you will be called as soon as possible."; }
+
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
         Link = "Why does it take so long?",
-        Summary = "<p>The COVID clinical response service is very busy at the moment. The most seriously ill people are called back first. You are in a queue and you will be called as soon as possible.</p>"
+        Summary = "<p>" + takeSoLongText + "</p>"
     })
 
-
-    @{ 
-        var dontGetCallbackText = "If you don’t hear back in " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + ", use the service again to book another call.";
+    @{
+        var dontGetCallbackText = (Model.OutcomeModel.Id == "Dx1117") ?
+                "You should get a call back within 24 hours. If you don't, use the service again to book another call." :
+                "If you don’t hear back in " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + ", use the service again to book another call.";
         if (isPaediatricPathway) dontGetCallbackText = "It's safe to wait a bit longer. But if you're worried call 111, tell them your name and that you've been waiting for a call back that was booked online.";
     }
 
@@ -66,9 +71,17 @@
         Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won’t be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
     })
 
-    @{ var waitText = (Model.OutcomeModel.Id == "Dx1113" || Model.OutcomeModel.Id == "Dx1112") ?
-             "If you feel a lot worse call 999 and tell them you have coronavirus symptoms." :
-             "If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, use the service again to tell us about your new symptoms."; }
+    @{
+        var waitText = "If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, use the service again to tell us about your new symptoms.";
+        if (Model.OutcomeModel.Id == "Dx1113" || Model.OutcomeModel.Id == "Dx1112")
+        {
+            waitText = "If you feel a lot worse call 999 and tell them you have coronavirus symptoms.";
+        }
+        else if (Model.Id == "Dx1117")
+        {
+            waitText = "If you start to feel worse, use the service again for your new symptons.";
+        }
+    }
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
