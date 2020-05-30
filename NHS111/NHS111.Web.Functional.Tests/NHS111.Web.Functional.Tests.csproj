@@ -105,7 +105,7 @@
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
     <Compile Include="FeedbackTests.cs" />
-    <Compile Include="v19Pathways\GuidedSearchTests.cs" />
+    <Compile Include="GuidedSearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

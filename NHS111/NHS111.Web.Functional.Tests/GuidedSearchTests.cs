@@ -1,7 +1,7 @@
 ﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
-namespace NHS111.Web.Functional.Tests.v19Pathways
+namespace NHS111.Web.Functional.Tests
 {
     public class GuidedSearchTests : BaseTests
     {
