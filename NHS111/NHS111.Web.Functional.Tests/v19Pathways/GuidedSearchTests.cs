@@ -9,42 +9,72 @@ namespace NHS111.Web.Functional.Tests.v19Pathways
         {
             var homepage = TestScenarioPart.HomePage(Driver);
             var covidHomePage = homepage.ClickCovidLink();
-            //covidHomePage.VerifyCovidPathway();
             var locationPage = covidHomePage.ClickOnStartNow();
             var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             return TestScenarioPart.Question(demographicsPage, sex, age);
         }
 
+        private void GuidedSelectionTest(string sex, int age, string guidedSelection, string expectedPathway )
+        {
+            var guidedSelectionPage = LaunchViaCovidLink(sex, age);
+
+            var weirdQuestionPage = guidedSelectionPage.guidedSelection(guidedSelection, true);
+
+            weirdQuestionPage.VerifyHiddenField("PathwayNo", expectedPathway);
+        }
+
+        //--Cough----------------------------
+
         [Test]
         public void NavigateToCoughPW975FemaleAdult()
         {
-            var guidedSelectionPage = LaunchViaCovidLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
-
-            //Not question page, guidedselectionpage
-            var weirdQuestionPage = guidedSelectionPage.guidedSelection("Cough", true);
-
-            //Verify the covid message appears
-            //Confirm PathwayNo = PW854
-            weirdQuestionPage.VerifyHiddenField("PathwayNo", "PW975");
-
-            //click Iunderstand
-
-
-
-            //Now go through questions
-
-            //var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "6")
-            //    .Answer(2) // no
-            //    .Answer(1) // yes
-            //    .Answer(3) // no
-            //    .Answer(3) // no
-            //    .Answer(1) // Normal,warmorhot
-            //    .Answer(3) // No - I feel well enough to do most of my usual daily activities 
-            //    .Answer(2) // I'm not sure
-            //    .Answer(2) // I'm not sure
-            //    .Answer<OutcomePage>(2); // I'm notsure
-            //outcomePage.VerifyHiddenField("Id", "Dx391");
+            GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Cough", "PW975");
         }
+
+        [Test]
+        public void NavigateToCoughPW976MaleAdult()
+        {
+            GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "Cough", "PW976");
+        }
+
+        [Test]
+        public void NavigateToCoughPW978FemaleChild()
+        {
+            GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Cough", "PW978");
+        }
+
+        [Test]
+        public void NavigateToCoughPW979MaleChild()
+        {
+            GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Cough", "PW979");
+        }
+
+        //--Coldandflusymptoms-----------------------------------------
+
+        [Test]
+        public void NavigateToColdandflusymptomsPW975FemaleAdult()
+        {
+            GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldandflusymptoms", "PW1040");
+        }
+
+        [Test]
+        public void NavigateToColdandflusymptomsPW976MaleAdult()
+        {
+            GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "Coldandflusymptoms", "PW1042");
+        }
+
+        [Test]
+        public void NavigateToColdandflusymptomsPW978FemaleChild()
+        {
+            GuidedSelectionTest(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Coldandflusymptoms", "PW1041");
+        }
+
+        [Test]
+        public void NavigateToColdandflusymptomsPW979MaleChild()
+        {
+            GuidedSelectionTest(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Coldandflusymptoms", "PW1043");
+        }
+
     }
 }
