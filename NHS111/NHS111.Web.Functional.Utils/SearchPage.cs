@@ -109,6 +109,14 @@ namespace NHS111.Web.Functional.Utils
             return Driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li"));
         }
 
+        public QuestionPage SearchByCovidTerm(string term)
+        {
+            SearchTxtBox.Clear();
+            SearchTxtBox.SendKeys(term);
+            ClickNextButton();
+            return new QuestionPage(this.Driver);
+        }
+
         public void SearchByTerm(string term)
         {
             SearchTxtBox.Clear();
