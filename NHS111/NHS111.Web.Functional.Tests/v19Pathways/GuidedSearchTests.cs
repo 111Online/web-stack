@@ -98,5 +98,31 @@ namespace NHS111.Web.Functional.Tests.v19Pathways
             weirdQuestionPage.VerifyHiddenField("PathwayNo", expectedPathway);
         }
 
+
+        [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "noneofthese")]
+        [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "noneofthese")]
+        [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "noneofthese")]
+        [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "noneofthese")]
+        public void GuidedSelectionTest_ViaCovidLinkSelectNoneOfThese(string sex, int age, string guidedSelection)
+        {
+            var guidedSelectionPage = LaunchViaCovidLink(sex, age);
+
+            var explainerPage = guidedSelectionPage.guidedSelection(guidedSelection);
+
+            Assert.IsTrue(explainerPage.Driver.Title.Contains("NHS 111 Online - Coronavirus (COVID-19) symptoms"));
+        }
+
+        [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "noneofthese")]
+        [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "noneofthese")]
+        [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "noneofthese")]
+        [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "noneofthese")]
+        public void GuidedSelectionTest_ViaCovidSearchSelectNoneOfThese(string sex, int age, string guidedSelection)
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, sex, age);
+            var guidedSelectionPage = searchPage.SearchByCovidTerm("covid");
+            var explainerPage = guidedSelectionPage.guidedSelection(guidedSelection);
+
+            Assert.IsTrue(explainerPage.Driver.Title.Contains("NHS 111 Online - Coronavirus (COVID-19) symptoms"));
+        }
     }
 }
