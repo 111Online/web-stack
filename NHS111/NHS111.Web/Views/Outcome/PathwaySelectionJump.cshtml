@@ -34,6 +34,9 @@
     @Html.HiddenFor(x => Model.QuestionNo)
 
     <h2>@Model.TitleWithoutBullets</h2>
+
+    @Html.Partial("_CovidEliminator", Model)
+
     <p>Your health assessment can’t be completed with the current online service.</p>
     <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
     <hr />
