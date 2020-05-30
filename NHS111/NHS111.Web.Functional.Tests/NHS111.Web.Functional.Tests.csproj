@@ -100,6 +100,7 @@
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
     <Compile Include="FeedbackTests.cs" />
+    <Compile Include="GuidedSearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -120,6 +121,7 @@
       <Name>NHS111.Web.Functional.Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
