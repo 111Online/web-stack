@@ -128,7 +128,8 @@ namespace NHS111.Web.Controllers
                 },
                 FilterServices = decryptedFilterServices,
                 Campaign = decryptedArgs["campaign"],
-                Source = decryptedArgs["source"]
+                Source = decryptedArgs["source"],
+                ViaGuidedSelection = string.IsNullOrEmpty(decryptedArgs["viaGuidedSelection"]) ? (bool?)null : bool.Parse(decryptedArgs["viaGuidedSelection"])
             };
             return model;
         }
