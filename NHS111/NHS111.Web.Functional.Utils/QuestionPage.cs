@@ -86,6 +86,12 @@ namespace NHS111.Web.Functional.Utils
             return SelectAnswerAndSubmit(byAnswerText, requireButtonAwait);
         }
 
+        public QuestionPage guidedSelection(string elementId, bool requireButtonAwait = true)
+        {
+            var selectedOption = By.Id(elementId);
+            return SelectAnswerAndSubmit(selectedOption, requireButtonAwait);
+        }
+
         public QuestionPage AnswerText(string elementId, string answerText)
         {
             var textBox = Driver.FindElement(By.Id(elementId));
