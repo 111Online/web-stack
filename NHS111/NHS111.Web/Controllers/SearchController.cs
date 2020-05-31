@@ -58,6 +58,11 @@ namespace NHS111.Web.Controllers
             
             if (model.PathwayNo != null)
             {
+                // Setting this to always true here and need to think about what to do for
+                // EP.  Might be we don't use this switch on EP outcomes anyway as never possible to
+                // get there via guided selection
+                //TODO: check EP doesn't break this.
+                model.ViaGuidedSelection = true;
                 return await RedirectToFirstTriageQuestion(model).ConfigureAwait(false);
             }
 
@@ -93,6 +98,8 @@ namespace NHS111.Web.Controllers
                 SanitisedSearchTerm = searchTerm,
                 IsCovidJourney = isCovidJourney
             };
+
+            model.ViaGuidedSelection = false;
 
             return RedirectToAction("GuidedSelection", new RouteValueDictionary {
                 { "gender", model.UserInfo.Demography.Gender},
@@ -135,7 +142,8 @@ namespace NHS111.Web.Controllers
                 UserInfo = model.UserInfo,
                 FilterServices = model.FilterServices,
                 Campaign = model.Campaign,
-                Source = model.Source
+                Source = model.Source,
+                ViaGuidedSelection = model.ViaGuidedSelection
             };
 
             return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
@@ -183,6 +191,7 @@ namespace NHS111.Web.Controllers
             if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && model.IsReservedCovidSearchTerm)
                 return RedirectToGuidedSelection(model.SanitisedSearchTerm, model);
 
+            model.ViaGuidedSelection = false;
             return await SearchResultsView(model).ConfigureAwait(false);
         }
 
