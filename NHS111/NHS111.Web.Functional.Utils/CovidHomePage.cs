@@ -19,9 +19,6 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "a[href*='nhs.uk/conditions/coronavirus-covid-19']")]
         private IWebElement NHSUKLink { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "a[data-event-value='Get an isolation note']")]
-        private IWebElement IsoNoteLink { get; set; }
-
         public CovidHomePage(IWebDriver driver) : base(driver)
         {
         }
@@ -51,11 +48,6 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyNHSUKLink()
         {
             Assert.IsTrue(NHSUKLink.Displayed);
-        }
-
-        public void VerifyIsoNoteLink()
-        {
-            Assert.IsTrue(IsoNoteLink.Displayed);
         }
 
         public LocationPage ClickOnStartNow()
