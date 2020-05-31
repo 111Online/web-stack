@@ -65,7 +65,8 @@ namespace NHS111.Web.Presentation.Builders
                     Campaign = model.Campaign,
                     Source = model.Source,
                     CurrentPostcode = model.CurrentPostcode,
-                    EntrySearchTerm = model.EntrySearchTerm
+                    EntrySearchTerm = model.EntrySearchTerm,
+                    ViaGuidedSelection = model.ViaGuidedSelection
                 };
 
                 var question = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));

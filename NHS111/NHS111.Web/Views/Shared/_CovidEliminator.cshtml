@@ -1,0 +1,16 @@
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+
+@{ 
+    var text = "It’s unlikely you have COVID-19 but you do need to get help for your symptoms.";
+
+    if (Model.OutcomeGroup.Id.Equals("Home_Care")) { text = "It’s unlikely you have COVID-19."; }
+
+    if (!Model.IsSuspectedCovidSymptoms && (Model.ViaGuidedSelection.HasValue && Model.ViaGuidedSelection.Value))
+    {
+        <div class="callout callout--disposition measure nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-4">
+            <p>
+                @text
+            </p>
+        </div>
+    }
+}
