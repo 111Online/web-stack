@@ -76,6 +76,7 @@
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.QuestionType)
     @Html.HiddenFor(x => Model.Rationale)
+    @Html.HiddenFor(x => Model.ViaGuidedSelection)
     @Html.Hidden("DisplayLoadingPage")
     @Html.Raw(WriteDirectLink(Model))
 
@@ -115,16 +116,15 @@
                     <div class="multiple-choice">
                         <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
                         <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@if (isTrigger)
-                        {@answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>}
-                    else
-                    {@answer.Title}</label>
+                            {@answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>}
+                        else{@answer.Title}</label>
                         @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
                         {
                             @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
                         }
-                    </div>
-                }
+                </div>
             }
+        }
             @if (Model.QuestionType == QuestionType.String)
             {
                 @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })

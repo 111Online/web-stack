@@ -254,6 +254,7 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
+    <Compile Include="Models\Web\Parsers\JourneyJsonParser.cs" />
     <Compile Include="Models\Web\PersonalDetails\DateOfBirthViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\InformantTypeViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\PersonViewModel.cs" />
@@ -401,6 +402,7 @@
       <Name>NHS111.Features</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
