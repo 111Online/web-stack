@@ -28,35 +28,37 @@
     }
 }
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
-{
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.HiddenFor(x => Model.QuestionNo)
-
-    <h2>@Model.TitleWithoutBullets</h2>
-
-    @Html.Partial("_CovidEliminator", Model)
-
-    <p>Your health assessment can’t be completed with the current online service.</p>
-    <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
-    <hr />
-
-    if (!Model.IsFirstStep)
+<section class="measure nhsuk-core">
+    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
     {
-        <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.HiddenFor(x => Model.QuestionNo)
+
+        <h2>@Model.TitleWithoutBullets</h2>
+
+        @Html.Partial("_CovidEliminator", Model)
+
+        <p>Your health assessment can’t be completed with the current online service.</p>
+        <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
+        <hr />
+
+        if (!Model.IsFirstStep)
+        {
+            <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
+        }
     }
-}
-<script type="text/javascript">
-    $(document).ready(function () {
-        //enable disable submit button
-        $("#nextScreen[type=submit]").attr('disabled', 'disabled');
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //enable disable submit button
+            $("#nextScreen[type=submit]").attr('disabled', 'disabled');
 
-        $("form label").click(function () {
-            $("button[type=submit]").removeAttr('disabled');
-        });
+            $("form label").click(function () {
+                $("button[type=submit]").removeAttr('disabled');
+            });
 
-        $("form input[type=radio]").click(function () {
-            $("button[type=submit]").removeAttr('disabled');
+            $("form input[type=radio]").click(function () {
+                $("button[type=submit]").removeAttr('disabled');
+            });
         });
-    });
-</script>
+    </script>
+</section>

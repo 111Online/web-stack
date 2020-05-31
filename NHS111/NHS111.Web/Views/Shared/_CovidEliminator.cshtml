@@ -3,7 +3,7 @@
 @{ 
     var text = "It’s unlikely you have COVID-19 but you do need to get help for your symptoms.";
 
-    if (Model.OutcomeGroup.Id.Equals("Home_Care")) { text = "It’s unlikely you have COVID-19."; }
+    if (Model.OutcomeGroup.Id != null && Model.OutcomeGroup.Id.Equals("Home_Care")) { text = "It’s unlikely you have COVID-19."; }
 
     if (!Model.IsSuspectedCovidSymptoms && (Model.ViaGuidedSelection.HasValue && Model.ViaGuidedSelection.Value))
     {

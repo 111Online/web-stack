@@ -27,38 +27,40 @@
     }
 }
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
-{
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.HiddenFor(x => Model.QuestionNo)
+<section class="measure nhsuk-core">
+    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.HiddenFor(x => Model.QuestionNo)
 
-    <div class="callout callout--attention">
-        <h1>@Model.TitleWithoutBullets</h1>
-        <p>A health adviser needs to speak to you as we can’t help you with this problem online.</p>
-    </div>
-
-    @Html.Partial("_CovidEliminator", Model)
-
-    <ul>
-        <li>You can tell the adviser that we haven’t been able to finish your assessment online.</li>
-        <li>They will ask you to repeat some of your answers, but will be able to get you the right care.</li>
-    </ul>
-
-    <div class="content-block">
-        <p>
-            @if (!Model.IsFirstStep)
-            {
-                <button id="PreviousQuestionFromOutcome" class="button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
-            }
-        </p>
-    </div>
-
-    <hr>
-
-    <details class="measure">
-        <summary><span class="details__arrow" role="presentation"></span>Why can’t I do this online?</summary>
-        <div class="callout callout--info">
-            <p>At the moment, the online service doesn’t cover everything the phone service does. For example, mixed symptoms that are harder to check online or a diagnosed condition.</p>
+        <div class="callout callout--attention nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-2">
+            <h1 class="nhsuk-heading-l">@Model.TitleWithoutBullets</h1>
+            <p>A health adviser needs to speak to you as we can’t help you with this problem online.</p>
         </div>
-    </details>
-}
+
+        @Html.Partial("_CovidEliminator", Model)
+
+        <ul>
+            <li>You can tell the adviser that we haven’t been able to finish your assessment online.</li>
+            <li>They will ask you to repeat some of your answers, but will be able to get you the right care.</li>
+        </ul>
+
+        <div class="content-block">
+            <p>
+                @if (!Model.IsFirstStep)
+                {
+                    <button id="PreviousQuestionFromOutcome" class="button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
+                }
+            </p>
+        </div>
+
+        <hr>
+
+        <details class="measure">
+            <summary><span class="details__arrow" role="presentation"></span>Why can’t I do this online?</summary>
+            <div class="callout callout--info">
+                <p>At the moment, the online service doesn’t cover everything the phone service does. For example, mixed symptoms that are harder to check online or a diagnosed condition.</p>
+            </div>
+        </details>
+    }
+</section>
