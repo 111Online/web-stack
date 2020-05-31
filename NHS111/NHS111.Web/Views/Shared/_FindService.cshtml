@@ -69,7 +69,7 @@
                         <p>If the search still gives no results, please call 111 for advice.</p>
                     }
                     @Html.TextBoxFor(m => m.CurrentPostcode, new { @class = "form-control " + (error ? "error" : "") })
-                    <button class="button--next" type="submit" name="DosResults" id="DosLookup">@Html.Raw(ViewData["ButtonText"])</button>
+                    <button class="button--next nhsuk-u-margin-top-4" type="submit" name="DosResults" id="DosLookup">@Html.Raw(ViewData["ButtonText"])</button>
                 </div>
             </div>
         }
