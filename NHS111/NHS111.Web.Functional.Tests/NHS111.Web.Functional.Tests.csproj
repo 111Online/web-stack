@@ -74,6 +74,9 @@
     <Compile Include="Covid\CovidHomePageTests.cs" />
     <Compile Include="Covid\Dx1112.cs" />
     <Compile Include="Covid\Dx1113.cs" />
+    <Compile Include="Dx01213.cs" />
+    <Compile Include="Covid\Dx1117.cs" />
+    <Compile Include="Covid\Dx1116.cs" />
     <Compile Include="Covid\Dx1115.cs" />
     <Compile Include="Covid\Dx391.cs" />
     <Compile Include="Covid\CovidTests.cs" />

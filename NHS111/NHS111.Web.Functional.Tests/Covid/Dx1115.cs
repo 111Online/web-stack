@@ -7,35 +7,60 @@ namespace NHS111.Web.Functional.Tests.Covid
     [TestFixture]
     class Dx1115 : BaseTests
     {
-        private QuestionPage LaunchCovidWithLink(string sex, int age)
+        private QuestionPage LaunchWithCovidLink(string sex, int age, string guidedSelection)
         {
             var homepage = TestScenarioPart.HomePage(Driver);
             var covidHomePage = homepage.ClickCovidLink();
-            covidHomePage.VerifyCovidPathway();
             var locationPage = covidHomePage.ClickOnStartNow();
             var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
-            return TestScenarioPart.Question(demographicsPage, sex, age);
+            var guidedSelectionPage = TestScenarioPart.Question(demographicsPage, sex, age);
+            var weirdQuestionPage = guidedSelectionPage.guidedSelection(guidedSelection);
+
+            return weirdQuestionPage.AnswerWeirdQuestion();
         }
 
         [Test]
         public void NavigateToDispositionDx1115_6Hours()
         {
-            var questionPage = LaunchCovidWithLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = LaunchWithCovidLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldandflusymptoms");
 
-            var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "6")
-            .Answer(2) // no - Cough
-                    .Answer(1) // yes - fever
-                    .Answer(3) // no - smell
-                    .Answer(1) // Yes - Breathless
-                    .Answer(2) // No - Unable to speak
-                    .Answer(3) // Cool - skin feel
-                    .Answer(3) // No - Pale
-                    .Answer(3) // No - Breathing faster
-                    .Answer(3) // No - I feel well enough to do most of my usual daily activities 
-                    .Answer(2) // I'm not sure - More confused
-                    .Answer(2) // I'm not sure - Serious Infection
-                    .Answer<OutcomePage>(2); // I'm not sure - had a letter
+            var outcomePage = questionPage.Answer(2) // No - breathless
+                .Answer(1) // Yes - cough
+                .Answer(3) // No - breathing harder
+                .Answer(3) // No - so ill
+                .Answer(1) // Yes - sharp pain
+                .Answer(3) // No - coughed blood
+                .Answer(3) // No - confused
+                .Answer(3) // No - doctor told you
+                .Answer(3) // No - NHS Letter
+                .Answer<OutcomePage>(3); // No - diabetes
+            outcomePage.VerifyHiddenField("Id", "Dx1115");
+        }
+
+        [Test]
+        public void NavigateToDispositionDx1115_LossOfTasteAndSmell()
+        {
+            var questionPage = LaunchWithCovidLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+
+            var outcomePage = questionPage.Answer(1) // Yes - loss of smell
+                .Answer(3) // No - hurt head
+                .Answer(3) // No - breathless
+                .Answer(1) // Yes - continuous cough
+                .Answer(3) // No - breathing harder
+                .Answer(1) // Yes - so ill
+                .Answer(3) // No - bruises
+                .Answer(4) // No - meningitis
+                .Answer(3) // No - confused
+                .Answer(3) // No - sharp pain
+                .Answer(3) // No - choked
+                .Answer(3) // No - breathed toxic
+                .Answer(3) // No - coughed blood
+                .Answer(3) // No - doctor told you
+                .Answer(3) // No - nhs letter
+                .Answer(1) // No - diabetes
+                .Answer(1) // Yes- sugar levels
+                .Answer<OutcomePage>(3); // No - take insulin
             outcomePage.VerifyHiddenField("Id", "Dx1115");
         }
 
