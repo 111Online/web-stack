@@ -73,14 +73,15 @@
 
     @{
         var waitText = "If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, use the service again to tell us about your new symptoms.";
-        if (Model.OutcomeModel.Id == "Dx1113" || Model.OutcomeModel.Id == "Dx1112")
-        {
-            waitText = "If you feel a lot worse call 999 and tell them you have coronavirus symptoms.";
-        }
-        else if (Model.Id == "Dx1117")
-        {
-            waitText = "If you start to feel worse, use the service again for your new symptons.";
-        }
+    }
+
+    @if (Model.OutcomeModel.Id == "Dx1113" || Model.OutcomeModel.Id == "Dx1112")
+    {
+        waitText = "If you feel a lot worse call 999 and tell them you have coronavirus symptoms.";
+    }
+    else if (Model.OutcomeModel.Id == "Dx1117")
+    {
+        waitText = "If you start to feel worse, use the service again for your new symptons.";
     }
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
