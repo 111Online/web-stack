@@ -12,7 +12,7 @@ namespace NHS111.Web.Functional.Tests
     public class EndpointJourneyTests : BaseTests
     {
 
-        [TestCase("Male", 22, "Headache", new[] { 3, 3, 3, 5, 3, 3, 3, 1 }, "Dx02", TestName = "Can reach Dx02")]
+        [TestCase("Male", 22, "Headache", new[] { 3, 3, 3, 5, 3, 3, 5, 3, 1 }, "Dx02", TestName = "Can reach Dx02")]
         [TestCase("Male", 24, "Sexual Concerns", new[] { 3, 4, 3, 3, 3, 4, 4, 1, 1, 3 }, "Dx03", TestName = "Can reach Dx03")]
         [TestCase("Female", 24, "Sexual or Menstrual Concerns", new[] { 3, 4 }, "Dx38", TestName = "Can reach Dx38")]
         [TestCase("Male", 6, "Object, Ingested or Inhaled", new[] { 1, 3, 3, 5, 3, 5, 3, 3, 3, 3, 3, 3 }, "Dx89", TestName = "Can reach Dx89")]
@@ -103,16 +103,12 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void HomeCareEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu (Declared)", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu Symptoms", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Are you so ill that you've stopped doing all of your usual daily activities?");
+            questionPage.VerifyQuestion("Have you become breathless, or are you more breathless than usual?");
             var outcomePage = questionPage
                 .Answer(3)
-                .Answer(3) //mers
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 7)
                 .Answer(6)
                 .Answer(3)
                 .Answer<OutcomePage>(3);
@@ -175,6 +171,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(5)
                 .Answer(3)
                 .Answer(3)
+                .Answer(5)
                 .Answer(3)
                 .Answer<OutcomePage>(1);
 
@@ -247,9 +244,9 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you got a fever right now or had one since the tiredness started?");
+            questionPage.VerifyQuestion("Do you have a new continuous cough?");
             var outcomePage = questionPage
-                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerSuccessiveByOrder(3, 6)
                 .AnswerSuccessiveByOrder(4, 2)
                 .Answer(2)
                 .Answer(3)
@@ -274,11 +271,13 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
-                .Answer(1)
+                .Answer(3)
+                .Answer(3)
+                .Answer(5)
+                .Answer(3)
                 .Answer(3)
                 .Answer(1)
-                .AnswerSuccessiveByOrder(3, 4)
-                .Answer<PostcodeFirstPage>(1)
+                .Answer<PostcodeFirstPage>(3)
                 .OpenCareAdvice();
 
             outcomePage.VerifyOutcome("Contact your GP now");
@@ -300,8 +299,8 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
-                .Answer(3)
-                .Answer(3)
+                .AnswerSuccessiveByOrder(3, 2)
+                .Answer(5)
                 .AnswerSuccessiveByOrder(3, 4)
                 .Answer<OutcomePage>(3);
 

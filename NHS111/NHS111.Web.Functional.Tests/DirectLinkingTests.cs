@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests
     public class DirectLinkingTests : BaseTests
     {
 
-        [TestCase("/question/direct/PW755MaleAdult/24/Headache/ls177nz/?answers=0,2,2,2,4,0,1,0,2,2,2,0,2", "Dx05", TestName = "Can reach Dx05")]
+        [TestCase("/question/direct/PW755MaleAdult/24/Headache/ls177nz/?answers=0,2,2,2,4,0,1,0,2,4,2,2,2,2", "Dx05", TestName = "Can reach Dx05")]
         [TestCase("/question/direct/PW1134MaleAdult/20/Eye,RedorIrritable/ls14br/?answers=0,2,2,1,2,2,2,2,2,2,3,0", "Dx28", TestName = "Can reach Dx28")]
         [TestCase("/question/direct/PW1610MaleAdult/25/Dentalproblems/ls177nz/?answers=0,1,2,0,0,0,0,2,2&dossearchdatetime=2020-02-01 22:30", "Dx19", TestName = "DoS SearchTimeDate doesn't break direct link")]
         public void CorrectPage(string path, string id)
