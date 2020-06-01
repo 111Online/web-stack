@@ -33,6 +33,7 @@
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("Get help from a mental health service within {0}", Model.TimeFrameText) } })
 
 <section class="measure nhsuk-core">
+    @Html.Partial("_CovidEliminator", Model)
     <div class="callout callout--lite callout--warning measure">
         <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
 

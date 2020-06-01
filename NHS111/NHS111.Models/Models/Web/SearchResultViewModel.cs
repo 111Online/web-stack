@@ -14,6 +14,13 @@
         public List<string> Gender { get; set; }
         public List<string> AgeGroup { get; set; }
         public object Score { get; set; }
+        public string PathwayTitleWithoutSpaces { get { return PathwayTitle != null ? PathwayTitle.Replace(" ", string.Empty) : string.Empty; } }
+    }
 
+    public class GuidedSearchResultViewModel : SearchResultViewModel
+    {
+        public string GuidedTitle { get; set; }
+        public string GuidedDescription { get; set; }
+        public string GuidedTitleWithoutSpaces { get { return GuidedTitle != null ? GuidedTitle.Replace(" ", string.Empty) : string.Empty; } }
     }
 }

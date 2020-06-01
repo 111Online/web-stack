@@ -74,9 +74,11 @@
     <Compile Include="Covid\CovidHomePageTests.cs" />
     <Compile Include="Covid\Dx1112.cs" />
     <Compile Include="Covid\Dx1113.cs" />
+    <Compile Include="Dx01213.cs" />
+    <Compile Include="Covid\Dx1117.cs" />
+    <Compile Include="Covid\Dx1116.cs" />
     <Compile Include="Covid\Dx1115.cs" />
     <Compile Include="Covid\Dx391.cs" />
-    <Compile Include="Covid\CovidTests.cs" />
     <Compile Include="DirectLinkingTests.cs" />
     <Compile Include="LocationPageTests.cs" />
     <Compile Include="InlineCareAdvicePageTests.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
     <Compile Include="FeedbackTests.cs" />
+    <Compile Include="GuidedSearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -125,6 +128,7 @@
       <Name>NHS111.Web.Functional.Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

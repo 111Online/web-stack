@@ -14,7 +14,8 @@ namespace NHS111.Web.Helpers
             encryptor["campaign"] = !string.IsNullOrEmpty(model.Campaign) ? model.Campaign : string.Empty;
             encryptor["source"] = !string.IsNullOrEmpty(model.Source) ? model.Source : string.Empty;
             encryptor["digitalTitle"] = !string.IsNullOrEmpty(model.DigitalTitle) ? model.DigitalTitle : string.Empty;
-            encryptor["IsCustomJourney"] = model.IsCustomJourney.ToString();
+            encryptor["isCovidjourney"] = model.IsCovidJourney.ToString();
+            encryptor["viaGuidedSelection"] = model.ViaGuidedSelection.HasValue ? model.ViaGuidedSelection.Value.ToString() : string.Empty;
 
             return encryptor.ToString();
         }
