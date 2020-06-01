@@ -52,6 +52,22 @@ namespace NHS111.Web.Functional.Tests
                 directLink.VerifyBookACall("2000011053");
             }
 
+            [Test]        
+            public void NewDx01213Validation()
+            {
+                // 999 Validation page shows with correct service
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW881MaleAdult/65/AccidentalPoisoningInhalation/AL74HL/?answers=0,2,2,0,0");
+                directLink.VerifyBookACall("2000011053");
+            }
+
+            [Test]
+            public void NewDx01213NoService()
+            {
+                // 999 Validation page shows with correct service
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW881MaleAdult/65/AccidentalPoisoningInhalation/TQ148AY/?answers=0,2,2,0,0");
+                directLink.VerifyPhone999Now();
+            }
+
             [Test]
             public void CorrectEDService()
             {
