@@ -1,18 +1,12 @@
 ﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NHS111.Web.Functional.Tests.PersonalDetials
+namespace NHS111.Web.Functional.Tests.PersonalDetails
 {
     [Category("UsingDirectLinkingApp")]
     [TestFixture]
-    public class PersonalDetialsDirectLinkTest : BaseTests
+    public class PersonalDetailsDirectLinkTest : BaseTests
     {
         private PersonalDetailsPage personalDetailsPage;
 
@@ -25,7 +19,6 @@ namespace NHS111.Web.Functional.Tests.PersonalDetials
                 .Navigate(ConfigurationManager.AppSettings["TestWebsiteUrl"]);
 
             personalDetailsPage = new PersonalDetailsPage(Driver);
-            personalDetailsPage.VerifyNameDisplayed();
         }
 
         [Test]
@@ -92,7 +85,6 @@ namespace NHS111.Web.Functional.Tests.PersonalDetials
             confirmDetails.VerifyThirdPartyBannerIsDisplayed();
         }
 
-
         [Test]
         public void PersonalDetailsFirstPartyNotAtHome()
         {
@@ -123,7 +115,6 @@ namespace NHS111.Web.Functional.Tests.PersonalDetials
             confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerNotDisplayed();
         }
-
 
         [Test]
         public void PersonalDetailsThirdPartyNotAtHome()

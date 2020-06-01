@@ -72,6 +72,9 @@
     <Compile Include="ConfirmationScreenTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="Covid\CovidHomePageTests.cs" />
+    <Compile Include="Covid\Dx1112.cs" />
+    <Compile Include="Covid\Dx1113.cs" />
+    <Compile Include="Covid\Dx1115.cs" />
     <Compile Include="Covid\Dx391.cs" />
     <Compile Include="Covid\CovidTests.cs" />
     <Compile Include="DirectLinkingTests.cs" />
@@ -79,6 +82,8 @@
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="PersonalDetailsTests.cs" />
+    <Compile Include="PersonalDetails\DirectLinkAppJumpToPersonalDetails.cs" />
+    <Compile Include="PersonalDetails\PersonalDetailsDirectLinkTest.cs" />
     <Compile Include="QuestionPageTests.cs" />
     <Compile Include="RecommendedServiceTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />
