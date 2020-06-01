@@ -276,7 +276,7 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{postcode}/{answers?}")]
-        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool filterServices = false, bool viaGuidedSelection = false)
+        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool filterServices = true, bool viaGuidedSelection = false)
         {
 
             if (!_directLinkingFeature.IsEnabled)
