@@ -86,6 +86,12 @@ namespace NHS111.Web.Functional.Utils
             return SelectAnswerAndSubmit(byAnswerText, requireButtonAwait);
         }
 
+        public QuestionPage AnswerWeirdQuestion()
+        {
+            NextButton.Click();
+            return new QuestionPage(Driver);
+        }
+
         public QuestionPage guidedSelection(string elementId)
         {
             var selectedOption = By.Id(elementId);
