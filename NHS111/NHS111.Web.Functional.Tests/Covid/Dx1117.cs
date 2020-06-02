@@ -7,24 +7,11 @@ namespace NHS111.Web.Functional.Tests.Covid
     [TestFixture]
     class Dx1117 : BaseTests
     {
-        private QuestionPage LaunchWithCovidLink(string sex, int age, string guidedSelection)
-        {
-            var homepage = TestScenarioPart.HomePage(Driver);
-            var covidHomePage = homepage.ClickCovidLink();
-            var locationPage = covidHomePage.ClickOnStartNow();
-            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
-            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
-            var guidedSelectionPage = TestScenarioPart.Question(demographicsPage, sex, age);
-            var weirdQuestionPage = guidedSelectionPage.guidedSelection(guidedSelection);
-
-            return weirdQuestionPage.AnswerWeirdQuestion();
-        }
-
         [Test]
         public void NavigateToDispositionDx01213_ColdAndFluSymptoms()
         {
             //0,2,0,2,2,2,2,2,2,2,2,2,2,2,3,1
-            var questionPage = LaunchWithCovidLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldandflusymptoms");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldandflusymptoms");
 
             var outcomePage = questionPage.Answer(3) // No - breathless
                 .Answer(1) // Continuous Cough

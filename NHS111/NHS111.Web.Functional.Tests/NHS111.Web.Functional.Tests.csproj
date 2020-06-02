@@ -108,6 +108,7 @@
     <Compile Include="SearchTermResultsTests.cs" />
     <Compile Include="FeedbackTests.cs" />
     <Compile Include="GuidedSearchTests.cs" />
+    <Compile Include="WeirdQuestionPageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
