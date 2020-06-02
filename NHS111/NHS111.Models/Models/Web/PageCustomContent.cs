@@ -16,7 +16,7 @@ namespace NHS111.Models.Models.Web
         }
         public string Content { get; set; }
 
-        public static PageCustomContent CovidPlaceHolder = new PageCustomContent { PlaceHolder = "CovidContent", Content = "<p>Some questions will check for coronavirus as standard</p>" };
+        public static PageCustomContent CovidPlaceHolder = new PageCustomContent { PlaceHolder = "CovidContent", Content = "<p>Some questions will check for coronavirus as standard.</p>" };
         
         public static string ReplaceCovidPlaceHolderInPageContent(QuestionViewModel model, IEnumerable<string> covidPathways)
         {
