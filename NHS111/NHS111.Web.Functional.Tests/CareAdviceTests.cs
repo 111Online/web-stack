@@ -12,25 +12,18 @@ namespace NHS111.Web.Functional.Tests
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, 20);
 
             var outcomePage = questionPage
-                .Answer(3)
-                .Answer(3)
+                .AnswerSuccessiveByOrder(3, 2)
                 .Answer(4)
-                .Answer(3)
-                .Answer(3)
+                .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
-                .Answer(3)
+                .AnswerSuccessiveByOrder(3, 8)
                 .Answer(1)
                 .Answer(3)
                 .Answer(4)
                 .Answer<OutcomePage>("I've had it for 3 days or more")
                 .OpenCareAdvice();
 
-            outcomePage.VerifyCareAdvice(new[] { "Medication, pain and/or fever", "Fever" });
+            outcomePage.VerifyCareAdvice(new[] { "Medication, pain and/or fever", "Fever", "Coronavirus (COVID-19)"});
         }
         [Test]
         //Ensures that Care advice stem removal is no longer in place. CX221005. Text no longer appearing needs to have individual asertions.

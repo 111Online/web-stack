@@ -100,15 +100,13 @@ namespace NHS111.Web.Functional.Utils
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
             var questionPage = TestScenarioPart.Question(questionInfoPage);
             var outcomePage = questionPage
-                .Answer(1)
-                .Answer(1)
-                .Answer(1)
-                .Answer(2)
-                .Answer(1)
-                .Answer(3)
-                .Answer(1)
-                .Answer(2)
-                .Answer<OutcomePage>(4);
+              .Answer(1) //blood sugar high 
+              .Answer(1) // blood sugar checked
+              .Answer(1) //mmols/l
+              .Answer(2) //4.0 to 12.9
+              .Answer(1) //too much insulin
+              .Answer(2) //not sure
+              .Answer<OutcomePage>(1);
 
             return outcomePage.ClickBookCallback();
         }
