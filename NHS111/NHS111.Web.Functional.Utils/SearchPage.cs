@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -83,6 +84,43 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(By.XPath(xpathTitleFilter)).Click();
             return new QuestionInfoPage(Driver);
         }
+ 
+        public bool DataPathwayLinkPresentForPathway(string dataPathwayNumber)
+        {
+            try
+            {
+                var link = Driver.FindElement(By.CssSelector(string.Format("a[data-pathway-number='{0}']", dataPathwayNumber)));
+                return link != null && link.Displayed;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public void ClickOnLinkWithDataPathway(string dataPathwayNumber)
+        {
+            try
+            {
+                var link = Driver.FindElement(By.CssSelector(string.Format("a[data-pathway-number='{0}']", dataPathwayNumber)));
+                link.Click();
+                return;
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+            Assert.Fail();
+        }
+
+
+        public void VerifyOpensPage(string pageTitle)
+        {
+            var title = Driver.Title;
+            Assert.AreEqual(pageTitle, title);
+        }
+
+
+
 
         public CategoryPage TypeInvalidSearch()
         {

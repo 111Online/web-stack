@@ -649,7 +649,7 @@
   <Target Name="BeforeBuild">
     <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
     <ItemGroup>
-      <Content Include="$([System.IO.Directory]::GetFiles('$(ProjectDir)\Content\', '*', SearchOption.AllDirectories))" />
+      <!--<Content Include="$([System.IO.Directory]::GetFiles('$(ProjectDir)\Content\', '*', SearchOption.AllDirectories))" />-->
     </ItemGroup>
   </Target>
   <PropertyGroup>
