@@ -71,7 +71,12 @@ namespace NHS111.Web.Controllers
         {
             if (FeatureRouter.CovidSearchRedirect(HttpContext.Request.Params) && pathwayNumber == GuidedSelectionPathwayNumber)
             {
-                return RedirectToGuidedSelection(gender, age, args);
+                return RedirectToAction("GuidedSelection", new RouteValueDictionary
+                {
+                    { "gender",gender},
+                    { "age", age},
+                    { "args", args} 
+                });
             }
 
             var model = BuildModel(pathwayNumber, gender, age, args);
@@ -87,7 +92,6 @@ namespace NHS111.Web.Controllers
         }
 
         public async Task<ViewResult> GuidedSelection(string gender, int age, string args)
-
         {
             var decryptedArgs = new QueryStringEncryptor(args);
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
@@ -112,9 +116,8 @@ namespace NHS111.Web.Controllers
             var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
 
             var request = new RestRequest(requestPath, Method.POST);
-            // todo replace the magic string here - maybe the guided search doesn't need a term (at the mopment it assumes covid) - it just needs gender and age 
-            // (later it could even take postcode if a reason for searching with it existed)
-            request.AddJsonBody(new { query = "covid" });
+
+            request.AddJsonBody(new { query = SearchReservedCovidTerms.SearchTerms.First() });
 
             var response = await _restClientBusinessApi.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
 
@@ -122,39 +125,6 @@ namespace NHS111.Web.Controllers
             guidedModel.GuidedResults = response.Data;
 
             return !guidedModel.GuidedResults.Any() ? View("~\\Views\\Search\\NoResults.cshtml", model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
-        }
-
-
-        private ActionResult RedirectToGuidedSelection(string gender, int age, string args)
-        {
-            var decryptedArgs = new QueryStringEncryptor(args);
-            var decryptedFilterServices = !decryptedArgs.ContainsKey("filterServices") || string.IsNullOrEmpty(decryptedArgs["filterServices"]) ||
-                                          bool.Parse(decryptedArgs["filterServices"]);
-
-            var model = new JustToBeSafeViewModel()
-            {
-                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
-                PathwayNo = GuidedSelectionPathwayNumber,
-                DigitalTitle = decryptedArgs["digitalTitle"],
-                EntrySearchTerm = decryptedArgs["searchTerm"],
-                CurrentPostcode = decryptedArgs["postcode"],
-                UserInfo = new UserInfo
-                {
-                    Demography = new AgeGenderViewModel
-                    {
-                        Age = age,
-                        Gender = gender
-                    }
-                },
-                FilterServices = decryptedFilterServices,
-                Campaign = decryptedArgs["campaign"],
-                Source = decryptedArgs["source"],                
-            };
-
-            return RedirectToAction("GuidedSelection", new RouteValueDictionary {
-                { "gender", model.UserInfo.Demography.Gender},
-                { "age", model.UserInfo.Demography.Age},
-                { "args", KeyValueEncryptor.EncryptedKeys(model)} });
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, JustToBeSafeViewModel jtbsModel)

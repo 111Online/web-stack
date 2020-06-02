@@ -92,6 +92,7 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("feverish")]
         public void SearchPage_selecting_search_result_hit_using_Covid_search_term_launches_guided_selection(string searchTerm)
         {
+            
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
             searchPage.SearchByTerm(searchTerm);
 
