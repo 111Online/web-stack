@@ -5,16 +5,6 @@ namespace NHS111.Web.Functional.Tests
 {
     public class GuidedSearchTests : BaseTests
     {
-        private QuestionPage LaunchViaCovidLink(string sex, int age)
-        {
-            var homepage = TestScenarioPart.HomePage(Driver);
-            var covidHomePage = homepage.ClickCovidLink();
-            var locationPage = covidHomePage.ClickOnStartNow();
-            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
-            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
-            return TestScenarioPart.Question(demographicsPage, sex, age);
-        }
-
         [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Breathlessness", "PW556")]
         [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "Breathlessness", "PW559")]
         [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Breathlessness", "PW557")]
@@ -49,9 +39,8 @@ namespace NHS111.Web.Functional.Tests
         [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Tiredness", "PW1073")]
         public void GuidedSelectionTest_ViaCovidLinkVariousOptionsReturnExpectedPathway(string sex, int age, string guidedSelection, string expectedPathway)
         {
-            var guidedSelectionPage = LaunchViaCovidLink(sex, age);
-
-            var weirdQuestionPage = guidedSelectionPage.guidedSelection(guidedSelection);
+            var guidedSelectionPage = TestScenerios.LaunchGuidedSelectionScenario(Driver, sex, age);
+            var weirdQuestionPage = guidedSelectionPage.GuidedSelection(guidedSelection);
 
             weirdQuestionPage.VerifyHiddenField("PathwayNo", expectedPathway);
         }
@@ -93,7 +82,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, sex, age);
             var guidedSelectionPage = searchPage.SearchByCovidTerm("covid");
-            var weirdQuestionPage = guidedSelectionPage.guidedSelection(guidedSelection);
+            var weirdQuestionPage = guidedSelectionPage.GuidedSelection(guidedSelection);
 
             weirdQuestionPage.VerifyHiddenField("PathwayNo", expectedPathway);
         }
@@ -105,9 +94,8 @@ namespace NHS111.Web.Functional.Tests
         [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "noneofthese")]
         public void GuidedSelectionTest_ViaCovidLinkSelectNoneOfThese(string sex, int age, string guidedSelection)
         {
-            var guidedSelectionPage = LaunchViaCovidLink(sex, age);
-
-            var explainerPage = guidedSelectionPage.guidedSelection(guidedSelection);
+            var guidedSelectionPage = TestScenerios.LaunchGuidedSelectionScenario(Driver, sex, age);
+            var explainerPage = guidedSelectionPage.GuidedSelection(guidedSelection);
 
             Assert.IsTrue(explainerPage.Driver.Title.Contains("NHS 111 Online - Coronavirus (COVID-19) symptoms"));
         }
@@ -120,7 +108,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, sex, age);
             var guidedSelectionPage = searchPage.SearchByCovidTerm("covid");
-            var explainerPage = guidedSelectionPage.guidedSelection(guidedSelection);
+            var explainerPage = guidedSelectionPage.GuidedSelection(guidedSelection);
 
             Assert.IsTrue(explainerPage.Driver.Title.Contains("NHS 111 Online - Coronavirus (COVID-19) symptoms"));
         }

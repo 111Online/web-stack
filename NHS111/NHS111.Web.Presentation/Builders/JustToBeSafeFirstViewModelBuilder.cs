@@ -81,7 +81,9 @@ namespace NHS111.Web.Presentation.Builders
                     // This replicates logic in ViewDeterminer so in future should ideally use that instead.
                     string viewName = "../Question/Page";
                     if (questionViewModel.PathwayNo.Equals("PC111")) viewName = "../Question/Custom/NHSUKPage";
-                    if (questionViewModel.PathwayNo.Equals("PW1851")) viewName = "../Question/Custom/SymptomsStarted";
+                    //replace placeholder for covid specific logic. 
+                    var covidPathways = await GetCovidPathways(model.UserInfo.Demography.Gender, new AgeCategory(model.UserInfo.Demography.Age));
+                    questionViewModel.Content = PageCustomContent.ReplaceCovidPlaceHolderInPageContent(questionViewModel, covidPathways);
                     return new Tuple<string, QuestionViewModel>(viewName, questionViewModel);
                 }
 
@@ -95,6 +97,17 @@ namespace NHS111.Web.Presentation.Builders
             identifiedModel.FilterServices = model.FilterServices;
             return new Tuple<string, QuestionViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
 
+        }
+
+        private async Task<IEnumerable<string>> GetCovidPathways(string gender, AgeCategory ageGroup)
+        {
+            var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(gender, ageGroup.Value, true);
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(new { query = Uri.EscapeDataString(SearchReservedCovidTerms.SearchTerms.First()) });
+
+            var response = await _restClient.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
+            CheckResponse(response);
+            return response.Data.Select(p => p.PathwayNo);
         }
 
         private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model)
