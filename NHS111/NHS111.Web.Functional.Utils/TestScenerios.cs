@@ -100,13 +100,15 @@ namespace NHS111.Web.Functional.Utils
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
             var questionPage = TestScenarioPart.Question(questionInfoPage);
             var outcomePage = questionPage
-              .Answer(1) //blood sugar high 
-              .Answer(1) // blood sugar checked
-              .Answer(1) //mmols/l
-              .Answer(2) //4.0 to 12.9
-              .Answer(1) //too much insulin
-              .Answer(2) //not sure
-              .Answer<OutcomePage>(1);
+                .Answer(1)
+                .Answer(1)
+                .Answer(1)
+                .Answer(2)
+                .Answer(1)
+                .Answer(3)
+                .Answer(1)
+                .Answer(2)
+                .Answer<OutcomePage>(4);
 
             return outcomePage.ClickBookCallback();
         }
@@ -137,39 +139,6 @@ namespace NHS111.Web.Functional.Utils
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
             return TestScenarioPart.Question(questionInfoPage);
-        }
-
-        public static QuestionInfoPage LaunchQuestionInfoScenerio(IWebDriver driver, string pathwayTopic, string sex, int age)
-        {
-            var homePage = TestScenarioPart.HomePage(driver);
-            var locationPage = TestScenarioPart.Location(homePage);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
-            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
-            var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
-            return TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
-        }
-
-        public static QuestionPage LaunchGuidedSelectionScenario(IWebDriver driver, string sex, int age)
-        {
-            var homepage = TestScenarioPart.HomePage(driver);
-            var covidHomePage = homepage.ClickCovidLink();
-            var locationPage = covidHomePage.ClickOnStartNow();
-            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
-            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
-            return TestScenarioPart.Question(demographicsPage, sex, age);
-        }
-
-        public static QuestionPage LaunchWithCovidLink(IWebDriver driver, string sex, int age, string guidedSelection)
-        {
-            var homepage = TestScenarioPart.HomePage(driver);
-            var covidHomePage = homepage.ClickCovidLink();
-            var locationPage = covidHomePage.ClickOnStartNow();
-            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
-            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
-            var guidedSelectionPage = TestScenarioPart.Question(demographicsPage, sex, age);
-            var weirdQuestionPage = guidedSelectionPage.GuidedSelection(guidedSelection);
-
-            return weirdQuestionPage.ClickIUnderstand();
         }
     }
 }

@@ -127,6 +127,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW557FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Coronavirus (COVID-19)", "PW1851FemaleChild");
             categoryPage.VerifyOtherProblems("PW1348");
             categoryPage.CompareAndVerify(categoryPage, "1");
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
@@ -253,6 +254,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW556FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Coronavirus (COVID-19)", "PW1851FemaleAdult");
             categoryPage.VerifyOtherProblems("PW1345");
             categoryPage.CompareAndVerify(categoryPage, "1");
 
@@ -375,6 +377,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW560MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Coronavirus (COVID-19)", "PW1851MaleChild");
             categoryPage.VerifyOtherProblems("PW1349");
             categoryPage.CompareAndVerify(categoryPage, "1");
 
@@ -497,6 +500,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW559MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Coronavirus (COVID-19)", "PW1851MaleAdult");
             categoryPage.VerifyOtherProblems("PW1346");
             categoryPage.CompareAndVerify(categoryPage, "1");
 

@@ -52,9 +52,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.Categories, o => o.Ignore())
                 .ForMember(s => s.HasResults, o => o.Ignore());
 
-            Mapper.CreateMap<SearchJourneyViewModel, GuidedSearchJourneyViewModel>()
-                .ForMember(j => j.GuidedResults, o => o.Ignore());
-
             Mapper.CreateMap<JourneyViewModel, SendSmsOutcomeViewModel>()
                 .ForMember(s => s.SelectedServiceId, o => o.Ignore())
                 .ForMember(s => s.DosCheckCapacitySummaryResult, o => o.Ignore())

@@ -61,15 +61,6 @@ namespace NHS111.Business.Services
             return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
         }
 
-        public async Task<List<ReservedSearchResult>> FindReservedResults(string query, string gender, string ageGroup)
-        {
-
-            var reservedResponse = await _elastic.SearchAsync<ReservedSearchResult>(s =>
-                AddAgeGenderFilters(BuildReservedQuery(s.Index("reserved"), Uri.UnescapeDataString(query)), gender, ageGroup));
-
-            return reservedResponse.Hits.Select(r => r.Source).ToList();
-        }
-
 
         private IEnumerable<PathwaySearchResult> BuildScoredResults(IEnumerable<PathwaySearchResult> results, IReadOnlyCollection<IHit<PathwaySearchResult>> hits, bool includeScores)
         {
@@ -128,17 +119,6 @@ namespace NHS111.Business.Services
                 ));
 
             return bodytagQuery;
-        }
-
-        private SearchDescriptor<ReservedSearchResult> BuildReservedQuery(SearchDescriptor<ReservedSearchResult> searchDescriptor, string query)
-        {
-            var reservedQuery = searchDescriptor.Query(q => q
-                .MultiMatch(m =>
-                    m.Query(query)
-                        .Fields(f => f.Field("Reserved"))
-                ));
-
-            return reservedQuery;
         }
 
 
@@ -326,24 +306,12 @@ namespace NHS111.Business.Services
                     )
                     ));
         }
-
-        private SearchDescriptor<ReservedSearchResult> AddAgeGenderFilters(SearchDescriptor<ReservedSearchResult> searchDescriptor, string gender, string ageGroup)
-        {
-            return searchDescriptor.PostFilter(pf =>
-                pf.Bool(b => b
-                    .Must(
-                        m => m.Match(p => p.Field(f => f.Gender).Query(gender)),
-                        m => m.Match(p => p.Field(f => f.AgeGroup).Query(ageGroup))
-                    )
-                ));
-        }
     }
 
     public interface IPathwaySearchService
     {
         Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score);
         Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score);
-        Task<List<ReservedSearchResult>> FindReservedResults(string query, string gender, string ageGroup);
     }
 
 }

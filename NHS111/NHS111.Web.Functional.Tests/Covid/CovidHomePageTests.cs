@@ -1,6 +1,6 @@
 ﻿using NHS111.Web.Functional.Utils;
 
-namespace NHS111.Web.Functional.Tests.Covid
+namespace NHS111.Web.Functional.Tests
 {
     using NUnit.Framework;
 

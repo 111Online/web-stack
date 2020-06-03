@@ -184,7 +184,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = sut.Direct(null, 0, null, null, null, false);
+            var result = sut.Direct(null, 0, null, null, null, null);
 
             Assert.NotNull(result);
             Assert.IsInstanceOf<HttpNotFoundResult>(result.Result);

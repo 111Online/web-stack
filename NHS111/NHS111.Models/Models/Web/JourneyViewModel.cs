@@ -31,10 +31,6 @@ namespace NHS111.Models.Models.Web
         public string DigitalTitle { get; set; }
         public string Id { get; set; }
         public string EntrySearchTerm { get; set; }
-
-
-        public bool? ViaGuidedSelection { get; set; } // Null: Not offered. True: Chose a symptom. False: Declined symptoms.
-
         public string TriggerQuestionNo { get; set; }
         public string TriggerQuestionAnswer { get; set; }
         public QuestionType QuestionType { get; set; }
@@ -161,7 +157,7 @@ namespace NHS111.Models.Models.Web
         public string Source { get; set; }
         public string CurrentPostcode { get; set; }
         public bool HasSeenPreamble { get; set; }
-        public bool IsCovidJourney { get; set; }
+        public bool IsCustomJourney { get; set; }
 
 
         public string FormattedCurrentPostcode

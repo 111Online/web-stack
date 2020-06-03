@@ -53,59 +53,5 @@ namespace NHS111.Web.Functional.Tests
             searchPage.SearchByTerm("Headache");
             searchPage.VerifyCategoriesLinkPresent();
         }
-
-        [TestCase("cough")]
-        [TestCase("high temperature")]
-        [TestCase("breathlessness")]
-        [TestCase("tiredness")]
-        [TestCase("headache")]
-        [TestCase("blocked nose")]
-        [TestCase("loss of smell")]
-        [TestCase("coughing")]
-        [TestCase("hacking")]
-        [TestCase("tickly cough")]
-        [TestCase("breathing")]
-        [TestCase("breathe")]
-        [TestCase("wheeze")]
-        [TestCase("wheezing")]
-        [TestCase("wheezy")]
-        [TestCase("gasping")]
-        [TestCase("panting")]
-        [TestCase("fever")]
-        [TestCase("raised temperature")]
-        [TestCase("37c")]
-        [TestCase("38c")]
-        [TestCase("39c")]
-        [TestCase("40c")]
-        [TestCase("ache")]
-        [TestCase("head ache")]
-        [TestCase("tired")]
-        [TestCase("tiredness")]
-        [TestCase("can't stay awake")]
-        [TestCase("phlegm")]
-        [TestCase("mucus")]
-        [TestCase("sniffing")]
-        [TestCase("smell")]
-        [TestCase("taste")]
-        [TestCase("anosmia")]
-        [TestCase("chills")]
-        [TestCase("feverish")]
-        public void SearchPage_selecting_search_result_hit_using_Covid_search_term_launches_guided_selection(string searchTerm)
-        {
-            
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            searchPage.SearchByTerm(searchTerm);
-
-            if (searchPage.DataPathwayLinkPresentForPathway("PW1851"))
-            {
-                searchPage.ClickOnLinkWithDataPathway("PW1851");
-                searchPage.VerifyOpensPage("NHS 111 Online - Covid Guided Selection Page");
-            }
-            else
-            {
-                Assert.Warn(string.Format("Corona virus result not found for term '{0}'", searchTerm));
-            }
-        }
-
     }
 }

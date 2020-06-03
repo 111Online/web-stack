@@ -5,7 +5,6 @@ using OpenQA.Selenium.Support.PageObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHS111.Models.Models.Web;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -15,11 +14,6 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement IUnderstandButton { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "nhsuk-core")]
-        [FindsBy(How = How.ClassName, Using = "callout")]
-        [FindsBy(How = How.ClassName, Using = "callout--attention")]
-        private IWebElement WeirdQuestionContent { get; set; }
-
         public QuestionInfoPage(IWebDriver driver) : base(driver) { }
 
         public QuestionPage ClickIUnderstand()
@@ -28,11 +22,6 @@ namespace NHS111.Web.Functional.Utils
             return new QuestionPage(Driver);
         }
 
-        public void VerifyWeirdQuestionContent(bool shouldContainCustomContent)
-        {
-            var content = WeirdQuestionContent.Text;
-            Assert.IsTrue(content.Contains(PageCustomContent.CovidPlaceHolder.Content) == shouldContainCustomContent);
-        }
     }
 
     public class QuestionPage : LayoutPage
@@ -95,20 +84,6 @@ namespace NHS111.Web.Functional.Utils
         {
             var byAnswerText = ByAnswerText(answerText);
             return SelectAnswerAndSubmit(byAnswerText, requireButtonAwait);
-        }
-
-        public QuestionPage AnswerWeirdQuestion()
-        {
-            NextButton.Click();
-            return new QuestionPage(Driver);
-        }
-
-        public QuestionInfoPage GuidedSelection(string elementId)
-        {
-            var selectedOption = By.Id(elementId);
-            Driver.FindElement(selectedOption).Click();
-            NextButton.Click();
-            return new QuestionInfoPage(Driver);
         }
 
         public QuestionPage AnswerText(string elementId, string answerText)
