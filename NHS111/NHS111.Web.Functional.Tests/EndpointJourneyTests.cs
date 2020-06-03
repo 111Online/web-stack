@@ -18,6 +18,11 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("Male", 6, "Object, Ingested or Inhaled", new[] { 1, 3, 3, 5, 3, 5, 3, 3, 3, 3, 3, 3 }, "Dx89", TestName = "Can reach Dx89")]
         [TestCase("Female", 16, "Mental Health Problems", new[] { 1, 5, 3, 5, 3, 1, 4 }, "Dx92", TestName = "Can reach Dx92")]
         [TestCase("Female", 22, "Sexual or Menstrual Concerns", new[] { 1 }, "Dx94", TestName = "Can reach Dx94")]
+        [TestCase("Female", 15, "Loss of Taste or Smell", new[] { 1, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 5 }, "Dx1116", TestName = "PW1853 Child Dx1116 not Dx38")]
+        [TestCase("Male", 22, "Headache", new[] { 4, 1, 3, 5, 3, 3, 3, 1, 1, 3, 3 }, "Dx08", TestName = "PW755 Dx08 not Dx38")]
+        [TestCase("Female", 25, "Head, Facial or Neck Injury, Blunt", new[] { 3, 3, 5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 1, 5, 4, 3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 3, 1, 1, 1 }, "Dx08", TestName = "PW684 Female Dx08 not Dx38")]
+        [TestCase("Male", 25, "Head, Facial or Neck Injury, Blunt", new[] { 3, 3, 5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 1, 5, 4, 3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 3, 3 }, "Dx08", TestName = "PW684 Male Dx08 not Dx38")]
+        [TestCase("Female", 33, "Head, Facial or Neck Injury, Penetrating", new[] { 3, 3, 3, 3, 5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 1, 5, 3, 4, 3, 3, 3, 3, 6, 5, 4, 3, 3, 4, 3, 3, 3, 3 }, "Dx08", TestName = "PW692 Female Dx08 not Dx38")]
         public void TestOutcomes(string sex, int age, string pathwayTitle, int[] answers, string expectedDxCode)
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, pathwayTitle, sex, age);
