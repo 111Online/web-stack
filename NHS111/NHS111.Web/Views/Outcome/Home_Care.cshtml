@@ -34,11 +34,15 @@
 }
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "It's safe to look after yourself" } })
-@Html.HiddenFor(x => Model.Id)
-<section>
+
+
+<section class="nhsuk-core nhsuk-u-margin-top-4">
+
+    @Html.Partial("_CovidEliminator", Model)
+
     @if (Model.CareAdvices != null && Model.CareAdvices.Any())
     {
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" } })
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" }, { "NoHR", true } })
     }
     else
     {
@@ -47,3 +51,4 @@
 </section>
 
 @Html.Partial("_WorseningAdvice", Model)
+@Html.HiddenFor(x => Model.Id)

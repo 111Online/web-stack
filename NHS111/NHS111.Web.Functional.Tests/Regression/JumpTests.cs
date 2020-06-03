@@ -27,9 +27,9 @@ namespace NHS111.Web.Functional.Tests.Regression
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you got a fever right now or had one since the tiredness started?");
+            questionPage.VerifyQuestion("Do you have a new continuous cough?");
             var outcomePage = questionPage
-                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerSuccessiveByOrder(3, 6)
                 .AnswerSuccessiveByOrder(4, 2)
                 .Answer(3)
                 .Answer(4)
@@ -49,7 +49,7 @@ namespace NHS111.Web.Functional.Tests.Regression
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(3)
+                .AnswerSuccessiveNo(6)
                 .Answer(3)
                 .AnswerSuccessiveNo(13)
                 .Answer<OutcomePage>("Yes");
@@ -135,8 +135,7 @@ namespace NHS111.Web.Functional.Tests.Regression
 
             var outcomePage = questionPage
                 .AnswerNo()
-                .Answer(3)
-                .Answer<OutcomePage>("Yes - 1 week or more");
+                .Answer<OutcomePage>("Solvents");
 
             outcomePage.VerifyDispositionCode("Dx06");
 
@@ -151,8 +150,7 @@ namespace NHS111.Web.Functional.Tests.Regression
 
             var newOutcomePage = newQuestionPage
                 .AnswerNo()
-                .Answer(3)
-                .Answer<OutcomePage>("Yes - 1 week or more");
+                .Answer<OutcomePage>("Solvents");
 
             newOutcomePage.VerifyDispositionCode("Dx35");
         }
