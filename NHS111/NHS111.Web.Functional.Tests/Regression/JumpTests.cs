@@ -65,10 +65,20 @@ namespace NHS111.Web.Functional.Tests.Regression
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(3)
-                .Answer(2)
                 .Answer(3)
-                .AnswerSuccessiveNo(16)
+                .Answer(5)
+                .Answer(3)
+                .Answer(1)
+                .Answer(3)
+                .Answer(5)
+                .AnswerSuccessiveByOrder(3, 2)
+                .AnswerSuccessiveByOrder(4, 2)
+                .AnswerSuccessiveNo(6)
+                .Answer(4)
+                .Answer(5)
+                .Answer(4)
+                .Answer(3)
+                .Answer(5)
                 .Answer(1)
                 .Answer<OutcomePage>("No");
 
