@@ -42,14 +42,6 @@ namespace NHS111.Business.Api.Controllers
 
             return results;
         }
-
-        [Route("guidedpathwaysearch/{gender}/{ageGroup}")]
-        [HttpPost]
-        public async Task<List<ReservedSearchResult>> GetGuidedPathways(string gender, string ageGroup, [FromBody] SearchRequest request)
-        {
-            var results = await _pathwaySearchService.FindReservedResults(request.Query, gender, ageGroup);
-            return results;
-        }
     }
 
     // This is used as a model purely for the search POST as multiple [FromBody] do not work

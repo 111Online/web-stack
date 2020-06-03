@@ -69,51 +69,29 @@
 }
 else
 {
-<section class="nhsuk-core measure">
+  <section class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-xl">Book a call with a 111 nurse</h1>
+    <p>
+      A nurse from the COVID clinical response service needs to speak to you.
+    </p>
+    <p>
+      When you book a call the nurse will:
+    </p>
+    <ul>
+      <li>know the answers you have already given</li>
+      <li>ask you some more questions about your symptoms and current health</li>
+    </ul>
+    <p class="nhsuk-u-margin-bottom-6">
+        It’s important that you speak to the nurse. You should get a call within  @WebUtility.HtmlDecode(Model.WaitTimeText). The 111 phone service is busy, so it could take longer than usual.
+    </p>
 
-	@if (Model.Id == "Dx1117")
-	{
-		<h1 class="nhsuk-heading-xl">A nurse from the COVID-19 service would like to check in with you</h1>
-		<p>
-			You don't need urgent help, but a nurse would like to give you a call to make sure your ok.
-		</p>
-		<p>
-			When you book a call the nurse will:
-		</p>
-		<ul>
-			<li>know what you've answered so far</li>
-			<li>check that you haven't got any worse</li>
-			<li>tell you if you need to get help</li>
-		</ul>
-		<p class="nhsuk-u-margin-bottom-6">
-			You should get a call within 24 hours
-		</p>
-	}
-	else
-	{
-		<h1 class="nhsuk-heading-xl">Book a call with a 111 nurse</h1>
-		<p>
-			A nurse from the COVID clinical response service needs to speak to you.
-		</p>
-		<p>
-			When you book a call the nurse will:
-		</p>
-		<ul>
-			<li>know the answers you have already given</li>
-			<li>ask you some more questions about your symptoms and current health</li>
-		</ul>
-		<p class="nhsuk-u-margin-bottom-6">
-			It’s important that you speak to the nurse. You should get a call within  @WebUtility.HtmlDecode(Model.WaitTimeText). The 111 phone service is busy, so it could take longer than usual.
-		</p>
-	}
+    @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id)
+        <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
+    }
 
-		@using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
-		{
-			@Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-			@Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-			@Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id)
-			<button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
-		}
-
-	</section>
+  </section>
 }

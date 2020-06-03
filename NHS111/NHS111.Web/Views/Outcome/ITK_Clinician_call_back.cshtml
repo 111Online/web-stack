@@ -54,10 +54,6 @@
         </div>
     </section>
 
-    <section class="measure nhsuk-core">
-        @Html.Partial("_CovidEliminator", Model)
-    </section>
-
     <div class="itk-message measure">
         <p>We’ve gone as far as we can online and to get you the right help we need to contact you.</p>
         <p>At the moment we're unable to connect you automatically in your area.</p>
@@ -103,13 +99,9 @@ else
         </div>
     </section>
 
-    <section class="measure nhsuk-core">
-        @Html.Partial("_CovidEliminator", Model)
-    </section>
-
     <div class="itk-message measure">
         <p>We’ve gone as far as we can online, and we need to contact you to finish your health assessment.</p>
-        <br/>
+        <br />
         <p>The 111 nurse will:</p>
         <ul>
             <li>
@@ -132,7 +124,7 @@ else
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id)
 
-            <hr/>
+            <hr />
             <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
         }
 
@@ -150,7 +142,7 @@ else
                 <span class="summary">I don't want to book a call right now</span>
             </summary>
             <div class="panel panel-border-narrow">
-                @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary {{"Title", "Things you can do yourself"}, {"NoHR", "true"}})
+                @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Things you can do yourself" }, { "NoHR", "true" } })
                 @Html.Partial("_WorseningAdvice", Model)
             </div>
         </details>

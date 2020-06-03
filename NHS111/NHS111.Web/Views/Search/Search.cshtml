@@ -15,18 +15,16 @@
     <div class="measure search-typography">
         <h1 class="heading--large">@Html.LabelFor(m => m.SanitisedSearchTerm, "Find the right topic")</h1>
         <p>If you have more than 1 symptom, choose the one that's bothering you most today.</p>
-        <p>Search for symptoms like 'stomach ache' or 'rash' rather than names of conditions.</p>
+        <p>Search for symptoms like 'rash' or 'stomach ache' rather than names of conditions.</p>
         @{
-            Model.SanitisedSearchTerm = SearchReservedCovidTerms.SearchTerms.First();
             var encryptedQueryStringValuesSearchResult = KeyValueEncryptor.EncryptedKeys(Model);
-            var covidPathwayLink = String.Format("/Search/GuidedSelection?gender={0}&age={1}&args={2}", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
-            Model.SanitisedSearchTerm = string.Empty;
+            var covidPathwayLink = String.Format("/{0}/{1}/{2}/start?args={3}", "PW1851", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
         }
         
         <div class="callout callout--lite callout--warning">
             <p>
                 <a href=@covidPathwayLink id="covid19-search-link" data-event-trigger="click" data-event-value="COVID-19 search page link">
-                    Find out about COVID-19
+                    Get help if you're worried about coronavirus.
                 </a>
             </p>
         </div>

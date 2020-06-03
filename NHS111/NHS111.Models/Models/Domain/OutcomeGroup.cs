@@ -114,7 +114,7 @@ namespace NHS111.Models.Models.Domain
             { NoFurtherAction.Id, NoFurtherAction },
             { JumpToSearch.Id, JumpToSearch },
 
-            #region Corona virus specific outcomes
+        #region Corona virus specific outcomes
             { Isolate111.Id, Isolate111 },
             { Isolate_SelfCare.Id, Isolate_SelfCare },
             { Isolate_999.Id, Isolate_999 },

@@ -248,7 +248,7 @@ namespace NHS111.Web.Controllers
         //[Route("question/revisit/{questionNo}/")]
         public async Task<ActionResult> Revisit(OutcomeViewModel model,
             [ModelBinder(typeof(IntArrayModelBinder))] int[] answers,
-            bool filterServices, string selectedAnswer)
+            bool? filterServices, string selectedAnswer)
         {
 
             if (selectedAnswer.ToLower() == "no")
@@ -262,7 +262,7 @@ namespace NHS111.Web.Controllers
                 return View(viewRouter.ViewName, model);
             }
 
-            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices, false)
+            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices)
                 .ConfigureAwait(false);
 
             var journeyViewModel = (JourneyViewModel)((ViewResult)result).Model;
@@ -276,7 +276,7 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{postcode}/{answers?}")]
-        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool filterServices = true, bool viaGuidedSelection = false)
+        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool? filterServices)
         {
 
             if (!_directLinkingFeature.IsEnabled)
@@ -284,11 +284,11 @@ namespace NHS111.Web.Controllers
                 return HttpNotFound();
             }
 
-            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices, viaGuidedSelection)
+            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices)
                 .ConfigureAwait(false);
         }
 
-        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool filterServices, bool viaGuidedSelection)
+        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices)
         {
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers)
                 .ConfigureAwait(true);
@@ -296,8 +296,7 @@ namespace NHS111.Web.Controllers
             resultingModel.TriggerQuestionNo = null;
             if (resultingModel != null)
             {
-                resultingModel.FilterServices = filterServices;
-                resultingModel.ViaGuidedSelection = viaGuidedSelection;
+                resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
                 if (resultingModel.NodeType == NodeType.Outcome)
                 {

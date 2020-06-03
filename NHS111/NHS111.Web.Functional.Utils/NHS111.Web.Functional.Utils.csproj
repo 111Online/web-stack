@@ -128,10 +128,6 @@
       <Project>{bd9f2634-bada-43e6-b16d-522be17da255}</Project>
       <Name>NHS111.Features</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
-      <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
-      <Name>NHS111.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

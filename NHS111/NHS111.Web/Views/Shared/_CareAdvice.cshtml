@@ -12,14 +12,7 @@
             if (careAdvice.Items != null && careAdvice.Items.Any())
             {
                 <div>
-                    @{
-                        var title = careAdvice.Keyword;
-                        if (title.Equals("Alert Pandemic"))
-                        {
-                            title = "Coronavirus (COVID-19)";
-                        }
-                    }
-                    <h4 id="Advice_@careAdvice.Id" class="heading-small">@title</h4>
+                    <h4 id="Advice_@careAdvice.Id" class="heading-small">@careAdvice.Keyword</h4>
                     <ul>
                         @foreach (var parent in careAdvice.Items)
                         {
@@ -38,7 +31,7 @@
 
                         }
                     </ul>
-
+                    
                     @Html.Hidden(careAdvice.Id)
                 </div>
             }

@@ -8,7 +8,6 @@ using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NHS111.Models.Models.Web.Parsers;
 
 namespace NHS111.Web.Presentation.Builders
 {
