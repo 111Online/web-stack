@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests
         [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Breathlessness", "PW557")]
         [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Breathlessness", "PW560")]
         [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Hightemperature,orcoldandflusymptoms", "PW1040")]
-        [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "ColdandHightemperature,orcoldandflusymptomsflusymptoms", "PW1042")]
+        [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "Hightemperature,orcoldandflusymptoms", "PW1042")]
         [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Child, "Hightemperature,orcoldandflusymptoms", "PW1041")]
         [TestCase(TestScenerioSex.Male, TestScenerioAgeGroups.Child, "Hightemperature,orcoldandflusymptoms", "PW1043")]
         [TestCase(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Cough", "PW975")]

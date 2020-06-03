@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1115_6Hours()
         {
-            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldandflusymptoms");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Hightemperature,orcoldandflusymptoms");
 
             var outcomePage = questionPage.Answer(2) // No - breathless
                 .Answer(1) // Yes - cough

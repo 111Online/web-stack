@@ -31,7 +31,7 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyWeirdQuestionContent(bool shouldContainCustomContent)
         {
             var content = WeirdQuestionContent.Text;
-            Assert.IsTrue(content.Contains(PageCustomContent.CovidPlaceHolder.Content) == shouldContainCustomContent);
+            Assert.IsTrue(content.Contains(PageCustomContent.CovidPlaceHolder.Content.Replace("<p>", string.Empty).Replace("</p>", string.Empty)) == shouldContainCustomContent);
         }
     }
 
