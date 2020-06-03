@@ -89,6 +89,19 @@
         Link = "What if I feel worse while I am waiting?",
         Summary = "<p>" + waitText + "</p>"
     })
+    
+    @if (Model.OutcomeModel.CareAdvices != null && Model.OutcomeModel.CareAdvices.Any())
+    {
+        <details class="measure">
+            <summary>
+                <span class="details__arrow"></span>
+                <span class="summary">Things you can do yourself</span>
+            </summary>
+            <div class="panel panel-border-narrow">
+                @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary {{"Title", string.Empty}, {"NoHR", "true"}})
+            </div>
+        </details>
+    }
 
     <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
 
