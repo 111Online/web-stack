@@ -522,8 +522,6 @@
     <Content Include="Views\PersonalDetails\CollectEmailAddress.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsEmailAddress.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Isolate_111\Confirmation.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceBookingFailure.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceUnavailable.cshtml" />
     <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
     <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
     <Content Include="Views\Shared\_LinkSummary.cshtml" />

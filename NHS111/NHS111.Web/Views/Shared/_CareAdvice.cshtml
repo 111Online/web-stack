@@ -1,12 +1,19 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
+
+@{
+    var heading = !ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"].ToString();
+}
+
 @if (Model.Any())
 {
     if (!ViewData.Keys.Contains("NoHR") || ViewData["NoHR"] == "false") {
         <hr/>
     }
     <div class="care-advice measure">
-
-        <h3 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h3>
+        @if (!string.IsNullOrEmpty(heading))
+        {
+            <h3 class="heading-medium">@Html.Raw(heading)</h3>
+        }
         @foreach (var careAdvice in Model)
         {
             if (careAdvice.Items != null && careAdvice.Items.Any())
