@@ -32,21 +32,29 @@
 @Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}", Model.OutcomeGroup.Text, Model.TimeFrameText) } })
 
 <section class="measure nhsuk-core">
-    @Html.Partial("_CovidEliminator", Model)
-    <div class="callout callout--lite callout--warning measure">
-        <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
 
-        <p>
-            All routine dental appointments have been stopped.
-            If you have an urgent dental problem, call your usual dentist for advice.
-            If you do not have a usual dentist, you can use <a data-event-trigger="click" data-event-value="Covid contact dentist" href="https://www.england.nhs.uk/contact-us/" target="_blank">NHS England's contact centre</a> or call NHS 111.
-        </p>
-    </div>
+    @Html.Partial("_CovidEliminator", Model)
+
+    @if (!Model.IsViaGuidedSelection)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
+    else
+    {
+        <div class="callout callout--lite callout--warning measure">
+            <p>
+                All routine dental appointments have been stopped.
+                If you have an urgent dental problem, call your usual dentist for advice.
+                If you do not have a usual dentist, you can use <a data-event-trigger="click" data-event-value="Covid contact dentist" href="https://www.england.nhs.uk/contact-us/" target="_blank">NHS England's contact centre</a> or call NHS 111.
+            </p>
+        </div>
+    }
+
 </section>
 
 <h2>@Html.Raw(string.Format("What to do if you can't {0}", Model.OutcomeGroup.Text))</h2>
-    
-@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode" , true }})
+
+@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode", true } })
 
 <hr class="alternative-care-hr" />
 <p>If you don't have a dentist, <a href="https://www.nhs.uk/Service-Search/Dentist/LocationSearch/3" target="_blank">find a dentist near you</a>, and ask if they can give you an appointment. You might have to pay to see some dentists.</p>
