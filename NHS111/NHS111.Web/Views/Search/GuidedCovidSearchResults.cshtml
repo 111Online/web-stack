@@ -65,7 +65,7 @@
             @Html.Hidden("DisplayLoadingPage")
         <fieldset>
             @Html.ValidationMessageFor(m => m.PathwayNo, "Choose one option", new { @class = "error-message" })
-
+            
             @foreach (var result in Model.GuidedResults)
             {
                 <div class="multiple-choice">
