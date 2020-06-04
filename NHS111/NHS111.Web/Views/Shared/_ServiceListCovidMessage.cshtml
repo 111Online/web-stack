@@ -4,12 +4,17 @@
 
 @if (!Model.OutcomeGroup.CoronaVirusServiceListMessageBlank)
 {
-    <div class="callout callout--lite callout--warning measure">
-        <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
-
-        <p>
-            Do not go to the service, phone them instead.
-            All NHS services have updated their website, emailed or texted about how they're now offering appointments.
-        </p>
-    </div>
+    @if (!Model.IsViaGuidedSelection)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
+    else
+    {
+        <div class="callout callout--lite callout--warning measure">
+            <p>
+                Do not go to the service, phone them instead.
+                All NHS services have updated their website, emailed or texted about how they're now offering appointments.
+            </p>
+        </div>
+    }
 }
