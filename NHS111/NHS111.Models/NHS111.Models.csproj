@@ -364,6 +364,7 @@
     <Compile Include="Models\Web\Validators\DateYearValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\GuidedSearchJourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantTypeValidator.cs" />

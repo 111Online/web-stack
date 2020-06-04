@@ -51,6 +51,7 @@ namespace NHS111.Models.Models.Web
 
     }
 
+    [Validator(typeof(GuidedSearchJourneyViewModelValidator))]
     public class GuidedSearchJourneyViewModel : SearchJourneyViewModel
     {
         public GuidedSearchJourneyViewModel()
