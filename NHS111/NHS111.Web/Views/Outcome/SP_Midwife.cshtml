@@ -40,6 +40,10 @@
 
 <section class="measure nhsuk-core outcome-additional-info">
     @Html.Partial("_CovidEliminator", Model)
+    @if (Model.NeedsGeneralCovidAdvice)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
     <ul>
         <li>
             You should contact your own midwife first.
