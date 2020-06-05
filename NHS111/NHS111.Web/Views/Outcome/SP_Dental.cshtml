@@ -35,13 +35,14 @@
 
     @Html.Partial("_CovidEliminator", Model)
 
-    @if (!Model.IsViaGuidedSelection)
+    @if (Model.NeedsGeneralCovidAdvice)
     {
         @Html.Partial("_GeneralCovidAdvice")
     }
     else
     {
         <div class="callout callout--lite callout--warning measure">
+            <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
             <p>
                 All routine dental appointments have been stopped.
                 If you have an urgent dental problem, call your usual dentist for advice.

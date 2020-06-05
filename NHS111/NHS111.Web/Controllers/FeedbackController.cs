@@ -1,8 +1,5 @@
-﻿using NHS111.Models.Models.Web;
-using NHS111.Web.Presentation.Builders;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Builders;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;

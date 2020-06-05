@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "ITK_Primary_care";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    
+
     var cannotGetApptText = "I can't get an appointment today";
     switch (Model.Id)
     {
@@ -40,13 +40,14 @@
     @Html.Partial("_CovidEliminator", Model)
 
 
-    @if (!Model.IsViaGuidedSelection)
+    @if (Model.NeedsGeneralCovidAdvice)
     {
         @Html.Partial("_GeneralCovidAdvice")
     }
     else
     {
         <div class="callout callout--lite callout--warning measure">
+            <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
             <p>
                 Do not go to your GP surgery, phone them instead.
                 All GP surgeries have updated their website, emailed or texted about how they're now offering appointments.
