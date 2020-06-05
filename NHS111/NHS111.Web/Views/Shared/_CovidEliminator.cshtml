@@ -1,11 +1,11 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 @using System.Linq;
 @{
-    var shouldShowEliminator = true;
+    var shouldShowEliminator = false;
 
-    if (Model.CareAdvices != null && Model.CareAdvices.Any(x => x.Keyword == "Alert Pandemic"))
+    if (Model.CareAdvices != null && !Model.CareAdvices.Any(x => x.Keyword == "Alert Pandemic") && Model.IsViaGuidedSelection)
     {
-        shouldShowEliminator = false;
+        shouldShowEliminator = true;
     }
 
     if (shouldShowEliminator)

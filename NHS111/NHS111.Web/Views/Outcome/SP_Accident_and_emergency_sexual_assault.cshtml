@@ -35,6 +35,10 @@
 
 <section class="measure nhsuk-core">
     @Html.Partial("_CovidEliminator", Model)
+    @if (Model.NeedsGeneralCovidAdvice)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
 </section>
 
 @{
