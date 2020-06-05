@@ -30,5 +30,8 @@ namespace NHS111.Models.Models.Business.PathwaySearch
 
         [Keyword(Name = "Reserved")]
         public List<string> ReservedList { get; set; }
+
+        [Text(Name = "GuidedOrder")]
+        public int GuidedOrder { get; set; }
     }
 }

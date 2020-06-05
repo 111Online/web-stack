@@ -66,7 +66,7 @@
         <fieldset>
             @Html.ValidationMessageFor(m => m.PathwayNo, "Choose one option", new { @class = "error-message" })
             
-            @foreach (var result in Model.GuidedResults)
+            @foreach (var result in Model.GuidedResults.OrderBy(g => g.GuidedOrder))
             {
                 <div class="multiple-choice">
                     <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="@result.GuidedTitleWithoutSpaces" value="@result.PathwayNo" />
