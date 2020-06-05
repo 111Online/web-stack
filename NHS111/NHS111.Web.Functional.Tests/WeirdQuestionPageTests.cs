@@ -32,7 +32,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void WeirdQuestionTest_ViaSearchCovidPathwayCustomTextOnWeirdQuestionPage()
         {
-            var weirdQuestionPage = TestScenerios.LaunchQuestionInfoScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var weirdQuestionPage = TestScenerios.LaunchQuestionInfoScenerio(Driver, "Cough", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
             weirdQuestionPage.VerifyWeirdQuestionContent(true);
         }
 
