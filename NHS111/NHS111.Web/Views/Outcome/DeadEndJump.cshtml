@@ -40,7 +40,7 @@
 
         @Html.Partial("_CovidEliminator", Model)
 
-        @if (Model.NeedsGeneralCovidAdvice)
+        if (Model.NeedsGeneralCovidAdvice)
         {
             @Html.Partial("_GeneralCovidAdvice")
         }
