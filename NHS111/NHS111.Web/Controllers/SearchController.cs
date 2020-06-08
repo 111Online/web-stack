@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using NHS111.Features;
+using NHS111.Models.Models.Web.Enums;
+using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
@@ -21,20 +23,19 @@ namespace NHS111.Web.Controllers
     public class SearchController : Controller
     {
         public const int MAX_SEARCH_RESULTS = 10;
+        private const string EmergencyPrescriptionPathwayNumber = "PW1827";
 
         public SearchController(
-            IDirectLinkingFeature directLinkingFeature,
             IConfiguration configuration,
             IUserZoomDataBuilder userZoomDataBuilder,
             ILoggingRestClient restClientBusinessApi,
-            IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder
+            IAuditLogger auditLogger
             )
         {
-            _directLinkingFeature = directLinkingFeature;
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
-            _jtbsViewModelBuilder = jtbsViewModelBuilder;
+            _auditLogger = auditLogger;
         }
 
         [HttpPost]
@@ -53,16 +54,13 @@ namespace NHS111.Web.Controllers
 
             if (model.PathwayNo != null && model.PathwayNo.Equals("none"))
             {
+                _auditLogger.LogEvent(model, EventType.GuidedSelection, "None", "/GuidedSelection");
                 return RedirectToExplainer(model);
             } 
             
             if (model.PathwayNo != null)
             {
-                // Setting this to always true here and need to think about what to do for
-                // EP.  Might be we don't use this switch on EP outcomes anyway as never possible to
-                // get there via guided selection
-                //TODO: check EP doesn't break this.
-                model.ViaGuidedSelection = true;
+                model.ViaGuidedSelection = !model.PathwayNo.ToUpper().Equals(EmergencyPrescriptionPathwayNumber);
                 return await RedirectToFirstTriageQuestion(model).ConfigureAwait(false);
             }
 
@@ -247,7 +245,7 @@ namespace NHS111.Web.Controllers
             var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
             guidedModel.GuidedResults = response.Data;
 
-            return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
+            return !guidedModel.GuidedResults.Any() ? NoResults(model) : View("~\\Views\\Search\\GuidedSelection.cshtml", guidedModel);
         }
 
         [HttpGet]
@@ -469,10 +467,9 @@ namespace NHS111.Web.Controllers
             }
         }
 
-        private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly ILoggingRestClient _restClientBusinessApi;
-        private readonly IJustToBeSafeFirstViewModelBuilder _jtbsViewModelBuilder;
+        private readonly IAuditLogger _auditLogger;
     }
 }

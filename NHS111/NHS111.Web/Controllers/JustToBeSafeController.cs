@@ -7,7 +7,6 @@ using NHS111.Utils.Attributes;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -26,6 +25,7 @@ namespace NHS111.Web.Controllers
         private readonly IJustToBeSafeViewModelBuilder _justToBeSafeViewModelBuilder;
         private readonly IConfiguration _configuration;
         private readonly ILoggingRestClient _restClientBusinessApi;
+
         private const string GuidedSelectionPathwayNumber = "PW1851";
 
         public JustToBeSafeController(
@@ -124,7 +124,7 @@ namespace NHS111.Web.Controllers
             var guidedModel = Mapper.Map<GuidedSearchJourneyViewModel>(model);
             guidedModel.GuidedResults = response.Data;
 
-            return !guidedModel.GuidedResults.Any() ? View("~\\Views\\Search\\NoResults.cshtml", model) : View("~\\Views\\Search\\GuidedCovidSearchResults.cshtml", guidedModel);
+            return !guidedModel.GuidedResults.Any() ? View("~\\Views\\Search\\NoResults.cshtml", model) : View("~\\Views\\Search\\GuidedSelection.cshtml", guidedModel);
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, JustToBeSafeViewModel jtbsModel)

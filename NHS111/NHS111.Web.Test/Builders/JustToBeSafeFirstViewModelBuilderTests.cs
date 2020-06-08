@@ -9,6 +9,7 @@ using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
 using NHS111.Utils.RestTools;
+using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders.Tests
@@ -23,6 +24,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         Mock<IKeywordCollector> _keywordCollector;
         Mock<IMapper> _mapper;
         private Mock<IUserZoomDataBuilder> _userZoomDataBuilder;
+        Mock<IAuditLogger> _auditLoggerMock;
 
         private const string MOCK_BusinessApiPathwayIdUrl = "http://testpathwaybyid.com";
         private const string MOCK_GetBusinessApiJustToBeSafePartOneUrl = "http://testGetBusinessApiJustToBeSafePartOneUrl.com";
@@ -50,6 +52,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _keywordCollector = new Mock<IKeywordCollector>();
             _mapper = new Mock<IMapper>();
             _userZoomDataBuilder = new Mock<IUserZoomDataBuilder>();
+            _auditLoggerMock = new Mock<IAuditLogger>();
 
             _configuration.Setup(c => c.GetBusinessApiPathwayIdUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(MOCK_BusinessApiPathwayIdUrl);
             _configuration.Setup(c => c.GetBusinessApiJustToBeSafePartOneUrl(It.IsAny<string>())).Returns(MOCK_GetBusinessApiJustToBeSafePartOneUrl);
@@ -103,7 +106,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _keywordCollector.Setup(k => k.ParseKeywords(testKeywords, false))
                 .Returns(testKeywordsCollection);
 
-            _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restClient.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object);
+            _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restClient.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object, _auditLoggerMock.Object);
 
 
         }
