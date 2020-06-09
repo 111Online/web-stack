@@ -412,7 +412,6 @@ namespace NHS111.Web.Controllers
 
             return results;
         }
-
         private async Task<IEnumerable<CategoryWithPathways>> GetAllCategories(AgeGenderViewModel model, string postcode)
         {
             var requestPath = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
