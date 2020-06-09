@@ -45,7 +45,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ReferOnlyService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "OL9 6BW");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "PR56LD");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage

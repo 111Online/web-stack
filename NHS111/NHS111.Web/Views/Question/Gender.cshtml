@@ -19,7 +19,7 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(m => m.IsCustomJourney)
+    @Html.HiddenFor(m => m.IsCovidJourney)
 
     <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
          data-valmsg-summary="true">

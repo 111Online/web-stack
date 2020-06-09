@@ -1,18 +1,32 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
+
+@{
+    var heading = !ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"].ToString();
+}
+
 @if (Model.Any())
 {
     if (!ViewData.Keys.Contains("NoHR") || ViewData["NoHR"] == "false") {
         <hr/>
     }
     <div class="care-advice measure">
-
-        <h3 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h3>
+        @if (!string.IsNullOrEmpty(heading))
+        {
+            <h3 class="heading-medium">@Html.Raw(heading)</h3>
+        }
         @foreach (var careAdvice in Model)
         {
             if (careAdvice.Items != null && careAdvice.Items.Any())
             {
                 <div>
-                    <h4 id="Advice_@careAdvice.Id" class="heading-small">@careAdvice.Keyword</h4>
+                    @{
+                        var title = careAdvice.Keyword;
+                        if (title.Equals("Alert Pandemic"))
+                        {
+                            title = "Coronavirus (COVID-19)";
+                        }
+                    }
+                    <h4 id="Advice_@careAdvice.Id" class="heading-small">@title</h4>
                     <ul>
                         @foreach (var parent in careAdvice.Items)
                         {
@@ -31,7 +45,7 @@
 
                         }
                     </ul>
-                    
+
                     @Html.Hidden(careAdvice.Id)
                 </div>
             }

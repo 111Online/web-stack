@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -23,14 +24,16 @@ namespace NHS111.Web.Presentation.Builders
         private readonly ILoggingRestClient _restClient;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
+        private readonly IAuditLogger _auditLogger;
 
-        public JustToBeSafeFirstViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
+        public JustToBeSafeFirstViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder, IAuditLogger auditLogger)
         {
             _restClient = restClient;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _keywordCollector = keywordCollector;
             _userZoomDataBuilder = userZoomDataBuilder;
+            _auditLogger = auditLogger;
         }
 
         public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
@@ -65,7 +68,8 @@ namespace NHS111.Web.Presentation.Builders
                     Campaign = model.Campaign,
                     Source = model.Source,
                     CurrentPostcode = model.CurrentPostcode,
-                    EntrySearchTerm = model.EntrySearchTerm
+                    EntrySearchTerm = model.EntrySearchTerm,
+                    ViaGuidedSelection = model.ViaGuidedSelection
                 };
 
                 var question = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
@@ -74,13 +78,19 @@ namespace NHS111.Web.Presentation.Builders
 
                 _mappingEngine.Mapper.Map(question.Data, questionViewModel);
 
+                if(questionViewModel.IsViaGuidedSelection)
+                    _auditLogger.LogEvent(model, EventType.GuidedSelection,questionViewModel.PathwayTitle,"/GuidedSelection");
+
+
                 _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
                 if (questionViewModel.NodeType == NodeType.Page)
                 {
                     // This replicates logic in ViewDeterminer so in future should ideally use that instead.
                     string viewName = "../Question/Page";
                     if (questionViewModel.PathwayNo.Equals("PC111")) viewName = "../Question/Custom/NHSUKPage";
-                    if (questionViewModel.PathwayNo.Equals("PW1851")) viewName = "../Question/Custom/SymptomsStarted";
+                    //replace placeholder for covid specific logic. 
+                    var covidPathways = await GetCovidPathways(model.UserInfo.Demography.Gender, new AgeCategory(model.UserInfo.Demography.Age));
+                    questionViewModel.Content = PageCustomContent.ReplaceCovidPlaceHolderInPageContent(questionViewModel, covidPathways);
                     return new Tuple<string, QuestionViewModel>(viewName, questionViewModel);
                 }
 
@@ -94,6 +104,17 @@ namespace NHS111.Web.Presentation.Builders
             identifiedModel.FilterServices = model.FilterServices;
             return new Tuple<string, QuestionViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
 
+        }
+
+        private async Task<IEnumerable<string>> GetCovidPathways(string gender, AgeCategory ageGroup)
+        {
+            var requestPath = _configuration.GetBusinessApiGuidedPathwaySearchUrl(gender, ageGroup.Value, true);
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(new { query = Uri.EscapeDataString(SearchReservedCovidTerms.SearchTerms.First()) });
+
+            var response = await _restClient.ExecuteAsync<List<GuidedSearchResultViewModel>>(request).ConfigureAwait(false);
+            CheckResponse(response);
+            return response.Data.Select(p => p.PathwayNo);
         }
 
         private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model)

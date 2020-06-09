@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NHS111.Models.Models.Web.Parsers;
+using StructureMap.Query;
 
 namespace NHS111.Models.Models.Web
 {
@@ -16,6 +18,7 @@ namespace NHS111.Models.Models.Web
         public IEnumerable<string> CareAdviceMarkers { get; set; }
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
+        public bool NeedsGeneralCovidAdvice { get { return IsViaGuidedSelection && (CareAdvices != null && CareAdvices.Any(x => x.Keyword == "Alert Pandemic")) || CareAdvices == null; } }
 
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
@@ -67,6 +70,16 @@ namespace NHS111.Models.Models.Web
                         && (this.DosCheckCapacitySummaryResult.HasITKServices ||
                             string.IsNullOrEmpty(this.CurrentPostcode)));
             }
+        }
+
+        public bool IsSuspectedCovidSymptoms
+        {
+            get
+            {
+                var jsonParser = new JourneyJsonParser(this.JourneyJson);
+                var lastPathwayNo = jsonParser.LastPathwayNo;
+                return lastPathwayNo.Equals("PW1853");
+            }   
         }
 
         public ServiceViewModel RemoveFirstDOSService()
