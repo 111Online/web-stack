@@ -547,7 +547,7 @@
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\Confirmation.cshtml" />
     <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
     <Content Include="Views\PersonalDetails\DateOfBirth.cshtml" />
-    <Content Include="Views\Search\GuidedCovidSearchResults.cshtml" />
+    <Content Include="Views\Search\GuidedSelection.cshtml" />
     <Content Include="Views\PersonalDetails\PatientName.cshtml" />
     <Content Include="Views\PersonalDetails\InformantName.cshtml" />
     <Content Include="Views\PersonalDetails\InformantType.cshtml" />

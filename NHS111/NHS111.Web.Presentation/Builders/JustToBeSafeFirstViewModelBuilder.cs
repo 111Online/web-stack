@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -23,14 +24,16 @@ namespace NHS111.Web.Presentation.Builders
         private readonly ILoggingRestClient _restClient;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
+        private readonly IAuditLogger _auditLogger;
 
-        public JustToBeSafeFirstViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
+        public JustToBeSafeFirstViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder, IAuditLogger auditLogger)
         {
             _restClient = restClient;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _keywordCollector = keywordCollector;
             _userZoomDataBuilder = userZoomDataBuilder;
+            _auditLogger = auditLogger;
         }
 
         public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
@@ -74,6 +77,10 @@ namespace NHS111.Web.Presentation.Builders
                 CheckResponse(question);
 
                 _mappingEngine.Mapper.Map(question.Data, questionViewModel);
+
+                if(questionViewModel.IsViaGuidedSelection)
+                    _auditLogger.LogEvent(model, EventType.GuidedSelection,questionViewModel.PathwayTitle,"/GuidedSelection");
+
 
                 _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
                 if (questionViewModel.NodeType == NodeType.Page)

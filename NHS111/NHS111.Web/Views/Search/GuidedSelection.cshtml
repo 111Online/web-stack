@@ -51,7 +51,7 @@
         Choose the 1 thing that’s bothering you most:
     </h2>
     <div class="form-group nhsuk-u-margin-top-2">
-        @using (Html.BeginForm("Search", "Search", FormMethod.Post))
+        @using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "guided-selection-form" }))
         {
             @Html.HiddenFor(m => Model.SessionId)
             @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
@@ -63,25 +63,26 @@
             @Html.HiddenFor(x => Model.SanitisedSearchTerm)
             @Html.HiddenFor(x => Model.ViaGuidedSelection)
             @Html.Hidden("DisplayLoadingPage")
-        <fieldset>
-            @Html.ValidationMessageFor(m => m.PathwayNo, "Choose one option", new { @class = "error-message" })
+            <fieldset>
+                @Html.ValidationMessageFor(m => m.PathwayNo, "Choose one option", new { @class = "error-message" })
             
-            @foreach (var result in Model.GuidedResults.OrderBy(g => g.GuidedOrder))
-            {
+                @foreach (var result in Model.GuidedResults.OrderBy(g => g.GuidedOrder))
+                {
+                    <div class="multiple-choice">
+                        <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="@result.GuidedTitleWithoutSpaces" value="@result.PathwayNo" />
+                        <label for="@result.GuidedTitleWithoutSpaces" class="multiple-choice--radio">
+                            <strong>@result.GuidedTitle</strong>
+                            <p>@result.GuidedDescription</p>
+                        </label>
+                    </div>
+                }
                 <div class="multiple-choice">
-                    <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="@result.GuidedTitleWithoutSpaces" value="@result.PathwayNo" />
-                    <label for="@result.GuidedTitleWithoutSpaces" class="multiple-choice--radio">
-                        <strong>@result.GuidedTitle</strong>
-                        <p>@result.GuidedDescription</p>
-                    </label>
+                    <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="noneofthese" value="none" />
+                    <label for="noneofthese" class="multiple-choice--radio"><strong>None of these</strong></label>
                 </div>
-            }
-            <div class="multiple-choice">
-                <input name="PathwayNo" data-val="true" data-val-required="'PathwayNo' should not be empty." type="radio" class="multiple-choice__input" id="noneofthese" value="none" />
-                <label for="noneofthese" class="multiple-choice--radio"><strong>None of these</strong></label>
-            </div>
-            <button class="button--next button--spinner" id="nextScreen" type="submit" name="GuidedSelection" value="GuidedSelection">Next @Html.Partial("_InlineSpinner")</button>
-        </fieldset>
+                <button class="button--next button--spinner" id="nextScreen" type="submit" name="GuidedSelection" value="GuidedSelection">Next @Html.Partial("_InlineSpinner")</button>
+            </fieldset>
         }
     </div>
 </div>
+
