@@ -23,8 +23,10 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("Female", 25, "Head, Facial or Neck Injury, Blunt", new[] { 3, 3, 5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 1, 5, 4, 3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 3, 1, 1, 1 }, "Dx08", TestName = "PW684 Female Dx08 not Dx38")]
         [TestCase("Male", 25, "Head, Facial or Neck Injury, Blunt", new[] { 3, 3, 5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 1, 5, 4, 3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 3, 3 }, "Dx08", TestName = "PW684 Male Dx08 not Dx38")]
         [TestCase("Female", 33, "Head, Facial or Neck Injury, Penetrating", new[] { 3, 3, 3, 3, 5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 1, 5, 3, 4, 3, 3, 3, 3, 6, 5, 4, 3, 3, 4, 3, 3, 3, 3 }, "Dx08", TestName = "PW692 Female Dx08 not Dx38")]
-        [TestCase("Female", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3 }, "Dx08", TestName = "PW709 Female Dx08 not Dx38")]
-        [TestCase("Male", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3 }, "Dx08", TestName = "PW712 Male Dx08 not Dx38")]
+        [TestCase("Female", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3 }, "Dx08", TestName = "PW709 Female meds Dx08 not Dx38")]
+        [TestCase("Female", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 1 }, "Dx08", TestName = "PW709 Female Dx08 not Dx38")]
+        [TestCase("Male", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3 }, "Dx08", TestName = "PW712 Male meds Dx08 not Dx38")]
+        [TestCase("Male", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 1 }, "Dx08", TestName = "PW712 Male Dx08 not Dx38")]
         public void TestOutcomes(string sex, int age, string pathwayTitle, int[] answers, string expectedDxCode)
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, pathwayTitle, sex, age);
