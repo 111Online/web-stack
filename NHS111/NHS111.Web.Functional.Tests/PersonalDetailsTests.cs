@@ -59,6 +59,7 @@ namespace NHS111.Web.Functional.Tests
             var confirmDetails = personalDetailsPage.SubmitAtHome();
             confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerNotDisplayed();
+            confirmDetails.VerifyInformantNameIsEmpty();
         }
 
 
@@ -126,11 +127,15 @@ namespace NHS111.Web.Functional.Tests
 
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are you at home?");
-            atHomePage.SelectAtHomeYes();
+            atHomePage.SelectAtHomeNo();
 
-            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            var otherPostcodePage = atHomePage.SubmitAtHome();
+            otherPostcodePage.TypeHomePostcode("LS17 7NZ");
+
+            var confirmDetails = otherPostcodePage.SubmitHomePostcode();
             confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerNotDisplayed();
+            confirmDetails.VerifyConfirmNameDisplayed("Test1", "Tester1");
         }
 
 
