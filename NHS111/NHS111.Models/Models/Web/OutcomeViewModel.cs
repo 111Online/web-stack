@@ -18,7 +18,7 @@ namespace NHS111.Models.Models.Web
         public IEnumerable<string> CareAdviceMarkers { get; set; }
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
-        public bool NeedsGeneralCovidAdvice { get { return IsViaGuidedSelection && (CareAdvices != null && CareAdvices.Any(x => x.Keyword == "Alert Pandemic")) || CareAdvices == null; } }
+        public bool NeedsGeneralCovidAdvice { get { return (CareAdvices != null && CareAdvices.Any(x => x.Keyword == "Alert Pandemic")) || CareAdvices == null; } }
 
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
