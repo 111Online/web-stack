@@ -136,6 +136,7 @@ namespace NHS111.Business.Services
                 .MultiMatch(m =>
                     m.Query(query)
                         .Fields(f => f.Field("Reserved"))
+                        .Verbatim()
                 ));
 
             return reservedQuery;
