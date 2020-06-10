@@ -114,6 +114,7 @@ namespace NHS111.Web.Functional.Tests.PersonalDetails
             var confirmDetails = homePostcodePage.SubmitHomePostcode();
             confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerNotDisplayed();
+            confirmDetails.VerifyConfirmNameDisplayed("Test1", "Tester1");
         }
 
         [Test]
