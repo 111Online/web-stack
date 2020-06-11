@@ -149,8 +149,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult DateOfBirth(PersonViewModel model)
         {
-           
-
             if (!ModelState.IsValid)
             {
                 if (model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
@@ -158,16 +156,17 @@ namespace NHS111.Web.Controllers
 
                 return View("~\\Views\\PersonalDetails\\InformantName.cshtml", model);
             }
+
             if (!model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
             {
                 model.PersonalDetailsViewModel.UserInfo.FirstName = model.Forename;
                 model.PersonalDetailsViewModel.UserInfo.LastName = model.Surname;
             }
-
-            model.PersonalDetailsViewModel.Informant.Forename = model.Forename;
-            model.PersonalDetailsViewModel.Informant.Surname = model.Surname;
-        
-
+            else
+            {
+                model.PersonalDetailsViewModel.Informant.Forename = model.Forename;
+                model.PersonalDetailsViewModel.Informant.Surname = model.Surname;
+            }
 
             return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model.PersonalDetailsViewModel));
         }
@@ -186,9 +185,9 @@ namespace NHS111.Web.Controllers
 
             model.PersonalDetailsViewModel.Informant.InformantType = model.Informant;
             ModelState.Clear(); 
-            if(model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty) 
+            if(model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty)
                 return View("~\\Views\\PersonalDetails\\InformantName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.UserInfo.FirstName, model.PersonalDetailsViewModel.UserInfo.LastName));
-           
+
             return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.Informant.Forename, model.PersonalDetailsViewModel.Informant.Surname));
         }
 

@@ -36,6 +36,12 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsFalse(string.IsNullOrEmpty(surname.GetAttribute("value")));
         }
 
+        public void VerifyConfirmNameDisplayed(string Forename, string Surname)
+        {
+            var name = Driver.FindElement(By.Id("content_name"));
+            Assert.AreEqual($"{Forename} {Surname}",name.Text);
+        }
+
         public void VerifyDateOfBirthDisplayed()
         {
             var expectedDateOfBirthSectionHeading = "What is your date of birth?";
@@ -176,10 +182,17 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.False(Driver.ElementExists(By.Id("confirm-details-third-party")));
         }
-
+        
         public void VerifyIsPersonalDetailsPage()
         {
             VerifyHeading("Enter details");
+        }
+        public void VerifyInformantNameIsEmpty()
+        {
+            var forename = Driver.FindElement(By.Id("Informant_Forename")).GetAttribute("value");
+            var surname = Driver.FindElement(By.Id("Informant_Surname")).GetAttribute("value");
+            Assert.IsTrue(string.IsNullOrEmpty(forename));
+            Assert.IsTrue(string.IsNullOrEmpty(surname));
         }
 
         public void TypeHomePostcode(string postcode)
