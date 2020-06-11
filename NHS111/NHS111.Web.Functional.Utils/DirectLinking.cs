@@ -48,6 +48,11 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual("Find a pharmacy near you", Driver.FindElement(By.CssSelector("h1")).Text);
         }
 
+        public void VerifyPhone999Now()
+        {
+            Assert.AreEqual("Phone 999 now for an ambulance", Driver.FindElement(By.TagName("h1")).Text);
+        }
+
         public void VerifyOutOfArea()
         {
             Assert.AreEqual("This service is not in your area", Driver.FindElement(By.CssSelector("h1")).Text);

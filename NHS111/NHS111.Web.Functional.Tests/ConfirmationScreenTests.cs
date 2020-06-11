@@ -25,8 +25,9 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer(2)
                 .Answer(1)
+                .Answer(3)
+                .Answer(5)
                 .AnswerSuccessiveByOrder(3, 3)
-                .Answer(1)
                 .Answer<OutcomePage>(3);
 
             Driver.FindElement(By.XPath("//input[@value = 'Dx05']"));
@@ -160,7 +161,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .AnswerSuccessiveByOrder(3, 3)
                 .Answer(5)
-                .AnswerSuccessiveByOrder(3, 6)
+                .AnswerSuccessiveByOrder(3, 8)
                 .Answer<OutcomePage>(3);
 
             outcomePage.VerifyFindService(FindServiceTypes.Midwife);
@@ -220,7 +221,7 @@ namespace NHS111.Web.Functional.Tests
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Abdominal Pain", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "E173AX");
 
-            questionPage.VerifyQuestion("Do you have any of the following with the tummy pain?");
+            questionPage.VerifyQuestion("Do you have any of these with the tummy pain?");
             var outcomePage = questionPage
                 .Answer(4)
                 .Answer(3)
@@ -484,7 +485,7 @@ namespace NHS111.Web.Functional.Tests
                 TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
 
-            questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, condom or cap?");
+            questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, menstrual cup, condom or cap?");
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)

@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "ITK_Primary_care";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    
+
     var cannotGetApptText = "I can't get an appointment today";
     switch (Model.Id)
     {
@@ -37,14 +37,23 @@
         <h1 class="nhsuk-heading-l">@Model.OutcomeGroup.Text @Model.DispositionUrgencyText</h1>
     </div>
 
-    <div class="callout callout--lite callout--warning measure">
-        <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
+    @Html.Partial("_CovidEliminator", Model)
 
-        <p>
-            Do not go to your GP surgery, phone them instead.
-            All GP surgeries have updated their website, emailed or texted about how they're now offering appointments.
-        </p>
-    </div>
+
+    @if (Model.NeedsGeneralCovidAdvice)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
+    else
+    {
+        <div class="callout callout--lite callout--warning measure">
+            <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
+            <p>
+                Do not go to your GP surgery, phone them instead.
+                All GP surgeries have updated their website, emailed or texted about how they're now offering appointments.
+            </p>
+        </div>
+    }
 
     <hr role="presentation" class="nhsuk-u-margin-top-6" />
 
@@ -56,36 +65,30 @@
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                        <button class="button--link" id="cant-book-appt" type="submit" value="cannot-get-appt" name="reason" formnovalidate>@cannotGetApptText</button>
-                    }
+                        <button class="button--link" id="cant-book-appt" type="submit" value="cannot-get-appt" name="reason" formnovalidate>@cannotGetApptText</button>}
                 </li>
                 <li>
                     @using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                        <button class="button--link" id="away-from-home" type="submit" value="away-from-home" name="reason" formnovalidate>I'm away from home</button>
-                    }
+                        <button class="button--link" id="away-from-home" type="submit" value="away-from-home" name="reason" formnovalidate>I'm away from home</button>}
                 </li>
                 <li>
                     @using (Html.BeginForm("RegisterWithGp", "Outcome", FormMethod.Post))
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                        <button class="button--link" id="no-gp" type="submit" value="no-gp" name="reason" formnovalidate>I don't have a GP</button>
-                    }
+                        <button class="button--link" id="no-gp" type="submit" value="no-gp" name="reason" formnovalidate>I don't have a GP</button>}
                 </li>
-            </ul>
-        }
+            </ul> }
         else
         {
             @Html.HiddenFor(x => Model.Id) @* Field required for testing purposes *@
             <details class="measure">
                 <summary><span class="details__arrow" role="presentation"></span>I don't have a GP</summary>
                 <div><p>Call 111. They will tell you where you can get help if you're not registered with a GP.</p></div>
-            </details>
-        }
-    }
+            </details> } }
 
     <hr role="presentation" class="nhsuk-u-margin-top-6" />
 

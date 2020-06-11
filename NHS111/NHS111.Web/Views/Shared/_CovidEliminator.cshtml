@@ -1,0 +1,27 @@
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+@using System.Linq;
+@{
+    var shouldShowEliminator = false;
+
+    if (Model.CareAdvices != null && !Model.CareAdvices.Any(x => x.Keyword == "Alert Pandemic") && Model.IsViaGuidedSelection && !Model.Id.Equals("Dx35"))
+    {
+        shouldShowEliminator = true;
+    }
+
+    if (shouldShowEliminator)
+    {
+        var text = "It’s unlikely you have COVID-19 but you do need to get help for your symptoms.";
+
+        if (Model.OutcomeGroup.Id != null && Model.OutcomeGroup.Id.Equals("Home_Care"))
+        { text = "It’s unlikely you have COVID-19."; }
+
+        if (!Model.IsSuspectedCovidSymptoms && (Model.ViaGuidedSelection.HasValue && Model.ViaGuidedSelection.Value))
+        {
+            <div class="callout callout--disposition measure nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-4">
+                <p>
+                    @text
+                </p>
+            </div>
+        }
+    }
+}

@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using NHS111.Models.Models.Web.FromExternalServices;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using NHS111.Models.Models.Web.FromExternalServices;
 
-namespace NHS111.Utils.Parser
+namespace NHS111.Models.Models.Web.Parsers
 {
     public class JourneyJsonParser
     {

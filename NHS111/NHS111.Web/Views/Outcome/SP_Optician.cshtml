@@ -10,14 +10,23 @@
 @Html.Partial("_OutcomeHeader", Model)
 
 <section class="measure nhsuk-core">
-    <div class="callout callout--lite callout--warning measure">
-        <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
 
-        <p>
-            Do not go to your opticians, phone them instead.
-            All opticians have updated their website, emailed or texted about how they're now offering appointments.
-        </p>
-    </div>
+    @Html.Partial("_CovidEliminator", Model)
+
+    @if (Model.NeedsGeneralCovidAdvice)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
+    else
+    {
+        <div class="callout callout--lite callout--warning measure">
+            <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
+            <p>
+                Do not go to your opticians, phone them instead.
+                All opticians have updated their website, emailed or texted about how they're now offering appointments.
+            </p>
+        </div>
+    }
 </section>
 
 @section HeadTop {
