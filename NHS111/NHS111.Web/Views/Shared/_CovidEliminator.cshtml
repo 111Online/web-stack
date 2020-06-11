@@ -3,7 +3,7 @@
 @{
     var shouldShowEliminator = false;
 
-    if (Model.CareAdvices != null && !Model.CareAdvices.Any(x => x.Keyword == "Alert Pandemic") && Model.IsViaGuidedSelection)
+    if (Model.CareAdvices != null && !Model.CareAdvices.Any(x => x.Keyword == "Alert Pandemic") && Model.IsViaGuidedSelection && !Model.Id.Equals("Dx35"))
     {
         shouldShowEliminator = true;
     }
