@@ -485,7 +485,7 @@ namespace NHS111.Web.Functional.Tests
                 TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
 
-            questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, condom or cap?");
+            questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, menstrual cup, condom or cap?");
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)
