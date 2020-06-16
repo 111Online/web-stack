@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via Behaviour Change Tx222027 and Tx222006
         public void Dental_Disposition_Renders_DOSServices()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Dental Problems", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .Answer(2)
@@ -28,7 +28,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via LowMood_Depression via operator branch
         public void Pt8ViaLowMoodDepressionViaOperatorBranch()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Mental Health Problems", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(2)
@@ -44,7 +44,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via MHP jump to PW1738 Drug_Solvent_Alcohol_Misuse then 3 strings
         public void Pt8ViaMhpJumpPw1738DrugSolventAlcoholMisuse3Strings()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Mental Health Problems", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(2)
@@ -62,7 +62,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         public void DoSResults24HourService()
         {
             // This ensures a 24hour service gets shown properly
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Sexual Concerns", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .Answer(3)

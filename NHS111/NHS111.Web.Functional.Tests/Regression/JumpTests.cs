@@ -8,7 +8,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         [Test]
         public void Pt8JumpToDx05()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Mental Health Problems", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Do you have a diagnosed mental health problem that\'s got worse?");
             var outcomePage = questionPage
@@ -25,7 +25,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         [Test]
         public void Pt8JumpToDx35()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Tiredness (Fatigue)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Do you have a new continuous cough?");
             var outcomePage = questionPage
@@ -46,7 +46,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via Behaviour Change Tx 140148 Tx221449 and Tx222008
         public void Pt8JumpViaBehaviourChangePathway()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Behaviour Change", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(6)
@@ -62,7 +62,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via Behaviour Change Tx140148 and Tx222023 No Dx String
         public void Pt8JumpViaBehaviourChangePathwayNoDx()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Behaviour Change", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .Answer(3)
@@ -91,7 +91,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via Headache Tx222027 and Tx222006 FA
         public void Pt8JumpViaHeadachePathwayFemaleAdult()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerYes()
@@ -117,7 +117,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via Headache Tx222027 and Tx222006 MC
         public void Pt8JumpViaHeadachePathwayMaleChild()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Male, TestScenarioAgeGroups.Child);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -141,7 +141,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 via Tremor via Age variable and 2 strings Dx06 and Dx35
         public void Pt8JumpViaTremorPathwayViaAgeVariableand2SetNodes()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tremor", TestScenerioSex.Male, 13);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Tremor", TestScenarioSex.Male, 13);
 
             var outcomePage = questionPage
                 .AnswerNo()
@@ -152,7 +152,7 @@ namespace NHS111.Web.Functional.Tests.Regression
             var genderPage = outcomePage.NavigateBackToGenderPage();
 
             genderPage.VerifyHeader();
-            genderPage.SelectSexAndAge(TestScenerioSex.Male, 14);
+            genderPage.SelectSexAndAge(TestScenarioSex.Male, 14);
 
             var searchpage = genderPage.NextPage();
             var questionInfoPage = searchpage.TypeSearchTextAndSelect("Tremor");
@@ -169,7 +169,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         //PT8 New jump to Dx11 in V15
         public void Pt8JumpViaTremorPathwayViaAgeVariabletoDx11()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, 24);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Behaviour Change", TestScenarioSex.Male, 24);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)

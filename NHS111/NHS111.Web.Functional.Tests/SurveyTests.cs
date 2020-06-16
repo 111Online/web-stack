@@ -18,9 +18,9 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DigitalTitleThroughSearch()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Arm Injury, Penetrating",
-                TestScenerioSex.Male,
-                TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Arm Injury, Penetrating",
+                TestScenarioSex.Male,
+                TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyHiddenField("PathwayTitle", "Arm Injury, Penetrating");
             questionPage.VerifyHiddenField("DigitalTitle", "Arm or shoulder injury with a cut or wound");
@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DigitalTitleThroughCategoryAllTopics()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 64);
+            var categoryPage = TestScenarios.LaunchCategoryScenario(Driver, TestScenarioSex.Female, 64);
             var questionPage = TestScenarioPart.Question(categoryPage.SelectPathway("Arm or shoulder injury with a cut or wound"));
 
             questionPage.VerifyHiddenField("PathwayTitle", "Arm Injury, Penetrating");
@@ -39,7 +39,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DigitalTitleThroughDeeplink()
         {
-            var questionPage = TestScenerios.LaunchDeeplinkScenerio(Driver, TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L1 2SA");
+            var questionPage = TestScenarios.LaunchDeeplinkScenario(Driver, TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "L1 2SA");
 
             questionPage.VerifyHiddenField("PathwayTitle", "Emergency Prescription 111 online");
             questionPage.VerifyHiddenField("DigitalTitle", "Emergency prescription");
@@ -51,7 +51,7 @@ namespace NHS111.Web.Functional.Tests
         public void InterstitialPageHasSurveyUrl()
         {
             // Run dead end journey as short/quick to get to the survey link
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Trauma Blisters", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .Answer<DeadEndPage>(1);
@@ -77,7 +77,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void InterstitialPageHasSurveyUrlViaEP()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L1 2SA");
+            var questionPage = TestScenarios.LaunchRecommendedServiceScenario(Driver, "Emergency Prescription 111 online", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "L1 2SA");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             questionPage

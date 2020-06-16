@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1112_LossOfTasteOrSmell()
         {
-            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - loss of smell
                 .Answer(3) // No - hurt head
@@ -31,7 +31,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1112_LossOfTasteOrSmell_BreathingBetter()
         {
-            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - loss of smell
                 .Answer(3) // No - hurt head
@@ -54,7 +54,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1112_LossOfTasteOrSmell_BreathingSame()
         {
-            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - loss of smell
                 .Answer(3) // No - hurt head
@@ -77,7 +77,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1112_LossOfTasteOrSmell_BreathingNotSure()
         {
-            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - loss of smell
                 .Answer(3) // No - hurt head

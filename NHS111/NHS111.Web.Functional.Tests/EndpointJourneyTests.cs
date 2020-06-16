@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("Male", 12, "Fever", new[] { 3, 3, 3, 5, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 1 }, "Dx1116", TestName = "PW712 Male Dx1116 not Dx38")]
         public void TestOutcomes(string sex, int age, string pathwayTitle, int[] answers, string expectedDxCode)
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, pathwayTitle, sex, age);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, pathwayTitle, sex, age);
 
             for (var i = 0; i < answers.Length - 1; i++)
             {
@@ -46,7 +46,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void Call999EndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Skin Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Skin Problems", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -61,7 +61,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void NewDx0124NonValidation()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Self-Harm", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Self-Harm", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you taken anything that could be harmful?");
             var outcomePage = questionPage
@@ -74,7 +74,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void Call999EndpointJourneyCAT1()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Skin Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Skin Problems", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -90,7 +90,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PharmacyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Eye or Eyelid Problems", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -112,7 +112,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void HomeCareEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu Symptoms", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Cold or Flu Symptoms", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you become breathless, or are you more breathless than usual?");
             var outcomePage = questionPage
@@ -130,7 +130,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Dental Problems", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem today?");
             var postcodeFirstPage = questionPage
@@ -149,7 +149,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void EmergencyDentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Dental Problems", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem today?");
             var outcomePage = questionPage
@@ -171,7 +171,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void AccidentAndEmergencyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
@@ -196,7 +196,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void OpticianEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Eye or Eyelid Problems", TestScenarioSex.Female, TestScenarioAgeGroups.Child);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -225,7 +225,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void GPEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Diarrhoea and Vomiting", TestScenarioSex.Male, TestScenarioAgeGroups.Child);
 
             questionPage.VerifyQuestion("Do any of these apply to your sick?");
             var outcomePage = questionPage
@@ -251,7 +251,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void JumpToRemappedMentalHealthPathway()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Tiredness (Fatigue)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Do you have a new continuous cough?");
             var outcomePage = questionPage
@@ -273,7 +273,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void GPOOHEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
@@ -299,7 +299,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void MidwifeEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Is there a chance you're pregnant?");
             var outcomePage = questionPage
@@ -324,7 +324,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DeadEndJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Trauma Blisters", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .Answer<DeadEndPage>(1);
@@ -338,7 +338,7 @@ namespace NHS111.Web.Functional.Tests
         {
             // This test checks that going to a disposition via a dead end jump
             // doesn't break the POST data. That has been a regression found in the past.
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Trauma Blisters", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             var deadEndPage = questionPage
                 .Answer<DeadEndPage>(1);
@@ -363,7 +363,7 @@ namespace NHS111.Web.Functional.Tests
         {
             // This test checks that going to a disposition via a pathway not found
             // doesn't break the POST data. That has been a regression found in the past.
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
 
             var pathwayNotFound = questionPage
                 .Answer<OutcomePage>(2);
@@ -386,7 +386,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ExcludedCareAdviceJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Vomiting and/or Nausea", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Vomiting and/or Nausea", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)

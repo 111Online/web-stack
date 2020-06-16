@@ -9,14 +9,14 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void SearchPage_Displays()
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             searchPage.VerifyHeader();
         }
 
         [Test]
         public void SearchPage_SelectFirstResultStartsPathway()
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             var questionInfoPage = searchPage.TypeSearchTextAndSelect("Bites and Stings");
             var questionPage = questionInfoPage.ClickIUnderstand();
             questionPage.VerifyQuestionPageLoaded();
@@ -25,7 +25,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void SearchPage_TabbingOrder()
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             searchPage.VerifyTabbingOrder("Bites or Stings");
         }
 
@@ -33,7 +33,7 @@ namespace NHS111.Web.Functional.Tests
         [Ignore("Currently there is no validation on empty values. Ignoring unti confirmed this is correct.")]
         public void SearchPage_NoInputValidation()
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             searchPage.SearchByTerm(string.Empty);
             searchPage.VerifyNoInputValidation();
         }
@@ -41,7 +41,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void SearchPage_ResultsWithApostropheHyphenAndBrackets()
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             searchPage.SearchByTerm("'-/)}]Headache[{(\\");
             searchPage.VerifyTermHits("Headache or migraine", 1);
         }
@@ -49,7 +49,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void SearchPage_CategoryLinkShowsWithSearchResults()
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             searchPage.SearchByTerm("Headache");
             searchPage.VerifyCategoriesLinkPresent();
         }
@@ -92,7 +92,7 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("feverish")]
         public void SearchPage_selecting_search_result_hit_using_Covid_search_term_launches_guided_selection(string searchTerm)
         {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
             searchPage.SearchByTerm(searchTerm);
 
             if (searchPage.DataPathwayLinkPresentForPathway("PW1851"))
