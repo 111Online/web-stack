@@ -9,7 +9,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void QuestionPage_DisplaysPage_And_Rationale()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.Verify();
             questionPage.VerifyRationale();
@@ -18,7 +18,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void QuestionPage_DisplaysPreviousQuestionLink_OnSecondQuestion()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
             questionPage.VerifyPreviousButton(true);
 
             var secondQuestion = questionPage.AnswerYes();
@@ -28,8 +28,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void QuestionPage_DisplaysQuestionAdditionalInfo()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Sexual Concerns", TestScenarioSex.Male,
-                    TestScenarioAgeGroups.Adult)
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns", TestScenerioSex.Male,
+                    TestScenerioAgeGroups.Adult)
                 .Answer(3);
             questionPage.VerifyAdditionalInfo();
         }

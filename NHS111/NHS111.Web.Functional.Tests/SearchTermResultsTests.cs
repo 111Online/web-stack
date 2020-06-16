@@ -23,7 +23,7 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("asthma", "Breathing problems")]
         public void SearchTermResults_CommonTermsReturnExpectedResult(string term, string result)
         {
-            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 33);
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
             searchPage.SearchByTerm(term);
             searchPage.VerifyTermHits(result, 5);
         }
@@ -35,7 +35,7 @@ namespace NHS111.Web.Functional.Tests
         public void SearchTermResults_EmergencyPrescriptionsPilotArea()
         {
             //  check a postcode that should show EP does
-            var searchPagePilot = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 33, "L1 2SA");
+            var searchPagePilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "L1 2SA");
             searchPagePilot.SearchByTerm("emergency prescription");
             searchPagePilot.VerifyTermHits("Emergency Prescription", 1);
 

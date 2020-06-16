@@ -2,13 +2,13 @@
 
 namespace NHS111.Web.Functional.Utils
 {
-    public static class TestScenarioSex
+    public static class TestScenerioSex
     {
         public const string Male = "Male";
         public const string Female = "Female";
     }
 
-    public static class TestScenarioAgeGroups
+    public static class TestScenerioAgeGroups
     {
         public const int Adult = 22;
         public const int Adolescent = 16;
@@ -17,9 +17,9 @@ namespace NHS111.Web.Functional.Utils
         public const int Infant = 0;
     }
 
-    public static class TestScenarios
+    public static class TestScenerios
     {
-        public static SearchPage LaunchSearchScenario(IWebDriver driver, string sex, int age)
+        public static SearchPage LaunchSearchScenerio(IWebDriver driver, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -28,7 +28,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Search(demographicsPage, sex, age);
         }
 
-        public static SearchPage LaunchSearchScenario(IWebDriver driver, string sex, int age, string postcode)
+        public static SearchPage LaunchSearchScenerio(IWebDriver driver, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -37,7 +37,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Search(demographicsPage, sex, age);
         }
 
-        public static CategoryPage LaunchCategoryScenario(IWebDriver driver, string sex, int age)
+        public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -47,7 +47,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Category(searchPage);
         }
 
-        public static CategoryPage LaunchCategoryScenario(IWebDriver driver, string sex, int age, string postcode)
+        public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -57,7 +57,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Category(searchPage);
         }
 
-        public static QuestionPage LaunchTriageScenario(IWebDriver driver, string pathwayTopic, string sex, int age)
+        public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -68,7 +68,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Question(questionInfoPage);
         }
 
-        public static QuestionPage LaunchTriageScenario(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode)
+        public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -79,7 +79,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Question(questionInfoPage);
         }
 
-        public static QuestionPage LaunchTriageScenario(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode, string pathwayTitle)
+        public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode, string pathwayTitle)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -118,7 +118,7 @@ namespace NHS111.Web.Functional.Utils
             return startRegistrationPage;
         }
 
-        public static QuestionPage LaunchDeeplinkScenario(IWebDriver driver, string sex, int age, string postcode)
+        public static QuestionPage LaunchDeeplinkScenerio(IWebDriver driver, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.EPDeeplink(homePage);
@@ -128,7 +128,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Question(questionInfoPage);
         }
 
-        public static QuestionPage LaunchRecommendedServiceScenario(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode)
+        public static QuestionPage LaunchRecommendedServiceScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
@@ -139,7 +139,7 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Question(questionInfoPage);
         }
 
-        public static QuestionInfoPage LaunchQuestionInfoScenario(IWebDriver driver, string pathwayTopic, string sex, int age)
+        public static QuestionInfoPage LaunchQuestionInfoScenerio(IWebDriver driver, string pathwayTopic, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);

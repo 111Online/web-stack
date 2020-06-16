@@ -9,9 +9,9 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PathwayNotFound()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver,
-                "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver,
+                "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Is the problem to do with any of these?");
             var outcomePage = questionPage

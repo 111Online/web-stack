@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests
 
         private QuestionPage LaunchViaSearchLink(string sex, int age, string searchTerm, string titleToFind)
         {
-            var searchPage = TestScenarios.LaunchSearchScenario(Driver, sex, age);
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, sex, age);
             var questionInfoPage = searchPage.TypeSearchTextAndSelect(searchTerm, titleToFind);
             var questionPage = questionInfoPage.ClickIUnderstand();
             questionPage.VerifyQuestionPageLoaded();
@@ -22,7 +22,7 @@ namespace NHS111.Web.Functional.Tests
         public void NavigateToDispositionDx01213()
         {
             //0,2,2,0,0
-            var questionPage = LaunchViaSearchLink(TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "poison", "Accidental Poisoning/Inhalation");
+            var questionPage = LaunchViaSearchLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "poison", "Accidental Poisoning/Inhalation");
             var outcomePage = questionPage.Answer(3) // No - trying to harm
                 .Answer(3) //No - insulin
                 .Answer(1) //Yes - know how much

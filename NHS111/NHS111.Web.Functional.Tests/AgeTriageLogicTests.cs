@@ -9,7 +9,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void AgeTriageLogic_Over10()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Rectal Bleeding", TestScenarioSex.Female, 11);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 11);
 
             var outcomePage = questionPage
                 .AnswerYes()
@@ -27,7 +27,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void AgeTriageLogic_Over55()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Rectal Bleeding", TestScenarioSex.Female, 56);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
             questionPage.VerifyQuestion("Have you also got tummy pain?");
             var outcomePage = questionPage.AnswerAndVerifyNextQuestion(1, "How bad is the pain?")
@@ -46,7 +46,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void AgeTriageLogic_Under11()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Rectal Bleeding", TestScenarioSex.Female, 10);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 10);
 
             var outcomePage = questionPage
                 .AnswerYes()

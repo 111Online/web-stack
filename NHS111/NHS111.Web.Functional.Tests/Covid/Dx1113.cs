@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1113()
         {
-            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - Smell
                 .Answer(3) // no - hurt head
@@ -30,7 +30,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1113Journey2()
         {
-            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - Smell
                 .Answer(3) // no - hurt head

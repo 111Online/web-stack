@@ -419,8 +419,8 @@
 
         private OutcomePage NavigateToRemappedEDOutcome(Postcode postcode)
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, postcode.Value);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, postcode.Value);
 
             return questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -431,9 +431,9 @@
 
         private OutcomePage NavigateToDx94Outcome()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Sexual or Menstrual Concerns",
-                TestScenarioSex.Female,
-                TestScenarioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
+                TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult);
 
             return questionPage.Answer<OutcomePage>(1);
         }

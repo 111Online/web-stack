@@ -15,8 +15,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, "E173AX");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "E173AX");
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
@@ -87,8 +87,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Eye or Eyelid Problems",
-                TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "CO12HU");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems",
+                TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -152,8 +152,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female,
-                TestScenarioAgeGroups.Adolescent, "E173AX");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adolescent, "E173AX");
 
             questionPage.VerifyQuestion("Is there a chance you're pregnant?");
             var outcomePage = questionPage
@@ -218,8 +218,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Abdominal Pain", TestScenarioSex.Female,
-                TestScenarioAgeGroups.Adult, "E173AX");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Abdominal Pain", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "E173AX");
 
             questionPage.VerifyQuestion("Do you have any of these with the tummy pain?");
             var outcomePage = questionPage
@@ -287,9 +287,9 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Sexual or Menstrual Concerns",
-                TestScenarioSex.Female,
-                TestScenarioAgeGroups.Adult, "E173AX");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
+                TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "E173AX");
 
             questionPage.VerifyQuestion("Have you been sexually assaulted recently?");
             var outcomePage = questionPage
@@ -356,8 +356,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Dental Problems", TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, "LS72BQ");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "LS72BQ");
 
             questionPage.VerifyQuestion("What is the main problem today?");
             var outcomePage = questionPage
@@ -420,8 +420,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Dental Problems", TestScenarioSex.Female,
-                TestScenarioAgeGroups.Adult, "LS72BQ");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "LS72BQ");
 
             questionPage.VerifyQuestion("What is the main problem today?");
             var outcomePage = questionPage
@@ -481,9 +481,9 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Something in the vagina",
-                TestScenarioSex.Female,
-                TestScenarioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Something in the vagina",
+                TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
 
             questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, menstrual cup, condom or cap?");
             var outcomePage = questionPage
@@ -540,8 +540,8 @@ namespace NHS111.Web.Functional.Tests
         {
             var telNumber = GenerateTelephoneNumber();
 
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Sunburn", TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, "AL74HL", "Burn, Sun");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sunburn", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "AL74HL", "Burn, Sun");
 
             questionPage.VerifyQuestion("Do you feel generally unwell, apart from the sunburn?");
             var outcomePage = questionPage
@@ -600,9 +600,9 @@ namespace NHS111.Web.Functional.Tests
         public void ConfirmationScreenED_4hour_Dx03()
         {
             var telNumber = GenerateTelephoneNumber();
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Sexual Concerns",
-                TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, "Al74HL");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "Al74HL");
 
             var outcomePage = questionPage
                 .Answer(3)
@@ -663,9 +663,9 @@ namespace NHS111.Web.Functional.Tests
         public void ConfirmationScreenMentalHealthED_4hour_Dx92()
         {
             var telNumber = GenerateTelephoneNumber();
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Mental Health Problems",
-                TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adolescent, "E173AX");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adolescent, "E173AX");
 
             var outcomePage = questionPage
                 .Answer(1)
@@ -728,9 +728,9 @@ namespace NHS111.Web.Functional.Tests
         public void ConfirmationScreen999Validation_30mins_Dx333_Dx012()
         {
             var telNumber = GenerateTelephoneNumber();
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache",
-                TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, "Al74HL");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "Al74HL");
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
@@ -783,9 +783,9 @@ namespace NHS111.Web.Functional.Tests
         public void ConfirmationScreenEPITKRingGo_2hour_Dx85()
         {
             var telNumber = GenerateTelephoneNumber();
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Emergency Prescription",
-                TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, "LS177NZ", "Emergency Prescription 111 online");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Emergency Prescription",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "LS177NZ", "Emergency Prescription 111 online");
 
             var outcomePage = questionPage
                 .Answer(2)

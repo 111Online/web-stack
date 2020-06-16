@@ -9,7 +9,7 @@ namespace NHS111.Web.Functional.Tests
         //Ensures that Medication, pain and/or fever care advice is not additionally included in results
         public void CareAdvice_Is_Correctly_Excluded()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female, 20);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, 20);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 2)
@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Tests
         //Ensures that Care advice stem removal is no longer in place. CX221005. Text no longer appearing needs to have individual asertions.
         public void CareAdvice_stem_is_no_longer_removed()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Vaginal Discharge", TestScenarioSex.Female, 30);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Vaginal Discharge", TestScenerioSex.Female, 30);
 
             var outcomePage = questionPage
                 .Answer(3)

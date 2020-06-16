@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1115_6Hours()
         {
-            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Coldorflusymptoms");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Coldorflusymptoms");
 
             var outcomePage = questionPage.Answer(2) // No - breathless
                 .Answer(1) // Yes - cough
@@ -28,7 +28,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         [Test]
         public void NavigateToDispositionDx1115_LossOfTasteAndSmell()
         {
-            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - loss of smell
                 .Answer(3) // No - hurt head

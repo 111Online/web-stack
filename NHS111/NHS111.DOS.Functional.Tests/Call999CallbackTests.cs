@@ -399,8 +399,8 @@
 
         private OutcomePage NavigateTo999Cat4WithArgs(string args)
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Finger or Thumb Injury, Penetrating",
-                TestScenarioSex.Male, TestScenarioAgeGroups.Adult, args);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Finger or Thumb Injury, Penetrating",
+                TestScenerioSex.Male, TestScenerioAgeGroups.Adult, args);
 
             return questionPage
                 .Answer(1)
@@ -412,8 +412,8 @@
 
         private OutcomePage NavigateTo999Cat3(Postcode postcode)
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Male,
-                TestScenarioAgeGroups.Adult, postcode.Value);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, postcode.Value);
 
             return questionPage
                 .Answer(1)
@@ -425,9 +425,9 @@
 
         private OutcomePage NavigateTo999Cat2()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver,
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver,
                 "Breathing Problems, Breathlessness or Wheeze",
-                TestScenarioSex.Male, TestScenarioAgeGroups.Child);
+                TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
             return questionPage
                 .Answer(3)

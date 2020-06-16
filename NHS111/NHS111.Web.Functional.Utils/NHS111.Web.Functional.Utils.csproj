@@ -114,7 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PageLoadAwaiter.cs" />
     <Compile Include="TestScenarioPart.cs" />
-    <Compile Include="TestScenarios.cs" />
+    <Compile Include="TestScenerios.cs" />
     <Compile Include="VerifySMSPage.cs" />
   </ItemGroup>
   <ItemGroup>
