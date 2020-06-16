@@ -38,36 +38,15 @@
         <button class="button--link search__button--back">Back</button>
     }
 
-    <h2 class="nhsuk-heading-xl">
-        <span class="nhsuk-caption-l">
-            Coronavirus (COVID-19) symptoms
-        </span>
-        If you have none of the symptoms listed
-    </h2>
+    <h1 class="nhsuk-heading-l">
+        It’s unlikely you have COVID-19
+    </h1>
 
     <p>
-        The main symptoms of coronavirus are:
+        As you did not pick any of the symptoms, we don’t need to ask you questions
+        about coronavirus.
     </p>
-    <ul>
-        <li>a new continuous cough</li>
-        <li>high temperature</li>
-        <li>loss or change in sense of smell or taste</li>
-    </ul>
-
-    <div class="callout callout--info">
-        <p>
-            If you have symptoms like a runny nose or diarrhoea , they are not usually enough on their own to suggest coronavirus.
-        </p>
-    </div>
-
-    <br>
-
-    <p>
-        The chief medical officer will decide if the symptoms in the list should change as we find out more about the virus.
-    </p>
-
-    <hr>
-
+    
     @using (@Html.BeginForm("Search", "Search", FormMethod.Post))
     {
         @Html.HiddenFor(x => Model.SessionId)
