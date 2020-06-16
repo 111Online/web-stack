@@ -15,19 +15,19 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DemographicsPage_NumberInputOnly()
         {
-            GetDemographicsPage().VerifyAgeInputBox(TestScenarioSex.Male, "25INVALIDTEXT!£$%^&*()_+{}:@~>?</*-+");
+            GetDemographicsPage().VerifyAgeInputBox(TestScenerioSex.Male, "25INVALIDTEXT!£$%^&*()_+{}:@~>?</*-+");
         }
 
         [Test]
         public void DemographicsPage_AgeTooOldShowsValidation()
         {
-            GetDemographicsPage().VerifyTooOldAgeShowsValidation(TestScenarioSex.Male, 201);
+            GetDemographicsPage().VerifyTooOldAgeShowsValidation(TestScenerioSex.Male, 201);
         }
 
         [Test]
         public void DemographicsPage_AgeTooYoungShowsValidation()
         {
-            GetDemographicsPage().VerifyTooYoungAgeShowsValidation(TestScenarioSex.Male, 4);
+            GetDemographicsPage().VerifyTooYoungAgeShowsValidation(TestScenerioSex.Male, 4);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DemographicsPage_NoAgeEnteredShowsValidation()
         {
-            GetDemographicsPage().VerifyNoAgeValidation(TestScenarioSex.Male);
+            GetDemographicsPage().VerifyNoAgeValidation(TestScenerioSex.Male);
         }
 
         [Test]

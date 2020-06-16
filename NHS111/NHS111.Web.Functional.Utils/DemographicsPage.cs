@@ -45,7 +45,7 @@ namespace NHS111.Web.Functional.Utils
 
         public void SelectSex(string sex)
         {
-            if (sex == TestScenarioSex.Male)
+            if (sex == TestScenerioSex.Male)
                 MaleButton.Click();
             else
                 FemaleButton.Click();

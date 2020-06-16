@@ -17,7 +17,7 @@ namespace NHS111.Web.Functional.Tests
             var daysSinceSymptomsStarted = 5;
             var livesAlone = true;
 
-            var getTextMessagesPage = TestScenarios.LaunchCovid19SmsRegistration(Driver, covid19SMSRegistrationUrl);
+            var getTextMessagesPage = TestScenerios.LaunchCovid19SmsRegistration(Driver, covid19SMSRegistrationUrl);
             getTextMessagesPage.VerifyPageContent();
 
             var questionPage = getTextMessagesPage.NextPage();

@@ -17,7 +17,7 @@ namespace NHS111.Web.Functional.Tests
 
         private FeedbackSection GetFeedbackSectionOnQuestionPage()
         {
-            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Headache", TestScenarioSex.Female, 20);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, 20);
             return TestScenarioPart.FeedbackSection(questionPage);
         }
 

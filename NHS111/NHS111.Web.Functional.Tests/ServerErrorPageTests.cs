@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests
         [Category("PreLive")]
         public void ServerErrorPage_Displays()
         {
-            var searchPage = TestScenarios.LaunchSearchScenario(Driver, TestScenarioSex.Male, 30);
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
             var serverErrorPage = searchPage.TypeErrorSearch();
             serverErrorPage.Verify();
         }

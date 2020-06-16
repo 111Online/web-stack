@@ -11,7 +11,7 @@ namespace NHS111.Web.Functional.Tests.Covid
         public void NavigateToDispositionDx1116()
         {
             //0,0,2,2,0,2,2,2,2,2,2,2,2,2,0,2,2,3
-            var questionPage = TestScenarios.LaunchWithCovidLink(Driver, TestScenarioSex.Female, TestScenarioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
+            var questionPage = TestScenerios.LaunchWithCovidLink(Driver, TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "Lossorchangetoyoursenseofsmellortaste");
 
             var outcomePage = questionPage.Answer(1) // Yes - smell
                 .Answer(3) // No - hurt head
