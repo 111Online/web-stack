@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void NavigateToPersonalDetailsViaEP()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "PR67JY");
+            var questionPage = TestScenarios.LaunchRecommendedServiceScenario(Driver, "Emergency Prescription 111 online", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "PR67JY");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -30,7 +30,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PersonalDetailsFirstPartyAtHome()
         {
-            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+            var personalDetailsPage = TestScenarios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "sk10 3de");
 
             personalDetailsPage.SelectMe();
             personalDetailsPage.SubmitPersonalDetails();
@@ -66,7 +66,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PersonalDetailsThirdPartyAtHome()
         {
-            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+            var personalDetailsPage = TestScenarios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "sk10 3de");
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.SubmitPersonalDetails();
@@ -104,7 +104,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PersonalDetailsFirstPartyNotAtHome()
         {
-            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+            var personalDetailsPage = TestScenarios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "sk10 3de");
             personalDetailsPage.SelectMe();
             personalDetailsPage.SubmitPersonalDetails();
 
@@ -142,7 +142,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PersonalDetailsThirdPartyNotAtHome()
         {
-            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+            var personalDetailsPage = TestScenarios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "sk10 3de");
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.SubmitPersonalDetails();
 
@@ -181,7 +181,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PersonalDetailsAddressNotListed()
         {
-            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+            var personalDetailsPage = TestScenarios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenarioSex.Male, TestScenarioAgeGroups.Adult, "sk10 3de");
             
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.SubmitPersonalDetails();

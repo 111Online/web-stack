@@ -12,7 +12,7 @@ namespace NHS111.Web.Functional.Tests
         //alias and id check for categories age 5 Female with mental health
         public void CategoriesPage_PresentForFemaleChild()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 5);
+            var categoryPage = TestScenarios.LaunchCategoryScenario(Driver, TestScenarioSex.Female, 5);
             categoryPage.VerifyPathwayInCategoryList("Stroke", "PA171FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Genital injury with cut or wound", "PW1010FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Palpitations", "PW1029FemaleChild");
@@ -138,7 +138,7 @@ namespace NHS111.Web.Functional.Tests
         //alias and id check for categories age 40 female with mental health
         public void CategoriesPage_PresentForFemaleAdult()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 40);
+            var categoryPage = TestScenarios.LaunchCategoryScenario(Driver, TestScenarioSex.Female, 40);
 
             categoryPage.VerifyPathwayInCategoryList("Genital injury with cut or wound", "PW1010FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Palpitations", "PW1028FemaleAdult");
@@ -265,7 +265,7 @@ namespace NHS111.Web.Functional.Tests
         //alias and id check for categories age 5 Male with mental health
         public void CategoriesPage_PresentForMaleChild()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Male, 5);
+            var categoryPage = TestScenarios.LaunchCategoryScenario(Driver, TestScenarioSex.Male, 5);
 
             categoryPage.VerifyPathwayInCategoryList("Stroke", "PA171MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Genital injury with cut or wound", "PW1012MaleChild");
@@ -388,7 +388,7 @@ namespace NHS111.Web.Functional.Tests
         //alias and id check for categories age 40 Male with mental health
         public void CategoriesPage_PresentForMaleAdult()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Male, 40);
+            var categoryPage = TestScenarios.LaunchCategoryScenario(Driver, TestScenarioSex.Male, 40);
 
             categoryPage.VerifyPathwayInCategoryList("Genital injury with cut or wound", "PW1012MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Palpitations", "PW1030MaleAdult");

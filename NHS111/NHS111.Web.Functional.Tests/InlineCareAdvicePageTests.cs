@@ -42,7 +42,7 @@ namespace NHS111.Web.Functional.Tests
 
         private InlineCareAdvicePage GoToInlineCareAdvicePageBeforeOutcome()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Injury", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Dental Injury", TestScenarioSex.Female, TestScenarioAgeGroups.Adult);
             return questionPage.Answer(3)
                 .Answer(5)
                 .Answer(1)
@@ -56,7 +56,7 @@ namespace NHS111.Web.Functional.Tests
 
         private InlineCareAdvicePage GoToInlineCareAdviceInBetweenQuestions()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Burn, Chemical", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenarios.LaunchTriageScenario(Driver, "Burn, Chemical", TestScenarioSex.Male, TestScenarioAgeGroups.Adult);
             return questionPage.Answer(5)
                 .Answer(3)
                 .Answer<InlineCareAdvicePage>(3);
