@@ -48,8 +48,9 @@ namespace NHS111.Web.Presentation.Filters
                 var cookie = new HttpCookie(SessionCookieName, model.SessionId.ToString())
                 {
                     Secure = secureCookies,
-                    Expires = DateTime.Now.AddHours(4) //expire within 4 hours?
-
+                    Expires = DateTime.Now.AddHours(4), //expire within 4 hours?
+                    SameSite = SameSiteMode.Strict,
+                    HttpOnly = true
                 };
                 filterContext.HttpContext.Response.Cookies.Add(cookie);
 

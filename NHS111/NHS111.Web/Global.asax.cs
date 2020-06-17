@@ -29,7 +29,10 @@ namespace NHS111.Web
         : System.Web.HttpApplication
     {
 
-        protected void Application_Start() {
+        protected void Application_Start()
+        {
+            MvcHandler.DisableMvcResponseHeader = true;
+            
             // Enable TLS 1.2 for outbound connections so that TLS 1.2 on the downstream App Services can be enabled
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
