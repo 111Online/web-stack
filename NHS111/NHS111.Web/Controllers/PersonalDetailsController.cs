@@ -33,8 +33,11 @@ namespace NHS111.Web.Controllers
         private async Task<AddressInfoCollectionViewModel> GetPostcodeResults(string postCode)
         {
             if (string.IsNullOrWhiteSpace(postCode)) return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
-            Regex regex = new Regex(@"^[a-zA-Z0-9]+$");
-            if (!regex.IsMatch(postCode.Replace(" ", ""))) return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
+
+            Regex regex = new Regex(PostCodeFormatValidator.PostcodeRegex);
+
+            if (!regex.IsMatch(postCode))
+                return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
 
             var results = await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(postCode).ConfigureAwait(false);
             return Mapper.Map<AddressInfoCollectionViewModel>(results);
@@ -122,10 +125,15 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             else
             {
-                var postcodes = await GetPostcodeResults(model.AddressInformation.ChangePostcode.Postcode).ConfigureAwait(false);
+                var postcodes = await GetPostcodeResults(model.AddressInformation.ChangePostcode.Postcode.Replace(" ","")).ConfigureAwait(false);
                 if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
                 {
                     ModelState.AddModelError("AddressInformation.ChangePostcode.Postcode", new Exception());
+                    return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
+                }
+                else if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.InvalidSyntax)
+                {
+                    ModelState.AddModelError("invalid-postcode", "Please enter a valid postcode");
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
 
@@ -261,7 +269,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
-            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode).ConfigureAwait(false);
+            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode.Replace(" ","")).ConfigureAwait(false);
             if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
             {
                 ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());

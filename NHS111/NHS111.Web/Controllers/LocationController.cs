@@ -49,12 +49,13 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> Find(LocationViewModel model)
         {
             ModelState.Clear();
-            var postcodeValidationRepsonse = await _postCodeAllowedValidator.IsAllowedPostcodeAsync(model.CurrentPostcode)
+            var postcodeValidationRepsonse = await _postCodeAllowedValidator.IsAllowedPostcodeAsync(model.CurrentPostcode.Replace(" ", ""))
                 .ConfigureAwait(false);
+
             if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("invalid-postcode", "Please enter a valid postcode");
-                return View("location", model);
+                return View("Location", model);
             }
 
             return DeriveApplicationView(model, postcodeValidationRepsonse, _postCodeAllowedValidator.CcgModel);

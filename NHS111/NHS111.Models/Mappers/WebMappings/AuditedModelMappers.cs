@@ -46,7 +46,7 @@ namespace NHS111.Models.Mappers.WebMappings
             var lastDigit = postcodeWithoutWhitespace.LastIndexOfAny(Digits);
             if (lastDigit == -1)
             {
-                throw new ArgumentException("No digits!");
+                return postcodeWithoutWhitespace;
             }
             return (lastDigit < postcodeWithoutWhitespace.Length - 1) ? postcodeWithoutWhitespace.Substring(0, lastDigit) : postcodeWithoutWhitespace;
         }
