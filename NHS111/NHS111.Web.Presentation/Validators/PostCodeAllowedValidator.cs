@@ -28,12 +28,11 @@ namespace NHS111.Web.Presentation.Validators
 
         public async Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode)
         {
-            if (string.IsNullOrWhiteSpace(postcode))
-                return PostcodeValidatorResponse.InvalidSyntax;
-            if (!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
+            if (!_postcodeRegex.IsMatch(postcode))
                 return PostcodeValidatorResponse.InvalidSyntax;
             if (!_allowedPostcodeFeature.IsEnabled)
                 return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
+
             try
             {
                 CcgModel = await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode);
@@ -51,6 +50,6 @@ namespace NHS111.Web.Presentation.Validators
 
         public CCGDetailsModel CcgModel { get; private set; }
 
-        private readonly Regex _alphanumericRegex = new Regex(@"^[a-zA-Z0-9]+$");
+        private readonly Regex _postcodeRegex = new Regex(PostCodeFormatValidator.PostcodeRegex, RegexOptions.IgnoreCase);
     }
 }
