@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using NHS111.Utils.Attributes;
+using NHS111.Web.Presentation.Filters;
 
 namespace NHS111.Web.Controllers
 {
@@ -22,6 +25,9 @@ namespace NHS111.Web.Controllers
         public ActionResult Log(PublicAuditViewModel audit)
         {
             var model = Mapper.Map<PublicAuditViewModel, AuditViewModel>(audit);
+
+            model.SessionId = Request.Cookies.AllKeys.Contains(StartSessionFilterAttribute.SessionCookieName) ? 
+                new Guid(Request.Cookies[StartSessionFilterAttribute.SessionCookieName].Value) : Guid.Empty;
             _auditLogger.Log(model.ToAuditEntry());
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);

@@ -12,7 +12,7 @@ namespace NHS111.Web.Presentation.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class StartSessionFilterAttribute : ActionFilterAttribute
     {
-        private const string SessionCookieName = "nhs111-session-id";
+        public static readonly string SessionCookieName = "nhs111-session-id";
         private readonly IAuditLogger _auditLogger;
 
         public StartSessionFilterAttribute(IAuditLogger auditLogger)

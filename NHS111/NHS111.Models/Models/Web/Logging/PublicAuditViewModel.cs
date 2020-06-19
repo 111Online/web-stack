@@ -16,9 +16,6 @@ namespace NHS111.Models.Models.Web.Logging
         private string _eventValue = string.Empty;
         private string _page = string.Empty;
 
-        [JsonProperty(PropertyName = "sessionId")]
-        public Guid SessionId { get; set; }
-
         [JsonProperty(PropertyName = "journeyId")]
         public string JourneyId { get; set; }
 
