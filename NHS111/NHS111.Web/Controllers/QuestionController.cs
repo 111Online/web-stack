@@ -290,7 +290,7 @@ namespace NHS111.Web.Controllers
 
         public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool filterServices, bool viaGuidedSelection)
         {
-            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers)
+            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers, postcode)
                 .ConfigureAwait(true);
             resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
@@ -386,7 +386,8 @@ namespace NHS111.Web.Controllers
             return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
         }
 
-        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
+        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle,
+            int[] answers, string postcode)
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await
@@ -468,8 +469,10 @@ namespace NHS111.Web.Controllers
 
             model.SelectedAnswer = JsonConvert.SerializeObject(model.Answers.First(a => a.Order == answer + 1));
             var result = (ViewResult)await Question(model).ConfigureAwait(false);
+            
+            var resultingModel = result.Model is OutcomeViewModel ? (OutcomeViewModel)result.Model : (JourneyViewModel)result.Model;
 
-            return result.Model is OutcomeViewModel ? (OutcomeViewModel)result.Model : (JourneyViewModel)result.Model;
+            return resultingModel;
         }
 
         private static QuestionViewModel BuildQuestionViewModel(string pathwayId, int? age, string pathwayTitle)

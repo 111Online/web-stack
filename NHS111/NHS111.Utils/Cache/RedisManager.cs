@@ -75,15 +75,29 @@ namespace NHS111.Utils.Cache
                 return string.Empty;
 
             var success = true;
+            string resultCode = "";
             var startTime = DateTimeOffset.UtcNow;
             var sw = Stopwatch.StartNew();
             try
             {
-                return await _database.StringGetAsync(key);
+                var value = await _database.StringGetAsync(key);
+                if (value.IsNullOrEmpty)
+                {
+                    // 404 = no entry found in the cache for the given key ("cache miss")
+                    resultCode = "404";
+                    return null;
+                }
+                else
+                {
+                    // 200 = entry found in the cache for the given key ("cache hit")
+                    resultCode = "200";
+                    return value;
+                }
             }
             catch (Exception e)
             {
                 success = false;
+                resultCode = "500";
                 _tc.TrackException(e);
                 return string.Empty;
             }
@@ -97,7 +111,8 @@ namespace NHS111.Utils.Cache
                     Type = "Redis",
                     Duration = sw.Elapsed,
                     Timestamp = startTime,
-                    Success = success
+                    Success = success,
+                    ResultCode = resultCode
                 });
             }
         }
