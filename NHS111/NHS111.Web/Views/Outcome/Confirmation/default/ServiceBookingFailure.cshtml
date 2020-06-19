@@ -39,5 +39,5 @@
 </section>
 
 @if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent) {
-@Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 }

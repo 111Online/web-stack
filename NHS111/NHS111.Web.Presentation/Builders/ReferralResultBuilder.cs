@@ -60,6 +60,10 @@ namespace NHS111.Web.Presentation.Builders
 
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralFailureResultViewModel(itkConfirmationViewModel);
+
+                if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
+                    return new ClinicianReferralFailureResultViewModel(itkConfirmationViewModel);
+
                 if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     return new Coronavirus111CallbackReferralFailureResultViewModel(itkConfirmationViewModel);
             }
@@ -79,6 +83,9 @@ namespace NHS111.Web.Presentation.Builders
 
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyDuplicateReferralResultViewModel(itkConfirmationViewModel);
+
+                if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
+                    return new ClinicianDuplicateReferralResultViewModel(itkConfirmationViewModel);
 
                 if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
                     //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
@@ -100,6 +107,8 @@ namespace NHS111.Web.Presentation.Builders
                     return new Call999ReferralConfirmationResultViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralConfirmationResultViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
+                    return new ClinicianCallbackReferralConfirmationResultViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
                     return new EmergencyPrescriptionReferralConfirmationResultsViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)

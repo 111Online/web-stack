@@ -59,6 +59,16 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class ClinicianCallbackReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Clinical callback confirmation - Success"; } }
+
+        public ClinicianCallbackReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
     public class Call999ReferralConfirmationAnalyticsDataLayer
         : ReferralConfirmationResultAnalyticsDataLayer
     {
@@ -136,6 +146,17 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class ClinicianReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Clinician ITK Confirmation - Failure"; } }
+
+        public ClinicianReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+
     public class Coronavirus111CallbackReferralFailureAnalyticsDataLayer
         : ReferralFailureResultAnalyticsDataLayer
     {
@@ -186,6 +207,17 @@ namespace NHS111.Models.Models.Web
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Duplicate Booking"; } }
 
         public AccidentAndEmergencyDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+    
+    public class ClinicianDuplicateReferralAnalyticsDataLayer
+        : DuplicateReferralResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Clinician ITK Confirmation - Duplicate Booking"; } }
+
+        public ClinicianDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 

@@ -551,6 +551,10 @@
     <Content Include="Views\PersonalDetails\PatientName.cshtml" />
     <Content Include="Views\PersonalDetails\InformantName.cshtml" />
     <Content Include="Views\PersonalDetails\InformantType.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\defaultWithDetails\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\defaultWithDetails\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\defaultWithDetails\DuplicateReferral.cshtml" />
+    <Content Include="Views\Shared\_ConfirmationContent.cshtml" />
     <Content Include="Views\Shared\_CovidEliminator.cshtml" />
     <Content Include="Views\Search\Coronavirus_Explainer.cshtml" />
     <Content Include="Views\Shared\_GeneralCovidAdvice.cshtml" />

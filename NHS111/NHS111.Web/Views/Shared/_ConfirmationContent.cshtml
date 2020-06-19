@@ -1,0 +1,102 @@
+﻿﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@model NHS111.Models.Models.Web.ReferralResultViewModel
+
+@{
+    var FOUR_HOURS = 240;
+
+    var dontGetCallbackText = "";
+
+    if (Model.OutcomeModel.TimeFrameMinutes < 60)
+    {
+        dontGetCallbackText = "<p>Call 111, tell them your name and that you've been waiting for an urgent call back that you booked online. They should be able to find you in the call back queue using the same details.</p>";
+    }
+    else
+    {
+        dontGetCallbackText = "<p>It's safe to wait a bit longer. But if you're worried call 111, tell them your name and that you've been waiting for a call back that was booked online.</p>";
+    }
+
+    if (Model.OutcomeModel.OutcomeGroup.IsEDCallback && Model.OutcomeModel.TimeFrameMinutes < FOUR_HOURS)
+    {
+        dontGetCallbackText = "<p>It's safe to wait a bit longer, but if you're worried you should go to the nearest A&E department.</p>";
+    }
+
+    if (Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+    {
+        dontGetCallbackText = "<p>It's safe to wait a bit longer, but if you're worried call 999 and they'll tell you what to do next.</p><p>If we can't speak to you in that time, emergency services might be sent to make sure you're ok.</p>";
+    }
+
+    // Worsening advice is hardcoded due to the quality of the content included dynamically in pathways.
+    // So this covers variations for 999, ED short timeframe, ED long timeframe, and normal with/without care advice.
+
+    var symptomsGetWorseText = "<p>Call 111. Tell them your name and that you booked a callback online, but the symptoms have got worse while you are waiting.</p>";
+
+    if (Model.OutcomeModel.CareAdvices.Any())
+    {
+        symptomsGetWorseText = "<p>Check &lsquo;Things to look out for and self care&rsquo; on this page for specific things to look out for and follow that advice.</p><p>Otherwise call 111 and tell them you booked a call online and your symptoms have got worse while you are waiting.</p>";
+    }
+
+    if (Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+    {
+        symptomsGetWorseText = "<p>Call 999.</p>";
+    }
+
+    if (Model.OutcomeModel.OutcomeGroup.IsEDCallback)
+    {
+        if (Model.OutcomeModel.TimeFrameMinutes >= FOUR_HOURS)
+        {
+            symptomsGetWorseText = "<p>Call 111 and say you booked a call online but your symptoms have got worse.</p>";
+        }
+        else
+        {
+            symptomsGetWorseText = "<p>If your symptoms have got worse you should go to the nearest A&E department.</p>";
+        }
+    }
+}
+
+<section class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-xl">You'll get a call within @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</h1>
+    <p>
+        It was booked at @DateTime.Now.ToString("h:mmtt").ToLower(). A nurse will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number might show as &lsquo;unknown&rsquo; on your display.
+    </p>
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I don't get a call back within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + "?",
+        Summary = dontGetCallbackText,
+        ID = "confirmationWaiting"
+    })
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I miss the call?",
+        Summary = Model.OutcomeModel.OutcomeGroup.Is999NonUrgent ? 
+            "<p>A nurse will try and ring you up to 3 times."
+            :
+            "<p>A nurse will try and ring you up to 3 times. After the third time, they'll leave a message to say they tried to contact you, but you won't be able to call them back. You will have to start again, either online or by calling 111.</p>",
+        ID = "confirmationMiss"
+    })
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if the symptoms get worse while I'm waiting?",
+        Summary = symptomsGetWorseText,
+        ID = "confirmationWorsening"
+    })
+
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "Can I cancel the call?",
+        Summary = "<p>If you need to cancel, ring 111 and tell them you booked a call online.</p>",
+        ID = "confirmationCancel"
+    })
+
+
+    @if (Model.ItkConfirmationModel.CareAdvices.Any())
+    {
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+        @Html.Partial("_rs_CareAdvice", Model.ItkConfirmationModel.CareAdvices)
+    }
+</section>

@@ -1,11 +1,9 @@
 ﻿﻿@using System.Web.Mvc.Html
-@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Web.Presentation.Analytics
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<DuplicateReferralResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new AnalyticsTagPrinter();
 }
 @section Title {
@@ -34,19 +32,4 @@
     }
 }
 
-
-<section>
-    <div class="local-header">
-        <div class="measure">
-            @Html.Partial(Model.PartialViewName, Model)
-        </div>
-    </div>
-</section>
-
-@if (!Model.ItkConfirmationModel.OutcomeGroup.Is999NonUrgent) {
-    @Html.Partial("_CareAdvice", Model.ItkConfirmationModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
-}
-
-@if (!Model.ItkConfirmationModel.OutcomeGroup.Is999NonUrgent && !Model.ItkConfirmationModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {
-    @Html.Partial("_WorseningAdviceWithTitle", Model.ItkConfirmationModel)
-}
+@Html.Partial("_ConfirmationContent", Model)
