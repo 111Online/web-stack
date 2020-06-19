@@ -1,6 +1,22 @@
 ﻿@model NHS111.Models.Models.Web.Elements.LinkSummaryViewModel
 
-<details role="group" class="nhsuk-u-margin-bottom-3">
+@*
+ Use like:
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "The title",
+        Summary = "The hidden text inside"
+    })
+
+*@
+
+@{ 
+    var id = "";
+    if (!Model.ID.IsEmpty()) { id = "id=\"" + Model.ID + "\""; }
+}
+
+<details role="group" class="nhsuk-u-margin-bottom-4" @Html.Raw(id)>
     <summary>
         <span class="details__arrow"></span>
         <span class="summary">@Model.Link</span>

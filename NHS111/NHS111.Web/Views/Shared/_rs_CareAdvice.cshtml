@@ -6,7 +6,7 @@
 @if (Model.Any())
 {
     <details class="measure care-advice">
-        <summary><span class="details__arrow" role="presentation"></span>@text</summary>
+        <summary><span class="details__arrow" role="presentation"></span><span class="summary">@text</span></summary>
         <div>
             @foreach (var careAdvice in Model)
             {

@@ -24,6 +24,7 @@ namespace NHS111.Models.Models.Web {
 
         protected ReferralResultViewModel(PersonalDetailViewModel outcomeViewModel)
         {
+            ItkConfirmationModel = new ITKConfirmationViewModel();
             OutcomeModel = outcomeViewModel;
         }
         protected string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
@@ -42,8 +43,8 @@ namespace NHS111.Models.Models.Web {
         {
             return outcomeModel != null
                    && outcomeModel.OutcomeGroup != null
-                   && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) 
-                       || outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.Isolate111)
+                   && (outcomeModel.OutcomeGroup.Equals(OutcomeGroup.RepeatPrescription) 
+                       || outcomeModel.OutcomeGroup.Equals(OutcomeGroup.Isolate111)
                        || outcomeModel.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCareNer));
         }
     }
@@ -72,10 +73,23 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+
+    public class ClinicianCallbackReferralConfirmationResultViewModel
+        : ReferralConfirmationResultViewModel
+    {
+        public override string ViewName { get { return string.Format("Confirmation/defaultWithDetails/Confirmation"); } }
+
+        public ClinicianCallbackReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+        : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new ClinicianCallbackReferralConfirmationAnalyticsDataLayer(this);
+        }
+    }
+
     public class Call999ReferralConfirmationResultViewModel
         : ReferralConfirmationResultViewModel
     {
-        public override string PartialViewName { get { return "_Call999ReferralConfirmation"; } }
+        public override string ViewName { get { return string.Format("Confirmation/defaultWithDetails/Confirmation"); } }
 
         public Call999ReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
         : base(itkConfirmationViewModel)
@@ -87,7 +101,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyReferralConfirmationResultViewModel
         : ReferralConfirmationResultViewModel
     {
-        public override string PartialViewName { get { return "_AccidentAndEmergencyReferralConfirmation"; } }
+        public override string ViewName { get { return string.Format("Confirmation/defaultWithDetails/Confirmation"); } }
 
         public AccidentAndEmergencyReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)
@@ -95,6 +109,7 @@ namespace NHS111.Models.Models.Web {
             AnalyticsDataLayer = new AccidentAndEmergencyReferralConfirmationAnalyticsDataLayer(this);
         }
     }
+
 
     public class CoronaReferralConfirmationResultViewModel
         : ReferralConfirmationResultViewModel
@@ -144,7 +159,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyReferralFailureResultViewModel
         : ReferralFailureResultViewModel
     {
-        public override string PartialViewName { get { return "_AccidentAndEmergencyReferralFailure"; } }
+        public override string ViewName { get { return "Confirmation/defaultWithDetails/ServiceBookingFailure"; } }
 
         public AccidentAndEmergencyReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)
@@ -152,6 +167,19 @@ namespace NHS111.Models.Models.Web {
             AnalyticsDataLayer = new AccidentAndEmergencyReferralFailureAnalyticsDataLayer(this);
         }
     }
+
+    public class ClinicianReferralFailureResultViewModel
+        : ReferralFailureResultViewModel
+    {
+        public override string ViewName { get { return "Confirmation/defaultWithDetails/ServiceBookingFailure"; } }
+
+        public ClinicianReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new ClinicianReferralFailureAnalyticsDataLayer(this);
+        }
+    }
+
 
     public class Coronavirus111CallbackReferralFailureResultViewModel
         : ReferralFailureResultViewModel
@@ -177,7 +205,7 @@ namespace NHS111.Models.Models.Web {
     public class Call999ReferralFailureResultViewModel
         : ReferralFailureResultViewModel
     {
-        public override string PartialViewName { get { return "_Call999ReferralFailure"; } }
+        public override string ViewName { get { return "Confirmation/defaultWithDetails/ServiceBookingFailure"; } }
 
         public Call999ReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)
@@ -203,7 +231,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyDuplicateReferralResultViewModel
         : DuplicateReferralResultViewModel
     {
-        public override string PartialViewName { get { return "_AccidentAndEmergencyDuplicateReferral"; } }
+        public override string ViewName { get { return "Confirmation/defaultWithDetails/DuplicateReferral"; } }
 
         public AccidentAndEmergencyDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)
@@ -212,10 +240,22 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class ClinicianDuplicateReferralResultViewModel
+        : DuplicateReferralResultViewModel
+    {
+        public override string ViewName { get { return "Confirmation/defaultWithDetails/DuplicateReferral"; } }
+
+        public ClinicianDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new ClinicianDuplicateReferralAnalyticsDataLayer(this);
+        }
+    }
+
     public class Call999DuplicateReferralResultViewModel
         : DuplicateReferralResultViewModel
     {
-        public override string PartialViewName { get { return "_Call999DuplicateReferral"; } }
+        public override string ViewName { get { return "Confirmation/defaultWithDetails/DuplicateReferral"; } }
 
         public Call999DuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)

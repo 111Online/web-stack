@@ -182,6 +182,11 @@ namespace NHS111.Models.Models.Domain
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency) || this.Equals(OutcomeGroup.MentalHealth); }
         }
 
+        public bool IsClinicianCallback
+        {
+            get { return this.Equals(OutcomeGroup.ClinicianCallBack); }
+        }
+
         public bool IsPharmacyGroup
         {
             get { return this.Equals(OutcomeGroup.RepeatPrescription); }

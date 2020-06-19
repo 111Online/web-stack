@@ -1,0 +1,62 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.ReferralFailureResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+
+    var FOUR_HOURS = 240;
+    var fallbackText = "Call 111 now.";
+
+    if (Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+    {
+        fallbackText = "Call 999 now.";
+    }
+
+    if (Model.OutcomeModel.OutcomeGroup.IsEDCallback)
+    {
+        if (Model.OutcomeModel.TimeFrameMinutes < FOUR_HOURS)
+        {
+            fallbackText = "You should go to the nearest A&E department now.";
+        }
+    }
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingFailure, Model.OutcomeModel) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    }
+}
+
+<section class="nhsuk-core measure">
+    <div class="callout callout--attention">
+        <h1 class="nhsuk-u-margin-bottom-4">Sorry, there's a problem with the service</h1>
+        <p>We couldn't send your details.</p>
+        <p>@fallbackText</p>
+    </div>
+</section>
+
+@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+{
+    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+}
