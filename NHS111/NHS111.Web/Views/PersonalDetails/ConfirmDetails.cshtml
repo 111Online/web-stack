@@ -1,4 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Domain
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -42,7 +43,7 @@
         }
     }
 
-    @if (isProxy)
+    @if (isProxy && !Model.OutcomeGroup.Equals(OutcomeGroup.RepeatPrescription))
     {
         <div class="callout callout--info nhsuk-u-margin-bottom-4" id="confirm-details-third-party">
             <p>We'll call your number. @Model.UserInfo.FirstName might have to answer some questions during the call.</p>

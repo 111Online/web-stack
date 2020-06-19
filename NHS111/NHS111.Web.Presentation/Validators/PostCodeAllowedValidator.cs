@@ -28,6 +28,8 @@ namespace NHS111.Web.Presentation.Validators
 
         public async Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode)
         {
+            if (string.IsNullOrWhiteSpace(postcode))
+                return PostcodeValidatorResponse.InvalidSyntax;
             if (!_postcodeRegex.IsMatch(postcode))
                 return PostcodeValidatorResponse.InvalidSyntax;
             if (!_allowedPostcodeFeature.IsEnabled)

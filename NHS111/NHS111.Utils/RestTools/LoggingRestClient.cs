@@ -145,11 +145,10 @@ namespace NHS111.Utils.RestTools
             {
                 switch (response.StatusCode)
                 {
-                    // For those status codes we do want to retry. Everything else, like 404 not.
+                    // For those status codes we do want to retry. Everything else, like 400 or 404 not.
                     case HttpStatusCode.InternalServerError:
                     case HttpStatusCode.RequestTimeout:
                     case HttpStatusCode.BadGateway:
-                    case HttpStatusCode.BadRequest:
                     case HttpStatusCode.GatewayTimeout:
                     case HttpStatusCode.ServiceUnavailable:
                         return true;
