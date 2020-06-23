@@ -1,4 +1,5 @@
 ﻿using NHS111.Models.Models.Domain;
+using StructureMap.Query;
 
 namespace NHS111.Models.Models.Web {
 
@@ -43,9 +44,8 @@ namespace NHS111.Models.Models.Web {
         {
             return outcomeModel != null
                    && outcomeModel.OutcomeGroup != null
-                   && (outcomeModel.OutcomeGroup.Equals(OutcomeGroup.RepeatPrescription) 
-                       || outcomeModel.OutcomeGroup.Equals(OutcomeGroup.Isolate111)
-                       || outcomeModel.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCareNer));
+                   && (outcomeModel.OutcomeGroup.Equals(OutcomeGroup.Isolate111)
+                        || outcomeModel.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCareNer));
         }
     }
 
@@ -120,14 +120,22 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
-    public class EmergencyPrescriptionReferralConfirmationResultsViewModel
+    public class ServiceFirstReferralConfirmationResultsViewModel
         : ReferralConfirmationResultViewModel
     {
+        public override string ViewName 
+        { 
+            get
+            {
+                var viewFolder = OutcomeModel.IsEDWithCallbackOffered ? "defaultWithDetails" : "default";
+                return !OutcomeModel.IsEmergencyPrescriptionOutcome ? string.Format("Confirmation/{0}/Confirmation", viewFolder) : "Confirmation/Service_first/Emergency_Prescription/Confirmation";
+            }
+        }
 
-        public EmergencyPrescriptionReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+        public ServiceFirstReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)
         {
-            AnalyticsDataLayer = new EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new ServiceFirstReferralConfirmationAnalyticsDataLayer(this);
         }
     }
 
@@ -265,26 +273,41 @@ namespace NHS111.Models.Models.Web {
     }
 
     //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
-    public class TemporaryEmergencyPrescriptionDuplicateReferralResultViewModel
+    public class TemporaryServiceFirstDuplicateReferralResultViewModel
         : ReferralConfirmationResultViewModel
     {
-        public TemporaryEmergencyPrescriptionDuplicateReferralResultViewModel(
+        public override string ViewName
+        {
+            get
+            {
+                var viewFolder = OutcomeModel.IsEDWithCallbackOffered ? "defaultWithDetails" : "default";
+                return !OutcomeModel.IsEmergencyPrescriptionOutcome ? string.Format("Confirmation/{0}/Confirmation", viewFolder) : "Confirmation/Service_first/Emergency_Prescription/Confirmation";
+            }
+        }
+
+        public TemporaryServiceFirstDuplicateReferralResultViewModel(
             ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel)
         {
-            AnalyticsDataLayer = new EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new ServiceFirstDuplicateReferralAnalyticsDataLayer(this);
         }
     }
 
-    public class EmergencyPrescriptionDuplicateReferralResultViewModel : DuplicateReferralResultViewModel
+    public class ServiceFirstDuplicateReferralResultViewModel : DuplicateReferralResultViewModel
     {
-
-        public override string PartialViewName { get { return "DuplicateReferral"; } }
-        public override string ViewName { get { return string.Format("Confirmation/{0}/DuplicateReferral", this.ItkConfirmationModel.OutcomeGroup.Id); } }
-
-        public EmergencyPrescriptionDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel) : base(itkConfirmationViewModel)
+        public override string ViewName
         {
-            AnalyticsDataLayer = new EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer(this);
+            get
+            {
+                var viewFolder = OutcomeModel.IsEDWithCallbackOffered ? "defaultWithDetails" : "default";
+                return !OutcomeModel.IsEmergencyPrescriptionOutcome ? string.Format("Confirmation/{0}/DuplicateReferral", viewFolder) : "Confirmation/Service_first/Emergency_Prescription/DuplicateReferral";
+            }
+        }
+        public override string PartialViewName { get { return "DuplicateReferral"; } }
+
+        public ServiceFirstDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel) : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new ServiceFirstDuplicateReferralAnalyticsDataLayer(this);
         }
     }
 
@@ -326,14 +349,21 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
-    public class EmergencyPrescriptionServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
+    public class ServiceFirstServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
     {
         public override string PartialViewName { get { return "ServiceUnavailable"; } }
-        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
-
-        public EmergencyPrescriptionServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
+        public override string ViewName
         {
-            AnalyticsDataLayer = new EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(this);
+            get
+            {
+                var viewFolder = OutcomeModel.IsEDWithCallbackOffered ? "defaultWithDetails" : "default";
+                return !OutcomeModel.IsEmergencyPrescriptionOutcome ? string.Format("Confirmation/{0}/ServiceUnavailable", viewFolder) : "Confirmation/Service_first/Emergency_Prescription/ServiceUnavailable";
+            }
+        }
+
+        public ServiceFirstServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
+        {
+            AnalyticsDataLayer = new ServiceFirstServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 

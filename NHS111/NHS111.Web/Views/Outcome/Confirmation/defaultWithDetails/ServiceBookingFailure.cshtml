@@ -20,6 +20,12 @@
     dataDictionary.Add(new KeyValuePair<string, object>("GuidedSelection", Model.OutcomeModel.ViaGuidedSelection.HasValue ? Model.OutcomeModel.ViaGuidedSelection.ToString().ToLower() : null));
 
     var FOUR_HOURS = 240;
+
+    // need a way to base this on the outcome not the group but for now can just do it for all as only used for
+    // EP and ED
+    var isEDContentRequired = Model.OutcomeModel.OutcomeGroup.IsEDCallback || (Model.OutcomeModel.OutcomeGroup.IsServiceFirst && !Model.OutcomeModel.IsEmergencyPrescriptionOutcome);
+
+
     var fallbackText = "Call 111 now.";
 
     if (Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
@@ -27,7 +33,7 @@
         fallbackText = "Call 999 now.";
     }
 
-    if (Model.OutcomeModel.OutcomeGroup.IsEDCallback)
+    if (isEDContentRequired)
     {
         if (Model.OutcomeModel.TimeFrameMinutes < FOUR_HOURS)
         {

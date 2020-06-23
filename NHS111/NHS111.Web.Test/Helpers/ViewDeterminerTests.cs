@@ -126,25 +126,25 @@ namespace NHS111.Web.Presentation.Test.Helpers
         [Test]
         public void RecommendedService_Outcome_NoService_JourneyResult_ReturnsNoRecommendedServiceView()
         {
-            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.RepeatPrescription }, new Mock<ControllerContext>().Object);
+            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst }, new Mock<ControllerContext>().Object);
             Assert.IsInstanceOf<OutcomeResultViewModel>(result);
-            Assert.AreEqual("../Outcome/" + OutcomeGroup.RepeatPrescription.Id + "/RecommendedServiceNotOffered", result.ViewName);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/ServiceNotOffered", result.ViewName);
         }
 
         [Test]
         public void RecommendedService_Outcome_JourneyResult_ReturnsRecommendedServiceView()
         {
-            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.RepeatPrescription, RecommendedService = new RecommendedServiceViewModel(), HasSeenPreamble = true }, new Mock<ControllerContext>().Object);
+            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst, RecommendedService = new RecommendedServiceViewModel(), HasSeenPreamble = true }, new Mock<ControllerContext>().Object);
             Assert.IsInstanceOf<OutcomeResultViewModel>(result);
-            Assert.AreEqual("../Outcome/" + OutcomeGroup.RepeatPrescription.Id + "/RecommendedService", result.ViewName);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/RecommendedService", result.ViewName);
         }
 
         [Test]
         public void RecommendedService_Outcome_Preamble_JourneyResult_ReturnsPreambleView()
         {
-            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.RepeatPrescription, RecommendedService = new RecommendedServiceViewModel() }, new Mock<ControllerContext>().Object);
+            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, PathwayNo = "PW1827", OutcomeGroup = OutcomeGroup.ServiceFirst, RecommendedService = new RecommendedServiceViewModel() }, new Mock<ControllerContext>().Object);
             Assert.IsInstanceOf<OutcomeResultViewModel>(result);
-            Assert.AreEqual("../Outcome/" + OutcomeGroup.RepeatPrescription.Id + "/Outcome_Preamble", result.ViewName);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/Emergency_Prescription/Outcome_Preamble", result.ViewName);
         }
 
         [Test]

@@ -100,27 +100,15 @@ namespace NHS111.Models.Test.Models.Web.Validators
         }
 
         [Test]
-        public void Outcome_pathway_with_pharmacy_area_outcome_returns_in_pilot_area_true()
+        public void Outcome_pathway_with_pharmacy_area_returns_in_area_true()
         {
-            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.AccidentAndEmergency));
+            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices.IsInAreaForOutcome());
         }
 
         [Test]
-        public void Outcome_pathway_without_pharmacy_area_outcome_returns_in_pilot_area_true()
+        public void Outcome_pathway_without_pharmacy_area_returns_in_area_true()
         {
-            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.Dental));
-        }
-
-        [Test]
-        public void EP_outcome_pathway_with_pharmacy_area_outcome_returns_in_pilot_area_true()
-        {
-            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.RepeatPrescription));
-        }
-
-        [Test]
-        public void EP_outcome_pathway_without_pharmacy_area_outcome_returns_in_pilot_area_false()
-        {
-            Assert.IsFalse(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.RepeatPrescription));
+            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices.IsInAreaForOutcome());
         }
     }
 }

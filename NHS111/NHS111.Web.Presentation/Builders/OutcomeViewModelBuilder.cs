@@ -193,7 +193,7 @@ namespace NHS111.Web.Presentation.Builders
         private bool NeedToRequeryDos(OutcomeViewModel model)
         {
             return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) &&
-                   (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth)) &&
+                   (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth) || model.OutcomeGroup.Equals(OutcomeGroup.ServiceFirst)) &&
                    FromOutcomeViewModelToDosViewModel.DispositionResolver.IsDOSRetry(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
         }

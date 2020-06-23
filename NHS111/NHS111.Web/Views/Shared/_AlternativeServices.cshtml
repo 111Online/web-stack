@@ -1,13 +1,17 @@
 ﻿﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
+@using NHS111.Web.Controllers
+@using NHS111.Web.Presentation.Validators
 @model  OutcomeViewModel
 <div class="alternative-care service-hidden">
     @{
         var result = Model.DosCheckCapacitySummaryResult;
         var changePostcode = ViewData.Keys.Contains("ChangePostcode") ? (bool)ViewData["ChangePostcode"] : false;
+        var isPostcodeInArea = ((BaseController)ViewContext.Controller).IsPostcodeInArea(Model.CurrentPostcode);
     }
-    @if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
+    @if (!isPostcodeInArea)
     {
         if (changePostcode)
         {
