@@ -14,9 +14,10 @@
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.Hidden("SelectedServiceId", recommendedService.Id)
         
-        <p class="service-details__name">
-            @WebUtility.HtmlDecode(recommendedService.PublicName)
-        </p>
+    <p class="service-details__name">
+        <b>@WebUtility.HtmlDecode(recommendedService.ServiceTypeAlias)</b><br />
+        @WebUtility.HtmlDecode(recommendedService.PublicName)
+    </p>
         <p>
             @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
         </p>

@@ -12,7 +12,9 @@ namespace NHS111.Models.Models.Business
         { }
 
         [JsonProperty(PropertyName = "onlineDosServiceType")]
-        public OnlineDOSServiceType OnlineDOSServiceType
-        { get; set; }
+        public OnlineDOSServiceType OnlineDOSServiceType { get; set; }
+
+        [JsonProperty(PropertyName = "ServiceTypeAlias")]
+        public string ServiceTypeAlias { get; set; }
     }
 }

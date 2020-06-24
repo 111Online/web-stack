@@ -480,8 +480,6 @@
     <Content Include="Views\Pathway\EmergencyPrescriptionsOutOfArea.cshtml" />
     <Content Include="Views\Shared\_rs_refer_ring_and_go.cshtml" />
     <Content Include="Views\Question\Page.cshtml" />
-    <Content Include="Views\Shared\Repeat_Prescription\_Refer_And_Go.cshtml" />
-    <Content Include="Views\Shared\Repeat_Prescription\_Callback.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\DuplicateReferral.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\ServiceUnavailable.cshtml" />
     <Content Include="Views\Outcome\No_Further_Action.cshtml" />

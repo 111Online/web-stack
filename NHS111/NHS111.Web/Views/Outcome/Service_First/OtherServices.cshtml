@@ -62,7 +62,10 @@
             Model.RecommendedService = service;
             <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary data-event-trigger="click" data-event-value="@string.Format("Service {0}", WebUtility.HtmlDecode(service.PublicName))">
-                    <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
+                    <p>
+                        <b>@WebUtility.HtmlDecode(service.ServiceTypeAlias)</b><br />
+                        @WebUtility.HtmlDecode(service.PublicName)
+                    </p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
                     {
                         <p class="service-listing__info">Telephone service</p>
@@ -78,7 +81,10 @@
             </details>
         }
     </div>
-    <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+    @if (!Model.IsEmergencyPrescriptionOutcome)
+    {
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+    }
     <div class="measure">
         @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
     </div>

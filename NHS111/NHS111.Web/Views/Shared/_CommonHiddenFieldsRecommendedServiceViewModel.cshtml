@@ -1,11 +1,13 @@
 ﻿@using System.Web.Configuration
 @model NHS111.Models.Models.Web.RecommendedServiceViewModel
-@if (Model != null) {
+@if (Model != null)
+{
     @Html.HiddenFor(x => Model.Id)
     @Html.HiddenFor(x => Model.Details.Text)
     @Html.HiddenFor(x => Model.Details.Summary)
     @Html.HiddenFor(x => Model.ReasonText)
     @Html.Hidden("Name", @WebUtility.HtmlDecode(Model.Name))
+    @Html.Hidden("ServiceTypeAlias", @WebUtility.HtmlDecode(Model.ServiceTypeAlias))
     @Html.Hidden("PublicName", @WebUtility.HtmlDecode(Model.PublicName))
     @Html.HiddenFor(x => Model.ContactDetails)
     @Html.Hidden("Address", @WebUtility.HtmlDecode(Model.Address))
@@ -15,8 +17,10 @@
     @Html.HiddenFor(m => Model.OpenAllHours)
     @Html.HiddenFor(m => Model.OnlineDOSServiceType.Id)
 
-    if (Model.RotaSessions != null) {
-        for (var j = 0; j < Model.RotaSessions.Length; j++) {
+    if (Model.RotaSessions != null)
+    {
+        for (var j = 0; j < Model.RotaSessions.Length; j++)
+        {
             @Html.HiddenFor(m => m.RotaSessions[j].StartDayOfWeek)
             @Html.HiddenFor(m => m.RotaSessions[j].StartTime.Hours)
             @Html.HiddenFor(m => m.RotaSessions[j].StartTime.Minutes)
@@ -25,8 +29,10 @@
             @Html.HiddenFor(m => m.RotaSessions[j].EndTime.Minutes)
         }
     }
-    if (Model.OpenTimeSpecifiedSessions != null) {
-        for (var j = 0; j < Model.OpenTimeSpecifiedSessions.Length; j++) {
+    if (Model.OpenTimeSpecifiedSessions != null)
+    {
+        for (var j = 0; j < Model.OpenTimeSpecifiedSessions.Length; j++)
+        {
             @Html.HiddenFor(m => m.OpenTimeSpecifiedSessions[j])
         }
     }
