@@ -22,12 +22,6 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "recommended-service"));
 }
-@section SurveyBanner{
-    @if (!Model.RecommendedService.OnlineDOSServiceType.IsReferral)
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-    }
-}
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceFirstRecommendedService, Model) })
 }
@@ -52,6 +46,7 @@
         dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
         @Html.Partial("_OtherServices", Model, dataDictionary)
     }
+    <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
     <div class="measure">
         @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
     </div>

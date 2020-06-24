@@ -1,7 +1,7 @@
 ﻿@if (Model.DisplayWorseningCareAdvice && !Model.IsEmergencyPrescriptionOutcome)
 {
     <details class="measure worsening-advice">
-        <summary data-event-trigger="click" data-event-value="Worsening advice"><span class="details__arrow" role="presentation"></span>What to do if you start to feel worse</summary>
+        <summary data-event-trigger="click" data-event-value="Worsening advice"><span class="details__arrow" role="presentation"></span><span class="summary">What to do if you start to feel worse</span></summary>
         <div>
             @* When TimeFrameText is empty, TimeFrameMinutes is 0 so this avoids it being included as high acuity *@
             @if (Model.TimeFrameMinutes > 0 && Model.TimeFrameMinutes <= 360) {
