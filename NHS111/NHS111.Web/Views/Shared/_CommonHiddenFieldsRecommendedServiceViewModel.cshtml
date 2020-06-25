@@ -8,6 +8,7 @@
     @Html.HiddenFor(x => Model.ReasonText)
     @Html.Hidden("Name", @WebUtility.HtmlDecode(Model.Name))
     @Html.Hidden("ServiceTypeAlias", @WebUtility.HtmlDecode(Model.ServiceTypeAlias))
+    @Html.Hidden("ServiceTypeDescription", @WebUtility.HtmlDecode(Model.ServiceTypeDescription))
     @Html.Hidden("PublicName", @WebUtility.HtmlDecode(Model.PublicName))
     @Html.HiddenFor(x => Model.ContactDetails)
     @Html.Hidden("Address", @WebUtility.HtmlDecode(Model.Address))

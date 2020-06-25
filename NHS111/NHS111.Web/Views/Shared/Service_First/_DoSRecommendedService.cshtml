@@ -7,4 +7,12 @@
     <div>
         @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
     </div>
+    if (!string.IsNullOrEmpty(recommendedService.ServiceTypeDescription))
+    {
+        <div class="measure">
+            <p>
+                @recommendedService.ServiceTypeDescription
+            </p>
+        </div>
+    }
 }

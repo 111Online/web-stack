@@ -34,7 +34,6 @@
         @Html.Partial("_CovidEliminator", Model)
     </div>
     @Html.Partial("_DoSRecommendedService", Model)
-    <!--BOILER PLATE-->
     <div class="measure">
         @Html.Partial("_ServiceWhy", Model)
     </div>
@@ -48,7 +47,7 @@
     }
     @if (!Model.IsEmergencyPrescriptionOutcome)
     {
-        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6"/>
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
     }
     <div class="measure">
         @Html.Partial("_rs_CareAdvice", Model.CareAdvices)

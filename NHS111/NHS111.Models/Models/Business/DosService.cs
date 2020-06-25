@@ -16,5 +16,8 @@ namespace NHS111.Models.Models.Business
 
         [JsonProperty(PropertyName = "ServiceTypeAlias")]
         public string ServiceTypeAlias { get; set; }
+
+        [JsonProperty(PropertyName = "ServiceTypeDescription")]
+        public string ServiceTypeDescription { get; set; }
     }
 }

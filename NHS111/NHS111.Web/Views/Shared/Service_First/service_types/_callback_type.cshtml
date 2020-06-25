@@ -4,26 +4,35 @@
 @model  OutcomeViewModel
 @{
     var recommendedService = Model.RecommendedService;
+    var isOtherService = ViewData.ContainsKey("IsOtherService");
+    var showServiceDescriptionInDetails = !string.IsNullOrEmpty(recommendedService.ServiceTypeDescription) && isOtherService;
 }
 
 
 <div class="service-details nhsuk-u-margin-bottom-4">
+    @if (showServiceDescriptionInDetails)
+    {
+        <p class="service-listing__info">
+            @recommendedService.ServiceTypeDescription
+        </p>
+        <hr />
+    }
     @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.Hidden("SelectedServiceId", recommendedService.Id)
-        
-    <p class="service-details__name">
-        <b>@WebUtility.HtmlDecode(recommendedService.ServiceTypeAlias)</b><br />
-        @WebUtility.HtmlDecode(recommendedService.PublicName)
-    </p>
+
+        <p class="service-details__name">
+            <b>@WebUtility.HtmlDecode(recommendedService.ServiceTypeAlias)</b><br/>
+            @WebUtility.HtmlDecode(recommendedService.PublicName)
+        </p>
         <p>
             @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
         </p>
         <p class="service-details__hint measure">
             @recommendedService.ReasonText
         </p>
-        @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Use this service" })
+        @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Use this service"})
     }
 </div>

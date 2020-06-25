@@ -77,7 +77,7 @@
                     <span class="service-listing__toggle--hide">Hide</span>
                     <span class="service-listing__toggle--show">More information</span>
                 </summary>
-                @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model)
+                @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model, new ViewDataDictionary { { "IsOtherService", bool.TrueString } })
             </details>
         }
     </div>
