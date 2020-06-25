@@ -566,6 +566,8 @@
     <Content Include="Views\Shared\Service_First\service_types\_refer_ring_and_go.cshtml" />
     <Content Include="Views\Shared\Service_First\_TimingInfo.cshtml" />
     <Content Include="Views\Shared\Service_First\_ServiceWhy.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Callback.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Refer_And_Go.cshtml" />
     <Content Include="Views\Question\Not_Found.cshtml" />
     <Content Include="Views\Help\Accessibility.cshtml" />
     <None Include="Web.Development.config">
