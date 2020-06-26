@@ -17,7 +17,7 @@
     }
     <div class="service-details__address">
         <p>
-            <b>@WebUtility.HtmlDecode(recommendedService.ServiceTypeAlias)</b><br/>
+            <b class="service-details__alias">@WebUtility.HtmlDecode(recommendedService.ServiceTypeAlias)</b><br/>
             @WebUtility.HtmlDecode(recommendedService.PublicName)<br/>
             @foreach (String address in recommendedService.AddressLines)
             {
