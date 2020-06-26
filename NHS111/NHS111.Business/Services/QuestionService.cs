@@ -12,6 +12,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
@@ -68,7 +69,7 @@ namespace NHS111.Business.Services
                 var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
                 request.AddJsonBody(answer);
                 var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(request);
-                return questions.Data;
+                return HandleRestResponse(questions);
             });
         }
 
@@ -125,6 +126,18 @@ namespace NHS111.Business.Services
             if (!int.TryParse(FindStateValue(state, "PATIENT_AGE"), out age))
                 throw new ArgumentException("State value for key 'PATIENT_AGE' must be an integer.");
             return age;
+        }
+
+        private QuestionWithAnswers HandleRestResponse(
+            IRestResponse<QuestionWithAnswers> questionWithAnswersResponse)
+        {
+            if (questionWithAnswersResponse.IsSuccessful)              
+                return questionWithAnswersResponse.Data;
+            if(questionWithAnswersResponse.StatusCode == HttpStatusCode.NotFound) 
+                return new QuestionWithAnswers(){Labels = new List<string>(){"NotFound"}};
+
+            return null;
+
         }
 
         private string GetGenderFromState(IDictionary<string, string> state)

@@ -76,7 +76,7 @@ namespace NHS111.Business.Api.Controllers
                 return Json(result);
             }
 
-            if (nextLabel == "DeadEndJump" || nextLabel == "Page" || nextLabel == "PathwaySelectionJump")
+            if (nextLabel == "DeadEndJump" || nextLabel == "Page" || nextLabel == "PathwaySelectionJump" || nextLabel == "NotFound")
             {
                 question.State = stateDictionary;
                 return Json(question);

@@ -291,7 +291,6 @@ namespace NHS111.Web.Controllers
                 Categories = categoriesContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
-                EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 HasResults = hasResults
@@ -323,7 +322,7 @@ namespace NHS111.Web.Controllers
                 Categories = categoriesContainingStartingPathways.Where(c => c.Category.Title == category),
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
-                EntrySearchTerm = decryptedArgs["searchTerm"],
+                EntrySearchTerm = decryptedArgs["entrySearchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 HasResults = hasResults
@@ -358,7 +357,7 @@ namespace NHS111.Web.Controllers
                 Categories = new List<CategoryWithPathways> { rootCategory },
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
-                EntrySearchTerm = decryptedArgs["searchTerm"],
+                EntrySearchTerm = decryptedArgs["entrySearchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 HasResults = hasResults

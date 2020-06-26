@@ -135,7 +135,11 @@ using NUnit.Framework;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Test.Builders;
@@ -163,7 +167,6 @@ namespace NHS111.Business.Test.Services
         private Mock<ICacheManager<string, string>> _cacheManagerMock;
         private ICacheStore _cacheStoreMock;
         private IRestResponse<QuestionWithAnswers> _mockQuestionRestResponse;
-
         private IRestResponse<Answer[]> _mockAnswersRestResponse;
 
         [SetUp]
@@ -178,7 +181,8 @@ namespace NHS111.Business.Test.Services
             _careAdviceTransformer = new Mock<ICareAdviceTransformer>();
             _cacheManagerMock = new Mock<ICacheManager<string, string>>();
             _cacheStoreMock = new RedisCacheStore(_cacheManagerMock.Object, true);
-            _mockQuestionRestResponse = new RestResponse<QuestionWithAnswers>(){Data = new QuestionWithAnswersBuilder("idQ2", "This is a test question?").Build() };
+            _mockQuestionRestResponse = new RestResponse<QuestionWithAnswers>(){StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswersBuilder("idQ2", "This is a test question?").Build() };
+            
             _mockAnswersRestResponse = new RestResponse<Answer[]>(){Data = new Answer[]{new Answer(){Title = "no", Order = 0, IsPositive = false}, }};
         }
 

@@ -1,0 +1,57 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+
+@section Title {NHS 111 online - clinical content updated}
+
+
+@section HeadTop {
+    @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
+    <script>
+        dataLayer = [{
+            'virtualPageUrl': document.location.pathname + '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+@section FeedbackSection {
+@{
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.InlineCareAdvice, Model)})
+}
+}
+<div class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-l">Sorry, you need to start again</h1>
+
+    <p>The clinical content has been updated.</p>
+
+    <p>To make sure we give you the most up to date advice, you need to answer the questions about your symptoms again.</p>
+
+    <div class="nhsuk-u-margin-top-4">
+        @if (String.IsNullOrEmpty(Model.EntrySearchTerm))
+        {
+            var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+            <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedTopicsQueryStringValues">Go back to topics.</a>
+        }
+        else
+        {
+            using (Html.BeginForm("SearchResults", "Search", FormMethod.Post, new {@class = "measure"}))
+            {
+
+                @Html.Partial("_CommonHiddenFieldsNode", Model)
+                @Html.HiddenFor(m => m.EntrySearchTerm)
+                @Html.Hidden("SanitisedSearchTerm", Model.EntrySearchTerm)
+
+                if (DirectLinkingFeature.IsEnabled)
+                {
+                    Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
+                }
+
+                <button class="button--link" id="searchResults" type="submit" name="Question" value="Question">Go back to search results</button>
+
+            }
+        }
+            
+    </div>
+</div>

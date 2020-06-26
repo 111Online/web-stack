@@ -22,11 +22,12 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("questions/{questionId}")]
-        public async Task<JsonResult<QuestionWithAnswers>> GetQuestion(string questionId)
+        public async Task<IHttpActionResult> GetQuestion(string questionId)
         {
             var questionWithAnswers = await _questionRepository.GetQuestion(questionId);
-            return Json(questionWithAnswers);
+            return BuildResponse(questionWithAnswers);
         }
+
 
         [HttpGet]
         [Route("questions/{questionId}/answers")]
@@ -38,10 +39,10 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpPost]
         [Route("questions/{questionId}/{nodeLabel}/answersNext")]
-        public async Task<JsonResult<QuestionWithAnswers>> GetNextQuestion(string questionId, string nodeLabel, [FromBody]string answer)
+        public async Task<IHttpActionResult> GetNextQuestion(string questionId, string nodeLabel, [FromBody]string answer)
         {
             var questionWithAnswers = await _questionRepository.GetNextQuestion(questionId, nodeLabel, answer);
-            return Json(questionWithAnswers);
+            return BuildResponse(questionWithAnswers);
         }
 
 
@@ -55,10 +56,10 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("pathways/{pathwayId}/questions/first")]
-        public async Task<JsonResult<QuestionWithAnswers>> GetFirstQuestion(string pathwayId)
+        public async Task<IHttpActionResult> GetFirstQuestion(string pathwayId)
         {
             var questionWithAnswers = await _questionRepository.GetFirstQuestion(pathwayId);
-            return Json(questionWithAnswers);
+            return BuildResponse(questionWithAnswers);
         }
 
         [HttpGet]
@@ -75,6 +76,13 @@ namespace NHS111.Domain.Api.Controllers
         {
             var questionsWithAnswers = await _questionRepository.GetJustToBeSafeQuestions(pathwayId, selectedQuestionId, multipleChoice, answeredQuestionIds);
             return Json(questionsWithAnswers);
+        }
+
+
+        private IHttpActionResult BuildResponse(QuestionWithAnswers questionWithAnswers)
+        {
+            if (questionWithAnswers == null) return NotFound();
+            return Json(questionWithAnswers);
         }
     }
 }
