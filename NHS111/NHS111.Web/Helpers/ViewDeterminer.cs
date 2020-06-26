@@ -105,7 +105,8 @@ namespace NHS111.Web.Helpers
                         return new PageResultViewModel(journeyViewModel, String.Format("../Question/Custom/{0}", journeyViewModel.Content.Replace("!CustomView!", "")));
 
                     return new PageResultViewModel(journeyViewModel);
-                case NodeType.Question:
+                case NodeType.NotFound:
+                    return new NodeNotFoundViewModel(journeyViewModel);
                 default:
                     _userZoomDataBuilder.SetFieldsForQuestion(journeyViewModel);
                     return new QuestionResultViewModel(journeyViewModel);

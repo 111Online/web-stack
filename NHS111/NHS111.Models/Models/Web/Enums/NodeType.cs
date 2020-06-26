@@ -13,6 +13,7 @@ namespace NHS111.Models.Models.Web.Enums
         CareAdvice,
         PathwaySelectionJump,
         Set,
-        Page
+        Page,
+        NotFound
     }
 }

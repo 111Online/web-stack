@@ -5,6 +5,8 @@ using NHS111.Models.Models.Domain;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http.Results;
+using Newtonsoft.Json;
 
 namespace NHS111.Domain.Test.API_Project.Controller
 {
@@ -28,15 +30,15 @@ namespace NHS111.Domain.Test.API_Project.Controller
             //Arrange
 
             var id = "questionid";
-            _questionRepository.Setup(x => x.GetQuestion(id)).Returns(Task.FromResult(new QuestionWithAnswers()));
+            _questionRepository.Setup(x => x.GetQuestion(id)).Returns(Task.FromResult(new QuestionWithAnswers(){Question = new Question(){Id = id}}));
 
             //Act
-            var result = await _sut.GetQuestion(id);
-
+            var result = await _sut.GetQuestion(id) as JsonResult<QuestionWithAnswers>;
+        
             //Assert
             _questionRepository.Verify(x => x.GetQuestion(id), Times.Once);
+            Assert.AreEqual(id, result.Content.Question.Id);
             Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
-
         }
 
         [Test]
@@ -63,20 +65,21 @@ namespace NHS111.Domain.Test.API_Project.Controller
         {
             //Arrange
 
-            QuestionWithAnswers questionWithAnswers = new QuestionWithAnswers();
-
             var answer = "answer";
             var id = "qId1";
             var nodeLabel = "Question";
+            var nextId = "qId2";
+            QuestionWithAnswers questionWithAnswers = new QuestionWithAnswers() { Question = new Question(){Id = nextId } };
             _questionRepository.Setup(x => x.GetNextQuestion(id, nodeLabel, answer)).Returns(Task.FromResult(questionWithAnswers));
 
 
             //Act
-            var result = await _sut.GetNextQuestion(id, nodeLabel, answer);
+            var result = await _sut.GetNextQuestion(id, nodeLabel, answer) as JsonResult<QuestionWithAnswers>;
 
             //Assert
             _questionRepository.Verify(x => x.GetNextQuestion(id, nodeLabel, answer), Times.Once);
             Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
+            Assert.AreEqual(nextId, result.Content.Question.Id);
 
         }
 

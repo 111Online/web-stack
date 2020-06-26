@@ -163,6 +163,14 @@ namespace NHS111.Models.Models.Web
         }
     }
 
+    public class NodeNotFoundViewModel : JourneyResultViewModel
+    {
+
+        public override string ViewName { get { return "../Question/Not_Found"; } }
+
+        public NodeNotFoundViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel) { }
+    }
+
     public class RegisterForSMSViewModel : JourneyResultViewModel
     {
         public override string ViewName { get { return "../RegisterForSMS/Send_SMS"; } }

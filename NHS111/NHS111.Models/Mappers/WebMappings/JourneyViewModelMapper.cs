@@ -150,8 +150,15 @@ namespace NHS111.Models.Mappers.WebMappings
             var journeyViewModel = modelToPopulate;
             if (journeyViewModel == null)
                 journeyViewModel = new JourneyViewModel();
+       
+            if (questionWithAnswers == null)
+                return journeyViewModel;
 
-            if (questionWithAnswers == null) return journeyViewModel;
+            if(questionWithAnswers.Labels.Any())
+                journeyViewModel.NodeType = BuildNodeType(questionWithAnswers);
+
+            if(journeyViewModel.NodeType == NodeType.NotFound)
+                return journeyViewModel;
 
             journeyViewModel.Id = questionWithAnswers.Question.Id;
             journeyViewModel.Title = questionWithAnswers.Question.Title;
@@ -166,7 +173,6 @@ namespace NHS111.Models.Mappers.WebMappings
             journeyViewModel.Bullets = questionAndBullets.Item2;
             journeyViewModel.QuestionType = questionWithAnswers.Question.QuestionType;
             journeyViewModel.Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList();
-            journeyViewModel.NodeType = BuildNodeType(questionWithAnswers);
             journeyViewModel.QuestionNo = questionWithAnswers.Question.QuestionNo;
             journeyViewModel.Rationale = questionWithAnswers.Question.Rationale;
 
