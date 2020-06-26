@@ -44,9 +44,20 @@
             <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
                 <fieldset id="tel-number-fields">
                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                        <h2 class="nhsuk-fieldset__heading">
-                            What number should we call?
-                        </h2>
+
+                        @if (Model.PhoneNumberWillBeUsedForCallback)
+                        {
+                            <h2 class="nhsuk-fieldset__heading">
+                                What number should we call?
+                            </h2>
+                        }
+                        else
+                        {
+                            <h2 class="nhsuk-fieldset__heading">
+                                What is your phone number?
+                            </h2>
+                        }
+
                     </legend>
 
                     <div>

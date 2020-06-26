@@ -1,5 +1,7 @@
 ﻿
+using System.Collections.Generic;
 using FluentValidation.Attributes;
+using Nest;
 using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web.PersonalDetails
@@ -42,5 +44,17 @@ namespace NHS111.Models.Models.Web.PersonalDetails
         }
 
         public PersonalDetailViewModel PersonalDetailsViewModel { get;  set; }
+
+        public bool PhoneNumberWillBeUsedForCallback
+        {
+            get
+            {
+                List<string> dispositionIdsForEmergencyPrescriptions = new List<string>()
+                {
+                    "Dx80", "Dx85", "Dx86", "Dx87"
+                };
+                return !(dispositionIdsForEmergencyPrescriptions.Contains(PersonalDetailsViewModel.Id));
+            }
+        }
     }
 }
