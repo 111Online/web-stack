@@ -14,6 +14,8 @@ namespace NHS111.Models.Models.Web
 {
     public class ServiceViewModel : Business.DosService
     {
+        private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137, 138 };
+
         private readonly IClock _clock;
         private const string ServiceClosedMessage = "Closed";
         private const string OpenAllHoursMessage = "Open today: 24 hours";
@@ -29,9 +31,6 @@ namespace NHS111.Models.Models.Web
         {
             _clock = clock;
         }
-
-
-
 
         public List<string> AddressLines
         {
@@ -232,6 +231,11 @@ namespace NHS111.Models.Models.Web
                     .OrderBy(rs => rs.OpeningTime)
                     .FirstOrDefault(rs => _clock.Now.TimeOfDay < rs.ClosingTime);
             }
+        }
+
+        public bool IsCASServiceType
+        {
+            get { return _callbackCASIdList.Contains(ServiceType.Id); }
         }
     }
 
