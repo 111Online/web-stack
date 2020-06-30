@@ -16,12 +16,7 @@
         <hr />
     }
     <p class="service-details__name">
-        <b class="service-details__alias">@WebUtility.HtmlDecode(recommendedService.ServiceTypeAlias)</b>
-        @if (!recommendedService.IsCASServiceType)
-        {
-            <br/>
-            @WebUtility.HtmlDecode(recommendedService.PublicName)
-        }
+        @Html.Raw(recommendedService.GetServiceNameDisplayHtml())
     </p>
     <p class="service-details__phone">
         <a href="tel:@recommendedService.ContactDetails">Call @recommendedService.ContactDetails</a>

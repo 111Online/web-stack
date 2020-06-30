@@ -42,7 +42,7 @@ namespace NHS111.Models.Models.Web
             var model = outcomeResultViewModel.OutcomeModel;
             if (model.OutcomeGroup.IsServiceFirst)
             {
-                if (model.RecommendedService == null) return viewFilePath + "ServiceNotOffered";
+                if (model.RecommendedService == null) return viewFilePath + model.ServiceGroup.Id + "/ServiceNotOffered";
 
                 if (model.IsEmergencyPrescriptionOutcome && !model.HasSeenPreamble)
                     viewFilePath += "Emergency_Prescription/Outcome_Preamble";

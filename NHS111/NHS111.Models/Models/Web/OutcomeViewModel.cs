@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NHS111.Models.Mappers.WebMappings;
+using NHS111.Models.Models.Web.Outcome;
 using NHS111.Models.Models.Web.Parsers;
 using StructureMap.Query;
 
@@ -99,6 +100,14 @@ namespace NHS111.Models.Models.Web
                 var canOfferCallback = !DosCheckCapacitySummaryResult.IsValidationRequery &&
                                        DosCheckCapacitySummaryResult.HasITKServices && !HasAcceptedCallbackOffer.HasValue;
                 return isRetryDx && canOfferCallback;
+            }
+        }
+
+        public ServiceGroup ServiceGroup
+        {
+            get
+            {
+                return ServiceGroup.GetServiceGroupFromDisposition(Id);
             }
         }
 

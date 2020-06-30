@@ -124,11 +124,39 @@ namespace NHS111.Web.Presentation.Test.Helpers
         }
 
         [Test]
-        public void RecommendedService_Outcome_NoService_JourneyResult_ReturnsNoRecommendedServiceView()
+        public void RecommendedService_Outcome_NoService_EP_JourneyResult_ReturnsNoRecommendedServiceView()
         {
-            var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst }, new Mock<ControllerContext>().Object);
+            var model = new OutcomeViewModel { Id = "Dx86", NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst };
+            var result = _viewDeterminer.Build(model, new Mock<ControllerContext>().Object);
             Assert.IsInstanceOf<OutcomeResultViewModel>(result);
-            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/ServiceNotOffered", result.ViewName);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/" + model.ServiceGroup.Id + "/ServiceNotOffered", result.ViewName);
+        }
+
+        [Test]
+        public void RecommendedService_Outcome_NoService_ED_JourneyResult_ReturnsNoRecommendedServiceView()
+        {
+            var model = new OutcomeViewModel { Id = "Dx02", NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst };
+            var result = _viewDeterminer.Build(model, new Mock<ControllerContext>().Object);
+            Assert.IsInstanceOf<OutcomeResultViewModel>(result);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/" + model.ServiceGroup.Id + "/ServiceNotOffered", result.ViewName);
+        }
+
+        [Test]
+        public void RecommendedService_Outcome_NoService_MissingId_JourneyResult_ReturnsNoRecommendedServiceView()
+        {
+            var model = new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst };
+            var result = _viewDeterminer.Build(model, new Mock<ControllerContext>().Object);
+            Assert.IsInstanceOf<OutcomeResultViewModel>(result);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/" + model.ServiceGroup.Id + "/ServiceNotOffered", result.ViewName);
+        }
+
+        [Test]
+        public void RecommendedService_Outcome_NoService_NotGroupedId_JourneyResult_ReturnsNoRecommendedServiceView()
+        {
+            var model = new OutcomeViewModel { Id = "Dx99", NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.ServiceFirst };
+            var result = _viewDeterminer.Build(model, new Mock<ControllerContext>().Object);
+            Assert.IsInstanceOf<OutcomeResultViewModel>(result);
+            Assert.AreEqual("../Outcome/" + OutcomeGroup.ServiceFirst.Id + "/" + model.ServiceGroup.Id + "/ServiceNotOffered", result.ViewName);
         }
 
         [Test]

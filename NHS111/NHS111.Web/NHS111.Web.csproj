@@ -554,7 +554,7 @@
     <Content Include="Views\Shared\_GeneralCovidAdvice.cshtml" />
     <Content Include="Views\Outcome\Service_First\RecommendedService.cshtml" />
     <Content Include="Views\Outcome\Service_First\OtherServices.cshtml" />
-    <Content Include="Views\Outcome\Service_First\ServiceNotOffered.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Prescription\ServiceNotOffered.cshtml" />
     <Content Include="Views\Outcome\Service_First\Emergency_Prescription\Outcome_Preamble.cshtml" />
     <Content Include="Views\Outcome\Service_First\Emergency_Prescription\ReferralExplanation.cshtml" />
     <Content Include="Views\Shared\Service_First\_DoSRecommendedService.cshtml" />
@@ -569,6 +569,7 @@
     <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Callback.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Refer_And_Go.cshtml" />
     <Content Include="Views\Question\Not_Found.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Department\ServiceNotOffered.cshtml" />
     <Content Include="Views\Help\Accessibility.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
