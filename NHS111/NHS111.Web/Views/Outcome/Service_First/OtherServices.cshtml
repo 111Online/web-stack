@@ -63,8 +63,7 @@
             <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary data-event-trigger="click" data-event-value="@string.Format("Service {0}", WebUtility.HtmlDecode(service.PublicName))">
                     <p>
-                        <b>@WebUtility.HtmlDecode(service.ServiceTypeAlias)</b><br />
-                        @WebUtility.HtmlDecode(service.PublicName)
+                        @Html.Raw(service.GetOtherServicesServiceDisplayHtml())
                     </p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
                     {

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using NHS111.Models.Models.Web.Outcome;
 
 namespace NHS111.Models.Models.Web
@@ -12,16 +14,23 @@ namespace NHS111.Models.Models.Web
         public string ReasonText { get; set; }
         public DetailsViewModel Details { get; set; }
 
-        public string GetServiceDisplayHtml(bool isOtherServices)
+        public string GetServiceDisplayHtml()
         {
             var serviceDisplayHtml = GetServiceTypeAliasHtml();
             if (_callbackCASIdList.Contains(ServiceType.Id)) return serviceDisplayHtml;
 
             serviceDisplayHtml += GetServiceNameHtml();
-
+            
             if (!ShouldShowAddress) return serviceDisplayHtml;
 
-            serviceDisplayHtml += GetServiceAddressHtml(isOtherServices);
+            serviceDisplayHtml += GetServiceAddressHtml();
+            return serviceDisplayHtml;
+        }
+
+        public string GetOtherServicesServiceDisplayHtml()
+        {
+            var serviceDisplayHtml = GetServiceTypeAliasHtml();
+            serviceDisplayHtml += GetOtherServicesSecondLineHtml();
             return serviceDisplayHtml;
         }
 
@@ -32,17 +41,24 @@ namespace NHS111.Models.Models.Web
 
         private string GetServiceNameHtml()
         {
-            if (ServiceType.Id == 25 && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
+            if ((ServiceType.Id == 25 || ShouldShowAddress) && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
 
             return string.Format("<br />{0}", !string.IsNullOrEmpty(PublicNameOnly) ? WebUtility.HtmlDecode(PublicNameOnly) : WebUtility.HtmlDecode(PublicName));
         }
 
-        private string GetServiceAddressHtml(bool isOtherServices)
+        private string GetServiceAddressHtml()
         {
-            var firstLineOfAddressHtml = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
             var fullAddressHtml = AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address)));
-            return string.Format("<br />{0}", isOtherServices ? WebUtility.HtmlDecode(firstLineOfAddressHtml) : fullAddressHtml);
-            
+            return string.Format("<br />{0}", fullAddressHtml);
+        }
+
+        private string GetOtherServicesSecondLineHtml()
+        {
+            if(!string.IsNullOrEmpty(PublicNameOnly)) 
+                return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicNameOnly));
+
+            var firstLineOfAddress = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
+            return string.Format("<br />{0}", WebUtility.HtmlDecode(firstLineOfAddress));
         }
     }
 }
