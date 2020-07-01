@@ -17,7 +17,7 @@
     }
     <div class="service-details__address">
         <p>
-            @Html.Raw(recommendedService.GetServiceNameDisplayHtml())
+            @Html.Raw(recommendedService.GetServiceDisplayHtml(isOtherService))
         </p>
     </div>
     <div class="service-details__hours nhsuk-u-margin-bottom-4">

@@ -24,7 +24,7 @@
         @Html.Hidden("SelectedServiceId", recommendedService.Id)
 
         <p class="service-details__name">
-            @Html.Raw(recommendedService.GetServiceNameDisplayHtml())
+            @Html.Raw(recommendedService.GetServiceDisplayHtml(isOtherService))
         </p>
         <p>
             @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
