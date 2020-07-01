@@ -54,8 +54,15 @@ namespace NHS111.Models.Models.Web
 
         private string GetOtherServicesSecondLineHtml()
         {
-            if(!string.IsNullOrEmpty(PublicNameOnly)) 
-                return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicNameOnly));
+            if (_callbackCASIdList.Contains(ServiceType.Id)) return string.Empty;
+
+            if (ServiceType.Id == 25 && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
+
+            if (!ShouldShowAddress) 
+                return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+
+            if (ShouldShowAddress && !string.IsNullOrEmpty(PublicNameOnly))
+                return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
             var firstLineOfAddress = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
             return string.Format("<br />{0}", WebUtility.HtmlDecode(firstLineOfAddress));
