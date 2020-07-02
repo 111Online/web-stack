@@ -36,11 +36,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         }
 
         [JsonProperty(PropertyName = "publicNameOnlyField")]
-        public string PublicNameOnly
-        {
-            get { return _publicName; }
-            set { _publicName = value; }
-        }
+        public string PublicNameOnly { get; set; }
 
         [JsonProperty(PropertyName = "postcodeField")]
         public string PostCode { get; set; }
