@@ -136,6 +136,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetOtherServicesServiceDisplayHtml_CallBackGPOOH_ContainsOnlyServiceAliasAndPublicName()
         {
             _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
             var aliasAndName = _aliasOnly + string.Format("<br />{0}", _recommendedServiceViewModel.PublicNameOnly);
@@ -146,6 +147,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetOtherServicesServiceDisplayHtml_CallbackOther_ContainsServiceAliasAndPublicName()
         {
             _recommendedServiceViewModel.ServiceType.Id = 50;
+            _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
             var aliasAndName = _aliasOnly + string.Format("<br />{0}", _recommendedServiceViewModel.PublicNameOnly);
@@ -165,6 +167,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetOtherServicesServiceDisplayHtml_GoTo_ContainsServiceAliasAndPublicName()
         {
             _recommendedServiceViewModel.ServiceType.Id = 52;
+            _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
