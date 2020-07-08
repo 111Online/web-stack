@@ -188,6 +188,16 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class ServiceFirstReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Service first ITK Confirmation - Failure"; } }
+
+        public ServiceFirstReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
     public class DuplicateReferralResultAnalyticsDataLayer
         : ReferralResultAnalyticsDataLayer
     {

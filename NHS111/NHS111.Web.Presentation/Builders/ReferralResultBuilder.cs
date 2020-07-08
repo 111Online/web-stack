@@ -57,15 +57,14 @@ namespace NHS111.Web.Presentation.Builders
             {
                 if (itkConfirmationViewModel.OutcomeGroup.Is999NonUrgent)
                     return new Call999ReferralFailureResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralFailureResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
                     return new ClinicianReferralFailureResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     return new Coronavirus111CallbackReferralFailureResultViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
+                    return new ServiceFirstReferralFailureResultViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralFailureResultViewModel(itkConfirmationViewModel);
