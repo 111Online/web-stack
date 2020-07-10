@@ -34,6 +34,7 @@
         @Html.HiddenFor(x => Model.IsCovidJourney)
         @Html.Hidden("gender", Model.UserInfo.Demography.Gender)
         @Html.Hidden("age", Model.UserInfo.Demography.Age)
+        @Html.Hidden("viaGuidedSelection", Model.ViaGuidedSelection)
         @Html.Hidden("args", encryptedArgs)
         <button class="button--link search__button--back">Back</button>
     }
@@ -56,6 +57,7 @@
         @Html.HiddenFor(m => Model.FilterServices)
         @Html.HiddenFor(x => Model.Campaign)
         @Html.HiddenFor(x => Model.Source)
+        @Html.HiddenFor(x => Model.ViaGuidedSelection)
         <p>
             If you have other symptoms, find the topic that most closely applies.
         </p>

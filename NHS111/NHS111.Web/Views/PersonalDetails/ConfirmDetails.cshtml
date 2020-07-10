@@ -24,8 +24,8 @@
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirm-details"));
+    dataDictionary.Add(new KeyValuePair<string, object>("GuidedSelection", Model.ViaGuidedSelection.HasValue ? Model.ViaGuidedSelection.ToString().ToLower() : null));
 }
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsConfirmDetails, Model) })
 }
@@ -38,7 +38,8 @@
         var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
         var showSex = false;
 
-        if (Model.UserInfo.Demography.Gender != null) {
+        if (Model.UserInfo.Demography.Gender != null)
+        {
             showSex = !(NHS111.Models.Models.Domain.Gender.Indeterminate.Equals(new NHS111.Models.Models.Domain.Gender(Model.UserInfo.Demography.Gender)));
         }
     }

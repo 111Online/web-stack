@@ -1,29 +1,30 @@
-﻿using NHS111.Models.Mappers.WebMappings;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using NHS111.Features;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Utils.Parser;
+using NHS111.Models.Models.Web.Parsers;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Web.Parsers;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using Features;
-    using System.Web;
 
     public class SurveyLinkViewModelBuilder : BaseBuilder, ISurveyLinkViewModelBuilder
     {
         private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
+        private readonly ISurveyLinkFeature _surveyLinkFeature;
 
-        public SurveyLinkViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration)
+        public SurveyLinkViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, ISurveyLinkFeature surveyLinkFeature)
         {
             _restClient = restClient;
             _configuration = configuration;
+            _surveyLinkFeature = surveyLinkFeature;
         }
 
         public async Task<SurveyLinkViewModel> SurveyLinkBuilder(OutcomeViewModel model)
@@ -48,12 +49,12 @@ namespace NHS111.Web.Presentation.Builders
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,
                 CampaignSource = model.Source,
-                ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue
+                ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue,
+                GuidedSelection = GetGuidedSelectionParameterFrom(model)
             };
 
-            var surveyLinkFeature = new SurveyLinkFeature();
             var isPharmacyPathway = result.EndPathwayNo == "PW1827";
-            result.SurveyId = isPharmacyPathway ? surveyLinkFeature.PharmacySurveyId : surveyLinkFeature.SurveyId;
+            result.SurveyId = isPharmacyPathway ? _surveyLinkFeature.PharmacySurveyId : _surveyLinkFeature.SurveyId;
             AddServiceInformation(model, result);
 
             return result;
@@ -69,9 +70,22 @@ namespace NHS111.Web.Presentation.Builders
                 serviceOptions = services.GroupBy(s => s.OnlineDOSServiceType.Id).Select(s => s.Key).ToList();
             }
 
-            surveyLinkViewModel.ServiceCount = services.Count;
-            surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
 
+            //For covid specific outcomes, only set these params if the results contain itk services
+            if (OutcomeGroup.Isolate111.Equals(model.OutcomeGroup))
+            {
+                if(model.DosCheckCapacitySummaryResult.HasITKServices)
+                {
+                    surveyLinkViewModel.ServiceCount = services.Count;
+                    surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
+                }
+            }
+            else
+            {
+                surveyLinkViewModel.ServiceCount = services.Count;
+                surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
+            }
+            
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
                 var recommendedService = model.DosCheckCapacitySummaryResult.Success.Services.First();
@@ -86,6 +100,12 @@ namespace NHS111.Web.Presentation.Builders
         public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)
         {
             surveyLinkViewModel.DispositionChoiceReasoning = reason;
+        }
+        private string GetGuidedSelectionParameterFrom(OutcomeViewModel model)
+        {
+            return model.HasBeenViaGuidedSelection
+                ? model.IsViaGuidedSelection ? "true" : "false"
+                : string.Empty;
         }
     }
 

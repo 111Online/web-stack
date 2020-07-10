@@ -290,7 +290,7 @@ namespace NHS111.Web.Controllers
 
         public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool filterServices, bool viaGuidedSelection)
         {
-            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers, postcode)
+            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers)
                 .ConfigureAwait(true);
             resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
@@ -386,8 +386,7 @@ namespace NHS111.Web.Controllers
             return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
         }
 
-        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle,
-            int[] answers, string postcode)
+        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await

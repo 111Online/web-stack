@@ -19,7 +19,21 @@
             }];
     </script>
 }
+@{
+}
+@{
+    var surveyDataDictionary = ViewContext.ViewData;
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceOptions", ""));
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
+}
 
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
+}
+
+@section FeedbackSection {
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
+}
 
 @Html.HiddenFor(x => Model.Id)
 
@@ -32,7 +46,7 @@
 
         <div class="callout callout--alert nhsuk-u-margin-bottom-6">
             <p>
-              You <b>must</b> tell the operator that you might have coronavirus symptoms.
+                You <b>must</b> tell the operator that you might have coronavirus symptoms.
             </p>
         </div>
 
