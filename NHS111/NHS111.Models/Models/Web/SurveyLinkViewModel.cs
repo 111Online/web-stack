@@ -39,5 +39,7 @@ namespace NHS111.Models.Models.Web
         public string DispositionChoiceReasoning { get; set; }
 
         public string SurveyUrl { get; set; }
+
+        public string GuidedSelection { get; set; }
     }
 }

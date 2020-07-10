@@ -20,6 +20,7 @@
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
+    dataDictionary.Add(new KeyValuePair<string, object>("GuidedSelection", Model.OutcomeModel.ViaGuidedSelection.HasValue ? Model.OutcomeModel.ViaGuidedSelection.ToString().ToLower() : null));
 }
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)

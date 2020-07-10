@@ -8,6 +8,7 @@ namespace NHS111.Features.IoC
         public FeatureRegistry()
         {
             For<IDOSSpecifyDispoTimeFeature>().Use(new DOSSpecifyDispoTimeFeature(new SystemClock()));
+            For<ISurveyLinkFeature>().Use(new SurveyLinkFeature());
             Scan(scan =>
             {
                 scan.TheCallingAssembly();

@@ -13,7 +13,8 @@
     @{
         var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id));
         var title = Model.TitleWithoutBullets;
-        if (title == null) { title = "ITK Clinician callback - no results"; }
+        if (title == null)
+        { title = "ITK Clinician callback - no results"; }
     }
     <script>
         var pageId = '@Model.Id';
@@ -25,95 +26,97 @@
     </script>
 }
 
-@{
-    var surveyDataDictionary = ViewContext.ViewData;
-    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceOptions", ""));
-    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
+
+@section FeedbackSection {
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
 
 @if (noITKServicesAreAvailable && Model.CurrentPostcode != null)
 {
-  <section class="nhsuk-core measure">
-    <h1 class="nhsuk-heading-xl">Call 111 and speak to a nurse</h1>
+    <section class="nhsuk-core measure">
+        <h1 class="nhsuk-heading-xl">Call 111 and speak to a nurse</h1>
 
-    <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
-      <p>
-        The phone service will be busy but you <b>must</b> wait to speak to someone.
-        Tell 111 that you are calling about coronavirus symptoms.
-      </p>
-    </div>
+        <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
+            <p>
+                The phone service will be busy but you <b>must</b> wait to speak to someone.
+                Tell 111 that you are calling about coronavirus symptoms.
+            </p>
+        </div>
 
-    <p>
-      Your symptoms suggest that you might have a coronavirus infection.
-    </p>
-    <p>
-      The nurse will:
-    </p>
-    <ul>
-      <li>ask you more about your symptoms</li>
-      <li>tell you what to do next</li>
-    </ul>
+        <p>
+            Your symptoms suggest that you might have a coronavirus infection.
+        </p>
+        <p>
+            The nurse will:
+        </p>
+        <ul>
+            <li>ask you more about your symptoms</li>
+            <li>tell you what to do next</li>
+        </ul>
 
-    <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
-      <p>
-        You need to stay away from other people until you have spoken to 111.
-      </p>
-      <p>
-        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
-          Read more self-isolation advice on NHS.UK
-        </a>
-      </p>
-    </div>
+        <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
+            <p>
+                You need to stay away from other people until you have spoken to 111.
+            </p>
+            <p>
+                <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
+                    Read more self-isolation advice on NHS.UK
+                </a>
+            </p>
+        </div>
 
-  </section>
+    </section>
 }
 else
 {
-<section class="nhsuk-core measure">
+    <section class="nhsuk-core measure">
 
-	@if (Model.Id == "Dx1117")
-	{
-		<h1 class="nhsuk-heading-xl">A nurse from the COVID-19 service would like to check in with you</h1>
-		<p>
-			You don't need urgent help, but a nurse would like to give you a call to make sure you're ok.
-		</p>
-		<p>
-			When you book a call the nurse will:
-		</p>
-		<ul>
-			<li>know what you've answered so far</li>
-			<li>check that you haven't got any worse</li>
-			<li>tell you if you need to get help</li>
-		</ul>
-		<p class="nhsuk-u-margin-bottom-6">
-			You should get a call within 24 hours
-		</p>
-	}
-	else
-	{
-		<h1 class="nhsuk-heading-xl">Book a call with a 111 nurse</h1>
-		<p>
-			A nurse from the COVID clinical response service needs to speak to you.
-		</p>
-		<p>
-			When you book a call the nurse will:
-		</p>
-		<ul>
-			<li>know the answers you have already given</li>
-			<li>ask you some more questions about your symptoms and current health</li>
-		</ul>
-		<p class="nhsuk-u-margin-bottom-6">
-			It’s important that you speak to the nurse. You should get a call within  @WebUtility.HtmlDecode(Model.WaitTimeText). The 111 phone service is busy, so it could take longer than usual.
-		</p>
-	}
+        @if (Model.Id == "Dx1117")
+        {
+            <h1 class="nhsuk-heading-xl">A nurse from the COVID-19 service would like to check in with you</h1>
+            <p>
+                You don't need urgent help, but a nurse would like to give you a call to make sure you're ok.
+            </p>
+            <p>
+                When you book a call the nurse will:
+            </p>
+            <ul>
+                <li>know what you've answered so far</li>
+                <li>check that you haven't got any worse</li>
+                <li>tell you if you need to get help</li>
+            </ul>
+            <p class="nhsuk-u-margin-bottom-6">
+                You should get a call within 24 hours
+            </p>
+        }
+        else
+        {
+            <h1 class="nhsuk-heading-xl">Book a call with a 111 nurse</h1>
+            <p>
+                A nurse from the COVID clinical response service needs to speak to you.
+            </p>
+            <p>
+                When you book a call the nurse will:
+            </p>
+            <ul>
+                <li>know the answers you have already given</li>
+                <li>ask you some more questions about your symptoms and current health</li>
+            </ul>
+            <p class="nhsuk-u-margin-bottom-6">
+                It’s important that you speak to the nurse. You should get a call within  @WebUtility.HtmlDecode(Model.WaitTimeText). The 111 phone service is busy, so it could take longer than usual.
+            </p>
+        }
 
-		@using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
-		{
-			@Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-			@Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-			@Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id)
-			<button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
-		}
+        @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id)
+            <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
+        }
 
-	</section>
+    </section>
 }

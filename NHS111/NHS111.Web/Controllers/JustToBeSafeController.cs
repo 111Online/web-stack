@@ -95,7 +95,7 @@ namespace NHS111.Web.Controllers
         {
             var decryptedArgs = new QueryStringEncryptor(args);
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-  
+
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -108,7 +108,8 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 IsCovidJourney = bool.Parse(decryptedArgs["isCovidjourney"]),
-                EntrySearchTerm = decryptedArgs["entrySearchTerm"]
+                EntrySearchTerm = decryptedArgs["entrySearchTerm"],
+                ViaGuidedSelection = true
             };
 
             var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);

@@ -1,19 +1,20 @@
 ﻿@model NHS111.Models.Models.Web.SearchJourneyViewModel
 
-<div class="form-group measure @(@ViewData.ModelState.IsValidField("SanitisedSearchTerm") ? "" : "form-group-error")">
-    @using (Html.BeginForm("SearchResults", "Search", FormMethod.Post))
-    {
-        @Html.HiddenFor(m => Model.SessionId)
-        @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
-        @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
-        @Html.HiddenFor(m => Model.CurrentPostcode)
-        @Html.HiddenFor(m => Model.FilterServices)
-        @Html.HiddenFor(x => Model.Campaign)
-        @Html.HiddenFor(x => Model.Source)
-        <div class="search__searchbox">
-            @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox", @maxlength = "150" })
-            <button type="submit" class="button button--next button--search" value="Search" id="searchButton">Search</button>
-        </div>
-    }
-</div>
+    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SanitisedSearchTerm") ? "" : "form-group-error")">
+        @using (Html.BeginForm("SearchResults", "Search", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => Model.SessionId)
+            @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
+            @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
+            @Html.HiddenFor(m => Model.CurrentPostcode)
+            @Html.HiddenFor(m => Model.FilterServices)
+            @Html.HiddenFor(x => Model.Campaign)
+            @Html.HiddenFor(x => Model.Source)
+            @Html.HiddenFor(x => Model.ViaGuidedSelection)
+            <div class="search__searchbox">
+                @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox", @maxlength = "150" })
+                <button type="submit" class="button button--next button--search" value="Search" id="searchButton">Search</button>
+            </div>
+        }
+    </div>
 

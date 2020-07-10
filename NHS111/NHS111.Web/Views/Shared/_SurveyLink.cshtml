@@ -7,7 +7,7 @@
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
     var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.ServiceOptions;
     var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.ServiceCount;
-
+    var guided_selection = ViewData.ContainsKey("GuidedSelection") ? ViewData["GuidedSelection"] : Model.GuidedSelection;
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -35,7 +35,9 @@
         Model.RecommendedServiceType,
         Model.RecommendedServiceId,
         Model.RecommendedServiceName,
-        Model.DispositionChoiceReasoning
+        Model.DispositionChoiceReasoning,
+        guided_selection,
+        ""
         );
     Model.SurveyUrl = url;
 
