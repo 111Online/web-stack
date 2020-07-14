@@ -1,4 +1,12 @@
-﻿﻿@if (Model.DisplayWorseningCareAdvice)
+﻿@using NHS111.Models.Models.Web.Elements
+
+@{
+    var otherWaysHelp = "<p>There are " + 
+        Html.ActionLink("other ways you can contact 111", "OtherWays", "Help") +
+        " if you start to feel worse.";
+}
+
+﻿@if (Model.DisplayWorseningCareAdvice)
 {
     <details class="measure worsening-advice">
         <summary><span class="details__arrow" role="presentation"></span>What to do if you start to feel worse</summary>
@@ -16,7 +24,12 @@
             {
                 <p>Choose the symptom that's worrying you most and either use this service again or call 111.</p>
             }
-
+            @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+            {
+                Link = "If you are deaf or hard of hearing",
+                Summary = otherWaysHelp,
+                ID = "deaf-worsening-summary"
+            })
         </div>
     </details>
 }

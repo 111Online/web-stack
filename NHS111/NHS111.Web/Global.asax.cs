@@ -74,7 +74,8 @@ namespace NHS111.Web
             {
                 "~/Views/{1}/Elements/{0}.cshtml",
                 "~/Views/Shared/Elements/{0}.cshtml",
-                "~/Views/Shared/Repeat_Prescription/{0}.cshtml"
+                "~/Views/Shared/Repeat_Prescription/{0}.cshtml",
+                "~/Views/Shared/Help/{0}.cshtml"
             };
 
             razorEngine.PartialViewLocationFormats = razorEngine.PartialViewLocationFormats.Union(newPartialViewFormats).ToArray();

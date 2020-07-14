@@ -31,7 +31,7 @@ namespace NHS111.Web.Controllers
             return View();
         }
 
-        public ActionResult Language()
+        public ActionResult OtherWays()
         {
             return View();
         }

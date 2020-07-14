@@ -1,0 +1,16 @@
+﻿@using NHS111.Models.Models.Web.Elements
+
+@{
+    var deafHelp = "<p>When you have answered questions about your symptoms we tell you what to do next.  Sometimes this will mean getting a call back from a nurse or speaking to someone.</p>" +
+        "<p>You can usually use a text relay app or a textphone to do this.</p>" + 
+        "<h4>British sign language (BSL) users</h4>" +
+        "<p>A BSL interpreter is available at <a href='https://interpreternow.co.uk/nhs11' target='_blank' data-event-trigger='click' data-event-value='BSL link from language support page'>interpreternow.co.uk/nhs111</a></p>" +
+        "<p>You can't use 111 online to book a BSL call back from a nurse at the moment.</p>";
+}
+
+@Html.Partial("_LinkSummary", new LinkSummaryViewModel
+{
+    Link = "Using this service if you're deaf, hard of hearing or use text relay",
+    Summary = deafHelp,
+    ID = "deaf-help-summary"
+})

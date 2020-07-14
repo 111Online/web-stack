@@ -9,34 +9,37 @@
 @section FeedbackSection {
 }
 
-<section class="nhsuk-core measure">
-    <h1>Thanks for agreeing to take our survey</h1>
+    <section class="nhsuk-core measure">
+        <h1>Thanks for agreeing to take our survey</h1>
 
-    <p>
-        Before you start, there are a few things you need to know:
-    </p>
+        <p>
+            Before you start, there are a few things you need to know:
+        </p>
 
-    <h2 class="nhsuk-u-font-size-24">If you need medical help call 111</h2>
-    <p>
-        We don’t monitor the survey every day, and won’t see comments you leave
-        about your symptoms or if you ask for medical help.
-    </p>
+        <h2 class="nhsuk-u-font-size-24">If you need medical help call 111</h2>
+        <p>
+            Deaf people should use text relay to call 18000 111.
+        </p>
+        <p>
+            We don’t monitor the survey every day, and won’t see comments you leave
+            about your symptoms or if you ask for medical help.
+        </p>
 
-    <h2 class="nhsuk-u-font-size-24">We won't know who you are from your answers</h2>
-    <p>
-        Our survey asks you questions about using 111 online, and about what
-        happened next. Everything you say is confidential.
-    </p>
-    <p>
-        If you agree to do a follow-up survey we’ll ask for your email address.
-        We won’t share your email address with anyone else.
-    </p>
+        <h2 class="nhsuk-u-font-size-24">We won't know who you are from your answers</h2>
+        <p>
+            Our survey asks you questions about using 111 online, and about what
+            happened next. Everything you say is confidential.
+        </p>
+        <p>
+            If you agree to do a follow-up survey we’ll ask for your email address.
+            We won’t share your email address with anyone else.
+        </p>
 
-    <h2 class="nhsuk-u-font-size-24">We are responsible for your data</h2>
-    <p>
-        Our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) explains how we keep your data safe. Survey data is securely stored by a company called Qualtrics, but we are responsible for what happens to it.
-    </p>
+        <h2 class="nhsuk-u-font-size-24">We are responsible for your data</h2>
+        <p>
+            Our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) explains how we keep your data safe. Survey data is securely stored by a company called Qualtrics, but we are responsible for what happens to it.
+        </p>
 
-    <a class="button" href="@Model.SurveyUrl" id="start-survey-button">Start survey</a>
+        <a class="button" href="@Model.SurveyUrl" id="start-survey-button">Start survey</a>
 
-</section>
+    </section>

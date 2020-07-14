@@ -542,7 +542,7 @@
     <Content Include="Views\RegisterForSMS\Verify_Fail.cshtml" />
     <Content Include="Views\RegisterForSMS\Too_Many_Requests_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
-    <Content Include="Views\Help\Language.cshtml" />
+    <Content Include="Views\Help\OtherWays.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\ITK_Primary_care_NER.cshtml" />
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\Confirmation.cshtml" />
     <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
@@ -559,6 +559,10 @@
     <Content Include="Views\Search\Coronavirus_Explainer.cshtml" />
     <Content Include="Views\Shared\_GeneralCovidAdvice.cshtml" />
     <Content Include="Views\Question\Not_Found.cshtml" />
+    <Content Include="Views\Shared\Help\_OtherLanguageSummary.cshtml" />
+    <Content Include="Views\Shared\Help\_DeafSummary.cshtml" />
+    <Content Include="Views\Shared\Help\_DeafSignposting.cshtml" />
+    <Content Include="Views\Shared\Help\_DeafReassurance.cshtml" />
     <Content Include="Views\Help\Accessibility.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -573,6 +577,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
