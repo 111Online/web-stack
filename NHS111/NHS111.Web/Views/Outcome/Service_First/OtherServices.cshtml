@@ -28,7 +28,7 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "other-services"));
     dataDictionary.Add(new KeyValuePair<string, object>("OtherServicesChangePostcode", "true"));
-    var previousAction = Model.RecommendedService == null ? "DispositionWithServices" : "RecommendedService";
+    var previousAction = Model.IsEmergencyPrescriptionOutcome ? "RecommendedService" : "DispositionWithServices";
 }
 
 @section FeedbackSection {

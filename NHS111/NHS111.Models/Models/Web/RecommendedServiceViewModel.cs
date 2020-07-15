@@ -9,7 +9,7 @@ namespace NHS111.Models.Models.Web
 {
     public class RecommendedServiceViewModel : ServiceViewModel
     {
-        private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137 };
+        private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137, 138 };
 
         public string ReasonText { get; set; }
         public DetailsViewModel Details { get; set; }
