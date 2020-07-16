@@ -30,12 +30,13 @@
 <div class="cards">
     @foreach (var service in services.Where(s => !string.IsNullOrEmpty(s.ContactDetails)))
     {
-        <div class="card">
-            <h3>@WebUtility.HtmlDecode(service.PublicName)</h3>
-            @Html.Partial("_ServiceOpeningTimes", service, ViewData) 
-            <hr />
-            <p><a href="tel: @service.ContactDetails">Phone @service.ContactDetails</a></p>
-        </div>
+    <div class="card">
+        <h3>@WebUtility.HtmlDecode(service.PublicName)</h3>
+        @Html.Partial("_ServiceOpeningTimes", service, ViewData)
+        <hr />
+        @Html.Partial("_DeafReassurance")
+        <p><a href="tel: @service.ContactDetails">Phone @service.ContactDetails</a></p>
+    </div>
     }
 </div>
 
