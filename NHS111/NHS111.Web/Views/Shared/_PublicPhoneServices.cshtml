@@ -34,8 +34,8 @@
         <h3>@WebUtility.HtmlDecode(service.PublicName)</h3>
         @Html.Partial("_ServiceOpeningTimes", service, ViewData)
         <hr />
-        @Html.Partial("_DeafReassurance")
         <p><a href="tel: @service.ContactDetails">Phone @service.ContactDetails</a></p>
+        @Html.Partial("_DeafReassurance")
     </div>
     }
 </div>
