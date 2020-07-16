@@ -37,7 +37,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var pathway = response.Data;
             var resultingDxCode = model.Is999Callback ? FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(model.Id) : model.Id;
-            var result = new SurveyLinkViewModel()
+            var result = new SurveyLinkViewModel
             {
                 DispositionCode = model.Id,
                 DispositionDateTime = model.DispositionTime,
@@ -51,6 +51,7 @@ namespace NHS111.Web.Presentation.Builders
                 CampaignSource = model.Source,
                 ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue,
                 GuidedSelection = GetGuidedSelectionParameterFrom(model),
+                RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model),
                 StartUrl = model.StartParameter
             };
 
@@ -118,6 +119,11 @@ namespace NHS111.Web.Presentation.Builders
             return model.HasBeenViaGuidedSelection
                 ? model.IsViaGuidedSelection ? "true" : "false"
                 : string.Empty;
+        }
+        private string GetServiceTypeAliasParameterFrom(OutcomeViewModel model)
+        {
+            if (!model.OutcomeGroup.IsServiceFirst) return string.Empty;
+            return !model.DosCheckCapacitySummaryResult.ResultListEmpty ? model.DosCheckCapacitySummaryResult.Success.Services.First().ServiceTypeAlias : "no-results";
         }
     }
 

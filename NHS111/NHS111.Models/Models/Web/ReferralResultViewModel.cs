@@ -369,13 +369,12 @@ namespace NHS111.Models.Models.Web {
 
     public class ServiceFirstServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
     {
-        public override string PartialViewName { get { return "ServiceUnavailable"; } }
+        public override string PartialViewName { get { return "_ServiceUnavailable"; } }
         public override string ViewName
         {
             get
             {
-                var viewFolder = OutcomeModel.IsEDWithCallbackOffered ? "defaultWithDetails" : "default";
-                return !OutcomeModel.IsEmergencyPrescriptionOutcome ? string.Format("Confirmation/{0}/ServiceUnavailable", viewFolder) : "Confirmation/Service_first/Emergency_Prescription/ServiceUnavailable";
+                return !OutcomeModel.IsEmergencyPrescriptionOutcome ? "ServiceBookingUnavailable" : "Confirmation/Service_first/Emergency_Prescription/ServiceUnavailable";
             }
         }
 
