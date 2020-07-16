@@ -10,6 +10,7 @@
         var result = Model.DosCheckCapacitySummaryResult;
         var changePostcode = ViewData.Keys.Contains("ChangePostcode") ? (bool)ViewData["ChangePostcode"] : false;
         var isPostcodeInArea = ((BaseController)ViewContext.Controller).IsPostcodeInArea(Model.CurrentPostcode);
+        var isEDOutcome = Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || Model.OutcomeGroup.Equals(OutcomeGroup.ServiceFirst);
     }
     @if (!isPostcodeInArea)
     {
@@ -118,7 +119,7 @@
                 }
             }
         }
-        else if ((!Model.HasAcceptedCallbackOffer.HasValue || !Model.HasAcceptedCallbackOffer.Value) && !Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency))
+        else if ((!Model.HasAcceptedCallbackOffer.HasValue || !Model.HasAcceptedCallbackOffer.Value) && !isEDOutcome)
         {
             <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
             <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>

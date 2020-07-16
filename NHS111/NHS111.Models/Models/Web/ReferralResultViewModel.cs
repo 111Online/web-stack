@@ -369,7 +369,7 @@ namespace NHS111.Models.Models.Web {
 
     public class ServiceFirstServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
     {
-        public override string PartialViewName { get { return "_ServiceUnavailable"; } }
+        public override string PartialViewName { get { return "_AccidentAndEmergencyServiceUnavailableReferral"; } }
         public override string ViewName
         {
             get
