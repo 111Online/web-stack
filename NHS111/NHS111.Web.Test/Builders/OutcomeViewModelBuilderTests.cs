@@ -10,6 +10,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.DosRequests;
+    using NHS111.Models.Models.Web.Enums;
     using NHS111.Models.Models.Web.FromExternalServices;
     using NUnit.Framework;
     using System;
@@ -178,6 +179,30 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             _mockDosBuilder.Verify(d => d.FillCheckCapacitySummaryResult(It.Is<DosViewModel>(x => x.Disposition == 1111), It.IsAny<bool>(),
                 It.IsAny<DosEndpoint?>()), Times.Once);
+        }
+
+        [Test]
+        public async Task ConfirmationSurveyLinkBuilder()
+        {
+            var model = new PersonalDetailViewModel()
+            {
+                Id = "Dx09",
+                SymptomDiscriminatorCode = "1",
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
+                        Gender = "Male"
+                    }
+                },
+                OutcomeGroup = OutcomeGroup.AccidentAndEmergency
+            };
+
+            _mockSurveyLinkViewModelBuilder.Setup(b => b.SurveyLinkBuilder(It.IsAny<OutcomeViewModel>()))
+                .ReturnsAsync(new SurveyLinkViewModel());
+
+            var result = await _outcomeViewModelBuilder.ConfirmationSurveyLinkBuilder(model);
+            Assert.IsNotNull(result.SurveyLink);
         }
     }
 }

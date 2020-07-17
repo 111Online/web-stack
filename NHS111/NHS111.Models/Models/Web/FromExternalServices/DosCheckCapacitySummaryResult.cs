@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
@@ -26,7 +27,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool HasITKServices { get { return !ResultListEmpty && Success.Services.Any(s => s.OnlineDOSServiceType.IsReferral); } }
 
         public bool IsValidationRequery { get; set; }
-
+        
         public bool ContainsService(DosService selectedService)
         {
             return !ResultListEmpty && selectedService != null && Success.Services.Exists(s => s.Id == selectedService.Id);

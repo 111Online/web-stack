@@ -30,6 +30,8 @@ namespace NHS111.Models.Models.Web
 
         public InformantViewModel Informant { get; set; }
 
+        public Enums.OutcomePage OutcomePage { get; set; }
+
         public bool HasSearched
         {
             get { return DosCheckCapacitySummaryResult.Success != null || DosCheckCapacitySummaryResult.Error != null; }

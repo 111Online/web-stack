@@ -8,12 +8,15 @@ using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NHS111.Models.Models.Web.Enums;
 
 namespace NHS111.Web.Presentation.Test.Controllers
 {
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web.DosRequests;
+    using System.Collections.Specialized;
     using System.Threading.Tasks;
+    using System.Web;
     using System.Web.Mvc;
 
     [TestFixture]
@@ -142,6 +145,9 @@ namespace NHS111.Web.Presentation.Test.Controllers
                     b.FillCheckCapacitySummaryResult(It.IsAny<DosViewModel>(), It.IsAny<bool>(),
                         It.IsAny<DosEndpoint?>()))
                 .ReturnsAsync(new DosCheckCapacitySummaryResult());
+
+            _outcomeViewModelBuilder.Setup(b => b.ConfirmationSurveyLinkBuilder(It.IsAny<PersonalDetailViewModel>()))
+                .ReturnsAsync(model);
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);
@@ -153,6 +159,9 @@ namespace NHS111.Web.Presentation.Test.Controllers
         {
             var model = new PersonalDetailViewModel() { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse };
             _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel() { ItkSendSuccess = true, ItkDuplicate = false });
+            _outcomeViewModelBuilder.Setup(b => b.ConfirmationSurveyLinkBuilder(It.IsAny<PersonalDetailViewModel>()))
+                .ReturnsAsync(model);
+
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);
@@ -164,6 +173,9 @@ namespace NHS111.Web.Presentation.Test.Controllers
         {
             var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse };
             _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel() { ItkSendSuccess = false, ItkDuplicate = false });
+
+            _outcomeViewModelBuilder.Setup(b => b.ConfirmationSurveyLinkBuilder(It.IsAny<PersonalDetailViewModel>()))
+                .ReturnsAsync(model);
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);
@@ -175,6 +187,9 @@ namespace NHS111.Web.Presentation.Test.Controllers
         {
             var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse };
             _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel() { ItkSendSuccess = false, ItkDuplicate = true });
+
+            _outcomeViewModelBuilder.Setup(b => b.ConfirmationSurveyLinkBuilder(It.IsAny<PersonalDetailViewModel>()))
+                .ReturnsAsync(model);
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);
@@ -185,6 +200,22 @@ namespace NHS111.Web.Presentation.Test.Controllers
 
         }
 
+        [Test]
+        public async Task Confirmation_Sets_OutcomePage()
+        {
+            var model = new PersonalDetailViewModel 
+            { 
+                SelectedServiceId = "123",
+                OutcomeGroup = OutcomeGroup.GP,
+                DosCheckCapacitySummaryResult = _successfulDosResponse
+            };
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel() { ItkSendSuccess = false, ItkDuplicate = true });
 
+            _outcomeViewModelBuilder.Setup(b => b.ConfirmationSurveyLinkBuilder(It.IsAny<PersonalDetailViewModel>()))
+                .ReturnsAsync(model);
+            await _outcomeController.Confirmation(model, null);
+
+            Assert.AreEqual(model.OutcomePage, OutcomePage.Confirmation);
+        }
     }
 }

@@ -20,6 +20,7 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 namespace NHS111.Web.Presentation.Builders
 {
     using NHS111.Models.Mappers.WebMappings;
+    using NHS111.Models.Models.Web.Enums;
 
     public class OutcomeViewModelBuilder : BaseBuilder, IOutcomeViewModelBuilder
     {
@@ -301,6 +302,12 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
+        public async Task<OutcomeViewModel> ServiceDetailsBuilder(OutcomeViewModel model)
+        {
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            return model;
+        }
+
         private async Task<IRestResponse> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
             var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
@@ -327,6 +334,13 @@ namespace NHS111.Web.Presentation.Builders
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender, model.CareAdviceMarkers.ToList());
             return model;
         }
+
+        public async Task<PersonalDetailViewModel> ConfirmationSurveyLinkBuilder(PersonalDetailViewModel model)
+        {
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model).ConfigureAwait(false);
+            _surveyLinkViewModelBuilder.AddDispositionReason(model.SurveyLink.DispositionChoiceReasoning, model.SurveyLink);
+            return model;
+        }
     }
 
     public interface IOutcomeViewModelBuilder
@@ -341,7 +355,9 @@ namespace NHS111.Web.Presentation.Builders
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> ServiceDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);
+        Task<PersonalDetailViewModel> ConfirmationSurveyLinkBuilder(PersonalDetailViewModel model);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
     }
 }
