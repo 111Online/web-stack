@@ -1,4 +1,6 @@
-﻿namespace NHS111.Models.Models.Web.Elements
+﻿using System.Collections.Generic;
+
+namespace NHS111.Models.Models.Web.Elements
 {
     public class LinkSummaryViewModel
     {
