@@ -220,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\AnalyticsTagPrinter.cs" />
+    <Compile Include="Builders\BookPharmacyCallModelBuilder.cs" />
     <Compile Include="Builders\CCGViewModelBuilder.cs" />
     <Compile Include="Builders\JourneyViewModelBuilder.cs" />
     <Compile Include="Builders\LocationResultBuilder.cs" />

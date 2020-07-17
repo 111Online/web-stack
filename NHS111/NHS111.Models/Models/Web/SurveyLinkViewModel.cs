@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Web
 {
@@ -41,5 +42,9 @@ namespace NHS111.Models.Models.Web
         public string SurveyUrl { get; set; }
 
         public string GuidedSelection { get; set; }
+        
+        public string BookPharmacyCall { get; set; }
+
+        public List<ServiceViewModel> Services { get; set; }
     }
 }

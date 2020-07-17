@@ -77,6 +77,7 @@
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].PublicName", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].PublicName))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType.Id)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].ServiceType.Id)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].ContactDetails)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Distance)
         if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions != null)

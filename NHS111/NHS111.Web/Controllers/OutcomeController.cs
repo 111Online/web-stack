@@ -179,6 +179,9 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
+            // Set model.OutcomePage to "Other ways to get help" page so that survey link can be created correctly 
+            model.OutcomePage = OutcomePage.OtherServices;
+
             var reason = Request.Form["reason"];
             _auditLogger.LogPrimaryCareReason(model, reason);
             if (Request.Form["OtherServices"] != null)
@@ -315,7 +318,7 @@ namespace NHS111.Web.Controllers
             {
                 model.GroupedDosServices =
                     _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
-
+                model = await _outcomeViewModelBuilder.ServiceDetailsBuilder(model).ConfigureAwait(false); ;
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
                     AutoSelectFirstItkService(model);
@@ -344,6 +347,9 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
+            model.OutcomePage = OutcomePage.Confirmation;
+            model = await _outcomeViewModelBuilder.ConfirmationSurveyLinkBuilder(model).ConfigureAwait(false);
+
             var modelFilterServices = overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices;
             var availableServices = await GetServiceAvailability(model, null, modelFilterServices, null).ConfigureAwait(false);
             _auditLogger.LogDosResponse(model, availableServices);

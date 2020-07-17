@@ -253,6 +253,7 @@
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
+    <Compile Include="Models\Web\Enums\OutcomePage.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
     <Compile Include="Models\Web\PageCustomContent.cs" />
     <Compile Include="Models\Web\Parsers\JourneyJsonParser.cs" />

@@ -43,6 +43,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.UnavailableSelectedService, o => o.Ignore())
                 .ForMember(s => s.GroupedDosServices, o => o.Ignore())
                 .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
+                .ForMember(s => s.OutcomePage, o => o.Ignore())
                 .ForMember(s => s.RecommendedService, opt => opt.Ignore());
 
 
@@ -78,6 +79,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(d => d.Age, o => o.Ignore())
                 .ForMember(d => d.VerificationCodeInput, o => o.Ignore())
                 .ForMember(d => d.AnswerInputValue, o => o.Ignore())
+                .ForMember(s => s.OutcomePage, o => o.Ignore())
                 .ForMember(d => d.SelectedAnswer, o => o.Ignore());
 
             Mapper.CreateMap<SendSmsOutcomeViewModel, QuestionViewModel>()

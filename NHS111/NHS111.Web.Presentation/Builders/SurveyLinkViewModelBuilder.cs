@@ -64,12 +64,14 @@ namespace NHS111.Web.Presentation.Builders
         {
             var serviceOptions = new List<string>();
             var services = new List<ServiceViewModel>();
+
             if (model.GroupedDosServices != null)
             {
                 services = model.GroupedDosServices.SelectMany(g => g.Services).ToList();
                 serviceOptions = services.GroupBy(s => s.OnlineDOSServiceType.Id).Select(s => s.Key).ToList();
             }
 
+            surveyLinkViewModel.Services = new List<ServiceViewModel>();
 
             //For covid specific outcomes, only set these params if the results contain itk services
             if (OutcomeGroup.Isolate111.Equals(model.OutcomeGroup))
@@ -92,9 +94,18 @@ namespace NHS111.Web.Presentation.Builders
                 surveyLinkViewModel.RecommendedServiceId = recommendedService.Id;
                 surveyLinkViewModel.RecommendedServiceType = recommendedService.OnlineDOSServiceType.Id;
                 surveyLinkViewModel.RecommendedServiceName = HttpUtility.UrlEncode(recommendedService.PublicName);
-
+                
                 var otherServices = model.DosCheckCapacitySummaryResult.Success.Services.Skip(1).ToList();
+                services = model.DosCheckCapacitySummaryResult.Success.Services;
+                serviceOptions = services.GroupBy(s => s.OnlineDOSServiceType.Id).Select(s => s.Key).ToList();
             }
+            
+            surveyLinkViewModel.ServiceCount = services.Count;
+            surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
+
+            var serviceTypeId = model.SelectedService != null ? model.SelectedService.ServiceType.Id : -1;
+            surveyLinkViewModel.BookPharmacyCall = BookPharmacyCallModelBuilder.BookPharmacyCallValue(model.Id, serviceTypeId, services, OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup));
+
         }
 
         public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)

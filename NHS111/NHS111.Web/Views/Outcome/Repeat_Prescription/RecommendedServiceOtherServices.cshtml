@@ -26,7 +26,7 @@
 
 @{
     var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-list"));
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "other-services"));
     dataDictionary.Add(new KeyValuePair<string, object>("OtherServicesChangePostcode", "true"));
     var previousAction = Model.RecommendedService == null ? "DispositionWithServices" : "RecommendedService";
 }
@@ -38,7 +38,7 @@
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
     }
 }
 

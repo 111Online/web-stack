@@ -19,6 +19,11 @@ namespace NHS111.Web.Presentation.Test.Builders
     {
         private SurveyLinkViewModelBuilder _sut;
         private OutcomeViewModel _outcomeViewModel;
+        private List<ServiceViewModel> _services;
+        private ISurveyLinkViewModelBuilder _surveyViewLinkModelBuilder;
+        private OutcomeViewModel _model;
+        private OutcomeViewModel _modelNoService;
+        private OutcomeViewModel _modelNoGroupedServices;
 
         [SetUp]
         public void Setup()
@@ -52,6 +57,50 @@ namespace NHS111.Web.Presentation.Test.Builders
             A.CallTo(() => _fakeSurveyLinkFeature.SurveyId).Returns(string.Empty);
 
             _sut = new SurveyLinkViewModelBuilder(_fakeLoggingRestClient, _fakeConfiguration, _fakeSurveyLinkFeature);
+
+            _services = new List<ServiceViewModel>()
+            {
+                {
+                    new ServiceViewModel()
+                    {
+                        OnlineDOSServiceType = OnlineDOSServiceType.Callback,
+                        ServiceType = new ServiceType()
+                        {
+                            Id = BookPharmacyCallModelBuilder.EmergencyNationalResponse_ServiceTypeId
+                        }
+                    }
+                }
+            };
+
+            _model = new OutcomeViewModel()
+            {
+                Id = "Dx09",
+                GroupedDosServices = new List<GroupedDOSServices>
+                {
+                    new GroupedDOSServices(OnlineDOSServiceType.Callback, _services)
+                },
+                OutcomePage = OutcomePage.Outcome
+            };
+
+            _modelNoService = new OutcomeViewModel()
+            {
+                Id = "Dx09",
+                OutcomePage = OutcomePage.Outcome,
+                OutcomeGroup = OutcomeGroup.ItkPrimaryCare
+            };
+
+            _modelNoGroupedServices = new OutcomeViewModel()
+            {
+                Id = "Dx09",
+                DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult
+                {
+                    Success = new SuccessObject<ServiceViewModel>
+                    {
+                        Services = _services
+                    }
+                },
+                OutcomePage = OutcomePage.Outcome
+            };
         }
 
         [Test]
@@ -76,6 +125,63 @@ namespace NHS111.Web.Presentation.Test.Builders
             _outcomeViewModel.ViaGuidedSelection = null;
             var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
             Assert.AreEqual(string.Empty, result.GuidedSelection);
+        }
+
+        [Test]
+        public void Pharmacy_Services()
+        {
+            var surveyLinkViewModel = new SurveyLinkViewModel();
+            _sut.AddServiceInformation(_model, surveyLinkViewModel);
+
+            Assert.AreEqual(surveyLinkViewModel.BookPharmacyCall, BookPharmacyCallModelBuilder.gp_phcas_no_click);
+        }
+
+        [Test]
+        public void No_Pharmacy_Services()
+        {
+            var surveyLinkViewModel = new SurveyLinkViewModel();
+            _sut.AddServiceInformation(_modelNoService, surveyLinkViewModel);
+
+            Assert.AreEqual(surveyLinkViewModel.BookPharmacyCall, BookPharmacyCallModelBuilder.gp_nophcas);
+        }
+
+        [Test]
+        public void No_Grouped_Services()
+        {
+            var surveyLinkViewModel = new SurveyLinkViewModel();
+            _sut.AddServiceInformation(_modelNoGroupedServices, surveyLinkViewModel);
+
+            Assert.AreEqual(BookPharmacyCallModelBuilder.gp_phcas_click, surveyLinkViewModel.BookPharmacyCall);
+        }
+
+        [Test]
+        public void No_Grouped_DoS_But_Services_Exist()
+        {
+            var surveyLinkViewModel = new SurveyLinkViewModel();
+            _sut.AddServiceInformation(_modelNoGroupedServices, surveyLinkViewModel);
+
+            Assert.AreEqual("Callback", surveyLinkViewModel.ServiceOptions);
+            Assert.AreEqual(1, surveyLinkViewModel.ServiceCount);
+        }
+
+        [Test]
+        public void Grouped_DoS_But_No_Services_Exist()
+        {
+            var surveyLinkViewModel = new SurveyLinkViewModel();
+            _sut.AddServiceInformation(_model, surveyLinkViewModel);
+
+            Assert.AreEqual("Callback", surveyLinkViewModel.ServiceOptions);
+            Assert.AreEqual(1, surveyLinkViewModel.ServiceCount);
+        }
+
+        [Test]
+        public void No_Services_Offered()
+        {
+            var surveyLinkViewModel = new SurveyLinkViewModel();
+            _sut.AddServiceInformation(_modelNoService, surveyLinkViewModel);
+
+            Assert.AreEqual(string.Empty, surveyLinkViewModel.ServiceOptions);
+            Assert.AreEqual(0, surveyLinkViewModel.ServiceCount);
         }
     }
 }
