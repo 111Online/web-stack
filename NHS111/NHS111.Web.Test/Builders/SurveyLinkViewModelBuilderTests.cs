@@ -59,7 +59,11 @@ namespace NHS111.Web.Presentation.Test.Builders
                             new ServiceViewModel
                             {
                                 Id = 1,
-                                ServiceTypeAlias = "Test alias name"
+                                ServiceTypeAlias = "Test alias name",
+                                ServiceType = new ServiceType
+                                {
+                                    Id = 1,
+                                }
                             }
                         }.ToList()
                     }
