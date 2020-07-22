@@ -20,7 +20,8 @@
     {
         @Html.HiddenFor(m => m.SessionId)
         @Html.HiddenFor(m => m.Campaign)
-        @Html.HiddenFor(m => m.FilterServices)
+        @Html.HiddenFor(m => m.FilterServices)        
+        @Html.HiddenFor(m => m.StartParameter)
         @Html.HiddenFor(m => m.PathwayNo)
         @Html.HiddenFor(m => m.IsCovidJourney)
         <div>
@@ -48,7 +49,7 @@
                     </div>
 
 
-                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}&PathwayNo={3}&IsCovidJourney={4}", Model.SessionId, Model.Campaign, Model.FilterServices, Model.PathwayNo, Model.IsCovidJourney)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
+                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}&PathwayNo={3}&IsCovidJourney={4}&StartParameter={5}", Model.SessionId, Model.Campaign, Model.FilterServices, Model.PathwayNo, Model.IsCovidJourney, Model.StartParameter)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
 

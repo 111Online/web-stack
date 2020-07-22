@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Attributes;
+using NHS111.Web.Presentation.Logging;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -10,6 +12,30 @@ namespace NHS111.Web.Controllers
     [LogHandleErrorForMVC]
     public class HomeController : Controller
     {
+        private readonly IAuditLogger _auditLogger; 
+        
+        public HomeController(IAuditLogger auditLogger)
+        {
+            _auditLogger = auditLogger;
+        }
+                
+        [HttpGet]
+        [Route("{param}")]
+        public ActionResult StartWithParam(JourneyViewModel model, string param)
+        {
+            switch (param.ToLower())
+            {
+                case "covid-19":
+                    return StartCovidJourney(model);
+                case "location":
+                    return StartLocationJourney(model);
+                case "portsmouth":
+                    return StartPortsmouthJourney(model, param);
+                default:
+                    return View("../Location/Home", model);
+            }
+        }
+
         [HttpGet]
         [Route("service/COVID-19")]
         //Special route for Covid direct link from other services to tidy up..
@@ -18,19 +44,16 @@ namespace NHS111.Web.Controllers
             return View("AboutCovid", model);
         }
 
-        [HttpGet]
-        [Route("{flag}")]
-        public ActionResult EDHome(JourneyViewModel model, string flag)
+        public ActionResult StartLocationJourney(JourneyViewModel model)
         {
-            switch (flag.ToLower())
-            {
-                case "covid-19":
-                    return StartCovidJourney(model);
-                case "portsmouth":
-                    return View("../Location/Home", model);
-                default:
-                    return View("../Location/Home", model);
-            }
+            return View("../Location/Location", model);
+        }
+
+        public ActionResult StartPortsmouthJourney(JourneyViewModel model, string param)
+        {
+            model.StartParameter = param;
+            _auditLogger.LogEvent(model, EventType.CustomStart, param, string.Format("../Home/{0}", param)); 
+            return View("../Location/Home", model);
         }
 
         [HttpGet]

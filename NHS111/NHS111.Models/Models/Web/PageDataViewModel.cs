@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using StructureMap.Query;
 
 namespace NHS111.Models.Models.Web
 {
@@ -54,11 +55,12 @@ namespace NHS111.Models.Models.Web
         {
             Page = PageType.ModuleZero;
         }
-        public PageDataViewModel(PageType page, string campaign, string source)
+        public PageDataViewModel(PageType page, string campaign, string source, string startUrl)
         {
             Page = page;
             Campaign = campaign;
             Source = source;
+            StartUrl = !string.IsNullOrEmpty(startUrl) ? startUrl : "default";
         }
 
         public PageDataViewModel(PageType page, JourneyViewModel journey)
@@ -77,7 +79,7 @@ namespace NHS111.Models.Models.Web
             StartingPathwayNo = journey.PathwayNo;
             StartingPathwayTitle = !string.IsNullOrEmpty(journey.DigitalTitle) ? journey.DigitalTitle : journey.PathwayTitle;
             DxCode = !string.IsNullOrEmpty(journey.Id) && journey.Id.ToLower().StartsWith("dx") ? journey.Id : null;
-
+            StartUrl = !string.IsNullOrEmpty(journey.StartParameter) ? journey.StartParameter : "default";
         }
 
         public PageType Page { get; set; }
@@ -95,6 +97,7 @@ namespace NHS111.Models.Models.Web
         public string SearchString { get; set; }
         public string Campaign { get; set; }
         public string Source { get; set; }
+        public string StartUrl { get; set; }
 
         public bool IsCoronaJourney
         {

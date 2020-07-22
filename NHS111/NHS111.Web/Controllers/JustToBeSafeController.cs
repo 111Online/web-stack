@@ -109,7 +109,8 @@ namespace NHS111.Web.Controllers
                 Source = decryptedArgs["source"],
                 IsCovidJourney = bool.Parse(decryptedArgs["isCovidjourney"]),
                 EntrySearchTerm = decryptedArgs["entrySearchTerm"],
-                ViaGuidedSelection = true
+                ViaGuidedSelection = true,
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
@@ -194,7 +195,8 @@ namespace NHS111.Web.Controllers
                 FilterServices = decryptedFilterServices,
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                ViaGuidedSelection = string.IsNullOrEmpty(decryptedArgs["viaGuidedSelection"]) ? (bool?)null : bool.Parse(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = string.IsNullOrEmpty(decryptedArgs["viaGuidedSelection"]) ? (bool?)null : bool.Parse(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
             return model;
         }

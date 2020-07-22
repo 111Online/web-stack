@@ -163,8 +163,7 @@ namespace NHS111.Models.Models.Web
         public string CurrentPostcode { get; set; }
         public bool HasSeenPreamble { get; set; }
         public bool IsCovidJourney { get; set; }
-
-
+        public string StartParameter { get; set; }
         public string FormattedCurrentPostcode
         {
             get

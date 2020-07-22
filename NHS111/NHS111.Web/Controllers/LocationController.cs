@@ -31,7 +31,6 @@ namespace NHS111.Web.Controllers
         }
 
 
-        [Route("Location")]
         [HttpPost]
         public ActionResult Location(LocationViewModel model)
         {
@@ -76,7 +75,7 @@ namespace NHS111.Web.Controllers
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat)
                 .ConfigureAwait(false);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo, IsCovidJourney = model.IsCovidJourney });
+            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo, IsCovidJourney = model.IsCovidJourney, StartParameter = model.StartParameter });
         }
 
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGDetailsModel ccg)
@@ -112,7 +111,8 @@ namespace NHS111.Web.Controllers
                             PathwayNo = model.PathwayNo,
                             FilterServices = model.FilterServices,
                             IsCovidJourney = model.IsCovidJourney,
-                            CurrentPostcode = currentPostcode
+                            CurrentPostcode = currentPostcode,
+                            StartParameter = model.StartParameter
                         });
             }
 

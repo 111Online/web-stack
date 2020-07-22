@@ -40,7 +40,7 @@
         @Html.HiddenFor(m => Model.FilterServices)
         @Html.HiddenFor(x => Model.Campaign)
         @Html.HiddenFor(x => Model.Source)
-        @*@Html.HiddenFor(x => Model.SanitisedSearchTerm)*@
+        @Html.HiddenFor(m => m.StartParameter)
         @Html.HiddenFor(x => Model.IsCovidJourney)
         <button class="button--link search__button--back">Back</button>
     }
@@ -62,10 +62,11 @@
             @Html.HiddenFor(x => Model.Source)
             @Html.HiddenFor(x => Model.SanitisedSearchTerm)
             @Html.HiddenFor(x => Model.ViaGuidedSelection)
+            @Html.HiddenFor(m => m.StartParameter)
             @Html.Hidden("DisplayLoadingPage")
             <fieldset>
                 @Html.ValidationMessageFor(m => m.PathwayNo, "Choose one option", new { @class = "error-message" })
-            
+
                 @foreach (var result in Model.GuidedResults.OrderBy(g => g.GuidedOrder))
                 {
                     <div class="multiple-choice">
