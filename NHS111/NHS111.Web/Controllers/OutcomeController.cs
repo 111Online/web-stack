@@ -197,7 +197,10 @@ namespace NHS111.Web.Controllers
             }
 
             var modelFilterServices = overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices;
+            //need to capture this value and reapply now we have other services option for Serivce first
+            var isValidationRequery = model.DosCheckCapacitySummaryResult.IsValidationRequery;
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, modelFilterServices, endpoint).ConfigureAwait(false);
+            model.DosCheckCapacitySummaryResult.IsValidationRequery = isValidationRequery;
             _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             model.NodeType = NodeType.Outcome;

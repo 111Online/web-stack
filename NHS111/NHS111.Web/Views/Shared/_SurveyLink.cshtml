@@ -22,23 +22,23 @@
         Model.DispositionCode,
         Model.DispositionDateTime.ToString("dddd"),
         Model.DigitalTitle.ToLower(),
-        Model.EndPathwayTitle,
+        WebUtility.UrlEncode(Model.EndPathwayTitle),
         Model.DispositionDateTime.Date.ToString("yyyy-M-d"),
         Model.DispositionDateTime.ToString("HH:mm:ss"),
-        Model.Campaign,
-        Model.CampaignSource,
+        WebUtility.UrlEncode(Model.Campaign),
+        WebUtility.UrlEncode(Model.CampaignSource),
         serviceCount,
         serviceOptions,
         launchPage,
         Model.ValidationCallbackOffered.ToString().ToLower(),
         Model.DispositionDateTime.ToString("d MMMM yyyy"),
-        Model.RecommendedServiceType,
+        WebUtility.UrlEncode(Model.RecommendedServiceType),
         Model.RecommendedServiceId,
-        Model.RecommendedServiceName,
+        WebUtility.UrlEncode(Model.RecommendedServiceName),
         Model.DispositionChoiceReasoning,
         guided_selection,
         Model.BookPharmacyCall,
-        Model.RecommendedServiceTypeAlias
+        WebUtility.UrlEncode(Model.RecommendedServiceTypeAlias)
         );
     Model.SurveyUrl = url;
 
