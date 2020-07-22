@@ -7,7 +7,7 @@
 @section Scripts {}
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Error, Model.Campaign, Model.Source) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Error, Model.Campaign, Model.Source, Model.StartParameter) })
     ;
 }
 
