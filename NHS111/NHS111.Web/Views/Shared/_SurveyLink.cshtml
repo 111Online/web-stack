@@ -43,7 +43,7 @@
 
     <div class="notification-banner survey-banner notification-banner--hiviz">
 
-        @using (Html.BeginForm("SurveyInterstitial", "Outcome", FormMethod.Post, new { target = "_blank" }))
+        @using (Html.BeginForm("SurveyInterstitial", "Outcome", new { location = Model.FromRoute }, FormMethod.Post, new { target = "_blank" }))
         {
             @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "" } })
             <p class="notification-banner--inner">

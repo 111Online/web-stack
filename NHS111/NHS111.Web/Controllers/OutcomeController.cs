@@ -449,9 +449,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SurveyInterstitial(SurveyLinkViewModel model)
+        public async Task<ActionResult> SurveyInterstitial(SurveyLinkViewModel model, string fromRoute)
         {
-
             _auditLogger.LogSurveyInterstitial(model);
             return View("~\\Views\\Outcome\\SurveyInterstitial.cshtml", model);
         }

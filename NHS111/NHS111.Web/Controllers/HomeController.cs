@@ -11,12 +11,26 @@ namespace NHS111.Web.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        [Route("COVID-19")]
         [Route("service/COVID-19")]
         //Special route for Covid direct link from other services to tidy up..
         public ActionResult StartCovidJourney(JourneyViewModel model)
         {
             return View("AboutCovid", model);
+        }
+
+        [HttpGet]
+        [Route("{flag}")]
+        public ActionResult EDHome(JourneyViewModel model, string flag)
+        {
+            switch (flag.ToLower())
+            {
+                case "covid-19":
+                    return StartCovidJourney(model);
+                case "portsmouth":
+                    return View("../Location/Home", model);
+                default:
+                    return View("../Location/Home", model);
+            }
         }
 
         [HttpGet]
