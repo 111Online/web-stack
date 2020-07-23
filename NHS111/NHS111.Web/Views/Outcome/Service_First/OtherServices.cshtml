@@ -38,7 +38,7 @@
 <div class="nhsuk-core">
     @using (Html.BeginForm(previousAction, "Outcome", FormMethod.Post))
     {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary { { "OtherServicesBack", true } })
         @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "RecommendedService" } })
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         <button class="button--link search__button--back" data-event-trigger="click" data-event-value="Other services back">Back</button>

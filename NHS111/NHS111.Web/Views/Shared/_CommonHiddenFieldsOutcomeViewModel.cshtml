@@ -23,6 +23,9 @@
 @{
     var changePostcode = ViewData["ChangeCurrentPostcode"];
     var isChangePostcode = changePostcode is bool && (bool)changePostcode;
+
+    var otherServicesBack = ViewData["OtherServicesBack"];
+    var isFromOtherServicesBack = otherServicesBack is bool && (bool)otherServicesBack;
 }
 @if (!isChangePostcode)
 {
@@ -106,7 +109,7 @@
             }
         }
     }
-    if (!isChangePostcode)
+    if (!isChangePostcode && !isFromOtherServicesBack)
     {
         @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.IsValidationRequery)
     }
