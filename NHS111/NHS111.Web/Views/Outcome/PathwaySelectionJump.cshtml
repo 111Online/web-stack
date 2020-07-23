@@ -44,6 +44,7 @@
 
         <p>Your health assessment can’t be completed with the current online service.</p>
         <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
+        <p>See @Html.ActionLink("other ways you can contact 111", "OtherWays", "Help", null, new { id = "language-link", target = "_blank" }) if you are deaf or hard of hearing.</p>
         <hr />
 
         if (!Model.IsFirstStep)
