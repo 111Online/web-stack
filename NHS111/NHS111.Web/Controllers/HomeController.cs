@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Attributes;
@@ -12,13 +13,15 @@ namespace NHS111.Web.Controllers
     [LogHandleErrorForMVC]
     public class HomeController : Controller
     {
-        private readonly IAuditLogger _auditLogger; 
-        
-        public HomeController(IAuditLogger auditLogger)
+        private readonly IAuditLogger _auditLogger;
+        private readonly Presentation.Configuration.IConfiguration _configuration;
+
+        public HomeController(IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration)
         {
             _auditLogger = auditLogger;
+            _configuration = configuration;
         }
-                
+
         [HttpGet]
         [Route("{param}")]
         public ActionResult StartWithParam(JourneyViewModel model, string param)
@@ -27,13 +30,26 @@ namespace NHS111.Web.Controllers
             {
                 case "covid-19":
                     return StartCovidJourney(model);
+                case "emergency-prescription":
+                    return StartEmergencyPrescriptionJourney(model);
                 case "location":
                     return StartLocationJourney(model);
+                case "map":
+                    return StartServiceMap();
                 case "portsmouth":
                     return StartPortsmouthJourney(model, param);
                 default:
                     return View("../Location/Home", model);
             }
+        }
+
+        public ActionResult StartServiceMap()
+        {
+            var model = new OutcomeMapViewModel()
+            {
+                MapsApiKey = _configuration.MapsApiKey
+            };
+            return View("~\\Views\\Shared\\_GoogleMap.cshtml", model);
         }
 
         [HttpGet]
@@ -44,9 +60,17 @@ namespace NHS111.Web.Controllers
             return View("AboutCovid", model);
         }
 
+        public ActionResult StartEmergencyPrescriptionJourney(JourneyViewModel model)
+        {
+            var locationModel = Mapper.Map<LocationViewModel>(model);
+            locationModel.PathwayNo = "PW1827";
+            return View("../Location/Location", locationModel);
+        }
+
         public ActionResult StartLocationJourney(JourneyViewModel model)
         {
-            return View("../Location/Location", model);
+            var locationModel = Mapper.Map<LocationViewModel>(model);
+            return View("../Location/Location", locationModel);
         }
 
         public ActionResult StartPortsmouthJourney(JourneyViewModel model, string param)

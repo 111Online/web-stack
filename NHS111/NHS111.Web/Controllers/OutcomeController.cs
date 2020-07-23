@@ -270,19 +270,7 @@ namespace NHS111.Web.Controllers
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
             _auditLogger.LogDosRequest(model, dosViewModel);
             return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint).ConfigureAwait(false);
-        }
-
-
-        [HttpGet]
-        [Route("map/")]
-        public ActionResult ServiceMap()
-        {
-            var model = new OutcomeMapViewModel()
-            {
-                MapsApiKey = _configuration.MapsApiKey
-            };
-            return View("~\\Views\\Shared\\_GoogleMap.cshtml", model);
-        }
+        }        
 
         [HttpPost]
         public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)

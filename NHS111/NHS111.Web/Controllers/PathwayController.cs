@@ -4,8 +4,7 @@ namespace NHS111.Web.Controllers
     using Models.Models.Web;
     using System.Web.Mvc;
 
-    public class PathwayController
-        : Controller
+    public class PathwayController : Controller
     {
 
         [Route("pathway/{pathwayNo}")]
@@ -14,13 +13,5 @@ namespace NHS111.Web.Controllers
             model.PathwayNo = pathwayNo.ToUpper();
             return View("../location/location", model);
         }
-
-        [Route("emergency-prescription")]
-        public ActionResult GetEP(LocationViewModel model)
-        {
-            return Get(_emergencyPrescriptionPathwayNo, model);
-        }
-
-        private string _emergencyPrescriptionPathwayNo = "PW1827";
     }
 }
