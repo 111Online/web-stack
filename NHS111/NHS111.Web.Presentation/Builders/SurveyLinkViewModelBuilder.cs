@@ -107,7 +107,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var serviceTypeId = model.SelectedService != null ? model.SelectedService.ServiceType.Id : -1;
             surveyLinkViewModel.BookPharmacyCall = BookPharmacyCallModelBuilder.BookPharmacyCallValue(model.Id, serviceTypeId, services, OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup));
-
+            surveyLinkViewModel.RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model);
         }
 
         public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)

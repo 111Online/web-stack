@@ -99,7 +99,8 @@ namespace NHS111.Web.Presentation.Test.Builders
                 {
                     new GroupedDOSServices(OnlineDOSServiceType.Callback, _services)
                 },
-                OutcomePage = OutcomePage.Outcome
+                OutcomePage = OutcomePage.Outcome,
+                OutcomeGroup = OutcomeGroup.ItkPrimaryCare
             };
 
             _modelNoService = new OutcomeViewModel()
@@ -119,7 +120,8 @@ namespace NHS111.Web.Presentation.Test.Builders
                         Services = _services
                     }
                 },
-                OutcomePage = OutcomePage.Outcome
+                OutcomePage = OutcomePage.Outcome,
+                OutcomeGroup = OutcomeGroup.ItkPrimaryCare
             };
         }
 
