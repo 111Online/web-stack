@@ -23,7 +23,6 @@ namespace NHS111.Web.Controllers
         [Route("portsmouth")]
         public ActionResult StartWithParam(JourneyViewModel model)
         {
-            model.StartParameter = "portsmouth";
             return StartPortsmouthJourney(model);
         }
 
@@ -37,7 +36,8 @@ namespace NHS111.Web.Controllers
         }
 
         public ActionResult StartPortsmouthJourney(JourneyViewModel model)
-        { 
+        {
+            model.StartParameter = "portsmouth";
             _auditLogger.LogEvent(model, EventType.CustomStart, model.StartParameter, string.Format("../Home/{0}", model.StartParameter)); 
             return View("../Location/Home", model);
         }
