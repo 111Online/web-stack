@@ -13,5 +13,14 @@ namespace NHS111.Web.Controllers
             model.PathwayNo = pathwayNo.ToUpper();
             return View("../location/location", model);
         }
+
+        [Route("emergency-prescription")]
+        public ActionResult GetEP(LocationViewModel model)
+        {
+            return Get(_emergencyPrescriptionPathwayNo, model);
+        }
+
+        private string _emergencyPrescriptionPathwayNo = "PW1827";
+
     }
 }

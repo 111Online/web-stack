@@ -32,6 +32,7 @@ namespace NHS111.Web.Controllers
 
 
         [HttpPost]
+        [Route("Location")]
         public ActionResult Location(LocationViewModel model)
         {
             return View(model);
