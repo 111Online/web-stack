@@ -1,9 +1,11 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-}
+﻿@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.JourneyViewModel>
+@using NHS111.Models.Models.Web
+@{ Layout = "~/Views/Shared/_LayoutNhsUK.cshtml"; }
 @section Title { Other ways to get gelp }
 
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.OtherWaysHelp, string.Empty, string.Empty) })
+}
 
 <main id="content" role="main" class="content">
     <div class="measure nhsuk-core">
