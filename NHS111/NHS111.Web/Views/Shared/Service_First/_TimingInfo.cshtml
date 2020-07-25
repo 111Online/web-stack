@@ -5,10 +5,10 @@
     switch (Model.Id)
     {
         case "Dx02":
-            timingText = "Get help now";
+            timingText = string.Format("Get help {0}", Model.DispositionUrgencyText);
             break;
         case "Dx03":
-            timingText = "Get help now";
+            timingText = string.Format("Get help {0}", Model.DispositionUrgencyText);
             break;
         case "Dx05":
             timingText = "Get help now";
@@ -26,7 +26,7 @@
             timingText = "Get help now";
             break;
         case "Dx118":
-            timingText = "Get help now";
+            timingText = string.Format("Get help {0}", Model.DispositionUrgencyText);
             break;
         case "Dx12":
             timingText = "Get help now";
@@ -41,7 +41,7 @@
             timingText = "Get help today or tomorrow";
             break;
         case "Dx89":
-            timingText = "Get help now";
+            timingText = string.Format("Get help {0}", Model.DispositionUrgencyText);
             break;
     }
 }
