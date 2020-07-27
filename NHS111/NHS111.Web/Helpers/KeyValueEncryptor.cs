@@ -18,6 +18,7 @@ namespace NHS111.Web.Helpers
             encryptor["digitalTitle"] = !string.IsNullOrEmpty(model.DigitalTitle) ? model.DigitalTitle : string.Empty;
             encryptor["isCovidjourney"] = model.IsCovidJourney.ToString();
             encryptor["viaGuidedSelection"] = model.ViaGuidedSelection.HasValue ? model.ViaGuidedSelection.Value.ToString() : string.Empty;
+            encryptor["startParameter"] = !string.IsNullOrEmpty(model.StartParameter) ? model.StartParameter : string.Empty;
 
             return encryptor.ToString();
         }
@@ -34,6 +35,7 @@ namespace NHS111.Web.Helpers
             encryptor["digitalTitle"] = !string.IsNullOrEmpty(model.DigitalTitle) ? model.DigitalTitle : string.Empty;
             encryptor["isCovidjourney"] = model.IsCovidJourney.ToString();
             encryptor["viaGuidedSelection"] = model.ViaGuidedSelection.HasValue ? model.ViaGuidedSelection.Value.ToString() : string.Empty;
+            encryptor["startParameter"] = !string.IsNullOrEmpty(model.StartParameter) ? model.StartParameter : string.Empty;
 
             return encryptor.ToString();
         }
@@ -49,6 +51,8 @@ namespace NHS111.Web.Helpers
             encryptor["isCovidjourney"] = model.IsCovidJourney.ToString();
             encryptor["viaGuidedSelection"] = model.ViaGuidedSelection.HasValue ? model.ViaGuidedSelection.Value.ToString() : string.Empty;
             encryptor["searchTerm"] = !string.IsNullOrWhiteSpace(model.EntrySearchTerm) ? model.EntrySearchTerm : string.Empty;
+            encryptor["startParameter"] = !string.IsNullOrEmpty(model.StartParameter) ? model.StartParameter : string.Empty;
+
             return encryptor.ToString();
         }
     }

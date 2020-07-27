@@ -272,7 +272,6 @@ namespace NHS111.Web.Controllers
             return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint).ConfigureAwait(false);
         }
 
-
         [HttpGet]
         [Route("map/")]
         public ActionResult ServiceMap()
@@ -283,6 +282,7 @@ namespace NHS111.Web.Controllers
             };
             return View("~\\Views\\Shared\\_GoogleMap.cshtml", model);
         }
+
 
         [HttpPost]
         public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
@@ -449,9 +449,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SurveyInterstitial(SurveyLinkViewModel model)
+        public async Task<ActionResult> SurveyInterstitial(SurveyLinkViewModel model, string fromRoute)
         {
-
             _auditLogger.LogSurveyInterstitial(model);
             return View("~\\Views\\Outcome\\SurveyInterstitial.cshtml", model);
         }

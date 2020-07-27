@@ -4,8 +4,7 @@ namespace NHS111.Web.Controllers
     using Models.Models.Web;
     using System.Web.Mvc;
 
-    public class PathwayController
-        : Controller
+    public class PathwayController : Controller
     {
 
         [Route("pathway/{pathwayNo}")]
@@ -22,5 +21,6 @@ namespace NHS111.Web.Controllers
         }
 
         private string _emergencyPrescriptionPathwayNo = "PW1827";
+
     }
 }

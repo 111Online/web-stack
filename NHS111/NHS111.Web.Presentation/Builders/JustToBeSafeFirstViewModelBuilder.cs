@@ -69,7 +69,8 @@ namespace NHS111.Web.Presentation.Builders
                     Source = model.Source,
                     CurrentPostcode = model.CurrentPostcode,
                     EntrySearchTerm = model.EntrySearchTerm,
-                    ViaGuidedSelection = model.ViaGuidedSelection
+                    ViaGuidedSelection = model.ViaGuidedSelection,
+                    StartParameter = model.StartParameter
                 };
 
                 var question = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
@@ -146,7 +147,8 @@ namespace NHS111.Web.Presentation.Builders
                 SessionId = model.SessionId,
                 Campaign = model.Campaign,
                 Source = model.Source,
-                FilterServices = model.FilterServices
+                FilterServices = model.FilterServices,
+                StartParameter = model.StartParameter
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);

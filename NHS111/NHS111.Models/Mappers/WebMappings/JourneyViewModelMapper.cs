@@ -85,6 +85,7 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<SendSmsOutcomeViewModel, QuestionViewModel>()
                 .ForMember(d => d.DateAnswer, o => o.Ignore());
 
+            Mapper.CreateMap<JourneyViewModel, LocationViewModel>();
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

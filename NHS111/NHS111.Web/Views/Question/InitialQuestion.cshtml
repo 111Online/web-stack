@@ -18,7 +18,7 @@
 
 @section FeedbackSection {
 
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ModuleZero, Model.Campaign, Model.Source) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ModuleZero, Model.Campaign, Model.Source, Model.StartParameter) })
 }
 
 @using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post, new { @class = "measure" }))
@@ -27,6 +27,7 @@
     @Html.HiddenFor(x => Model.FilterServices)
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
+    @Html.HiddenFor(x => Model.StartParameter)
     @Html.HiddenFor(x => Model.PathwayNo)
     @Html.HiddenFor(m => m.IsCovidJourney)
 

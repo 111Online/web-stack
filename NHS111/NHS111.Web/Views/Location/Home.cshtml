@@ -9,7 +9,7 @@
 @section EmergencyAlert{
     @if (EmergencyAlertFeature.IsEnabled)
     {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway })
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway, StartParameter = Model.StartParameter })
     }
 }
 
@@ -34,7 +34,7 @@
 
     <div class="callout callout--info measure nhsuk-u-margin-top-5 nhsuk-u-margin-bottom-6">
         <p>If you think you know what might be wrong, you can find advice on <a href="https://www.nhs.uk/conditions/" data-event-trigger="click" data-event-value="NHS.UK Conditions">health problems</a> on <a href="https://www.nhs.uk" data-event-trigger="click" data-event-value="NHS.UK">NHS.UK</a>.</p>
-        <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription" data-event-trigger="click" data-event-value="Emergency prescription deeplink">emergency prescription</a>.</p>
+        <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription?StartParameter=@Model.StartParameter" data-test-id="emergency-prescription-link" data-event-trigger="click" data-event-value="Emergency prescription deeplink">emergency prescription</a>.</p>
     </div>
 
     @using (Html.BeginForm("Location", "Location", FormMethod.Post))
@@ -42,6 +42,7 @@
         @Html.HiddenFor(m => m.SessionId)
         @Html.HiddenFor(m => m.Campaign)
         @Html.HiddenFor(m => m.FilterServices)
+        @Html.HiddenFor(m => m.StartParameter)
         <button type="submit" class="button--next">Start</button>
     }
     <p class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6">

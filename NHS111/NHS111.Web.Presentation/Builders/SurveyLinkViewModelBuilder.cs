@@ -50,7 +50,8 @@ namespace NHS111.Web.Presentation.Builders
                 Campaign = model.Campaign,
                 CampaignSource = model.Source,
                 ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue,
-                GuidedSelection = GetGuidedSelectionParameterFrom(model)
+                GuidedSelection = GetGuidedSelectionParameterFrom(model),
+                StartUrl = model.StartParameter
             };
 
             var isPharmacyPathway = result.EndPathwayNo == "PW1827";

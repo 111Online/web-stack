@@ -8,7 +8,7 @@
 @section Title { NHS 111 Online - Tell us about you }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Demographics, Model.Campaign, Model.Source) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Demographics, Model.Campaign, Model.Source, Model.StartParameter) })
 }
 
 @using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "outerContent", @class = "measure" }))
@@ -18,6 +18,7 @@
     @Html.HiddenFor(x => Model.CurrentPostcode)
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
+    @Html.HiddenFor(x => Model.StartParameter)
     @Html.HiddenFor(x => Model.PathwayNo)
     @Html.HiddenFor(m => m.IsCovidJourney)
 
@@ -73,7 +74,7 @@
         <fieldset class="age-content" id="container_@Html.IdFor(m => m.UserInfo.Demography.Age)">
             @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
             @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, null, new { @class = "error-message" })
-            @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode="numeric", maxLength = 3, autocomplete = "off" })
+            @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode = "numeric", maxLength = 3, autocomplete = "off" })
         </fieldset>
     </div>
 

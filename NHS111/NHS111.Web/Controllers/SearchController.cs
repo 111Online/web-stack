@@ -76,7 +76,8 @@ namespace NHS111.Web.Controllers
                 FilterServices = model.FilterServices,
                 Campaign = model.Campaign,
                 Source = model.Source,
-                ViaGuidedSelection = model.ViaGuidedSelection
+                ViaGuidedSelection = model.ViaGuidedSelection,
+                StartParameter = model.StartParameter
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -96,7 +97,8 @@ namespace NHS111.Web.Controllers
                 Source = model.Source,
                 SanitisedSearchTerm = searchTerm,
                 IsCovidJourney = isCovidJourney,
-                ViaGuidedSelection = true
+                ViaGuidedSelection = true,
+                StartParameter = model.StartParameter
             };
 
 
@@ -117,7 +119,8 @@ namespace NHS111.Web.Controllers
                 Campaign = model.Campaign,
                 Source = model.Source,
                 SanitisedSearchTerm = model.SanitisedSearchTerm,
-                ViaGuidedSelection = model.ViaGuidedSelection
+                ViaGuidedSelection = model.ViaGuidedSelection,
+                StartParameter = model.StartParameter
             };
 
             return RedirectToAction("Explainer", new RouteValueDictionary {
@@ -143,7 +146,8 @@ namespace NHS111.Web.Controllers
                 FilterServices = model.FilterServices,
                 Campaign = model.Campaign,
                 Source = model.Source,
-                ViaGuidedSelection = model.ViaGuidedSelection
+                ViaGuidedSelection = model.ViaGuidedSelection,
+                StartParameter = model.StartParameter
             };
 
             return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
@@ -170,7 +174,8 @@ namespace NHS111.Web.Controllers
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -219,7 +224,8 @@ namespace NHS111.Web.Controllers
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             return View("~\\Views\\Search\\Coronavirus_Explainer.cshtml", model);
@@ -243,7 +249,8 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 IsCovidJourney = bool.Parse(decryptedArgs["isCovidjourney"]),
-                ViaGuidedSelection = true
+                ViaGuidedSelection = true,
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             var ageGroup = new AgeCategory(model.UserInfo.Demography.Age);
@@ -279,7 +286,8 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 SanitisedSearchTerm = searchTerm,
-                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             return await SearchResults(model);
@@ -307,7 +315,8 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 HasResults = hasResults,
-                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -340,7 +349,8 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 HasResults = hasResults,
-                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -376,7 +386,8 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
                 HasResults = hasResults,
-                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"])
+                ViaGuidedSelection = GetBoolOrNullFrom(decryptedArgs["viaGuidedSelection"]),
+                StartParameter = decryptedArgs["startParameter"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);

@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Attributes;
+using NHS111.Web.Presentation.Logging;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -10,6 +12,20 @@ namespace NHS111.Web.Controllers
     [LogHandleErrorForMVC]
     public class HomeController : Controller
     {
+        private readonly IAuditLogger _auditLogger;
+
+        public HomeController(IAuditLogger auditLogger)
+        {
+            _auditLogger = auditLogger;
+        }
+
+        [HttpGet]
+        [Route("portsmouth")]
+        public ActionResult StartWithParam(JourneyViewModel model)
+        {
+            return StartPortsmouthJourney(model);
+        }
+
         [HttpGet]
         [Route("COVID-19")]
         [Route("service/COVID-19")]
@@ -17,6 +33,13 @@ namespace NHS111.Web.Controllers
         public ActionResult StartCovidJourney(JourneyViewModel model)
         {
             return View("AboutCovid", model);
+        }
+
+        public ActionResult StartPortsmouthJourney(JourneyViewModel model)
+        {
+            model.StartParameter = "portsmouth";
+            _auditLogger.LogEvent(model, EventType.CustomStart, model.StartParameter, string.Format("../Home/{0}", model.StartParameter)); 
+            return View("../Location/Home", model);
         }
 
         [HttpGet]

@@ -3,5 +3,6 @@
     public class EmergencyAlertViewModel
     {
         public bool OverrideDisplay { get; set; }
+        public string StartParameter { get; set; }
     }
 }

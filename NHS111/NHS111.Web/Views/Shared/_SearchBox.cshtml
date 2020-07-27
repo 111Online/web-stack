@@ -11,6 +11,7 @@
             @Html.HiddenFor(x => Model.Campaign)
             @Html.HiddenFor(x => Model.Source)
             @Html.HiddenFor(x => Model.ViaGuidedSelection)
+            @Html.HiddenFor(x => Model.StartParameter)
             <div class="search__searchbox">
                 @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox", @maxlength = "150" })
                 <button type="submit" class="button button--next button--search" value="Search" id="searchButton">Search</button>

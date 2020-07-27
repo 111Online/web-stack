@@ -47,7 +47,7 @@
         As you did not pick any of the symptoms, we don’t need to ask you questions
         about coronavirus.
     </p>
-    
+
     @using (@Html.BeginForm("Search", "Search", FormMethod.Post))
     {
         @Html.HiddenFor(x => Model.SessionId)
@@ -58,6 +58,7 @@
         @Html.HiddenFor(x => Model.Campaign)
         @Html.HiddenFor(x => Model.Source)
         @Html.HiddenFor(x => Model.ViaGuidedSelection)
+        @Html.HiddenFor(m => m.StartParameter)
         <p>
             If you have other symptoms, find the topic that most closely applies.
         </p>
