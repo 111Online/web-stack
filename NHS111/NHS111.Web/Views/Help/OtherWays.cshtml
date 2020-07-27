@@ -4,7 +4,7 @@
 @section Title { Other ways to get gelp }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.OtherWaysHelp, string.Empty, string.Empty) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.OtherWaysHelp, string.Empty, string.Empty, Model.StartParameter) })
 }
 
 <main id="content" role="main" class="content">
