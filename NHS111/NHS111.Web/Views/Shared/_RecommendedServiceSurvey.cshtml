@@ -1,0 +1,110 @@
+﻿<div id="recommendedSurveyFeedback">
+    <p id="surveyLink">Help us improve. <a>Will you use the recommended service?</a></p>
+</div>
+
+<script>
+    $(document).ready(function() {
+
+        function displaySurveyQuestion(title, choices, inputType, nextBtnId) {
+            $("#recommendedSurveyFeedback").empty();
+            
+            $("#recommendedSurveyFeedback").append('<p id="questionTitle"><strong>' + title + '</strong></p>');
+
+            choices.forEach(function (choice) {
+                var choiceWithNoSpaces = choice.split(" ").join(""); 
+
+                $("#recommendedSurveyFeedback")
+                    .append('<input type=' +
+                        inputType +
+                        ' id="' +
+                        choiceWithNoSpaces +
+                        '" name="choice" value="' +
+                        choiceWithNoSpaces +
+                        '"><label id="' + "' + for="' +
+                        choiceWithNoSpaces +
+                        '">' +
+                        choice +
+                        '</label><br>\r\n');
+            });
+
+            $("#recommendedSurveyFeedback")
+                .append('<button class="button--next" id="' +
+                    nextBtnId +
+                    '" type="button" name="Next" value="Next">Next</button>\r\n');
+        }
+
+        function displayFirstQuestion() {
+            var title = 'Will you use the recommended service?';
+
+            var choices = [
+                "Yes",
+                "No"
+            ];
+            
+            displaySurveyQuestion(title, choices, 'radio', 'get2ndQuestionBtn');
+        }
+
+        function displaySecondQuestion() {
+            var title = 'Why won\'t you use the recommended service?';
+
+            var choices = [
+                "It's hard to get to",
+                "I'll go somewhere else I know",
+                "I think I'll have to wait too long to be seen",
+                "I'll go to my GP instead",
+                "I'm going to wait to see if I feel better",
+                "Another reason"
+            ];
+
+            displaySurveyQuestion(title, choices, 'checkbox', 'submitSurveyBtn');
+
+            $("#Anotherreason").after('<input type="text" id="anotherReasonText" name="anotherReasonText">');
+
+            $("#recommendedSurveyFeedback").append("<br><button id='changeMyPreviousAnswer' class='button--link'>Change my previous answer</button>");
+
+        }
+
+        function displayThanksForYourFeedback() {
+            $("#recommendedSurveyFeedback").empty();
+
+            $("#recommendedSurveyFeedback").append('<p><strong>Thanks for your feedback</strong></p>');
+
+            $("#recommendedSurveyFeedback").append('<p>We\'ll use it to improve the services we recommend.</p>');
+
+            $("#recommendedSurveyFeedback").append('<p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>');
+        }
+
+        //$("#surveyLink").click(displayFirstQuestion());
+
+        $("#recommendedSurveyFeedback").on('click', '#surveyLink', function () {
+            displayFirstQuestion();
+        });
+
+        $("#recommendedSurveyFeedback").on('click', '#get2ndQuestionBtn', function(){
+             //if yes - display message
+            if ($('#Yes').is(':checked')) {
+                return displayThanksForYourFeedback();
+            } else if ($('#No').is(':checked')) {
+                return displaySecondQuestion();
+            }
+
+             $("#questionTitle").after("<p>You must select one option</p>");
+        }); 
+
+        $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
+            displayFirstQuestion();
+        });
+
+
+        $("#recommendedSurveyFeedback").on('click', '#submitSurveyBtn', function () {
+            // get choices
+            var selectedChoices = $('.myClass:checkbox:checked');
+
+            if (selectedChoices.length === 0) {
+                $("#questionTitle").after("<p>You must select one option</p>");
+            }
+
+            // post
+        });
+    });
+</script>
