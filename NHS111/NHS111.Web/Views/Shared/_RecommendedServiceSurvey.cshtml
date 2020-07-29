@@ -2,17 +2,18 @@
     <p id="surveyLink">Help us improve. <a>Will you use the recommended service?</a></p>
 </div>
 
-
 <script>
     $(document).ready(function() {
+        var questionsAnswered = [["QID1", ""], ["QID2", ""]];
 
-        function displaySurveyQuestion(title, choices, inputType, nextBtnId) {
+        function displaySurveyQuestionAndChoices(title, choices, inputType, nextBtnId) {
             $("#recommendedSurveyFeedback").empty();
-            
+
             $("#recommendedSurveyFeedback").append('<p id="questionTitle"><strong>' + title + '</strong></p>');
 
-            choices.forEach(function (choice) {
-                var choiceWithNoSpaces = choice.split(" ").join(""); 
+            choices.forEach(function(choice) {
+                var choiceWithNoSpaces = choice["choiceText"].split(" ").join("");
+                var choiceNumber = choice["choiceId"];
 
                 $("#recommendedSurveyFeedback")
                     .append('<input type=' +
@@ -20,11 +21,14 @@
                         ' id="' +
                         choiceWithNoSpaces +
                         '" name="choice" value="' +
+                        choiceNumber +
+                        '"><label id="' +
                         choiceWithNoSpaces +
-                        '"><label id="' + choiceWithNoSpaces + 'Label' + '" + for="' +
+                        'Label' +
+                        '" + for="' +
                         choiceWithNoSpaces +
                         '">' +
-                        choice +
+                        choice["choiceText"] +
                         '</label><br>\r\n');
             });
 
@@ -38,50 +42,54 @@
             var title = 'Will you use the recommended service?';
 
             var choices = [
-                "Yes",
-                "No"
+                { choiceText: "Yes", choiceId: 1 },
+                { choiceText: "No", choiceId: 2 }
             ];
-            
-            displaySurveyQuestion(title, choices, 'radio', 'get2ndQuestionBtn');
+
+            displaySurveyQuestionAndChoices(title, choices, 'radio', 'get2ndQuestionBtn');
         }
 
         function displaySecondQuestion() {
             var title = 'Why won\'t you use the recommended service?';
 
-            var serviceType = $('#SurveyLink_RecommendedServiceType').val();
+            //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
+            var serviceType = "GoTo";
 
-            var choices;
+            var choices = [
+                { choiceText: "It's too hard to get to", choiceId: 1, serviceType: "GoTo" },
+                { choiceText: "I'll go somewhere else I know", choiceId: 2, serviceType: "GoTo" },
+                { choiceText: "I don't want to use the phone", choiceId: 3, serviceType: "PublicPhone" },
+                { choiceText: "I don't have a phone", choiceId: 4, serviceType: "PublicPhone" },
+                { choiceText: "I can't use a phone", choiceId: 5, serviceType: "PublicPhone" },
+                {
+                    choiceText: "I can't speak privately and don't want to be heard",
+                    choiceId: 6,
+                    serviceType: "PublicPhone"
+                },
+                { choiceText: "I'll go to my GP instead", choiceId: 7, serviceType: "GoTo" },
+                { choiceText: "I'll have to wait too long to get help", choiceId: 8, serviceType: "GoTo" },
+                { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, serviceType: "GoTo" },
+                { choiceText: "Another reason", choiceId: 10, serviceType: "GoTo" },
+                { choiceText: "Another reason", choiceId: 10, serviceType: "PublicPhone" }
+            ];
 
-            if (serviceType === 'ReferRingAndGo') {
-                choices = [
-                    "I don't want to use the phone",
-                    "I don't have a phone",
-                    "I can't use a phone",
-                    "I can't speak privately and don't want to be heard",
-                    "I'll go to my GP instead" +
-                    "I think I'll have to wait too long to get help",
-                    "I'm going to wait to see if I feel better",
-                    "Another reason"
-                ];
-            } else {
-                choices = [
-                    "It's hard to get to",
-                    "I'll go somewhere else I know",
-                    "I think I'll have to wait too long to be seen",
-                    "I'll go to my GP instead",
-                    "I'm going to wait to see if I feel better",
-                    "Another reason"
-                ];
-            }
+            var serviceFilteredChoices = [];
 
-            displaySurveyQuestion(title, choices, 'checkbox', 'submitSurveyBtn');
+            choices.forEach(function(choice) {
+                if (choice["serviceType"] === serviceType) {
+                    serviceFilteredChoices.push(choice);
+                }
+            });
 
-           // $("#AnotherreasonLabel").after('<div><p>Tell us the reason</p><input style="line-height:4em" class="form-textbox" type="text" id="anotherReasonText" name="anotherReasonText"></div>');
+            displaySurveyQuestionAndChoices(title, serviceFilteredChoices, 'checkbox', 'submitSurveyBtn');
 
-            $("#AnotherreasonLabel").after('<div><p>Tell us the reason</p><textarea id="anotherReasonText" name="anotherReasonText"></textarea></div>');
+            $("#AnotherreasonLabel")
+                .after(
+                    '<div><p>Tell us the reason</p><textarea id="anotherReasonText" name="anotherReasonText"></textarea></div>');
 
-            $("#recommendedSurveyFeedback").append("<br><button id='changeMyPreviousAnswer' class='button--link'>Change my previous answer</button>");
-
+            $("#recommendedSurveyFeedback")
+                .append(
+                    "<br><button id='changeMyPreviousAnswer' class='button--link'>Change my previous answer</button>");
         }
 
         function displayThanksForYourFeedback() {
@@ -91,45 +99,94 @@
 
             $("#recommendedSurveyFeedback").append('<p>We\'ll use it to improve the services we recommend.</p>');
 
-            $("#recommendedSurveyFeedback").append('<p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>');
+            $("#recommendedSurveyFeedback")
+                .append(
+                    '<p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>');
         }
-
-        //$("#surveyLink").click(displayFirstQuestion());
-
-        $("#recommendedSurveyFeedback").on('click', '#surveyLink', function () {
-            displayFirstQuestion();
-        });
-
-        $("#recommendedSurveyFeedback").on('click', '#get2ndQuestionBtn', function(){
-             //if yes - display message
-            if ($('#Yes').is(':checked')) {
-                return displayThanksForYourFeedback();
-            } else if ($('#No').is(':checked')) {
-                return displaySecondQuestion();
-            }
-             displayYouMustSelectOneOption();
-        }); 
 
         function displayYouMustSelectOneOption() {
             if ($("#onlySelectOneOption").length === 0) {
-                $("#questionTitle").after('<p class="field-validation-error error-message" id="onlySelectOneOption">You must select one option</p>');
+                $("#questionTitle")
+                    .after(
+                        '<p class="field-validation-error error-message" id="onlySelectOneOption">You must select one option</p>');
             }
         }
 
-        $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
-            displayFirstQuestion();
-        });
+        function postSurveyAnswers(data) {
+            $.ajax({
+                url: 'https://nhsdigitalsandbox.eu.qualtrics.com/API/v3/surveys/SV_3qidJBLAWOVvm3b/responses',
+                headers: {
+                    "X-API-TOKEN": "qZX6tgieNcXezpqmyUFHQf1m9M6bR7qIFrHnByCJ"
+                },
+                method: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function () {
+                    alert('Success!');
+                },
+                error: function(resultData) {
+                    alert('Failure!');
+                }
+            });
+        };
 
-
-        $("#recommendedSurveyFeedback").on('click', '#submitSurveyBtn', function () {
-            // get choices
-            var selectedChoices = $('.myClass:checkbox:checked');
+        function getChoiceIds() {
+            var selectedChoices = $('input[type=checkbox]:checked');
 
             if (selectedChoices.length === 0) {
                 displayYouMustSelectOneOption();
             }
 
-            // post
+            var choiceIds = [];
+
+            selectedChoices.each(function() {
+                choiceIds.push($(this).attr('value'));
+            });
+
+            return choiceIds;
+        }
+
+        // Listeners
+        $("#recommendedSurveyFeedback").on('click', '#surveyLink', function () {
+            displayFirstQuestion();
+        });
+
+        $("#recommendedSurveyFeedback").on('click', '#get2ndQuestionBtn', function(){
+            if ($('#Yes').is(':checked')) {
+                displayThanksForYourFeedback();
+                var data = {
+                    "values": {
+                        "Q1D1": 2
+                    }
+                }
+                return postSurveyAnswers(data);
+            } else if ($('#No').is(':checked')) {
+                questionsAnswered[0][1] = "2";
+                return displaySecondQuestion();
+            }
+
+            displayYouMustSelectOneOption();
+        }); 
+
+        $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
+            displayFirstQuestion();
+        });
+
+        $("#recommendedSurveyFeedback").on('click', '#submitSurveyBtn', function () {
+            var choiceIds = getChoiceIds();
+
+            questionsAnswered[1][1] = choiceIds;
+
+            displayThanksForYourFeedback();
+
+            var data = {
+                "values": {
+                    "Q1D1": parseInt(questionsAnswered[0][1]),
+                    "Q1D2": questionsAnswered[1][1]
+                }
+            }
+
+            postSurveyAnswers(data);
         });
     });
 </script>
