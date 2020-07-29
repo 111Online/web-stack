@@ -38,23 +38,30 @@ namespace NHS111.Models.Models.Web
 
         private string GetServiceTypeAliasHtml()
         {
-            var serviceTypeAlias = IsOohServiceNotOfferingCallback ? PublicName : ServiceTypeAlias;
+            var serviceTypeAlias = IsCallbackServiceNotOfferingCallback ? PublicName : ServiceTypeAlias;
             return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(serviceTypeAlias));
         }
 
-        public bool IsOohSevice
+        public bool IsOohService
         {
             get { return ServiceType.Id.Equals(_oohServiceId); }
         }
 
-        public bool IsOohServiceNotOfferingCallback
+        public bool IsCallbackService
         {
-            get { return IsOohSevice && !OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
+            get { return _callbackCASIdList.Contains(ServiceType.Id) || IsOohService; }
+        }
+
+        public bool IsCallbackServiceNotOfferingCallback
+        {
+            get { return IsCallbackService && !OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
         }
 
         private string GetServiceNameHtml()
         {
-            if ((ServiceType.Id == _oohServiceId || ShouldShowAddress) && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
+            if (IsCallbackServiceNotOfferingCallback) return string.Empty;
+
+            if ((IsOohService || ShouldShowAddress) && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
 
             return string.Format("<br />{0}", !string.IsNullOrEmpty(PublicNameOnly) ? WebUtility.HtmlDecode(PublicNameOnly) : WebUtility.HtmlDecode(PublicName));
         }
