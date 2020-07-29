@@ -16,7 +16,10 @@ namespace NHS111.Web.Presentation.IoC
         public WebPresentationRegistry()
         {
             IncludeRegistry<UtilsRegistry>();
-
+            For<IMicroSurveyBuilder>().Singleton()
+                .Use<MicroSurveyBuilder>()
+                .Ctor<ILoggingRestClient>()
+                .Is(GetLoggingRestClientFor(_configuration.QualtricsApiBaseUrl));
             For<ILoggingRestClient>().Singleton()
                 .Use(GetLoggingRestClientFor(_configuration.BusinessApiProtocolandDomain)).Named("restClientBusinessApi");
             For<IDOSBuilder>().Singleton()
