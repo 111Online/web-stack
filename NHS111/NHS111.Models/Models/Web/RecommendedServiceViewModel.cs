@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.Remoting.Messaging;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Outcome;
 
 namespace NHS111.Models.Models.Web
@@ -10,6 +11,7 @@ namespace NHS111.Models.Models.Web
     public class RecommendedServiceViewModel : ServiceViewModel
     {
         private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137, 138 };
+        private readonly long _oohServiceId = 25;
 
         public string ReasonText { get; set; }
         public DetailsViewModel Details { get; set; }
@@ -36,12 +38,23 @@ namespace NHS111.Models.Models.Web
 
         private string GetServiceTypeAliasHtml()
         {
-            return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(ServiceTypeAlias));
+            var serviceTypeAlias = IsOohServiceNotOfferingCallback ? PublicName : ServiceTypeAlias;
+            return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(serviceTypeAlias));
+        }
+
+        public bool IsOohSevice
+        {
+            get { return ServiceType.Id.Equals(_oohServiceId); }
+        }
+
+        public bool IsOohServiceNotOfferingCallback
+        {
+            get { return IsOohSevice && !OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
         }
 
         private string GetServiceNameHtml()
         {
-            if ((ServiceType.Id == 25 || ShouldShowAddress) && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
+            if ((ServiceType.Id == _oohServiceId || ShouldShowAddress) && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
 
             return string.Format("<br />{0}", !string.IsNullOrEmpty(PublicNameOnly) ? WebUtility.HtmlDecode(PublicNameOnly) : WebUtility.HtmlDecode(PublicName));
         }

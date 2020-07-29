@@ -15,6 +15,7 @@ namespace NHS111.Models.Test.Models.Web
         private RecommendedServiceViewModel _recommendedServiceViewModel;
 
         private string _aliasOnly;
+        private string _publicName;
 
         [SetUp]
         public void Init()
@@ -25,10 +26,11 @@ namespace NHS111.Models.Test.Models.Web
                 Name = "Test Service Name",
                 AddressLines = { "1 Test Street", "Test town", "Testton" },
                 ServiceType = new ServiceType { Id = 0 },
-                OnlineDOSServiceType = OnlineDOSServiceType.Unknown
+                OnlineDOSServiceType = OnlineDOSServiceType.Callback
             };
 
             _aliasOnly = string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias));
+            _publicName = string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(_recommendedServiceViewModel.PublicName));
         }
 
         [Test]
@@ -54,6 +56,15 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.ServiceType.Id = 25;
             var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
             Assert.AreEqual(_aliasOnly, html);
+        }
+
+        [Test]
+        public void GetServiceDisplayHtml_CallBackGPOOH_NotOfferingCallback_ContainsPublicName()
+        {
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            Assert.AreEqual(_publicName, html);
         }
 
         [Test]
@@ -141,6 +152,15 @@ namespace NHS111.Models.Test.Models.Web
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
             var aliasAndName = _aliasOnly + string.Format("<br />{0}", _recommendedServiceViewModel.PublicNameOnly);
             Assert.AreEqual(aliasAndName, html);
+        }
+
+        [Test]
+        public void GetOtherServicesServiceDisplayHtml_CallBackGPOOH_NotOfferingCallback_ContainsPublicName()
+        {
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
+            Assert.AreEqual(_publicName, html);
         }
 
         [Test]

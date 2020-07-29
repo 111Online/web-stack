@@ -6,6 +6,7 @@ using NHS111.Features;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Parsers;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
@@ -123,7 +124,9 @@ namespace NHS111.Web.Presentation.Builders
         private string GetServiceTypeAliasParameterFrom(OutcomeViewModel model)
         {
             if (!model.OutcomeGroup.IsServiceFirst) return string.Empty;
-            return !model.DosCheckCapacitySummaryResult.ResultListEmpty ? model.DosCheckCapacitySummaryResult.Success.Services.First().ServiceTypeAlias : "no-results";
+            if(model.DosCheckCapacitySummaryResult.ResultListEmpty) return "no-results";
+            var firstService = model.DosCheckCapacitySummaryResult.Success.Services.First();
+            return firstService.ServiceType.Id == 25 && !firstService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback) ? string.Empty : firstService.ServiceTypeAlias;
         }
     }
 

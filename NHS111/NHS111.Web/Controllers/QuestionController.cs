@@ -346,7 +346,7 @@ namespace NHS111.Web.Controllers
                 return dispoWithServicesResult;
 
             var dispoWithServicesView = dispoWithServicesResult as ViewResult;
-            if (dispoWithServicesView.ViewName != "../Outcome/Service_first/Emergency_Prescription/Outcome_Preamble" && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
+            if (dispoWithServicesView.ViewName != "../Outcome/Service_first/Emergency_Prescription/Outcome_Preamble" && !outcomeViewModel.OutcomeGroup.IsPrimaryCare && !DirectToOtherServices)
                 return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
 
             // need to do the first look up to determine if there are other services

@@ -239,5 +239,15 @@ namespace NHS111.Web.Presentation.Test.Builders
             var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
             Assert.AreEqual("no-results", result.RecommendedServiceTypeAlias);
         }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_ooh_service_first_and_not_callback()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            _outcomeViewModel.SelectedService.ServiceType.Id = 25;
+            _outcomeViewModel.SelectedService.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual(string.Empty, result.RecommendedServiceTypeAlias);
+        }
     }
 }
