@@ -114,10 +114,7 @@
 
         function postSurveyAnswers(data) {
             $.ajax({
-                url: 'https://nhsdigitalsandbox.eu.qualtrics.com/API/v3/surveys/SV_3qidJBLAWOVvm3b/responses',
-                headers: {
-                    "X-API-TOKEN": "qZX6tgieNcXezpqmyUFHQf1m9M6bR7qIFrHnByCJ"
-                },
+                url: 'http://localhost:60193/microsurvey/PostRecommendedServiceSurvey',
                 method: 'POST',
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -128,6 +125,21 @@
                     alert('Failure!');
                 }
             });
+            //$.ajax({
+            //    url: 'https://nhsdigitalsandbox.eu.qualtrics.com/API/v3/surveys/SV_3qidJBLAWOVvm3b/responses',
+            //    headers: {
+            //        "X-API-TOKEN": "qZX6tgieNcXezpqmyUFHQf1m9M6bR7qIFrHnByCJ"
+            //    },
+            //    method: 'POST',
+            //    contentType: "application/json",
+            //    data: JSON.stringify(data),
+            //    success: function () {
+            //        alert('Success!');
+            //    },
+            //    error: function(resultData) {
+            //        alert('Failure!');
+            //    }
+            //});
         };
 
         function getChoiceIds() {

@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\BookPharmacyCallModelBuilderTests.cs" />
+    <Compile Include="Builders\MicroSurveyBuilderTests.cs" />
     <Compile Include="Builders\OutcomeViewModelBuilderTests.cs" />
     <Compile Include="Builders\LocationResultBuilderTests.cs" />
     <Compile Include="Builders\CareAdviceBuilderTests.cs" />
