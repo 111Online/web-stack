@@ -1,6 +1,7 @@
-﻿<div id="recommendedSurveyFeedback">
+﻿<div id="recommendedSurveyFeedback" style="border-top-color: rgb(255,225,163); border-top-width: 3px; border-top-style: solid; padding: 5px; left: 0; right:0;">
     <p id="surveyLink">Help us improve. <a>Will you use the recommended service?</a></p>
 </div>
+
 
 <script>
     $(document).ready(function() {
@@ -20,7 +21,7 @@
                         choiceWithNoSpaces +
                         '" name="choice" value="' +
                         choiceWithNoSpaces +
-                        '"><label id="' + "' + for="' +
+                        '"><label id="' + choiceWithNoSpaces + 'Label' + '" + for="' +
                         choiceWithNoSpaces +
                         '">' +
                         choice +
@@ -47,18 +48,37 @@
         function displaySecondQuestion() {
             var title = 'Why won\'t you use the recommended service?';
 
-            var choices = [
-                "It's hard to get to",
-                "I'll go somewhere else I know",
-                "I think I'll have to wait too long to be seen",
-                "I'll go to my GP instead",
-                "I'm going to wait to see if I feel better",
-                "Another reason"
-            ];
+            var serviceType = $('#SurveyLink_RecommendedServiceType').val();
+
+            var choices;
+
+            if (serviceType === 'ReferRingAndGo') {
+                choices = [
+                    "I don't want to use the phone",
+                    "I don't have a phone",
+                    "I can't use a phone",
+                    "I can't speak privately and don't want to be heard",
+                    "I'll go to my GP instead" +
+                    "I think I'll have to wait too long to get help",
+                    "I'm going to wait to see if I feel better",
+                    "Another reason"
+                ];
+            } else {
+                choices = [
+                    "It's hard to get to",
+                    "I'll go somewhere else I know",
+                    "I think I'll have to wait too long to be seen",
+                    "I'll go to my GP instead",
+                    "I'm going to wait to see if I feel better",
+                    "Another reason"
+                ];
+            }
 
             displaySurveyQuestion(title, choices, 'checkbox', 'submitSurveyBtn');
 
-            $("#Anotherreason").after('<input type="text" id="anotherReasonText" name="anotherReasonText">');
+           // $("#AnotherreasonLabel").after('<div><p>Tell us the reason</p><input style="line-height:4em" class="form-textbox" type="text" id="anotherReasonText" name="anotherReasonText"></div>');
+
+            $("#AnotherreasonLabel").after('<div><p>Tell us the reason</p><textarea id="anotherReasonText" name="anotherReasonText"></textarea></div>');
 
             $("#recommendedSurveyFeedback").append("<br><button id='changeMyPreviousAnswer' class='button--link'>Change my previous answer</button>");
 
@@ -87,9 +107,14 @@
             } else if ($('#No').is(':checked')) {
                 return displaySecondQuestion();
             }
-
-             $("#questionTitle").after("<p>You must select one option</p>");
+             displayYouMustSelectOneOption();
         }); 
+
+        function displayYouMustSelectOneOption() {
+            if ($("#onlySelectOneOption").length === 0) {
+                $("#questionTitle").after('<p class="field-validation-error error-message" id="onlySelectOneOption">You must select one option</p>');
+            }
+        }
 
         $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
             displayFirstQuestion();
@@ -101,7 +126,7 @@
             var selectedChoices = $('.myClass:checkbox:checked');
 
             if (selectedChoices.length === 0) {
-                $("#questionTitle").after("<p>You must select one option</p>");
+                displayYouMustSelectOneOption();
             }
 
             // post
