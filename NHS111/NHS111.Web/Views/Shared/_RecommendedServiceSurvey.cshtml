@@ -4,7 +4,10 @@
 
 <script>
     $(document).ready(function() {
-        var questionsAnswered = [["QID1", ""], ["QID2", ""]];
+        var questionsAnswered = {
+            "QID1": "",
+            "QID2": ""
+        };
 
         function displaySurveyQuestionAndChoices(title, choices, inputType, nextBtnId) {
             $("#recommendedSurveyFeedback").empty();
@@ -126,21 +129,6 @@
                     alert('Failure!');
                 }
             });
-            //$.ajax({
-            //    url: 'https://nhsdigitalsandbox.eu.qualtrics.com/API/v3/surveys/SV_3qidJBLAWOVvm3b/responses',
-            //    headers: {
-            //        "X-API-TOKEN": "qZX6tgieNcXezpqmyUFHQf1m9M6bR7qIFrHnByCJ"
-            //    },
-            //    method: 'POST',
-            //    contentType: "application/json",
-            //    data: JSON.stringify(data),
-            //    success: function () {
-            //        alert('Success!');
-            //    },
-            //    error: function(resultData) {
-            //        alert('Failure!');
-            //    }
-            //});
         };
 
         function getChoiceIds() {
@@ -169,12 +157,12 @@
                 displayThanksForYourFeedback();
                 var data = {
                     "values": JSON.stringify({
-                        "Q1D1": 2
+                        "QID1": 2
                     })
                 }
                 return postSurveyAnswers(data);
             } else if ($('#No').is(':checked')) {
-                questionsAnswered[0][1] = "2";
+                questionsAnswered.QID1 = "2";
                 return displaySecondQuestion();
             }
 
@@ -188,14 +176,14 @@
         $("#recommendedSurveyFeedback").on('click', '#submitSurveyBtn', function () {
             var choiceIds = getChoiceIds();
 
-            questionsAnswered[1][1] = choiceIds;
+            questionsAnswered.QID2 = choiceIds;
 
             displayThanksForYourFeedback();
 
             var data = {
                 "values": JSON.stringify({
-                    "Q1D1": parseInt(questionsAnswered[0][1]),
-                    "Q1D2": questionsAnswered[1][1]
+                    "QID1": parseInt(questionsAnswered.QID1),
+                    "QID2": questionsAnswered.QID2
                 })
             }
 
