@@ -37,6 +37,12 @@
                 }
             </style>
         }
+
+        var globalHeaderClasses = "global-header";
+        if (IsSectionDefined("EmergencyAlert"))
+        {
+            globalHeaderClasses += " global-header--no-border";
+        }
     }
 
     <script type="text/javascript">
@@ -79,7 +85,7 @@
             <a href="#content" class="skiplinks__link">Skip to main content</a>
         </div>
     </div>
-    <header role="banner" class="global-header">
+    <header role="banner" class="@globalHeaderClasses">
         <div class="global-header__inner">
             <a href="@ConfigurationManager.AppSettings["RedirectToStartFeatureRedirectUrl"]" class="global-header__logo" title="Go to the NHS 111 homepage">
                 <img src="/content/images/nhs-logotype-blue.svg" width="79" height="32" alt="NHS"> <span class="global-header__text util-digits">1 1 1</span> <span class="global-header__text">online</span>
@@ -136,9 +142,10 @@
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new {target = "_blank"})</li>
+                        <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new { target = "_blank" })</li>
                     }
-                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new {target = "_blank"})</li>
+                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new { target = "_blank" })</li>
+                    <li>@Html.ActionLink("Accessibility statement", "Accessibility", "Help", null, new { target = "_blank" })</li>
                 </ul>
             </nav>
         </div>
