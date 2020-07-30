@@ -5,6 +5,6 @@ namespace NHS111.Models.Models.Web.MicroSurvey
     public class SurveyResult
     {
         [JsonProperty("values")]
-        public SurveyResultValues Values { get; set; }
+        public string Values { get; set; }
     }
 }

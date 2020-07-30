@@ -256,7 +256,6 @@
     <Compile Include="Models\Web\Enums\OutcomePage.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
     <Compile Include="Models\Web\MicroSurvey\SurveyResult.cs" />
-    <Compile Include="Models\Web\MicroSurvey\SurveyResultValues.cs" />
     <Compile Include="Models\Web\PageCustomContent.cs" />
     <Compile Include="Models\Web\Parsers\JourneyJsonParser.cs" />
     <Compile Include="Models\Web\PersonalDetails\DateOfBirthViewModel.cs" />

@@ -113,8 +113,9 @@
         }
 
         function postSurveyAnswers(data) {
+            console.log(data)
             $.ajax({
-                url: 'http://localhost:60193/microsurvey/PostRecommendedServiceSurvey',
+                url: '/microsurvey/PostRecommendedServiceSurvey',
                 method: 'POST',
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -167,9 +168,9 @@
             if ($('#Yes').is(':checked')) {
                 displayThanksForYourFeedback();
                 var data = {
-                    "values": {
+                    "values": JSON.stringify({
                         "Q1D1": 2
-                    }
+                    })
                 }
                 return postSurveyAnswers(data);
             } else if ($('#No').is(':checked')) {
@@ -192,10 +193,10 @@
             displayThanksForYourFeedback();
 
             var data = {
-                "values": {
+                "values": JSON.stringify({
                     "Q1D1": parseInt(questionsAnswered[0][1]),
                     "Q1D2": questionsAnswered[1][1]
-                }
+                })
             }
 
             postSurveyAnswers(data);
