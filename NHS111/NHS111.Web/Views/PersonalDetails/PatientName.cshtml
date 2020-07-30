@@ -85,12 +85,12 @@
 
                 jQuery.validator.addMethod('firstname', function (value) {
                     if (!formSubmitted && value === "") return true;
-                    return (value) !== "" && RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").test(value);
+                    return (value) !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(value);
                 });
 
                 jQuery.validator.addMethod('lastname', function (value) {
                     if (!formSubmitted && value === "") return true;
-                    return (value) !== "" && RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").test(value);
+                    return (value) !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(value);
                 });
 
                 jQuery("#yourNameForm").on("submit", function () {

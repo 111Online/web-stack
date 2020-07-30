@@ -10,7 +10,7 @@ namespace NHS111.Models.Models.Web.Validators
 {
     public class FirstNameValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
-        private const string validCharactersPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+        private const string validCharactersPattern = @"^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$";
 
         public FirstNameValidator(Expression<Func<TModel, TProperty>> expression)
             : base("Enter first name")
