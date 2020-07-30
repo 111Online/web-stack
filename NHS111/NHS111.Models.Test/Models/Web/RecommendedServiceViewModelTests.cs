@@ -402,9 +402,8 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
-            var firstLineOfAddress = _recommendedServiceViewModel.AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
-            var aliasAndAddressLineOne = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", WebUtility.HtmlDecode(firstLineOfAddress));
-            Assert.AreEqual(aliasAndAddressLineOne, html);
+            var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.PublicName);
+            Assert.AreEqual(aliasAndName, html);
         }
 
         [Test]

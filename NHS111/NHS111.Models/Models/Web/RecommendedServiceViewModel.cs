@@ -76,6 +76,8 @@ namespace NHS111.Models.Models.Web
 
             if (IsOohServiceWithCallback && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
 
+            if(!string.IsNullOrEmpty(PublicNameOnly) && !IsCallbackService) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+
             if (!ShouldShowAddress) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
             var firstLineOfAddress = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
