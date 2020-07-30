@@ -408,15 +408,264 @@ namespace NHS111.Models.Test.Models.Web
         }
 
         [Test]
-        public void ShouldShowOtherServicesServiceTypeDescription_EmptyServiceTypeDescription_ReturnsFalse()
+        public void ShouldShowServiceTypeDescription_EmptyServiceTypeDescription_ReturnsFalse()
+        {
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_ServiceTypeDescription_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_CallbackCAS_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_PhoneCAS_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_GoToCAS_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_CallbackGPOHH_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_PhoneGPOHH_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_GoToGPOHH_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_CallbackOther_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_PhoneOther_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowServiceTypeDescription_GoToOther_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowServiceTypeDescription());
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_EmptyServiceTypeDescription_FromRecommendedService_ReturnsFalse()
         {
             Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
         }
 
         [Test]
-        public void ShouldShowOtherServicesServiceTypeDescription_EmptyServiceTypeDescription_OtherServices_ReturnsFalse()
+        public void ShouldShowOtherServicesServiceTypeDescription_EmptyServiceTypeDescription_FromOtherServices_ReturnsFalse()
         {
             Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
         }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_CallbackCAS_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_PhoneCAS_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_GoToCAS_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_CallbackGPOHH_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_PhoneGPOHH_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_GoToGPOHH_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_CallbackOther_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_PhoneOther_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_GoToOther_FromRecommendedService_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(false));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_CallbackCAS_FromOtherServices_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_PhoneCAS_FromOtherServices_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_GoToCAS_FromOtherServices_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 130;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_CallbackGPOHH_FromOtherServices_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_PhoneGPOHH_FromOtherServices_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_GoToGPOHH_FromOtherServices_ReturnsFalse()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 25;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsFalse(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_CallbackOther_FromOtherServices_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_PhoneOther_FromOtherServices_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        [Test]
+        public void ShouldShowOtherServicesServiceTypeDescription_GoToOther_FromOtherServices_ReturnsTrue()
+        {
+            _recommendedServiceViewModel.ServiceTypeDescription = "Service descritpion";
+            _recommendedServiceViewModel.ServiceType.Id = 100;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+            Assert.IsTrue(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
+        }
+
+        
     }
 }
