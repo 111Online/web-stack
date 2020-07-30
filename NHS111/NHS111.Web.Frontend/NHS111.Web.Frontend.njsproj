@@ -92,6 +92,7 @@
     <Content Include="src\styles\components\_emergency-alert.scss">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\styles\components\_micro-survey.scss" />
     <Content Include="src\styles\components\_feedback.scss" />
     <Content Include="src\styles\components\_multiple-choice.scss" />
     <Content Include="src\styles\components\_form-label.scss" />
