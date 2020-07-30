@@ -1,5 +1,5 @@
 ﻿<div id="recommendedSurveyFeedback" style="border-top-color: rgb(255,225,163); border-top-width: 3px; border-top-style: solid; padding: 5px; left: 0; right:0;">
-    <p id="surveyLink">Help us improve. <a>Will you use the recommended service?</a></p>
+    <p id="surveyLink">Help us improve. <button type="button" class="button--link">Will you use the recommended service?</button></p>
 </div>
 
 <script>
@@ -159,7 +159,7 @@
         }
 
         // Listeners
-        $("#recommendedSurveyFeedback").on('click', '#surveyLink', function () {
+        $("#recommendedSurveyFeedback").on('click', '#surveyLink button', function () {
             displayFirstQuestion();
         });
 
