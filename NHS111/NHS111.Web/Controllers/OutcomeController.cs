@@ -236,6 +236,10 @@ namespace NHS111.Web.Controllers
                     var otherServices =
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services).ConfigureAwait(false);
                     var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
+
+                    //Somehow got here despite only 1 service (refresh after service close) so go back to recommendedservice page.
+                    if (otherServices.Count() == 1 && model.OutcomeGroup.IsServiceFirst) return RecommendedService(model);
+
                     //Very weird mapper issue ignoring this property for some reason
                     //unit test specifically testing this passes fine so can really fathow what is going on
                     //forcing it instead
@@ -260,7 +264,7 @@ namespace NHS111.Web.Controllers
                 model.CurrentView = _viewRouter.Build(model, this.ControllerContext).ViewName;
             }
 
-            return View(model.OutcomeGroup.IsServiceFirst ? "~\\Views\\Outcome\\Service_First\\ServiceNotOffered.cshtml" : model.CurrentView, model);
+            return View(model.OutcomeGroup.IsServiceFirst ? string.Format("~\\Views\\Outcome\\Service_First\\{0}\\ServiceNotOffered.cshtml", model.ServiceGroup.Id) : model.CurrentView, model);
         }
 
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
