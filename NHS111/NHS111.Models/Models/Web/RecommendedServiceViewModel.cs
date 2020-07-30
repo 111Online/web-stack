@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web
         public string GetServiceDisplayHtml()
         {
             var serviceDisplayHtml = GetServiceTypeAliasHtml();
-            if (_callbackCASIdList.Contains(ServiceType.Id)) return serviceDisplayHtml;
+            if (IsCallbackServiceOfferingCallback && !IsOohService) return serviceDisplayHtml;
 
             serviceDisplayHtml += GetServiceNameHtml();
             
@@ -32,29 +32,27 @@ namespace NHS111.Models.Models.Web
         public string GetOtherServicesServiceDisplayHtml()
         {
             var serviceDisplayHtml = GetServiceTypeAliasHtml();
+            if (IsCallbackServiceNotOfferingCallback && !ShouldShowAddress) 
+                return serviceDisplayHtml;
+
             serviceDisplayHtml += GetOtherServicesSecondLineHtml();
             return serviceDisplayHtml;
+        }
+
+        public bool ShouldShowServiceTypeDescription()
+        {
+            return !string.IsNullOrEmpty(ServiceTypeDescription) && !IsCallbackServiceNotOfferingCallback;
+        }
+
+        public bool ShouldShowOtherServicesServiceTypeDescription(bool isFromOtherServices)
+        {
+            return !string.IsNullOrEmpty(ServiceTypeDescription) && isFromOtherServices && !IsCallbackServiceNotOfferingCallback;
         }
 
         private string GetServiceTypeAliasHtml()
         {
             var serviceTypeAlias = IsCallbackServiceNotOfferingCallback ? PublicName : ServiceTypeAlias;
             return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(serviceTypeAlias));
-        }
-
-        public bool IsOohService
-        {
-            get { return ServiceType.Id.Equals(_oohServiceId); }
-        }
-
-        public bool IsCallbackService
-        {
-            get { return _callbackCASIdList.Contains(ServiceType.Id) || IsOohService; }
-        }
-
-        public bool IsCallbackServiceNotOfferingCallback
-        {
-            get { return IsCallbackService && !OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
         }
 
         private string GetServiceNameHtml()
@@ -74,18 +72,39 @@ namespace NHS111.Models.Models.Web
 
         private string GetOtherServicesSecondLineHtml()
         {
-            if (_callbackCASIdList.Contains(ServiceType.Id)) return string.Empty;
+            if (IsCallbackService && !IsOohService && !ShouldShowAddress) return string.Empty;
 
-            if (ServiceType.Id == 25 && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
+            if (IsOohServiceWithCallback && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
 
-            if (!ShouldShowAddress) 
-                return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
-
-            if (ShouldShowAddress && !string.IsNullOrEmpty(PublicNameOnly))
-                return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+            if (!ShouldShowAddress) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
             var firstLineOfAddress = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
             return string.Format("<br />{0}", WebUtility.HtmlDecode(firstLineOfAddress));
+        }
+
+        public bool IsOohService
+        {
+            get { return ServiceType.Id.Equals(_oohServiceId); }
+        }
+
+        public bool IsOohServiceWithCallback
+        {
+            get { return ServiceType.Id.Equals(_oohServiceId) && OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
+        }
+
+        public bool IsCallbackService
+        {
+            get { return _callbackCASIdList.Contains(ServiceType.Id) || IsOohService; }
+        }
+
+        public bool IsCallbackServiceOfferingCallback
+        {
+            get { return IsCallbackService && OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
+        }
+
+        public bool IsCallbackServiceNotOfferingCallback
+        {
+            get { return IsCallbackService && !OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
         }
     }
 }

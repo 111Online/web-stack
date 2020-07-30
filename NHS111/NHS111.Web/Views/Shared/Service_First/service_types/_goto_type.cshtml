@@ -4,11 +4,10 @@
 @{
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
-    var showServiceDescriptionInDetails = !string.IsNullOrEmpty(recommendedService.ServiceTypeDescription) && isOtherService && !recommendedService.IsOohService;
 }
 <div class="service-details-container nhsuk-u-margin-bottom-4">
     <div class="service-details">
-        @if (showServiceDescriptionInDetails)
+        @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService))
         {
             <p class="service-listing__info">
                 @recommendedService.ServiceTypeDescription

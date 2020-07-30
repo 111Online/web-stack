@@ -4,25 +4,24 @@
 @{
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
-    var showServiceDescriptionInDetails = !string.IsNullOrEmpty(recommendedService.ServiceTypeDescription) && isOtherService && !recommendedService.IsOohService;
 }
 
-<div class="service-details nhsuk-u-margin-bottom-4">
-    @if (showServiceDescriptionInDetails)
-    {
-        <p class="service-listing__info">
-            @recommendedService.ServiceTypeDescription
+    <div class="service-details nhsuk-u-margin-bottom-4">
+        @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService))
+        {
+            <p class="service-listing__info">
+                @recommendedService.ServiceTypeDescription
+            </p>
+            <hr />
+        }
+        <p class="service-details__name">
+            @Html.Raw(recommendedService.GetServiceDisplayHtml())
         </p>
-        <hr />
-    }
-    <p class="service-details__name">
-        @Html.Raw(recommendedService.GetServiceDisplayHtml())
-    </p>
-    <p class="service-details__phone">
-        <a href="tel:@recommendedService.ContactDetails">Call @recommendedService.ContactDetails</a>
-    </p>
+        <p class="service-details__phone">
+            <a href="tel:@recommendedService.ContactDetails">Call @recommendedService.ContactDetails</a>
+        </p>
 
-    <div class="service-details__hours">
-        @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+        <div class="service-details__hours">
+            @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+        </div>
     </div>
-</div>

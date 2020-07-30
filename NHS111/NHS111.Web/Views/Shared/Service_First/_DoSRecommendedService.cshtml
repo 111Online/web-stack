@@ -7,7 +7,7 @@
     <div>
         @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
     </div>
-    if (!string.IsNullOrEmpty(recommendedService.ServiceTypeDescription) && !recommendedService.IsCallbackServiceNotOfferingCallback)
+    if (recommendedService.ShouldShowServiceTypeDescription())
     {
         <div class="measure">
             <p>
