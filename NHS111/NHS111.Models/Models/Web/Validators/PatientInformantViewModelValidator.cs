@@ -2,13 +2,13 @@
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class PersonViewModelValidatior : AbstractValidator<NHS111.Models.Models.Web.PersonalDetails.PersonViewModel>
+    public class PatientInformantViewModelValidator : AbstractValidator<PatientInformantViewModel>
     {
-        public PersonViewModelValidatior()
+        public PatientInformantViewModelValidator()
         {
-            RuleFor(p => p.Forename).NotEmpty();
+            RuleFor(p => p.InformantName.Forename).SetValidator(new FirstNameValidator<PatientInformantViewModel, string>(p => p.InformantName.Forename));
 
-            RuleFor(p => p.Surname).NotEmpty();
+            RuleFor(p => p.InformantName.Surname).SetValidator(new LastNameValidator<PatientInformantViewModel, string>(p => p.InformantName.Surname));
         }
     }
 }

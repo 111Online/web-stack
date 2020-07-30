@@ -68,7 +68,8 @@
                 jQuery(function () {
                     var formSubmitted = false;
 
-                    AddAdapter('personname');
+                    AddAdapter('firstname');
+                    AddAdapter('lastname');
 
                     // This uses jQuery Validator's internal check method, this is undocumented functionality.
                     // The reason for using it is that the public .valid() method has bad side effects when trying to
@@ -77,20 +78,16 @@
                         return $("form").validate().check(el);
                     }
 
-                    jQuery.validator.addMethod('personname', function (value, element, params) {
-                        var personelement = $(element);
-                        if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "Self" &&
-                            personelement.attr('name').startsWith("PatientInformantDetails.SelfName")) {
-                            return (value) !== "";
-                        }
-                        if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "ThirdParty" &&
-                            (personelement.attr('name').startsWith("PatientInformantDetails.PatientName")
-                                || (personelement.attr('name').startsWith("PatientInformantDetails.InformantName")))) {
-                            return (value) !== "";
-                        }
-                        return true;
-
+                    jQuery.validator.addMethod('firstname', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        return (value) !== "" && RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").test(value);
                     });
+
+                    jQuery.validator.addMethod('lastname', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        return (value) !== "" && RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").test(value);
+                    });
+
 
                     jQuery("#theirNameForm").on("submit", function () {
                         formSubmitted = true;

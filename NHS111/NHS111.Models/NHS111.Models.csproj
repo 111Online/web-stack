@@ -369,12 +369,14 @@
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantTypeValidator.cs" />
+    <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator1.cs" />
     <Compile Include="Models\Web\Validators\IPostcodeAllowedValidator.cs" />
     <Compile Include="Models\Web\Validators\JourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\LocationInfoViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonalInfoHomeAddressViewModelValidator.cs" />
-    <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
+    <Compile Include="Models\Web\Validators\FirstNameValidator.cs" />
+    <Compile Include="Models\Web\Validators\LastNameValidator.cs" />
     <Compile Include="Models\Web\Validators\PublicAuditViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\TelephoneNumberValidator.cs" />

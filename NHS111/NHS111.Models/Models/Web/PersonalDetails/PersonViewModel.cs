@@ -5,7 +5,7 @@ using NHS111.Models.Models.Web.Validators;
 namespace NHS111.Models.Models.Web.PersonalDetails
 {
 
-    [Validator(typeof(PersonViewModelValidatior))]
+    [Validator(typeof(PersonViewModelValidator))]
     public class PersonViewModel
     {
         public PersonViewModel()
