@@ -1,195 +1,43 @@
 ﻿<div class="micro-survey">
     <div id="recommendedSurveyFeedback" class="page-section nhsuk-core">
-        <p id="surveyLink">Help us improve. <button type="button" class="button--link">Will you use the recommended service?</button></p>
+        <p id="surveyLink">Help us improve. <button type="button" id="microSurveyStart" class="button--link">Will you use the recommended service?</button></p>
     </div>
 </div>
 
 <script>
-    $(document).ready(function() {
-        var questionsAnswered = {
-            "QID1": "",
-            "QID2": ""
-        };
 
-        function displaySurveyQuestionAndChoices(title, choices, inputType, nextBtnId) {
-            $("#recommendedSurveyFeedback").empty();
+    //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
+    var serviceType = "GoTo";
 
-            $("#recommendedSurveyFeedback").append('<p id="questionTitle"><strong>' + title + '</strong></p>');
-
-            choices.forEach(function(choice) {
-                var choiceWithNoSpaces = choice["choiceText"].split(" ").join("");
-                var choiceNumber = choice["choiceId"];
-
-                $("#recommendedSurveyFeedback")
-                    .append('<input type=' +
-                        inputType +
-                        ' id="' +
-                        choiceWithNoSpaces +
-                        '" name="choice" value="' +
-                        choiceNumber +
-                        '"><label id="' +
-                        choiceWithNoSpaces +
-                        'Label' +
-                        '" + for="' +
-                        choiceWithNoSpaces +
-                        '">' +
-                        choice["choiceText"] +
-                        '</label><br>\r\n');
-            });
-
-            $("#recommendedSurveyFeedback")
-                .append('<button class="button--next" id="' +
-                    nextBtnId +
-                    '" type="button" name="Next" value="Next">Next</button>\r\n');
-        }
-
-        function displayFirstQuestion() {
-            var title = 'Will you use the recommended service?';
-
-            var choices = [
-                { choiceText: "Yes", choiceId: 1 },
-                { choiceText: "No", choiceId: 2 }
-            ];
-
-            displaySurveyQuestionAndChoices(title, choices, 'radio', 'get2ndQuestionBtn');
-        }
-
-        function displaySecondQuestion() {
-            var title = 'Why won\'t you use the recommended service?';
-
-            //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
-            var serviceType = "GoTo";
-
-            var choices = [
-                { choiceText: "It's too hard to get to", choiceId: 1, serviceType: "GoTo" },
-                { choiceText: "I'll go somewhere else I know", choiceId: 2, serviceType: "GoTo" },
-                { choiceText: "I don't want to use the phone", choiceId: 3, serviceType: "PublicPhone" },
-                { choiceText: "I don't have a phone", choiceId: 4, serviceType: "PublicPhone" },
-                { choiceText: "I can't use a phone", choiceId: 5, serviceType: "PublicPhone" },
+    var questions = {
+        "QID1": {
+            title: "Will you use the recommended service?",
+            answerType: "Number",
+            choices: [
+                { choiceText: "Yes", choiceId: 1, inputType: "radio" },
+                { choiceText: "No", choiceId: 2, inputType: "radio", nextQuestionID: "QID2" }
+            ],
+        },
+        "QID2": {
+            title: "Why won't you use the recommended service?",
+            answerType: "[Number]",
+            choices: [
+                { choiceText: "It's too hard to get to", choiceId: 1, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I'll go somewhere else I know", choiceId: 2, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I don't want to use the phone", choiceId: 3, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
+                { choiceText: "I don't have a phone", choiceId: 4, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
+                { choiceText: "I can't use a phone", choiceId: 5, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
                 {
                     choiceText: "I can't speak privately and don't want to be heard",
                     choiceId: 6,
-                    serviceType: "PublicPhone"
+                    inputType: "checkbox",
+                    showIfServiceType: ["PublicPhone"]
                 },
-                { choiceText: "I'll go to my GP instead", choiceId: 7, serviceType: "GoTo" },
-                { choiceText: "I'll have to wait too long to get help", choiceId: 8, serviceType: "GoTo" },
-                { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, serviceType: "GoTo" },
-                { choiceText: "Another reason", choiceId: 10, serviceType: "GoTo" },
-                { choiceText: "Another reason", choiceId: 10, serviceType: "PublicPhone" }
-            ];
-
-            var serviceFilteredChoices = [];
-
-            choices.forEach(function(choice) {
-                if (choice["serviceType"] === serviceType) {
-                    serviceFilteredChoices.push(choice);
-                }
-            });
-
-            displaySurveyQuestionAndChoices(title, serviceFilteredChoices, 'checkbox', 'submitSurveyBtn');
-
-            $("#AnotherreasonLabel")
-                .after(
-                    '<div><p>Tell us the reason</p><textarea id="anotherReasonText" name="anotherReasonText"></textarea></div>');
-
-            $("#recommendedSurveyFeedback")
-                .append(
-                    "<br><button id='changeMyPreviousAnswer' class='button--link'>Change my previous answer</button>");
+                { choiceText: "I'll go to my GP instead", choiceId: 7, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I'll have to wait too long to get help", choiceId: 8, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone"], showTextFieldID: "Q2_10_TEXT", textFieldLabel: "Tell us the reason" }
+            ]
         }
-
-        function displayThanksForYourFeedback() {
-            $("#recommendedSurveyFeedback").empty();
-
-            $("#recommendedSurveyFeedback").append('<p><strong>Thanks for your feedback</strong></p>');
-
-            $("#recommendedSurveyFeedback").append('<p>We\'ll use it to improve the services we recommend.</p>');
-
-            $("#recommendedSurveyFeedback")
-                .append(
-                    '<p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>');
-        }
-
-        function displayYouMustSelectOneOption() {
-            if ($("#onlySelectOneOption").length === 0) {
-                $("#questionTitle")
-                    .after(
-                        '<p class="field-validation-error error-message" id="onlySelectOneOption">You must select one option</p>');
-            }
-        }
-
-        function postSurveyAnswers(data) {
-            console.log(data)
-            $.ajax({
-                url: '/microsurvey/PostRecommendedServiceSurvey',
-                method: 'POST',
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function () {
-                    alert('Success!');
-                },
-                error: function(resultData) {
-                    alert('Failure!');
-                }
-            });
-        };
-
-        function getChoiceIds() {
-            var selectedChoices = $('input[type=checkbox]:checked');
-
-            if (selectedChoices.length === 0) {
-                displayYouMustSelectOneOption();
-            }
-
-            var choiceIds = [];
-
-            selectedChoices.each(function() {
-                choiceIds.push($(this).attr('value'));
-            });
-
-            return choiceIds;
-        }
-
-        // Listeners
-        $("#recommendedSurveyFeedback").on('click', '#surveyLink button', function () {
-            displayFirstQuestion();
-        });
-
-        $("#recommendedSurveyFeedback").on('click', '#get2ndQuestionBtn', function(){
-            if ($('#Yes').is(':checked')) {
-                displayThanksForYourFeedback();
-                var data = {
-                    "values": JSON.stringify({
-                        "QID1": 2
-                    })
-                }
-                return postSurveyAnswers(data);
-            } else if ($('#No').is(':checked')) {
-                questionsAnswered.QID1 = "2";
-                return displaySecondQuestion();
-            }
-
-            displayYouMustSelectOneOption();
-        }); 
-
-        $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
-            displayFirstQuestion();
-        });
-
-        $("#recommendedSurveyFeedback").on('click', '#submitSurveyBtn', function () {
-            var choiceIds = getChoiceIds();
-
-            questionsAnswered.QID2 = choiceIds;
-
-            displayThanksForYourFeedback();
-
-            var data = {
-                "values": JSON.stringify({
-                    "QID1": parseInt(questionsAnswered.QID1),
-                    "QID2": questionsAnswered.QID2
-                })
-            }
-
-            postSurveyAnswers(data);
-        });
-    });
+    }
 </script>
