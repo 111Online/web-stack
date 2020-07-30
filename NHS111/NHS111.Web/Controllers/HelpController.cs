@@ -10,6 +10,11 @@ namespace NHS111.Web.Controllers
         {
             return View();
         }
+        public ActionResult Accessibility()
+        {
+            return View();
+        }
+
 
         public ActionResult Privacy()
         {
