@@ -41,14 +41,27 @@
         );
     Model.SurveyUrl = url;
 
-    <div class="notification-banner survey-banner notification-banner--hiviz">
-
-        @using (Html.BeginForm("SurveyInterstitial", "Outcome", new { startUrl = Model.StartUrl }, FormMethod.Post, new { target = "_blank" }))
+    if (Model.IsMicroSurvey)
+    {
+        using (Html.BeginForm("SurveyInterstitial", "Outcome", new { startUrl = Model.StartUrl }, FormMethod.Post, new { target = "_blank" }))
         {
             @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "" } })
             <p class="notification-banner--inner">
-                Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>
+                You can help improve the whole 111 online service by <button type="submit" class="button--link">taking our survey (opens in a new tab or window)</button>
             </p>
         }
-    </div>
-}
+    }
+    else
+    {
+        <div class="notification-banner survey-banner notification-banner--hiviz">
+
+            @using (Html.BeginForm("SurveyInterstitial", "Outcome", new { startUrl = Model.StartUrl }, FormMethod.Post, new { target = "_blank" }))
+            {
+                @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "" } })
+                <p class="notification-banner--inner">
+                    Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>
+                </p>
+            }
+        </div>
+    }
+} 
