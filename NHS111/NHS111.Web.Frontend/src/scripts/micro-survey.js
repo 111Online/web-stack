@@ -26,15 +26,31 @@ jQuery(document).ready(function () {
 
       if (choice.showIfServiceType && !choice.showIfServiceType.includes(embeddedData.serviceType)) return;
 
+      var textboxDataAttribute = choice.showTextFieldID ? `data-reveals-textbox-id="${choice.showTextFieldID}"` : '';
+
+      var textboxElement = choice.showTextFieldID ? `
+            <div class="micro-survey__toggle-element">
+              <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
+                  ${choice.textFieldLabel}
+              </label>
+              <input type="text" id="${choice.showTextFieldID}" value="">
+              <br>\r\n
+            </div>
+        ` : '';
+
       $("#microSurveyQuestions")
         .append(`
-            <input type="${inputType}" id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
-            <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
-                ${choice.choiceText}
-            </label>
-            <br>\r\n
+            <div>
+              <input type = "${inputType}" ${textboxDataAttribute} id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
+              <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
+                  ${choice.choiceText}
+              </label>
+              <br>\r\n
+              ${textboxElement}
+            </div>
         `);
-    });
+
+    })
 
     $("#microSurveyQuestions")
       .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>\r\n`);
@@ -64,7 +80,7 @@ jQuery(document).ready(function () {
       method: 'POST',
       contentType: "application/json",
       data: JSON.stringify(data),
-      error: function (resultData) {
+      error: function () {
         logEvent(EventTypes.Error, "Micro survey failed")
       }
     });
@@ -79,14 +95,18 @@ jQuery(document).ready(function () {
     if (selectedChoices.length === 0) return false
 
     if (question.answerType === "Number") {
-      return selectedChoices.attr("value")
+      return Number(selectedChoices.val())
     }
 
     if (question.answerType === "[Number]") {
       var choiceIds = [];
 
       selectedChoices.each(function () {
-        choiceIds.push($(this).attr('value'));
+        choiceIds.push($(this).val());
+        var textFieldID = $(this).attr("data-reveals-textbox-id")
+        if (textFieldID) {
+          questionsAnswered[textFieldID] = $(`#${textFieldID}`).val()
+        }
       });
 
       return choiceIds;
@@ -116,6 +136,11 @@ jQuery(document).ready(function () {
     embeddedData = _embeddedData
     displayQuestion("QID1");
 
+    $('#microSurveyQuestions').on('click', '[data-reveals-textbox-id]', function () {
+      var textboxID = $(this).attr('data-reveals-textbox-id')
+      $(`#${textboxID}`).show()
+    })
+
     $("#microSurveyQuestions").on('click', '#microSurveyPrevious', function () {
       if (previousQuestionID) displayQuestion(previousQuestionID);
     });
@@ -140,7 +165,7 @@ jQuery(document).ready(function () {
 
         // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
-
+        console.log(questionsAnswered)
         postSurveyAnswers({
           "values": JSON.stringify(questionsAnswered)
         });
