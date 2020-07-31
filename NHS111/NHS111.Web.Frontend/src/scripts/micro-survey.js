@@ -17,7 +17,9 @@ jQuery(document).ready(function () {
 
     $("#microSurveyQuestions").empty();
 
-    $("#microSurveyQuestions").append('<p id="questionTitle"><strong>' + title + '</strong></p>');
+    formGroupElement = '<div class="form-group">'
+
+    formGroupElement += `<h3 class="nhsuk-heading-s nhsuk-u-margin-bottom-3">${title}</h3>`
 
     choices.forEach(function (choice) {
       var choiceWithNoSpaces = choice.choiceText.split(" ").join("");
@@ -29,34 +31,34 @@ jQuery(document).ready(function () {
       var textboxDataAttribute = choice.showTextFieldID ? `data-reveals-textbox-id="${choice.showTextFieldID}"` : '';
 
       var textboxElement = choice.showTextFieldID ? `
-            <div class="micro-survey__toggle-element">
-              <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
+            <div class="micro-survey__toggle-element panel nhsuk-u-padding-top-2 nhsuk-u-padding-bottom-2 nhsuk-u-margin-left-3">
+              <label for="${choice.showTextFieldID}">
                   ${choice.textFieldLabel}
               </label>
               <input type="text" id="${choice.showTextFieldID}" value="">
-              <br>\r\n
             </div>
         ` : '';
 
-      $("#microSurveyQuestions")
-        .append(`
-            <div>
-              <input type = "${inputType}" ${textboxDataAttribute} id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
-              <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
-                  ${choice.choiceText}
-              </label>
-              <br>\r\n
-              ${textboxElement}
-            </div>
-        `);
-
+      formGroupElement += `
+          <div class="nhsuk-u-margin-bottom-3">
+            <input type = "${inputType}" ${textboxDataAttribute} id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
+            <label for="${choiceWithNoSpaces}">
+                ${choice.choiceText}
+            </label>
+            ${textboxElement}
+          </div>
+      `
     })
 
+    formGroupElement += "</div>"
+
+    $("#microSurveyQuestions").append(formGroupElement)
+
     $("#microSurveyQuestions")
-      .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>\r\n`);
+      .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>`);
 
     if (currentQuestionID != "QID1") {
-      $("#microSurveyQuestions").append(`<br><br><button class="button--link" id="microSurveyPrevious" type="button">Change my previous answer</button>\r\n`);
+      $("#microSurveyQuestions").append(`<button class="button--link nhsuk-u-margin-top-4" id="microSurveyPrevious" type="button">Change my previous answer</button>`);
     }
 
   }
@@ -68,9 +70,10 @@ jQuery(document).ready(function () {
 
   function displayYouMustSelectOneOption() {
     if ($("#onlySelectOneOption").length === 0) {
-      $("#questionTitle")
+      $("#microSurveyQuestions .form-group").addClass("form-group-error")
+      $("#microSurveyQuestions h3")
         .after(
-          '<p class="field-validation-error error-message" id="onlySelectOneOption">You must select one option</p>');
+          '<span class="field-validation-error error-message nhsuk-u-margin-bottom-4" id="onlySelectOneOption">You must select one option</span>');
     }
   }
 
@@ -165,7 +168,7 @@ jQuery(document).ready(function () {
 
         // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
-        console.log(questionsAnswered)
+
         postSurveyAnswers({
           "values": JSON.stringify(questionsAnswered)
         });
