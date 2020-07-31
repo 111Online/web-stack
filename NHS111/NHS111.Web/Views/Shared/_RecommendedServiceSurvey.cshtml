@@ -33,7 +33,7 @@
 
         //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
         var embeddedData = {
-            serviceType: "GoTo"
+            serviceType: "PublicPhone"
         }
 
         var questions = {
@@ -63,7 +63,7 @@
                     { choiceText: "I'll go to my GP instead", choiceId: 7, inputType: "checkbox", showIfServiceType: ["GoTo"] },
                     { choiceText: "I'll have to wait too long to get help", choiceId: 8, inputType: "checkbox", showIfServiceType: ["GoTo"] },
                     { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, inputType: "checkbox", showIfServiceType: ["GoTo"] },
-                    { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone"], showTextFieldID: "Q2_10_TEXT", textFieldLabel: "Tell us the reason" }
+                    { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone"], showTextFieldID: "QID2_10_TEXT", textFieldLabel: "Tell us the reason" }
                 ]
             }
         }
