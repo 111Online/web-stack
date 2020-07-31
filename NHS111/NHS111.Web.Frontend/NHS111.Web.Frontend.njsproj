@@ -70,6 +70,9 @@
     <Content Include="src\scripts\event-logging.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\scripts\micro-survey.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\scripts\test-geolocation.js" />
     <Content Include="src\scripts\test-validation.js" />
     <Content Include="src\scripts\validation.js" />
@@ -92,6 +95,7 @@
     <Content Include="src\styles\components\_emergency-alert.scss">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\styles\components\_micro-survey.scss" />
     <Content Include="src\styles\components\_feedback.scss" />
     <Content Include="src\styles\components\_multiple-choice.scss" />
     <Content Include="src\styles\components\_form-label.scss" />

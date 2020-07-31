@@ -1,0 +1,49 @@
+﻿<div class="micro-survey">
+    <div id="recommendedSurveyFeedback" class="page-section nhsuk-core">
+        <p id="surveyLink">Help us improve. <button type="button" id="microSurveyStart" class="button--link">Will you use the recommended service?</button></p>
+    </div>
+</div>
+
+<script>
+
+    //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
+    var embeddedData = {
+        serviceType: "GoTo"
+    }
+
+    var questions = {
+        "QID1": {
+            title: "Will you use the recommended service?",
+            answerType: "Number",
+            choices: [
+                { choiceText: "Yes", choiceId: 1, inputType: "radio" },
+                { choiceText: "No", choiceId: 2, inputType: "radio", nextQuestionID: "QID2" }
+            ],
+        },
+        "QID2": {
+            title: "Why won't you use the recommended service?",
+            answerType: "[Number]",
+            choices: [
+                { choiceText: "It's too hard to get to", choiceId: 1, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I'll go somewhere else I know", choiceId: 2, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I don't want to use the phone", choiceId: 3, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
+                { choiceText: "I don't have a phone", choiceId: 4, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
+                { choiceText: "I can't use a phone", choiceId: 5, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
+                {
+                    choiceText: "I can't speak privately and don't want to be heard",
+                    choiceId: 6,
+                    inputType: "checkbox",
+                    showIfServiceType: ["PublicPhone"]
+                },
+                { choiceText: "I'll go to my GP instead", choiceId: 7, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I'll have to wait too long to get help", choiceId: 8, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone"], showTextFieldID: "Q2_10_TEXT", textFieldLabel: "Tell us the reason" }
+            ]
+        }
+    }
+
+    $("#recommendedSurveyFeedback").on('click', '#microSurveyStart', function () {
+        startMicroSurvey(questions, embeddedData)
+    })
+</script>

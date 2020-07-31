@@ -224,6 +224,7 @@
     <Compile Include="Builders\CCGViewModelBuilder.cs" />
     <Compile Include="Builders\JourneyViewModelBuilder.cs" />
     <Compile Include="Builders\LocationResultBuilder.cs" />
+    <Compile Include="Builders\MicroSurveyBuilder.cs" />
     <Compile Include="Builders\PageDataViewModelBuilder.cs" />
     <Compile Include="Builders\RecommendedServiceBuilder.cs" />
     <Compile Include="Builders\ReferralResultBuilder.cs" />

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Web.Http;
 
+
 namespace NHS111.Web.Controllers
 {
     using AutoMapper;
@@ -132,8 +133,6 @@ namespace NHS111.Web.Controllers
             var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
             return View(viewRouter.ViewName, outcomeModel);
         }
-
-
 
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]

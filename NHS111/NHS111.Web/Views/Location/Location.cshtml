@@ -1,7 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@{
-    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-}
+@{ Layout = "~/Views/Shared/_LayoutNhsUK.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<LocationViewModel>
 @section Title {NHS 111 Online}
 
@@ -14,6 +12,12 @@
                 'virtualPageTitle': 'Location'
             }];
     </script>
+}
+
+
+@section FeedbackSection {
+    @* THIS NEEDS TO BE MOVED TO RECOMMENDED SERVICE PAGE *@
+    @Html.Partial("_recommendedServiceSurvey")
 }
 
 <h2 class="heading--large">Where are you now?</h2>
@@ -38,8 +42,7 @@
     @Html.HiddenFor(m => m.IsCovidJourney)
 </div>
 
-    <button type="submit" class="button--next">Next</button>
-}
+                <button type="submit" class="button--next">Next</button>}
 
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">

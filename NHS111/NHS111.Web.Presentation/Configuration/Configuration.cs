@@ -6,6 +6,9 @@ namespace NHS111.Web.Presentation.Configuration
 {
     public class Configuration : IConfiguration
     {
+        public string QualtricsApiBaseUrl { get { return ConfigurationManager.AppSettings["QualtricsApiBaseUrl"]; } }
+        public string QualtricsApiToken { get { return ConfigurationManager.AppSettings["QualtricsApiToken"]; } }
+        public string QualtricsRecommendedServiceSurveyId { get { return ConfigurationManager.AppSettings["QualtricsRecommendedServiceSurveyId"]; } }
         public string ItkDispatcherApiBaseUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiBaseUrl"]; } }
         public string ItkDispatcherApiSendItkMessageUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiSendItkMessageUrl"]; } }
         public string CaseDataCaptureApiBaseUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiBaseUrl"]; } }
@@ -292,6 +295,9 @@ namespace NHS111.Web.Presentation.Configuration
 
     public interface IConfiguration
     {
+        string QualtricsApiBaseUrl { get; }
+        string QualtricsApiToken { get; }
+        string QualtricsRecommendedServiceSurveyId { get; }
         string BusinessApiProtocolandDomain { get; }
         string ItkDispatcherApiSendItkMessageUrl { get; }
         string ItkDispatcherApiBaseUrl { get; }
