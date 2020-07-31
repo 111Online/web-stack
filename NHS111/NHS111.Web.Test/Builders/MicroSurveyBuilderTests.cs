@@ -30,7 +30,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             var sut = new MicroSurveyBuilder(_mockRestClient.Object, _mockConfiguration.Object);
 
-            await sut.PostMicroSurveyResponse(null);
+            await sut.PostMicroSurveyResponse(new SurveyResult(){ Values = "" });
 
             _mockRestClient.Verify(m => m.ExecuteAsync(
                 It.Is<RestRequest>(c => c.Parameters.Any(s => s.Value == "ABC123"))));
@@ -41,7 +41,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             var sut = new MicroSurveyBuilder(_mockRestClient.Object, _mockConfiguration.Object);
 
-            await sut.PostMicroSurveyResponse(null);
+            await sut.PostMicroSurveyResponse(new SurveyResult() { Values = "" });
 
             _mockRestClient.Verify(m => m.ExecuteAsync(
                 It.Is<RestRequest>(c => c.Method == Method.POST)));
@@ -52,7 +52,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             var sut = new MicroSurveyBuilder(_mockRestClient.Object, _mockConfiguration.Object);
 
-            await sut.PostMicroSurveyResponse(null);
+            await sut.PostMicroSurveyResponse(new SurveyResult() { Values = "" });
 
             _mockRestClient.Verify(m => m.ExecuteAsync(
                 It.Is<RestRequest>(c => c.Resource == "API/v3/surveys/testsurveyid/responses")));
@@ -63,7 +63,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             var sut = new MicroSurveyBuilder(_mockRestClient.Object, _mockConfiguration.Object);
 
-            await sut.PostMicroSurveyResponse(new SurveyResult(){ Values = new SurveyResultValues() { Q1D1 = 1, Q1D2 = new string[] {"1", "4"}} });
+            await sut.PostMicroSurveyResponse(new SurveyResult() { Values = ""});
 
             _mockRestClient.Verify(m => m.ExecuteAsync(
                 It.Is<RestRequest>(c => c.Parameters.Count == 2)));

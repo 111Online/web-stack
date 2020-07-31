@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Helpers;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web.MicroSurvey;
 using NHS111.Utils.RestTools;
@@ -26,7 +25,6 @@ namespace NHS111.Web.Presentation.Builders
             var request = new RestRequest(uri, Method.POST);
 
             request.AddHeader("X-API-TOKEN", _configuration.QualtricsApiToken);
-
 
             request.AddParameter("application/json", JsonConvert.SerializeObject(new
             {
