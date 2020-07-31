@@ -38,15 +38,20 @@ jQuery(document).ready(function () {
 
     $("#recommendedSurveyFeedback")
       .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>\r\n`);
+
+    if (currentQuestionID != "QID1") {
+      $("#recommendedSurveyFeedback").append(`<br><br><button class="button--link" id="microSurveyPrevious" type="button">Change my previous answer</button>\r\n`);
+    }
+
   }
 
   function displayThanksForYourFeedback() {
 
     var thankYouContent = `
-                <p><strong>Thanks for your feedback</strong></p>
-                <p>We\'ll use it to improve the services we recommend.</p>
-                <p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>
-            `;
+        <p><strong>Thanks for your feedback</strong></p>
+        <p>We\'ll use it to improve the services we recommend.</p>
+        <p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>
+    `;
 
     $("#recommendedSurveyFeedback").html(thankYouContent)
   }
@@ -65,11 +70,8 @@ jQuery(document).ready(function () {
       method: 'POST',
       contentType: "application/json",
       data: JSON.stringify(data),
-      success: function () {
-        alert('Success!');
-      },
       error: function (resultData) {
-        alert('Failure!');
+        logEvent(EventTypes.Error, "Micro survey failed")
       }
     });
   };
@@ -78,18 +80,15 @@ jQuery(document).ready(function () {
   function getAnswersForQuestion(questionID) {
 
     var question = questions[questionID];
+    var selectedChoices = $("#recommendedSurveyFeedback input:checked");
+
+    if (selectedChoices.length === 0) return false
 
     if (question.answerType === "Number") {
-      return $("#recommendedSurveyFeedback input:checked").attr("value")
+      return selectedChoices.attr("value")
     }
 
     if (question.answerType === "[Number]") {
-      var selectedChoices = $('#recommendedSurveyFeedback input[type=checkbox]:checked');
-
-      if (selectedChoices.length === 0) {
-        displayYouMustSelectOneOption();
-      }
-
       var choiceIds = [];
 
       selectedChoices.each(function () {
@@ -119,13 +118,18 @@ jQuery(document).ready(function () {
     embeddedData = _embeddedData
     displayQuestion("QID1");
 
-    $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
+    $("#recommendedSurveyFeedback").on('click', '#microSurveyPrevious', function () {
       if (previousQuestionID) displayQuestion(previousQuestionID);
     });
 
     $("#recommendedSurveyFeedback").on('click', '#microSurveyNext', function () {
 
       var answers = getAnswersForQuestion(currentQuestionID);
+      if (!answers) {
+        displayYouMustSelectOneOption();
+        return;
+      }
+
       questionsAnswered[currentQuestionID] = answers;
 
       previousQuestionID = currentQuestionID;
@@ -135,6 +139,8 @@ jQuery(document).ready(function () {
         displayQuestion(nextQuestionID)
       }
       else {
+
+        // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
 
         postSurveyAnswers({
