@@ -72,13 +72,13 @@ namespace NHS111.Models.Models.Web
 
         private string GetOtherServicesSecondLineHtml()
         {
-            if (IsCallbackService && !IsOohService && !ShouldShowAddress) return string.Empty;
+            if (IsCASCallbackServiceWithNoAddress) return string.Empty;
 
-            if (IsOohServiceWithCallback && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
+            if (IsOohServiceWithCallbackAndNoPublicName) return string.Empty;
 
-            if(!string.IsNullOrEmpty(PublicNameOnly) && !IsCallbackService) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+            if (IsNotACallbackServiceWithPublicName) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
-            if (!ShouldShowAddress) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+            if(!ShouldShowAddress) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
             var firstLineOfAddress = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
             return string.Format("<br />{0}", WebUtility.HtmlDecode(firstLineOfAddress));
@@ -89,9 +89,19 @@ namespace NHS111.Models.Models.Web
             get { return ServiceType.Id.Equals(_oohServiceId); }
         }
 
+        public bool IsCASCallbackServiceWithNoAddress
+        {
+            get { return IsCallbackService && !IsOohService && !ShouldShowAddress; }
+        }
+
         public bool IsOohServiceWithCallback
         {
             get { return ServiceType.Id.Equals(_oohServiceId) && OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
+        }
+
+        public bool IsOohServiceWithCallbackAndNoPublicName
+        {
+            get { return IsOohServiceWithCallback && string.IsNullOrEmpty(PublicNameOnly); }
         }
 
         public bool IsCallbackService
@@ -107,6 +117,11 @@ namespace NHS111.Models.Models.Web
         public bool IsCallbackServiceNotOfferingCallback
         {
             get { return IsCallbackService && !OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback); }
+        }
+
+        public bool IsNotACallbackServiceWithPublicName
+        {
+            get {  return !string.IsNullOrEmpty(PublicNameOnly) && !IsCallbackService; }
         }
     }
 }
