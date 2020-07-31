@@ -40,7 +40,7 @@ jQuery(document).ready(function () {
       .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>\r\n`);
 
     if (currentQuestionID != "QID1") {
-      $("#recommendedSurveyFeedback").append(`<br><br><button class="button--link" id="microSurveyPrevious" type="button">Change my previous answer</button>\r\n`);
+      $("#microSurveyQuestions").append(`<br><br><button class="button--link" id="microSurveyPrevious" type="button">Change my previous answer</button>\r\n`);
     }
 
   }
@@ -74,7 +74,7 @@ jQuery(document).ready(function () {
   function getAnswersForQuestion(questionID) {
 
     var question = questions[questionID];
-    var selectedChoices = $("#recommendedSurveyFeedback input:checked");
+    var selectedChoices = $("#microSurveyQuestions input:checked");
 
     if (selectedChoices.length === 0) return false
 
