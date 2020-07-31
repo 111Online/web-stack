@@ -1,7 +1,8 @@
 
 
 jQuery(document).ready(function () {
-
+  var questions = {}
+  var embeddedData = {}
   var currentQuestionID = "QID1";
   var previousQuestionID = null;
 
@@ -22,6 +23,8 @@ jQuery(document).ready(function () {
       var choiceWithNoSpaces = choice.choiceText.split(" ").join("");
       var choiceNumber = choice.choiceId;
       var inputType = choice.inputType;
+
+      if (choice.showIfServiceType && !choice.showIfServiceType.includes(embeddedData.serviceType)) return;
 
       $("#recommendedSurveyFeedback")
         .append(`
@@ -57,7 +60,6 @@ jQuery(document).ready(function () {
   }
 
   function postSurveyAnswers(data) {
-    console.log(data)
     $.ajax({
       url: '/microsurvey/PostRecommendedServiceSurvey',
       method: 'POST',
@@ -112,7 +114,9 @@ jQuery(document).ready(function () {
   }
 
   // Listeners
-  $("#recommendedSurveyFeedback").on('click', '#microSurveyStart', function () {
+  window.startMicroSurvey = function (_questions, _embeddedData) {
+    questions = _questions
+    embeddedData = _embeddedData
     displayQuestion("QID1");
 
     $("#recommendedSurveyFeedback").on('click', '#changeMyPreviousAnswer', function () {
@@ -139,6 +143,6 @@ jQuery(document).ready(function () {
       }
     });
 
-  });
+  }
 
 });

@@ -7,7 +7,9 @@
 <script>
 
     //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
-    var serviceType = "GoTo";
+    var embeddedData = {
+        serviceType: "GoTo"
+    }
 
     var questions = {
         "QID1": {
@@ -40,4 +42,8 @@
             ]
         }
     }
+
+    $("#recommendedSurveyFeedback").on('click', '#microSurveyStart', function () {
+        startMicroSurvey(questions, embeddedData)
+    })
 </script>
