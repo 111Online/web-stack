@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
+using AutoMapper;
 using FakeItEasy;
 using Newtonsoft.Json;
 using NHS111.Features;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
@@ -12,6 +15,7 @@ using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
 using RestSharp;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -29,6 +33,8 @@ namespace NHS111.Web.Presentation.Test.Builders
         [SetUp]
         public void Setup()
         {
+            Mapper.Initialize(m => m.AddProfile<FromServiceViewModelToRecommendedServiceViewModelMapper>());
+
             var _fakeConfiguration = A.Fake<IConfiguration>();
             var _fakeLoggingRestClient = A.Fake<ILoggingRestClient>();
             var _fakeSurveyLinkFeature = A.Fake<ISurveyLinkFeature>();
@@ -245,6 +251,16 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
             _outcomeViewModel.SelectedService.ServiceType.Id = 25;
+            _outcomeViewModel.SelectedService.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual(string.Empty, result.RecommendedServiceTypeAlias);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_cas_service_first_and_not_callback()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            _outcomeViewModel.SelectedService.ServiceType.Id = 130;
             _outcomeViewModel.SelectedService.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
             var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
             Assert.AreEqual(string.Empty, result.RecommendedServiceTypeAlias);
