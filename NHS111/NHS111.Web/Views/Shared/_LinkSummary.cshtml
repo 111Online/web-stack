@@ -12,15 +12,6 @@
 
 *@
 
-@{ 
-    var id = "";
-    if (!Model.ID.IsEmpty()) { id = "id=\"" + Model.ID + "\""; }
-
-    var clickEvent = string.Format("data-event-trigger=\"click\" data-event-value=\"{0}\"", Model.Link);
-    var openingSummaryTag = string.Format("<summary {0}>", Model.RequiresClickAudit ? clickEvent : string.Empty);
-    var closingSummaryTag = "</summary>";
-}
-
 <details role="group" class="nhsuk-u-margin-bottom-4" @Html.Raw(id)>
     <summary data-event-trigger="@Model.EventTrigger" data-event-value="@Model.EventValue">
         <span class="details__arrow" aria-hidden="true"></span>
