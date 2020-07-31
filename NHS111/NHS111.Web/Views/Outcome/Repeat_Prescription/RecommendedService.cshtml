@@ -28,17 +28,22 @@
         @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
     }
 }
-@section FeedbackSection {
 
-    @if (SurveyLinkFeature.IsEnabled && !Model.RecommendedService.OnlineDOSServiceType.IsReferral)
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
-    }
-    else
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionRecommendedService, Model) })
-    }
+@section FeedbackSection {
+    @Html.Partial("_RecommendedServiceSurvey", Model.SurveyLink, dataDictionary)
 }
+
+@*@section FeedbackSection {
+
+        @if (SurveyLinkFeature.IsEnabled && !Model.RecommendedService.OnlineDOSServiceType.IsReferral)
+        {
+            @Html.Partial("_SurveyLink", Model.SurveyLink)
+        }
+        else
+        {
+            @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionRecommendedService, Model) })
+        }
+    }*@
 <div class="nhsuk-core">
     @Html.Partial("_rs_Recommeded_DOS_Service", Model)
     @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)

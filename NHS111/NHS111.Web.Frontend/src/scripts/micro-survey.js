@@ -15,9 +15,9 @@ jQuery(document).ready(function () {
     var choices = questions[questionID].choices;
 
 
-    $("#recommendedSurveyFeedback").empty();
+    $("#microSurveyQuestions").empty();
 
-    $("#recommendedSurveyFeedback").append('<p id="questionTitle"><strong>' + title + '</strong></p>');
+    $("#microSurveyQuestions").append('<p id="questionTitle"><strong>' + title + '</strong></p>');
 
     choices.forEach(function (choice) {
       var choiceWithNoSpaces = choice.choiceText.split(" ").join("");
@@ -26,34 +26,28 @@ jQuery(document).ready(function () {
 
       if (choice.showIfServiceType && !choice.showIfServiceType.includes(embeddedData.serviceType)) return;
 
-      $("#recommendedSurveyFeedback")
+      $("#microSurveyQuestions")
         .append(`
-                        <input type="${inputType}" id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
-                        <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
-                            ${choice.choiceText}
-                        </label>
-                        <br>\r\n
-                    `);
+            <input type="${inputType}" id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
+            <label id="${choiceWithNoSpaces}Label" for="${choiceWithNoSpaces}">
+                ${choice.choiceText}
+            </label>
+            <br>\r\n
+        `);
     });
 
-    $("#recommendedSurveyFeedback")
+    $("#microSurveyQuestions")
       .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>\r\n`);
 
     if (currentQuestionID != "QID1") {
-      $("#recommendedSurveyFeedback").append(`<br><br><button class="button--link" id="microSurveyPrevious" type="button">Change my previous answer</button>\r\n`);
+      $("#microSurveyQuestions").append(`<br><br><button class="button--link" id="microSurveyPrevious" type="button">Change my previous answer</button>\r\n`);
     }
 
   }
 
   function displayThanksForYourFeedback() {
-
-    var thankYouContent = `
-        <p><strong>Thanks for your feedback</strong></p>
-        <p>We\'ll use it to improve the services we recommend.</p>
-        <p>You can help improve the whole 111 online service by <a href="">taking our survey (opens in a new tab or window)</a></p>
-    `;
-
-    $("#recommendedSurveyFeedback").html(thankYouContent)
+    $("#microSurveyQuestions").hide();
+    $("#microSurveyEnd").show();
   }
 
   function displayYouMustSelectOneOption() {
@@ -80,7 +74,7 @@ jQuery(document).ready(function () {
   function getAnswersForQuestion(questionID) {
 
     var question = questions[questionID];
-    var selectedChoices = $("#recommendedSurveyFeedback input:checked");
+    var selectedChoices = $("#microSurveyQuestions input:checked");
 
     if (selectedChoices.length === 0) return false
 
@@ -114,15 +108,19 @@ jQuery(document).ready(function () {
 
   // Listeners
   window.startMicroSurvey = function (_questions, _embeddedData) {
+
+    $("#microSurveyLink").hide()
+    $("#microSurveyQuestions").show()
+
     questions = _questions
     embeddedData = _embeddedData
     displayQuestion("QID1");
 
-    $("#recommendedSurveyFeedback").on('click', '#microSurveyPrevious', function () {
+    $("#microSurveyQuestions").on('click', '#microSurveyPrevious', function () {
       if (previousQuestionID) displayQuestion(previousQuestionID);
     });
 
-    $("#recommendedSurveyFeedback").on('click', '#microSurveyNext', function () {
+    $("#microSurveyQuestions").on('click', '#microSurveyNext', function () {
 
       var answers = getAnswersForQuestion(currentQuestionID);
       if (!answers) {

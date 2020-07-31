@@ -7,3 +7,6 @@ import './jquery-feedback.js'
 import './jquery-cards.js'
 import './jquery-service-details.js'
 import './micro-survey.js'
+
+jQuery(".js-show").show()
+jQuery(".js-hide").hide()

@@ -8,6 +8,7 @@
     var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.ServiceOptions;
     var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.ServiceCount;
     var guided_selection = ViewData.ContainsKey("GuidedSelection") ? ViewData["GuidedSelection"] : Model.GuidedSelection;
+    bool isMicroSurvey = ViewData.ContainsKey("isMicroSurvey") ? (bool)ViewData["IsMicroSurvey"] : false;
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -41,14 +42,27 @@
         );
     Model.SurveyUrl = url;
 
-    <div class="notification-banner survey-banner notification-banner--hiviz">
-
-        @using (Html.BeginForm("SurveyInterstitial", "Outcome", new { startUrl = Model.StartUrl }, FormMethod.Post, new { target = "_blank" }))
+    if (isMicroSurvey)
+    {
+        using (Html.BeginForm("SurveyInterstitial", "Outcome", new { startUrl = Model.StartUrl }, FormMethod.Post, new { target = "_blank" }))
         {
             @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "" } })
-            <p class="notification-banner--inner">
-                Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>
+            <p class="nhsuk-u-margin-bottom-0">
+                You can help improve the whole 111 online service by <button type="submit" class="button--link">taking our survey (opens in a new tab or window)</button>
             </p>
         }
-    </div>
-}
+    }
+    else
+    {
+        <div class="notification-banner survey-banner notification-banner--hiviz">
+
+            @using (Html.BeginForm("SurveyInterstitial", "Outcome", new { startUrl = Model.StartUrl }, FormMethod.Post, new { target = "_blank" }))
+            {
+                @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "" } })
+                <p class="notification-banner--inner">
+                    Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>
+                </p>
+            }
+        </div>
+    }
+} 
