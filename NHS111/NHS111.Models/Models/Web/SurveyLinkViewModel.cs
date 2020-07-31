@@ -47,6 +47,5 @@ namespace NHS111.Models.Models.Web
 
         public List<ServiceViewModel> Services { get; set; }
         public string StartUrl { get; set; }
-        public bool IsMicroSurvey { get; set; }
     }
 }
