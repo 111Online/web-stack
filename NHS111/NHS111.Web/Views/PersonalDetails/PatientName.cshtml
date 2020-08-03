@@ -90,7 +90,8 @@
                 });
 
                 jQuery.validator.addMethod('lastname', function (value) {
-                    if (!formSubmitted && value.trim() === "") return true;
+                    var text = value.replace(/^\s+|\s+$/gm, '')
+                    if (!formSubmitted && text === "") return true;
                     return text !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(text);
                 });
                 jQuery("#yourNameForm").on("submit", function () {
