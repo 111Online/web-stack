@@ -84,15 +84,15 @@
                 }
 
                 jQuery.validator.addMethod('firstname', function (value) {
-                    if (!formSubmitted && value === "") return true;
-                    return (value) !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(value);
+                    var text = value.replace(/^\s+|\s+$/gm, '')
+                    if (!formSubmitted && text === "") return true;
+                    return text !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(text);
                 });
 
                 jQuery.validator.addMethod('lastname', function (value) {
-                    if (!formSubmitted && value === "") return true;
-                    return (value) !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(value);
+                    if (!formSubmitted && value.trim() === "") return true;
+                    return text !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(text);
                 });
-
                 jQuery("#yourNameForm").on("submit", function () {
                     formSubmitted = true;
                 })
