@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Web.Parsers;
 using StructureMap.Query;
 
@@ -131,7 +132,7 @@ namespace NHS111.Models.Models.Web
         public bool? HasAcceptedCallbackOffer { get; set; }
 
         public RecommendedServiceViewModel RecommendedService { get; set; }
-
+        public EmbeddedData EmbeddedData { get; set; }
 
         public OutcomeViewModel()
         {

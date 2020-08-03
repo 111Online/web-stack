@@ -174,6 +174,7 @@
     <Compile Include="Mappers\WebMappings\FromDateOfBirthViewModelToPersonalDetailsViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToEmbeddedDataModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToOtherServicesViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToPersonalDetailViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
     <Compile Include="Models\Business\Location\PostcodeResult.cs" />
+    <Compile Include="Models\Business\MicroSurvey\EmbeddedData.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwayPhraseResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\BodytagResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\ReservedSearchResult.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="Models\Domain\QuestionType.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
+    <Compile Include="Models\RecommendServiceOutcomeViewModel.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
     <Compile Include="Models\Web\DataCapture\GenerateSMSVerifyCodeRequest.cs" />
