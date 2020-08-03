@@ -57,27 +57,6 @@ namespace NHS111.Web.Controllers
             return View("InitialQuestion", model);
         }
 
-        [HttpGet]
-        [Route("seleniumtests/direct/{postcode}")]
-        public ActionResult SeleniumTesting(string postcode, bool filterServices = true)
-        {
-            var startOfJourney = new JourneyViewModel
-            {
-                SessionId = Guid.Parse(Request.AnonymousID),
-                FilterServices = filterServices,
-                UserInfo = new UserInfo
-                {
-                    CurrentAddress = new FindServicesAddressViewModel()
-                    {
-                        Postcode = postcode
-                    }
-                }
-            };
-
-            _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
-            return View("InitialQuestion", startOfJourney);
-        }
-
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
         {
