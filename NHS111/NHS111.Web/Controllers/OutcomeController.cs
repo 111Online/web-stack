@@ -238,7 +238,11 @@ namespace NHS111.Web.Controllers
                     var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
 
                     //Somehow got here despite only 1 service (refresh after service close) so go back to recommendedservice page.
-                    if (otherServices.Count() == 1 && model.OutcomeGroup.IsServiceFirst) return RecommendedService(model);
+                    if (otherServices.Count() == 1 && model.OutcomeGroup.IsServiceFirst)
+                    {
+                        otherServicesModel.RecommendedService = otherServices.First();
+                        return RecommendedService(otherServicesModel);
+                    }
 
                     //Very weird mapper issue ignoring this property for some reason
                     //unit test specifically testing this passes fine so can really fathow what is going on
