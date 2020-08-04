@@ -19,7 +19,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.DispositionTime,
                     opt => opt.MapFrom(src => src.SurveyLink.DispositionDateTime.TimeOfDay))
                 .ForMember(dest => dest.Ccg, opt => opt.MapFrom(src => src.Source))
-                .ForMember(dest => dest.LaunchPage, opt => opt.MapFrom(src => src.OutcomePage == OutcomePage.Outcome ? OutcomePage.Outcome.ToString() : ""))
+                .ForMember(dest => dest.LaunchPage,
+                    opt => opt.MapFrom(src =>
+                        src.OutcomePage == OutcomePage.Outcome ? OutcomePage.Outcome.ToString() : ""))
                 .ForMember(dest => dest.ValidationCallbackOfferd,
                     opt => opt.MapFrom(src => src.SurveyLink.ValidationCallbackOffered))
                 .ForMember(dest => dest.ServicesOffered,
@@ -35,8 +37,8 @@ namespace NHS111.Models.Mappers.WebMappings
                     opt => opt.MapFrom(src => src.RecommendedService.Distance))
                 .ForMember(dest => dest.SdCode, opt => opt.MapFrom(src => src.SymptomDiscriminatorCode ?? ""))
                 .ForMember(dest => dest.SdDescription,
-                    opt => opt.MapFrom(src => src.SymptomDiscriminator.Description ?? ""));
-            //.ForMember(dest => dest.SgCode, opt => opt.Ignore())
+                    opt => opt.MapFrom(src => src.SymptomDiscriminator.Description ?? ""))
+                .ForMember(dest => dest.SgCode, opt => opt.MapFrom(src => src.SymptomGroup ?? ""));
             //.ForMember(dest => dest.SgDescription, opt => opt.Ignore());
         }
     }

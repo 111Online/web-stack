@@ -134,6 +134,18 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SymptomDiscriminator = new SymptomDiscriminator() { Description = null }, ed => ed.SdCode, "");
         }
 
+        [Test]
+        public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_RecommendedService_SymptomGroupDescription()
+        {
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SymptomGroup = "TestSgCode123", ed => ed.SgCode, "TestSgCode123");
+        }
+
+        [Test]
+        public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_For_RecommendedService_SymptomGroupCode_Null_Returns_Empty_String()
+        {
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SymptomGroup = null, ed => ed.SgCode, "");
+        }
+
         private void FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper<TEmbeddedDataType>(Action<OutcomeViewModel> setOutcomeModelProp, Func<EmbeddedData, TEmbeddedDataType> getEmbededDataProp, TEmbeddedDataType expected)
         {
             var outcomeViewModel = new OutcomeViewModel();

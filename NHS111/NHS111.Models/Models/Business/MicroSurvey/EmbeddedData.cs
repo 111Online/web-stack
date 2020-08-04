@@ -36,8 +36,8 @@ namespace NHS111.Models.Models.Business.MicroSurvey
         public string SdCode { get; set; }
         [JsonProperty(PropertyName = "sd_description")]
         public string SdDescription { get; set; }
-        //[JsonProperty(PropertyName = "sg_code")]
-        //public string SgCode { get; set; }
+        [JsonProperty(PropertyName = "sg_code")]
+        public string SgCode { get; set; }
         //[JsonProperty(PropertyName = "sg_description")]
         //public string SgDescription { get; set; }
     }
