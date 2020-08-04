@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
       var choiceNumber = choice.choiceId;
       var inputType = choice.inputType;
 
-      if (choice.showIfServiceType && !choice.showIfServiceType.includes(embeddedData.serviceType)) return;
+      if (choice.showIfServiceType && !choice.showIfServiceType.includes(embeddedData.rec_service_dos_type)) return;
 
       var textboxDataAttribute = choice.showTextFieldID ? `data-reveals-textbox-id="${choice.showTextFieldID}"` : '';
 
@@ -169,12 +169,12 @@ jQuery(document).ready(function () {
         // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
 
+        var questionsAnsweredAndEmbeddedDataMerged = Object.assign(questionsAnswered, embeddedData);
+
         postSurveyAnswers({
-          "values": JSON.stringify(questionsAnswered)
+          "values": JSON.stringify(questionsAnsweredAndEmbeddedDataMerged)
         });
       }
     });
-
   }
-
 });

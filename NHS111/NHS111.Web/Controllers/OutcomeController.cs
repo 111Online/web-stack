@@ -5,6 +5,7 @@ using NHS111.Web.Helpers;
 using System;
 using System.Linq;
 using System.Web.Http;
+using NHS111.Models.Models.Business.MicroSurvey;
 
 
 namespace NHS111.Web.Controllers
@@ -131,6 +132,7 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
             outcomeModel.HasSeenPreamble = true;
             var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
+            outcomeModel.SurveyLink.EmbeddedData = Mapper.Map<EmbeddedData>(outcomeModel);
             return View(viewRouter.ViewName, outcomeModel);
         }
 
