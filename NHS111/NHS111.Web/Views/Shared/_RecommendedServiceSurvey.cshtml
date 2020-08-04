@@ -1,4 +1,6 @@
-﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+﻿@using Newtonsoft.Json
+@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
 
 @if (SurveyLinkFeature.IsEnabled)
 {
@@ -32,10 +34,7 @@
     <script>
 
         //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
-        var embeddedData = {
-            serviceType: "PublicPhone"
-        }
-
+        var embeddedData = @Html.Raw(JsonConvert.SerializeObject(Model.EmbeddedData));
         var questions = {
             "QID1": {
                 title: "Will you use the recommended service?",
@@ -49,8 +48,8 @@
                 title: "Why won't you use the recommended service?",
                 answerType: "[Number]",
                 choices: [
-                    { choiceText: "It's too hard to get to", choiceId: 1, inputType: "checkbox", showIfServiceType: ["GoTo"] },
-                    { choiceText: "I'll go somewhere else I know", choiceId: 2, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                    { choiceText: "It's too hard to get to", choiceId: 1, inputType: "checkbox", showIfServiceType: ["ReferRingAndGo"] },
+                    { choiceText: "I'll go somewhere else I know", choiceId: 2, inputType: "checkbox", showIfServiceType: ["ReferRingAndGo"] },
                     { choiceText: "I don't want to use the phone", choiceId: 3, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
                     { choiceText: "I don't have a phone", choiceId: 4, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
                     { choiceText: "I can't use a phone", choiceId: 5, inputType: "checkbox", showIfServiceType: ["PublicPhone"] },
@@ -60,10 +59,10 @@
                         inputType: "checkbox",
                         showIfServiceType: ["PublicPhone"]
                     },
-                    { choiceText: "I'll go to my GP instead", choiceId: 7, inputType: "checkbox", showIfServiceType: ["GoTo"] },
-                    { choiceText: "I'll have to wait too long to get help", choiceId: 8, inputType: "checkbox", showIfServiceType: ["GoTo"] },
-                    { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, inputType: "checkbox", showIfServiceType: ["GoTo"] },
-                    { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone"], showTextFieldID: "QID2_10_TEXT", textFieldLabel: "Tell us the reason" }
+                    { choiceText: "I'll go to my GP instead", choiceId: 7, inputType: "checkbox", showIfServiceType: ["ReferRingAndGo"] },
+                    { choiceText: "I'll have to wait too long to get help", choiceId: 8, inputType: "checkbox", showIfServiceType: ["ReferRingAndGo"] },
+                    { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, inputType: "checkbox", showIfServiceType: ["ReferRingAndGo"] },
+                    { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["ReferRingAndGo", "PublicPhone"], showTextFieldID: "QID2_10_TEXT", textFieldLabel: "Tell us the reason" }
                 ]
             }
         }

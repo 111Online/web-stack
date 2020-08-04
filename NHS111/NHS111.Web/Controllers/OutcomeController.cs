@@ -132,9 +132,7 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
             outcomeModel.HasSeenPreamble = true;
             var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
-            outcomeModel.EmbeddedData = Mapper.Map<EmbeddedData>(outcomeViewModel);
-
-
+            outcomeModel.SurveyLink.EmbeddedData = Mapper.Map<EmbeddedData>(outcomeModel);
             return View(viewRouter.ViewName, outcomeModel);
         }
 

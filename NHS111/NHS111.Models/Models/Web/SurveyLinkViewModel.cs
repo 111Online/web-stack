@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NHS111.Models.Models.Business.MicroSurvey;
 
 namespace NHS111.Models.Models.Web
 {
@@ -47,5 +48,6 @@ namespace NHS111.Models.Models.Web
 
         public List<ServiceViewModel> Services { get; set; }
         public string StartUrl { get; set; }
+        public EmbeddedData EmbeddedData { get; set; }
     }
 }

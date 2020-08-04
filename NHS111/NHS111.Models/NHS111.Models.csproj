@@ -231,7 +231,6 @@
     <Compile Include="Models\Domain\QuestionType.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
-    <Compile Include="Models\RecommendServiceOutcomeViewModel.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
     <Compile Include="Models\Web\DataCapture\GenerateSMSVerifyCodeRequest.cs" />
@@ -265,6 +264,7 @@
     <Compile Include="Models\Web\PersonalDetails\InformantTypeViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\PersonViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
+    <Compile Include="Models\Web\RecommendedServiceViewModel.cs" />
     <Compile Include="Models\Web\SearchReservedCovidTerms.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
@@ -354,7 +354,6 @@
     <Compile Include="Models\Web\PersonalDetailViewModel.cs" />
     <Compile Include="Models\Web\QuestionInfoViewModel.cs" />
     <Compile Include="Models\Web\QuestionViewModel.cs" />
-    <Compile Include="Models\Web\RecommendedServiceViewModel.cs" />
     <Compile Include="Models\Web\ReferralResultViewModel.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />

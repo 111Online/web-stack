@@ -4,6 +4,7 @@ using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
 
@@ -44,7 +45,15 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         {
             var dateTime = new DateTime(2002, 11, 2, 3, 15, 33);
 
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.DispositionDateTime = dateTime, ed => ed.DispositionTime, dateTime.TimeOfDay.ToString());
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.DispositionDateTime = dateTime, ed => ed.DispositionDate, "2002-11-02T00:00:00.0000000Z");
+        }
+
+        [Test]
+        public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_DispositionTime()
+        {
+            var dateTime = new DateTime(2002, 11, 2, 3, 15, 33);
+
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.DispositionDateTime = dateTime, ed => ed.DispositionTime, "03:15:33");
         }
 
         [Test]
@@ -54,21 +63,27 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
+        public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_Source1()
+        {
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.OutcomePage = OutcomePage.Outcome, ed => ed.LaunchPage, OutcomePage.Outcome.ToString());
+        }
+
+        [Test]
         public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_ServiceOptions()
         {
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.ServiceOptions = "TestServiceOptions", ed => ed.ServicesOffered, "TestServiceOptions");
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.ServiceOptions = "TestServiceOption1,TestServiceOption2", ed => ed.ServicesOffered, new[] { "TestServiceOption1", "TestServiceOption2" });
         }
 
         [Test]
         public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_ServiceCount()
         {
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.ServiceCount = 17, ed => ed.ServiceCount, "17");
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.ServiceCount = 17, ed => ed.ServiceCount, 17);
         }
 
         [Test]
         public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_OnlineDoSServiceType()
         {
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.RecommendedService = new RecommendedServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback }, ed => ed.RecommendedServiceDosType, OnlineDOSServiceType.Callback.ToString());
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.RecommendedService = new RecommendedServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback }, ed => ed.RecommendedServiceDosType, OnlineDOSServiceType.Callback.Id);
         }
 
         [Test]
@@ -92,7 +107,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         [Test]
         public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_RecommendedService_Distance()
         {
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.RecommendedService = new RecommendedServiceViewModel() { Distance = "TestDistance123" }, ed => ed.RecommendedServiceDistance, "TestDistance123");
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.RecommendedService = new RecommendedServiceViewModel() { Distance = "0.4" }, ed => ed.RecommendedServiceDistance, 0.4);
         }
 
         [Test]
@@ -102,12 +117,24 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
+        public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_For_RecommendedService_SymptomDiscriminatorCode_Null_Returns_Empty_String()
+        {
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SymptomDiscriminatorCode = null, ed => ed.SdCode, "");
+        }
+
+        [Test]
         public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_RecommendedService_SymptomDiscriminatorDescription()
         {
             FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SymptomDiscriminator = new SymptomDiscriminator(){ Description = "TestSdDescription123" }, ed => ed.SdDescription, "TestSdDescription123");
         }
 
-        private void FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(Action<OutcomeViewModel> setOutcomeModelProp, Func<EmbeddedData, string> getEmbededDataProp, string expected)
+        [Test]
+        public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_For_RecommendedService_SymptomDiscriminatorDescription_Null_Returns_Empty_String()
+        {
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SymptomDiscriminator = new SymptomDiscriminator() { Description = null }, ed => ed.SdCode, "");
+        }
+
+        private void FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper<TEmbeddedDataType>(Action<OutcomeViewModel> setOutcomeModelProp, Func<EmbeddedData, TEmbeddedDataType> getEmbededDataProp, TEmbeddedDataType expected)
         {
             var outcomeViewModel = new OutcomeViewModel();
 
