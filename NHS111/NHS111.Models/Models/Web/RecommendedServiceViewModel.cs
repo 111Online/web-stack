@@ -11,6 +11,7 @@ namespace NHS111.Models.Models.Web
     public class RecommendedServiceViewModel : ServiceViewModel
     {
         private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137, 138 };
+        private readonly IEnumerable<long> _gotoEDIdList = new List<long> { 40, 105, 120 };
         private readonly long _oohServiceId = 25;
 
         public string ReasonText { get; set; }
@@ -59,6 +60,8 @@ namespace NHS111.Models.Models.Web
         {
             if (IsCallbackServiceNotOfferingCallback) return string.Empty;
 
+            if (IsGoToEdService) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+
             if ((IsOohService || ShouldShowAddress) && string.IsNullOrEmpty(PublicNameOnly)) return string.Empty;
 
             return string.Format("<br />{0}", !string.IsNullOrEmpty(PublicNameOnly) ? WebUtility.HtmlDecode(PublicNameOnly) : WebUtility.HtmlDecode(PublicName));
@@ -78,7 +81,7 @@ namespace NHS111.Models.Models.Web
 
             if (IsNotACallbackServiceWithPublicName) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
-            if(!ShouldShowAddress) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
+            if(!ShouldShowAddress || IsGoToEdService) return string.Format("<br />{0}", WebUtility.HtmlDecode(PublicName));
 
             var firstLineOfAddress = AddressLines.FirstOrDefault(a => !string.IsNullOrEmpty(a));
             return string.Format("<br />{0}", WebUtility.HtmlDecode(firstLineOfAddress));
@@ -87,6 +90,11 @@ namespace NHS111.Models.Models.Web
         public bool IsOohService
         {
             get { return ServiceType.Id.Equals(_oohServiceId); }
+        }
+
+        public bool IsGoToEdService
+        {
+            get { return _gotoEDIdList.Contains(ServiceType.Id); }
         }
 
         public bool IsCASCallbackServiceWithNoAddress
