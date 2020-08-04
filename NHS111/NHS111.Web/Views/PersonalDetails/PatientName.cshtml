@@ -43,40 +43,72 @@
         @Html.HiddenFor(m => m.PersonalDetailsViewModel.UserInfo.TelephoneNumber)
         @Html.HiddenFor(m => m.PersonalDetailsViewModel.UserInfo.DoB)
 
-        <section class="measure">
-            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
-                <fieldset>
-                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                        <h2 class="nhsuk-fieldset__heading">What is your name?</h2>
-                    </legend>
-                    @if (Model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
-                    {
-                        <p class="form-info">We'll ask you questions about the person that needs help.</p>
-                    }
-                    <div>
-                        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
-                            <label for="@Html.IdFor(m => m.Forename)">First name</label>
-                            @Html.ValidationMessageFor(m => m.Forename, "Enter your first name")
-                            @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-15-chars", @maxlength = "255" })
-                        </div>
-                        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
-                            <label for="@Html.IdFor(m => m.Surname)">Last name</label>
-                            @Html.ValidationMessageFor(m => m.Surname, "Enter your last name")
-                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-15-chars", @maxlength = "255" })
-                        </div>
+    <section class="measure">
+        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
+            <fieldset>
+                <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
+                    <h2 class="nhsuk-fieldset__heading">What is your name?</h2>
+                </legend>
+                @if (Model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
+                {
+                    <p class="form-info">We'll ask you questions about the person that needs help.</p>
+                }
+                <div>
+                    <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
+                        <label for="@Html.IdFor(m => m.Forename)">First name</label>
+                        @Html.ValidationMessageFor(m => m.Forename, "Enter your first name")
+                        @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-15-chars", @maxlength = "255" })
                     </div>
-                 
-                </fieldset>
-            </div>
-
-
-         
-
-            <div class="personal-details-content">
-                <div class="inline-details">
-                    <button type="submit" class="button--next" id="submitDetails">Next</button>
+                    <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
+                        <label for="@Html.IdFor(m => m.Surname)">Last name</label>
+                        @Html.ValidationMessageFor(m => m.Surname, "Enter your last name")
+                        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-15-chars", @maxlength = "255" })
+                    </div>
                 </div>
+
+            </fieldset>
+        </div>
+
+        <script type="text/javascript">
+            jQuery(function () {
+                var formSubmitted = false;
+
+                AddAdapter('firstname');
+                AddAdapter('lastname');
+
+                // This uses jQuery Validator's internal check method, this is undocumented functionality.
+                // The reason for using it is that the public .valid() method has bad side effects when trying to
+                // check validity of a single element.
+                function isValid(el) {
+                    return $("form").validate().check(el);
+                }
+
+                jQuery.validator.addMethod('firstname', function (value) {
+                    var text = value.replace(/^\s+|\s+$/gm, '')
+                    if (!formSubmitted && text === "") return true;
+                    return text !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(text);
+                });
+
+                jQuery.validator.addMethod('lastname', function (value) {
+                    var text = value.replace(/^\s+|\s+$/gm, '')
+                    if (!formSubmitted && text === "") return true;
+                    return text !== "" && RegExp("^[a-zA-Z0-9]+(([',. -][a-zA-Z0-9 ])?[a-zA-Z]*)*$").test(text);
+                });
+                jQuery("#yourNameForm").on("submit", function () {
+                    formSubmitted = true;
+                })
+
+
+            })
+        </script>
+
+
+
+        <div class="personal-details-content">
+            <div class="inline-details">
+                <button type="submit" class="button--next" id="submitDetails">Next</button>
             </div>
-        </section>
+        </div>
+    </section>
     }
 </div>
