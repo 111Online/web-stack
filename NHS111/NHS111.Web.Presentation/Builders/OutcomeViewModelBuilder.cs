@@ -273,6 +273,11 @@ namespace NHS111.Web.Presentation.Builders
                 model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
                 model.RecommendedService = await _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
             }
+            else if (model.RecommendedService != null)
+            {
+                //reset the recommended service
+                model.RecommendedService = null;
+            }
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 
