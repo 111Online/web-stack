@@ -73,7 +73,8 @@ jQuery(document).ready(function () {
       $("#microSurveyQuestions .form-group").addClass("form-group-error")
       $("#microSurveyQuestions h3")
         .after(
-          '<span class="field-validation-error error-message nhsuk-u-margin-bottom-4" id="onlySelectOneOption">You must select one option</span>');
+          '<span class="field-validation-error error-message nhsuk-u-margin-bottom-4" id="onlySelectOneOption" role="alert">You must select one option</span>');
+      $("#microSurveyQuestions input[type='checkbox'], #microSurveyQuestions input[type='radio']" ).attr("aria-invalid", "true")
     }
   }
 
