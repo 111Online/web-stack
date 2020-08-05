@@ -1,7 +1,10 @@
 ﻿@using NHS111.Models.Models.Web
-@{ Layout = "~/Views/Shared/_LayoutNhsUK.cshtml"; }
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+    var heading = "Where are you now?";
+}
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<LocationViewModel>
-@section Title {NHS 111 Online}
+@section Title {NHS 111 Online - @heading}
 
 @{ ViewBag.Description = "Answer questions about your main symptom on 111.nhs.uk and get NHS medical help near you."; }
 @section HeadTop {
@@ -14,7 +17,7 @@
     </script>
 }
 
-<h2 class="heading--large">Where are you now?</h2>
+<h1>@heading</h1>
 <div class="callout callout--info measure">
     <p>We need to know where you are so we can find services to help.</p>
 </div>
@@ -25,7 +28,7 @@
         @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
         @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
         @Html.ValidationMessage("invalid-postcode")
-        @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
+        @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = "required", style = "width: 8em; display: inline-block; margin-right: 10px;" })
         <button class="js-find-location button--link" type="button" style="display: none" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
 
         @Html.HiddenFor(m => m.SessionId)

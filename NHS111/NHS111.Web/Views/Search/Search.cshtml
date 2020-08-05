@@ -19,13 +19,13 @@
         @{
             Model.SanitisedSearchTerm = SearchReservedCovidTerms.SearchTerms.First();
             var encryptedQueryStringValuesSearchResult = KeyValueEncryptor.EncryptedKeys(Model);
-            var covidPathwayLink = String.Format("/Search/GuidedSelection?gender={0}&age={1}&args={2}", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
+            var covidPathwayLink = Uri.EscapeUriString(String.Format("/Search/GuidedSelection?gender={0}&age={1}&args={2}", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult));
             Model.SanitisedSearchTerm = string.Empty;
         }
         
         <div class="callout callout--lite callout--warning">
             <p>
-                <a href=@covidPathwayLink id="covid19-search-link" data-event-trigger="click" data-event-value="COVID-19 search page link">
+                <a href="@covidPathwayLink" id="covid19-search-link" data-event-trigger="click" data-event-value="COVID-19 search page link">
                     Find out about COVID-19
                 </a>
             </p>

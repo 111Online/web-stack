@@ -2,21 +2,15 @@
 
 @if (!Model.OverrideDisplay)
 {
-    <style>
-        .global-header {
-            border: 0;
-        }
-    </style>
-
     <div class="nhsuk-core">
         <div class="nhsuk-global-alert" id="nhsuk-global-alert">
             <div class="nhsuk-width-container">
                 <div class="nhsuk-grid-row">
                     <div class="nhsuk-grid-column-full">
                         <div class="nhsuk-global-alert__content">
-                            <p class="nhsuk-heading-l">
+                            <h2>
                             Coronavirus (COVID-19)
-                            </p>
+                            </h2>
                             <p>
                                 <a href="/service/COVID-19?StartParameter=@Model.StartParameter" data-event-trigger="click" data-event-value="Novel Coronavirus about">
                                     Find out what to do if you think you have symptoms

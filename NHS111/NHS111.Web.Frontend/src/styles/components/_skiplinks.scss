@@ -14,9 +14,13 @@
 }
 
 a.skiplinks__link {
-  color: transparent;
   padding: ($baseline-grid-unit * 2);
   @include user-select(none);
+
+  // This ensures it is completely hidden when not focussed,
+  // without hiding it from screenreaders too (like display: none; would do)
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
 
   &:focus {
     color: $blue;
@@ -25,5 +29,8 @@ a.skiplinks__link {
     -webkit-user-select: initial;
     -ms-user-select: initial;
     user-select: initial;
+
+    clip: initial;
+    position: initial;
   }
 }
