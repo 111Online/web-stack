@@ -37,7 +37,9 @@ namespace NHS111.Web.Controllers
             Regex regex = new Regex(PostCodeFormatValidator.PostcodeRegex);
 
             if (!regex.IsMatch(postCode))
+            {
                 return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
+            }
 
             var results = await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(postCode).ConfigureAwait(false);
             return Mapper.Map<AddressInfoCollectionViewModel>(results);
@@ -60,7 +62,9 @@ namespace NHS111.Web.Controllers
             var postcodeToUseForSearch = model.CurrentPostcode;
 
             if (model.AddressInformation.ChangePostcode != null && !string.IsNullOrEmpty(model.AddressInformation.ChangePostcode.Postcode))
+            {
                 postcodeToUseForSearch = model.AddressInformation.ChangePostcode.Postcode;
+            }
 
             //pre-populate picker fields from postcode lookup service
             var postcodes = await GetPostcodeResults(postcodeToUseForSearch).ConfigureAwait(false);
@@ -88,7 +92,9 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ChangeCurrentAddressPostcode(PersonalDetailViewModel model)
         {
             if (!ModelState.IsValid)
+            {
                 return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
+            }
 
             return await DirectToPopulatedCurrentAddressPicker(model).ConfigureAwait(false);
         }
@@ -160,7 +166,9 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValid)
             {
                 if (model.PersonalDetailsViewModel.Informant.IsInformantForPatient)
+                {
                     return View("~\\Views\\PersonalDetails\\PatientName.cshtml", model);
+                }
 
                 return View("~\\Views\\PersonalDetails\\InformantName.cshtml", model);
             }
@@ -188,13 +196,17 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\InformantType.cshtml", model);
             }
 
-            if (model.InformantChanged) 
+            if (model.InformantChanged)
+            {
                 model.ClearInformantDetails();
+            }
 
             model.PersonalDetailsViewModel.Informant.InformantType = model.Informant;
             ModelState.Clear(); 
             if(model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty)
+            {
                 return View("~\\Views\\PersonalDetails\\InformantName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.UserInfo.FirstName, model.PersonalDetailsViewModel.UserInfo.LastName));
+            }
 
             return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.Informant.Forename, model.PersonalDetailsViewModel.Informant.Surname));
         }
@@ -209,8 +221,11 @@ namespace NHS111.Web.Controllers
             }
             model.PersonalDetailsViewModel.UserInfo.FirstName = model.Forename;
             model.PersonalDetailsViewModel.UserInfo.LastName = model.Surname;
-            if (model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty) 
+
+            if (model.PersonalDetailsViewModel.Informant.InformantType == InformantType.ThirdParty)
+            {
                 return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.Informant.Forename, model.PersonalDetailsViewModel.Informant.Surname));
+            }
 
             return View("~\\Views\\PersonalDetails\\PatientName.cshtml", new PersonViewModel(model.PersonalDetailsViewModel, model.PersonalDetailsViewModel.UserInfo.FirstName, model.PersonalDetailsViewModel.UserInfo.LastName));
         }

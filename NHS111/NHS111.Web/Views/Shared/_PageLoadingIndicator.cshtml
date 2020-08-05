@@ -55,7 +55,7 @@
 
     function startPageLoadingIndicator(loadingMsg) {
         //add a message to the loading screen
-        $("#loadingspinner").text(loadingMsg);
+        $("#loadingspinner").text(loadingMsg).attr("role", "alert");
 
         $(".loading").show();
         var target = document.getElementById('loading');

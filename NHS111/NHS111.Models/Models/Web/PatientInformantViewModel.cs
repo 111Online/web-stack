@@ -2,8 +2,9 @@
 using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web
-{    
-   
+{
+
+    [Validator(typeof(PatientInformantViewModelValidator))]
     public class PatientInformantViewModel
     {
         public InformantType Informant { get; set; }

@@ -1,6 +1,7 @@
-﻿@using System.Reflection
-@using NHS111.Models.Models.Domain
+﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+
 @inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.JourneyViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -46,35 +47,36 @@
             </legend>
             @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, null, new { @class = "error-message" })
             <div class="multiple-choice">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
-                @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Female", new { @for = "Female", @class = "multiple-choice--radio", required = "true" })
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female", required = "required" })
+                @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Female", new { @for = "Female", @class = "multiple-choice--radio" })
             </div>
             <div class="multiple-choice">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
-                @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Male", new { @for = "Male", @class = "multiple-choice--radio", required = "true" })
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male", required = "required" })
+                @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Male", new { @for = "Male", @class = "multiple-choice--radio" })
             </div>
         </fieldset>
-        <details role="group" id="group-trans-gender">
-            <summary role="tabpanel" id="details-summary-0" aria-controls="details-content-0" aria-expanded="false" data-event-trigger="click" data-event-value="Transgender information">
-                <span class="details__arrow"></span>
-                <span class="summary">Why aren’t there more options?</span>
-            </summary>
-            <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="true">
+
+        @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+        {
+            Link = "Why aren’t there more options?",
+            Summary = @"<div class=""panel panel-border-narrow"">
                 <p>
                     Some clinical assessments can be different depending on your sex.
                     Not everyone sees themselves as female or male, so if neither option is right for you call 111.<br /><br />
                     We want to improve the service in the future so it works for everyone.
                 </p>
-            </div>
-        </details>
-
+            </div>",
+            ID = "group-trans-gender",
+            EventTrigger = "click",
+            EventValue = "Transgender information"
+        })
     </div>
 
     <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Age") ? "" : "form-group-error")">
         <fieldset class="age-content" id="container_@Html.IdFor(m => m.UserInfo.Demography.Age)">
             @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
             @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, null, new { @class = "error-message" })
-            @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode = "numeric", maxLength = 3, autocomplete = "off" })
+            @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode = "numeric", maxLength = 3, autocomplete = "off", required = "required" })
         </fieldset>
     </div>
 
