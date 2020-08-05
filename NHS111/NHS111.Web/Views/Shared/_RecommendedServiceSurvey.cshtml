@@ -8,9 +8,9 @@
         @Html.Partial("_SurveyLink", Model, ViewContext.ViewData)
     </div>
 
-    <div class="micro-survey js-show nhsuk-core" style="display: none">
+    <div class="micro-survey js-show nhsuk-core micro-survey--offering" style="display: none">
         <div id="microSurveyContainer" class="page-section">
-            <div id="microSurveyLink">
+            <div id="microSurveyLink" class="notification-banner--hiviz">
                 <p class="nhsuk-u-margin-bottom-0">Help us improve. <button type="button" id="microSurveyStart" class="button--link" data-event-trigger="click" data-event-value="Start micro survey (recommended service)">Will you use the recommended service?</button></p>
             </div>
 
@@ -32,8 +32,6 @@
     </div>
 
     <script>
-
-        //var serviceType = $('#SurveyLink_RecommendedServiceType').val(); // Should be able to read this from hidden field when in outcome
         var embeddedData = @Html.Raw(JsonConvert.SerializeObject(Model.EmbeddedData));
         var questions = {
             "QID1": {

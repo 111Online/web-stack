@@ -3,7 +3,7 @@
 
 .micro-survey {
   background: #f2f6f7;
-  border-top: 6px solid #ffe09a;
+  border-top: 4px solid #fada8b;
 }
 
 
@@ -17,4 +17,13 @@ input:checked ~ .micro-survey__toggle-element {
 
 #microSurveyPrevious {
     display: block;
+}
+
+.micro-survey--offering {
+  background: #fada8b;
+  border: none;
+}
+
+.micro-survey--offering .page-section {
+    padding: 16px 0;
 }

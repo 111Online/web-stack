@@ -135,6 +135,7 @@ jQuery(document).ready(function () {
 
     $("#microSurveyLink").hide()
     $("#microSurveyQuestions").show()
+    $(".micro-survey--offering").removeClass("micro-survey--offering")
 
     questions = _questions
     embeddedData = _embeddedData
