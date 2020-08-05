@@ -35,13 +35,13 @@ jQuery(document).ready(function () {
               <label for="${choice.showTextFieldID}">
                   ${choice.textFieldLabel}
               </label>
-              <input type="text" id="${choice.showTextFieldID}" value="">
+              <input type="text" id="${choice.showTextFieldID}" value="" maxLength="1000">
             </div>
         ` : '';
 
       formGroupElement += `
           <div class="nhsuk-u-margin-bottom-3">
-            <input type = "${inputType}" ${textboxDataAttribute} id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
+            <input type="${inputType}" ${textboxDataAttribute} id="${choiceWithNoSpaces}" name="choice" value="${choiceNumber}">
             <label for="${choiceWithNoSpaces}">
                 ${choice.choiceText}
             </label>
