@@ -55,7 +55,7 @@ jQuery(document).ready(function () {
     $("#microSurveyQuestions").append(formGroupElement)
 
     $("#microSurveyQuestions")
-      .append(`<button class="button--next" id="microSurveyNext" type="button" name="Next" value="Next">Next</button>`);
+      .append(`<button class="button--next" id="microSurveyNext" type="submit" name="Next" value="Next">Next</button>`);
 
     if (currentQuestionID != "QID1") {
       $("#microSurveyQuestions").append(`<button class="button--link nhsuk-u-margin-top-4" id="microSurveyPrevious" type="button">Change my previous answer</button>`);
@@ -150,7 +150,7 @@ jQuery(document).ready(function () {
       if (previousQuestionID) displayQuestion(previousQuestionID);
     });
 
-    $("#microSurveyQuestions").on('click', '#microSurveyNext', function () {
+    $("#microSurveyQuestions").on('submit', function () {
 
       var answers = getAnswersForQuestion(currentQuestionID);
       if (!answers) {
