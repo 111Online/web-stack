@@ -54,7 +54,7 @@ namespace NHS111.Web.Controllers
 
             if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
             {
-                ModelState.AddModelError("invalid-postcode", "Please enter a valid postcode");
+                ModelState.AddModelError("CurrentPostcode", "Please enter a valid postcode");
                 return View("Location", model);
             }
 

@@ -160,7 +160,16 @@ namespace NHS111.Models.Models.Web
         public string UserZoomUrl { get; set; }
         public string Campaign { get; set; }
         public string Source { get; set; }
-        public string CurrentPostcode { get; set; }
+
+        private string _currentPostcode = "";
+        public string CurrentPostcode {
+            get { return _currentPostcode; }
+            set
+            {
+                if (value != null) _currentPostcode = value;
+                else _currentPostcode = "";
+            }
+        }
         public bool HasSeenPreamble { get; set; }
         public bool IsCovidJourney { get; set; }
         public string StartParameter { get; set; }
