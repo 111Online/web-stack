@@ -15,7 +15,7 @@ module.exports = {
         path: path.resolve(__dirname, '../NHS111.Web/Content/js/')
     },
     plugins: [
-       // new UglifyJSPlugin({ sourceMap: true }),
+        new UglifyJSPlugin({ sourceMap: true }),
         new webpack.optimize.CommonsChunkPlugin({
           name: "common",
           filename: "common.js",

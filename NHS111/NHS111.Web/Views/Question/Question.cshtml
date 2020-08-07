@@ -212,13 +212,12 @@
         }, 0)
     }
 
-    function reset() {
-        stopSpinner()
+    function resetButton() {
         $(".button--next").removeAttr("disabled")
     }
 
     $("main form").on("submit", handleSubmit)
-    window.addEventListener("pagehide", reset)
-    window.addEventListener("pageshow", reset)
+    window.addEventListener("pagehide", resetButton)
+    window.addEventListener("pageshow", resetButton)
 
 </script>
