@@ -18,17 +18,17 @@
 }
 
 <div class="nhsuk-core">
-<h1>@heading</h1>
-<div class="callout callout--info measure">
-    <p>We need to know where you are so we can find services to help.</p>
-</div>
+    <h1>@heading</h1>
+    <div class="callout callout--info measure nhsuk-u-margin-bottom-6">
+        <p>We need to know where you are so we can find services to help.</p>
+    </div>
 
     @using (Html.BeginForm("Find", "Location", FormMethod.Post))
     {
         <div class="form-group nhsuk-u-margin-bottom-6 @(ViewData.ModelState.IsValidField("CurrentPostcode") ? "" : "form-group-error")">
             @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
             @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
-            @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = "required", style = "width: 8em; display: inline-block; margin-right: 10px;" })
+            @Html.TextBoxFor(m => m.CurrentPostcode, new { required="required", style = "width: 8em; display: inline-block; margin-right: 10px;" })
             <button class="js-find-location button--link nhsuk-u-margin-top-2" type="button" style="display: none; font-size: 18px;" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
 
             @Html.HiddenFor(m => m.SessionId)

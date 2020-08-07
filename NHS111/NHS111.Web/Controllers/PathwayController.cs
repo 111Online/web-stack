@@ -10,6 +10,7 @@ namespace NHS111.Web.Controllers
         [Route("pathway/{pathwayNo}")]
         public ActionResult Get(string pathwayNo, LocationViewModel model)
         {
+            ModelState.Clear();
             model.PathwayNo = pathwayNo.ToUpper();
             return View("../location/location", model);
         }

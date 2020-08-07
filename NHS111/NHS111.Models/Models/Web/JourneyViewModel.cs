@@ -162,6 +162,7 @@ namespace NHS111.Models.Models.Web
         public string Source { get; set; }
 
         private string _currentPostcode = "";
+
         public string CurrentPostcode {
             get { return _currentPostcode; }
             set

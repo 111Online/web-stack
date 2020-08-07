@@ -5,11 +5,11 @@ const highlight = function (element, errorClass, validClass) {
 
   var formGroup = $(element).closest(".form-group")
   $(formGroup).addClass("form-group-error")
-  $(`.error-message, [data-valmsg-for=${name}]`, formGroup)
+  $(`.error-message, [data-valmsg-for="${name}"]`, formGroup)
+    .attr("role", "alert")
     .removeClass("field-validation-valid")
     .addClass("field-validation-error")
-    .attr("role", "alert")
-
+  removeAriaDescribedBy.bind(this)(element)
 
   // Make sure all shared radio/checkboxes are invalid too
   $(`[name="${name}"]`).attr("aria-invalid", "true")
@@ -21,7 +21,7 @@ const unhighlight = function (element, errorClass, validClass) {
 
   var formGroup = $(element).closest(".form-group")
   $(formGroup).removeClass("form-group-error")
-  $(`[data-valmsg-for=${name}]`, formGroup)
+  $(`[data-valmsg-for="${name}"]`, formGroup)
     .removeClass("field-validation-error")
     .addClass("field-validation-valid")
     .removeAttr("role")
@@ -31,24 +31,50 @@ const unhighlight = function (element, errorClass, validClass) {
   $(`[name="${name}"]`).removeAttr("aria-invalid")
 }
 
-const showErrors = function () {
-  var valid = this.validElements()
-  var invalid = this.invalidElements();
+// Override default errorsFor so the selector used can be more specific to our approach
+jQuery.validator.prototype.errorsFor = function (element) {
+  var name = this.escapeCssMeta(this.idOrName(element)),
+    describer = $(element).attr("aria-describedby"),
+    selector = `[data-valmsg-for="${name}"]`;
 
-  jQuery.each(valid, function (i, el) { unhighlight(el) })
-  jQuery.each(invalid, function (i, el) { highlight(el) })
-  return;
+  // If used, 'aria-describedby' should directly reference the error element
+  if (describer) {
+    var describerReference = "#" + this.escapeCssMeta(describer).replace(/\s+/g, ", #")
+    selector = selector + ", " + describerReference;
+  }
+
+  return this
+    .errors()
+    .filter(selector);
+}
+
+const removeAriaDescribedBy = function (element) {
+  var describer = $(element).attr("aria-describedby")
+  if (describer) {
+    // The aria-describedby is used when there is no label for error.
+    // It is default part of the validation library but not something we want to use, as we use a combination of
+    // normal non-error labels, role=alert on the error message and aria-invalid on the field so this isn't required.
+    // Some places will use this behaviour by default but usually we will want to remove it.
+    // So this removes the reference if the element it refers to is missing (ie. a broken aria reference)
+    var describerReference = "#" + this.escapeCssMeta(describer).replace(/\s+/g, ", #")
+    if ($(describerReference).length === 0) {
+      $(element).removeAttr("aria-describedby")
+    }
+  }
+
 }
 
 jQuery.validator.setDefaults({
   ignore: "[type='hidden']:not(.validate-hidden)",
   focusInvalid: false,
+  errorElement: "span",
+  errorClass: "field-validation-error",
   showErrors: function (errorMap, errorList) {
     var self = this
     var container = $(this.currentForm).find("[data-valmsg-summary=true]")
 
     // If summary container isn't used, it will just handle attributes
-    if (!container.length) return showErrors.bind(this)()
+    if (!container.length) return this.defaultShowErrors()
 
     // This is a modified version of validate.unobtrusive's default error summary
     // it adds links to the error fields
@@ -73,10 +99,10 @@ jQuery.validator.setDefaults({
     else { // if not valid, add class (which is then used to trigger focus and alert screenreaders)
       container.addClass("validation-summary-errors").removeClass("validation-summary-valid")
     }
-    showErrors.bind(this)()
+    this.defaultShowErrors()
   },
   highlight: highlight,
-  unhighlight: unhighlight
+  unhighlight: unhighlight,
 })
 
 window.AddAdapter = function (name, param) {
@@ -120,14 +146,11 @@ jQuery(document).ready(function () {
     }
     else {
       const container = $(".validation-summary-errors")
-      $("[role='alert']").removeAttr("role")
-      container.show()
       if (container.length) { // if it isn't valid, make sure screenreaders get alerted to the box
-        setTimeout(() => {
-          $(".js-error-list li:first-child a").focus()
-          container.attr("role", "alert").attr("aria-live", "assertive")
-          $("[role='alert']").removeAttr("role").removeAttr("aria-live")
-        }, 100)
+        $("[role='alert']").removeAttr("role")
+        container.show()
+        $(".validation-summary-errors a").first().focus()
+        $(".validation-summary-errors h2").attr("role", "alert")
       }
     }
   })
