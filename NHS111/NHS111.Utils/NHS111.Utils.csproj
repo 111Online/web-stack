@@ -244,7 +244,6 @@
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
-    <Compile Include="Filters\PersistCampaignDataFilterAttribute.cs" />
     <Compile Include="Helpers\AzureHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />
@@ -276,7 +275,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
       <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
