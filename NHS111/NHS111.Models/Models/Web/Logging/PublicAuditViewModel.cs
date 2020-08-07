@@ -19,6 +19,9 @@ namespace NHS111.Models.Models.Web.Logging
         [JsonProperty(PropertyName = "journeyId")]
         public string JourneyId { get; set; }
 
+        [JsonProperty(PropertyName = "campaign")]
+        public string Campaign { get; set; }
+
         [JsonProperty(PropertyName = "eventKey")]
         public EventType EventKey
         {
