@@ -33,7 +33,8 @@ namespace NHS111.Web.IoC
                         configuration.BusinessApiProtocolandDomain,
                         LogManager.GetLogger("log"),
                         configuration.ServicePointManagerDefaultConnectionLimit,
-                        configuration.RestClientTimeoutMs
+                        configuration.RestClientTimeoutMs,
+                        configuration.APIMSubscriptionKey
                     )).Named("restClientBusinessApi");
             Configure();
         }
