@@ -15,7 +15,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             RuleFor(p => p.CurrentPostcode)
                 .NotEmpty()
-                .WithMessage("Please enter your current postcode");
+                .WithMessage("Enter a valid postcode");
         }
     }
 }

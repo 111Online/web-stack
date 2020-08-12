@@ -27,7 +27,7 @@
     {
         <div class="form-group nhsuk-u-margin-bottom-6 @(ViewData.ModelState.IsValidField("CurrentPostcode") ? "" : "form-group-error")">
             @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
-            @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
+            @Html.ValidationMessageFor(m => m.CurrentPostcode)
             @Html.TextBoxFor(m => m.CurrentPostcode, new { required="required", style = "width: 8em; display: inline-block; margin-right: 10px;" })
             <button class="js-find-location button--link nhsuk-u-margin-top-2" type="button" style="display: none; font-size: 18px;" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
 
