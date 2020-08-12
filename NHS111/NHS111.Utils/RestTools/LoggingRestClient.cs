@@ -23,16 +23,18 @@ namespace NHS111.Utils.RestTools
 
         private readonly ILog _logger;
         private readonly IRestClient _restClient;
+        private readonly string _subKey;
 
         private readonly TelemetryClient _tc = new TelemetryClient();
 
-        public LoggingRestClient(string baseUrl, ILog logger, int defaultConnectionLimit = 5, int timeout = 30000)
+        public LoggingRestClient(string baseUrl, ILog logger, int defaultConnectionLimit = 5, int timeout = 30000, string subKey = "")
         {
             ServicePointManager.DefaultConnectionLimit = defaultConnectionLimit;
             _logger = logger;
 
             _restClient = new RestClient(baseUrl);
             _restClient.Timeout = timeout;
+            _subKey = subKey;
             InitializeSerializationHandlers(_restClient);
         }
 
@@ -47,6 +49,9 @@ namespace NHS111.Utils.RestTools
 
         public async Task<IRestResponse> ExecuteAsync(IRestRequest request)
         {
+            if (!string.IsNullOrEmpty(_subKey))
+                request.AddQueryParameter("subscription-key", _subKey);
+
             _logger.Info(string.Format("Request to: {0} performed", _restClient.BuildUri(request)));
 
             var startTime = DateTimeOffset.UtcNow;
@@ -85,6 +90,8 @@ namespace NHS111.Utils.RestTools
 
         public async Task<IRestResponse<T>> ExecuteAsync<T>(IRestRequest request)
         {
+            if (!string.IsNullOrEmpty(_subKey))
+                request.AddQueryParameter("subscription-key", _subKey);
             _logger.Info(string.Format("Request to: {0} performed", _restClient.BuildUri(request)));
 
             var startTime = DateTimeOffset.UtcNow;
