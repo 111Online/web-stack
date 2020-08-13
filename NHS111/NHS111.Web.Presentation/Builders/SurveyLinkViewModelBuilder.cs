@@ -97,7 +97,7 @@ namespace NHS111.Web.Presentation.Builders
                 var recommendedService = model.DosCheckCapacitySummaryResult.Success.Services.First();
                 surveyLinkViewModel.RecommendedServiceId = recommendedService.Id;
                 surveyLinkViewModel.RecommendedServiceType = recommendedService.OnlineDOSServiceType.Id;
-                surveyLinkViewModel.RecommendedServiceName = HttpUtility.UrlEncode(recommendedService.PublicName);
+                surveyLinkViewModel.RecommendedServiceName = recommendedService.PublicName;
                 
                 var otherServices = model.DosCheckCapacitySummaryResult.Success.Services.Skip(1).ToList();
                 services = model.DosCheckCapacitySummaryResult.Success.Services;
