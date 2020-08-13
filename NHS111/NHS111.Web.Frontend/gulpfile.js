@@ -87,7 +87,10 @@ gulp.task("compile:styles", () => {
         process.exit(1)
       })
     )
-    .pipe(postcss([autoprefixer(), cssnano()]))
+    .pipe(postcss([autoprefixer(), cssnano({
+      reduceIdents: { keyframes: false },
+      discardUnused: { keyframes: false }
+    })]))
     .pipe(gulp.dest(`${paths.dist}/css`))
 })
 
