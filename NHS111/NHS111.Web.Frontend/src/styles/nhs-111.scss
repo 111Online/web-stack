@@ -89,3 +89,9 @@
     @extend .button--stacked;
   }
 }
+
+
+/* For full nhsuk style pages, ensure the background colour is added for full height page style */
+html.nhsuk-core {
+  background-color: #d8dde0;
+}
