@@ -22,28 +22,37 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "recommended-service"));
 }
-@section SurveyBanner{
-    @if (!Model.RecommendedService.OnlineDOSServiceType.IsReferral)
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-    }
-}
 @section FeedbackSection {
-
-    @if (SurveyLinkFeature.IsEnabled && !Model.RecommendedService.OnlineDOSServiceType.IsReferral)
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
-    }
-    else
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionRecommendedService, Model) })
-    }
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceFirstRecommendedService, Model) })
 }
 <div class="nhsuk-core">
-    @Html.Partial("_rs_Recommeded_DOS_Service", Model)
+    <div class="measure">
+        <h1>Where to get help</h1>
+        @Html.Partial("_TimingInfo", Model)
+    </div>
+    <div class="measure">
+        @Html.Partial("_CovidEliminator", Model)
+    </div>
+    @Html.Partial("_DoSRecommendedService", Model)
+    <div class="measure">
+        @Html.Partial("_ServiceWhy", Model)
+    </div>
+    <div class="measure nhsuk-u-margin-top-4">
+        @Html.Partial("_ChangePostcode", Model)
+    </div>
     @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
     {
         dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-        @Html.Partial("_rs_OtherServices", Model, dataDictionary)
+        @Html.Partial("_OtherServices", Model, dataDictionary)
     }
+    @if (!Model.IsEmergencyPrescriptionOutcome)
+    {
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+    }
+    <div class="measure">
+        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
+    </div>
+    <div class="measure nhsuk-u-margin-top-4">
+        @Html.Partial("_rs_WorseningAdvice", Model)
+    </div>
 </div>

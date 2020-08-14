@@ -1,0 +1,17 @@
+﻿@using NHS111.Models.Models.Web
+@model  OutcomeViewModel
+
+@{
+    var serviceText = ViewData.ContainsKey("OtherServicesChangePostcode") ? "These services are available in" : "This service is available in";
+    if (ViewData.ContainsKey("ChangeLocationPrefixText")) {
+        serviceText = ViewData["ChangeLocationPrefixText"].ToString();
+    }
+}
+
+@using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+
+    <p>@string.Format("{0} {1}.", serviceText, Model.FormattedCurrentPostcode) <button class="button--link" data-event-trigger="click" data-event-value="Change my location">Change my location</button></p>
+}

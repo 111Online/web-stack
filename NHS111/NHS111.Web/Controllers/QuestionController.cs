@@ -26,13 +26,14 @@ namespace NHS111.Web.Controllers
     using IConfiguration = Presentation.Configuration.IConfiguration;
 
     [LogHandleErrorForMVC]
-    public class QuestionController : Controller
+    public class QuestionController : BaseController
     {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
             IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, ILoggingRestClient restClientBusinessApi, IViewRouter viewRouter,
-            IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder)
+            IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder,
+            IPostCodeAllowedValidator postCodeAllowedValidator) : base(postCodeAllowedValidator)
         {
 
             _journeyViewModelBuilder = journeyViewModelBuilder;
@@ -269,7 +270,7 @@ namespace NHS111.Web.Controllers
 
         public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool filterServices, bool viaGuidedSelection)
         {
-            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers)
+            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers, postcode)
                 .ConfigureAwait(true);
             resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
@@ -341,11 +342,11 @@ namespace NHS111.Web.Controllers
             var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime)
                 .ConfigureAwait(false);
 
-            if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup) && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
+            if (!outcomeViewModel.OutcomeGroup.IsServiceFirst && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
                 return dispoWithServicesResult;
 
             var dispoWithServicesView = dispoWithServicesResult as ViewResult;
-            if (dispoWithServicesView.ViewName != "../Outcome/Repeat_Prescription/Outcome_Preamble" && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
+            if (dispoWithServicesView.ViewName != "../Outcome/Service_first/Emergency_Prescription/Outcome_Preamble" && !outcomeViewModel.OutcomeGroup.IsPrimaryCare && !DirectToOtherServices)
                 return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
 
             // need to do the first look up to determine if there are other services
@@ -353,21 +354,21 @@ namespace NHS111.Web.Controllers
             if (!DirectToOtherServices)
                 return controller.RecommendedService(outcomeModel);
 
-            if (!outcomeModel.OutcomeGroup.IsUsingRecommendedService)
+            if (!outcomeModel.OutcomeGroup.IsServiceFirst)
                 outcomeModel.RecommendedService = null;
 
-            var minimumServicesNeededForServiceList = outcomeModel.OutcomeGroup.IsUsingRecommendedService ? 2 : 1;
+            var minimumServicesNeededForServiceList = outcomeModel.OutcomeGroup.IsServiceFirst ? 2 : 1;
 
             if (outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count >= minimumServicesNeededForServiceList)
                 return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint)
                     .ConfigureAwait(false);
 
-            return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
+            return View("../Outcome/Service_First/ServiceNotOffered", outcomeModel);
         }
 
-        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
+        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers, string postcode)
         {
-            var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
+            var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle, postcode);
             var response = await
                 _restClientBusinessApi.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET))
                     .ConfigureAwait(false);
@@ -385,6 +386,7 @@ namespace NHS111.Web.Controllers
                 JourneyJson = questionViewModel.JourneyJson,
                 SymptomDiscriminatorCode = questionViewModel.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+                CurrentPostcode = questionViewModel.CurrentPostcode
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
@@ -453,14 +455,15 @@ namespace NHS111.Web.Controllers
             return resultingModel;
         }
 
-        private static QuestionViewModel BuildQuestionViewModel(string pathwayId, int? age, string pathwayTitle)
+        private static QuestionViewModel BuildQuestionViewModel(string pathwayId, int? age, string pathwayTitle, string postcode)
         {
             return new QuestionViewModel
             {
                 NodeType = NodeType.Pathway,
                 PathwayId = pathwayId,
                 PathwayTitle = pathwayTitle,
-                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 } }
+                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 } },
+                CurrentPostcode = postcode
             };
         }
 

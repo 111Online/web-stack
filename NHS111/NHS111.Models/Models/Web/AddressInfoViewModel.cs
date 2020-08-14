@@ -31,7 +31,6 @@ namespace NHS111.Models.Models.Web
         public string County { get; set; }
         public string UDPRN { get; set; }
         public bool IsPostcodeFirst { get; set; }
-        public bool IsInPilotArea { get; set; }
 
         public string FormattedAddress
         {

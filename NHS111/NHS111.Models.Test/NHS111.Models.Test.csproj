@@ -168,6 +168,7 @@
     <Compile Include="Models\Web\ServiceViewModelTests\ServiceViewModelTestHelper.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\AddressParsingTests..cs" />
     <Compile Include="Models\Web\PageCustomContentTests.cs" />
+    <Compile Include="Models\Web\RecommendedServiceViewModelTests.cs" />
     <Compile Include="Models\Web\Validators\TelephoneNumberValidatorTests.cs" />
     <Compile Include="Models\Web\Validators\AgeMaximumValidatorTests.cs" />
     <Compile Include="Models\Web\Validators\AgeMinimumValidatorTests.cs" />

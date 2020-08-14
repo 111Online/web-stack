@@ -23,6 +23,9 @@
 @{
     var changePostcode = ViewData["ChangeCurrentPostcode"];
     var isChangePostcode = changePostcode is bool && (bool)changePostcode;
+
+    var otherServicesBack = ViewData["OtherServicesBack"];
+    var isFromOtherServicesBack = otherServicesBack is bool && (bool)otherServicesBack;
 }
 @if (!isChangePostcode)
 {
@@ -55,6 +58,7 @@
 @Html.HiddenFor(x => x.SurveyLink.RecommendedServiceId)
 @Html.HiddenFor(x => x.SurveyLink.RecommendedServiceName)
 @Html.HiddenFor(x => x.SurveyLink.RecommendedServiceType)
+@Html.HiddenFor(x => x.SurveyLink.RecommendedServiceTypeAlias)
 @Html.HiddenFor(x => x.SurveyLink.StartUrl)
 @Html.HiddenFor(x => x.SelectedService.Id)
 @Html.HiddenFor(x => Model.Campaign)
@@ -76,10 +80,13 @@
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Address", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Address))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OdsCode)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)
+        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].ServiceTypeAlias", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].ServiceTypeAlias))
+        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].ServiceTypeDescription", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].ServiceTypeDescription))
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].PublicName", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].PublicName))
+        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].PublicNameOnly", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].PublicNameOnly))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
-        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType.Id)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].ServiceType.Id)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType.Id)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].ContactDetails)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Distance)
         if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions != null)
@@ -102,7 +109,7 @@
             }
         }
     }
-    if (!isChangePostcode)
+    if (!isChangePostcode && !isFromOtherServicesBack)
     {
         @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.IsValidationRequery)
     }

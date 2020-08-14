@@ -1,4 +1,5 @@
-﻿using NHS111.Utils.RestTools;
+﻿using NHS111.Models.Models.Web.Validators;
+using NHS111.Utils.RestTools;
 using NHS111.Web.Helpers;
 using RestSharp;
 
@@ -35,6 +36,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
         private Mock<IDosEndpointFeature> _mockDosEndpointFeature;
         private Mock<IDOSSpecifyDispoTimeFeature> _mockDOSSpecifyDispoTimeFeature;
         private Mock<IOutcomeViewModelBuilder> _mockOutcomeViewModelBuilder;
+        private Mock<IPostCodeAllowedValidator> _postCodeAllowedValidator;
 
         [SetUp]
         public void Setup()
@@ -51,6 +53,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockDosEndpointFeature = new Mock<IDosEndpointFeature>();
             _mockDOSSpecifyDispoTimeFeature = new Mock<IDOSSpecifyDispoTimeFeature>();
             _mockOutcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
+            _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
 
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
             _mockRestClient.Setup(r => r.ExecuteAsync<Pathway>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<Pathway>)new RestResponse<Pathway>() { ResponseStatus = ResponseStatus.Completed, Data = new Pathway { Gender = "Male" } }));
@@ -70,7 +73,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object, _postCodeAllowedValidator.Object);
 
             var result = sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", null, true);
 
@@ -107,7 +110,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object, _postCodeAllowedValidator.Object);
 
             var result = (ViewResult)await sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", new[] { 0 }, true);
             var model = (QuestionViewModel)result.Model;
@@ -161,7 +164,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object, _postCodeAllowedValidator.Object);
 
             var pathwayId = "PW755MaleAdult";
             var age = 35;
@@ -182,7 +185,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object, _postCodeAllowedValidator.Object);
 
             var result = sut.Direct(null, 0, null, null, null, false);
 

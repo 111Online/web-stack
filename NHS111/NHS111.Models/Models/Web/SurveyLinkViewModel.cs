@@ -46,6 +46,7 @@ namespace NHS111.Models.Models.Web
         public string BookPharmacyCall { get; set; }
 
         public List<ServiceViewModel> Services { get; set; }
+        public string RecommendedServiceTypeAlias { get; set; }
         public string StartUrl { get; set; }
     }
 }
