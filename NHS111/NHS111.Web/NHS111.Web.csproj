@@ -561,6 +561,7 @@
     <Content Include="Views\Question\Not_Found.cshtml" />
     <Content Include="Views\Help\Accessibility.cshtml" />
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\RegisterForSMS\Closed.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
