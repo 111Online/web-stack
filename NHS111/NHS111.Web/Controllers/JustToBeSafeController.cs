@@ -59,10 +59,9 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("Covid-19/SMS")]
-        public async Task<ActionResult> SmsFirstQuestion(JustToBeSafeViewModel model)
+        public ActionResult SmsServiceClosed()
         {
-            var firstModel = BuildModel("PC111", model);
-            return await JustToBeSafeFirst(firstModel).ConfigureAwait(false);
+            return View("../RegisterForSMS/Closed");
         }
 
         [HttpGet]
