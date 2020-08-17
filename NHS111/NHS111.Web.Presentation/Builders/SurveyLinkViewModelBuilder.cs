@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
@@ -10,6 +11,7 @@ using NHS111.Models.Models.Web.Parsers;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -37,7 +39,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var pathway = response.Data;
             var resultingDxCode = model.Is999Callback ? FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(model.Id) : model.Id;
-            var result = new SurveyLinkViewModel()
+            var result = new SurveyLinkViewModel
             {
                 DispositionCode = model.Id,
                 DispositionDateTime = model.DispositionTime,
@@ -51,6 +53,7 @@ namespace NHS111.Web.Presentation.Builders
                 CampaignSource = model.Source,
                 ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue,
                 GuidedSelection = GetGuidedSelectionParameterFrom(model),
+                RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model),
                 StartUrl = model.StartParameter
             };
 
@@ -94,7 +97,7 @@ namespace NHS111.Web.Presentation.Builders
                 var recommendedService = model.DosCheckCapacitySummaryResult.Success.Services.First();
                 surveyLinkViewModel.RecommendedServiceId = recommendedService.Id;
                 surveyLinkViewModel.RecommendedServiceType = recommendedService.OnlineDOSServiceType.Id;
-                surveyLinkViewModel.RecommendedServiceName = HttpUtility.UrlEncode(recommendedService.PublicName);
+                surveyLinkViewModel.RecommendedServiceName = recommendedService.PublicName;
                 
                 var otherServices = model.DosCheckCapacitySummaryResult.Success.Services.Skip(1).ToList();
                 services = model.DosCheckCapacitySummaryResult.Success.Services;
@@ -106,7 +109,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var serviceTypeId = model.SelectedService != null ? model.SelectedService.ServiceType.Id : -1;
             surveyLinkViewModel.BookPharmacyCall = BookPharmacyCallModelBuilder.BookPharmacyCallValue(model.Id, serviceTypeId, services, OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup));
-
+            surveyLinkViewModel.RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model);
         }
 
         public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)
@@ -118,6 +121,14 @@ namespace NHS111.Web.Presentation.Builders
             return model.HasBeenViaGuidedSelection
                 ? model.IsViaGuidedSelection ? "true" : "false"
                 : string.Empty;
+        }
+        private string GetServiceTypeAliasParameterFrom(OutcomeViewModel model)
+        {
+            if (!model.OutcomeGroup.IsServiceFirst) return string.Empty;
+            if(model.DosCheckCapacitySummaryResult.ResultListEmpty) return "no-results";
+            var firstService = model.DosCheckCapacitySummaryResult.Success.FirstService;
+            var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
+            return recommendedService.IsCallbackServiceNotOfferingCallback ? string.Empty : firstService.ServiceTypeAlias;
         }
     }
 

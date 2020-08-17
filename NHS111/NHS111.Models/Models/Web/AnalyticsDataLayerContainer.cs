@@ -102,14 +102,14 @@ namespace NHS111.Models.Models.Web
     }
 
 
-    public class EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer
+    public class ServiceFirstReferralConfirmationAnalyticsDataLayer
         : ReferralConfirmationResultAnalyticsDataLayer
     {
 
-        public EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public ServiceFirstReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel)
         {
-            this[VirtualPageTitleKey] = string.Format("Emergency Prescription {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
+            this[VirtualPageTitleKey] = string.Format("Service First {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
         }
     }
 
@@ -188,6 +188,16 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class ServiceFirstReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Service first ITK Confirmation - Failure"; } }
+
+        public ServiceFirstReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
     public class DuplicateReferralResultAnalyticsDataLayer
         : ReferralResultAnalyticsDataLayer
     {
@@ -231,11 +241,11 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
-    public class EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer : DuplicateReferralResultAnalyticsDataLayer
+    public class ServiceFirstDuplicateReferralAnalyticsDataLayer : DuplicateReferralResultAnalyticsDataLayer
     {
-        protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Duplicate Booking"; } }
+        protected override string VirtualPageTitle { get { return "Service First ITK Confirmation - Duplicate Booking"; } }
 
-        public EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public ServiceFirstDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
@@ -271,11 +281,11 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
-    public class EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
+    public class ServiceFirstServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
     {
-        protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Unavailable"; } }
+        protected override string VirtualPageTitle { get { return "Service First ITK Confirmation - Unavailable"; } }
 
-        public EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+        public ServiceFirstServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
     }
     public class TestKitServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
     {

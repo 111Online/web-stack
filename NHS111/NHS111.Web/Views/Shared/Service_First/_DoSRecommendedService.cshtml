@@ -1,0 +1,18 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+
+@if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
+{
+    var recommendedService = Model.RecommendedService;
+    <div>
+        @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
+    </div>
+    if (recommendedService.ShouldShowServiceTypeDescription())
+    {
+        <div class="measure">
+            <p>
+                @recommendedService.ServiceTypeDescription
+            </p>
+        </div>
+    }
+}

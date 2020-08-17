@@ -57,15 +57,14 @@ namespace NHS111.Web.Presentation.Builders
             {
                 if (itkConfirmationViewModel.OutcomeGroup.Is999NonUrgent)
                     return new Call999ReferralFailureResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralFailureResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
                     return new ClinicianReferralFailureResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     return new Coronavirus111CallbackReferralFailureResultViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
+                    return new ServiceFirstReferralFailureResultViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralFailureResultViewModel(itkConfirmationViewModel);
@@ -87,9 +86,9 @@ namespace NHS111.Web.Presentation.Builders
                 if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
                     return new ClinicianDuplicateReferralResultViewModel(itkConfirmationViewModel);
 
-                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
+                if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
                     //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
-                    return new TemporaryEmergencyPrescriptionDuplicateReferralResultViewModel(itkConfirmationViewModel);
+                    return new TemporaryServiceFirstDuplicateReferralResultViewModel(itkConfirmationViewModel);
             }
             //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
             // return new DuplicateReferralResultViewModel(itkConfirmationViewModel); Temporarily removed until status of Dupe bug is known
@@ -109,8 +108,8 @@ namespace NHS111.Web.Presentation.Builders
                     return new AccidentAndEmergencyReferralConfirmationResultViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsClinicianCallback)
                     return new ClinicianCallbackReferralConfirmationResultViewModel(itkConfirmationViewModel);
-                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
-                    return new EmergencyPrescriptionReferralConfirmationResultsViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
+                    return new ServiceFirstReferralConfirmationResultsViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     return new Coronavirus111CallbackReferralConfirmationResultsViewModel(itkConfirmationViewModel);
             }
@@ -130,8 +129,8 @@ namespace NHS111.Web.Presentation.Builders
                     result = new Call999ServiceUnavailableReferralResultViewModel(outcomeViewModel);
                 if (outcomeViewModel.OutcomeGroup.IsEDCallback)
                     result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeViewModel);
-                if (outcomeViewModel.OutcomeGroup.IsPharmacyGroup)
-                    result = new EmergencyPrescriptionServiceUnavailableReferralResultViewModel(outcomeViewModel);
+                if (outcomeViewModel.OutcomeGroup.IsServiceFirst)
+                    result = new ServiceFirstServiceUnavailableReferralResultViewModel(outcomeViewModel);
                 if (outcomeViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     result = new Coronavirus111CallbackUnavailableReferralResultViewModel(outcomeViewModel);
             }
@@ -141,8 +140,6 @@ namespace NHS111.Web.Presentation.Builders
             outcomeViewModel.DosCheckCapacitySummaryResult = dosResult;
             outcomeViewModel.DosCheckCapacitySummaryResult.ServicesUnavailable = dosResult.ResultListEmpty;
 
-            var postcodeValidatorRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(outcomeViewModel.CurrentPostcode);
-            outcomeViewModel.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorRepsonse.IsInPilotAreaForOutcome(outcomeViewModel.OutcomeGroup);
             return result;
         }
 

@@ -76,3 +76,8 @@ details:not(.service-listing) summary {
     padding: 32px;
   }
 }
+
+
+.error-message {
+  @extend .error-message;
+}

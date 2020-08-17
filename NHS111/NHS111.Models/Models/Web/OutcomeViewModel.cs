@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NHS111.Models.Mappers.WebMappings;
+using NHS111.Models.Models.Web.Outcome;
 using NHS111.Models.Models.Web.Parsers;
 using StructureMap.Query;
 
@@ -64,16 +66,6 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        public bool IsEDCallback
-        {
-            get
-            {
-                return (this.OutcomeGroup.IsEDCallback
-                        && (this.DosCheckCapacitySummaryResult.HasITKServices ||
-                            string.IsNullOrEmpty(this.CurrentPostcode)));
-            }
-        }
-
         public bool IsSuspectedCovidSymptoms
         {
             get
@@ -82,6 +74,41 @@ namespace NHS111.Models.Models.Web
                 var lastPathwayNo = jsonParser.LastPathwayNo;
                 return lastPathwayNo.Equals("PW1853");
             }   
+        }
+
+        public bool IsEmergencyPrescriptionOutcome
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(PathwayNo) && PathwayNo.Equals("PW1827");
+            }
+        }
+
+        public bool IsEDWithCallbackOffered
+        {
+            get
+            {
+                return FromOutcomeViewModelToDosViewModel.DispositionResolver.IsDOSRetry(Id);
+            }
+        }
+
+        public bool ShouldOfferCallback
+        {
+            get
+            {
+                var isRetryDx = FromOutcomeViewModelToDosViewModel.DispositionResolver.IsDOSRetry(Id);
+                var canOfferCallback = !DosCheckCapacitySummaryResult.IsValidationRequery &&
+                                       DosCheckCapacitySummaryResult.HasITKServices && !HasAcceptedCallbackOffer.HasValue;
+                return isRetryDx && canOfferCallback;
+            }
+        }
+
+        public ServiceGroup ServiceGroup
+        {
+            get
+            {
+                return ServiceGroup.GetServiceGroupFromDisposition(Id);
+            }
         }
 
         public ServiceViewModel RemoveFirstDOSService()
