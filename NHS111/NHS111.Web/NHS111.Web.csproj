@@ -570,6 +570,7 @@
     <Content Include="Views\RegisterForSMS\Closed.cshtml" />
     <Content Include="Views\Shared\Help\_DeafSignposting.cshtml" />
     <Content Include="Views\Outcome\Service_First\Emergency_Department\ServiceNotOffered.cshtml" />
+    <Content Include="Views\Shared\_SeePharmaciesThatCanHelp.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
