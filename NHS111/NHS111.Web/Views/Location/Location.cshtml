@@ -17,30 +17,31 @@
     </script>
 }
 
-<h1>@heading</h1>
-<div class="callout callout--info measure">
-    <p>We need to know where you are so we can find services to help.</p>
-</div>
-
-@using (Html.BeginForm("Find", "Location", FormMethod.Post))
-{
-    <div class="form-group">
-        @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
-        @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
-        @Html.ValidationMessage("invalid-postcode")
-        @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = "required", style = "width: 8em; display: inline-block; margin-right: 10px;" })
-        <button class="js-find-location button--link" type="button" style="display: none" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
-
-        @Html.HiddenFor(m => m.SessionId)
-        @Html.HiddenFor(m => m.Campaign)
-        @Html.HiddenFor(m => m.FilterServices)
-        @Html.HiddenFor(m => m.StartParameter)
-        @Html.HiddenFor(m => m.PathwayNo)
-        @Html.HiddenFor(m => m.IsCovidJourney)
+<div class="nhsuk-core">
+    <h1>@heading</h1>
+    <div class="callout callout--info measure nhsuk-u-margin-bottom-6">
+        <p>We need to know where you are so we can find services to help.</p>
     </div>
 
-    <button type="submit" class="button--next">Next</button>
- }
+    @using (Html.BeginForm("Find", "Location", FormMethod.Post))
+    {
+        <div class="form-group nhsuk-u-margin-bottom-6 @(ViewData.ModelState.IsValidField("CurrentPostcode") ? "" : "form-group-error")">
+            @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
+            @Html.ValidationMessageFor(m => m.CurrentPostcode)
+            @Html.TextBoxFor(m => m.CurrentPostcode, new { required="required", style = "width: 8em; display: inline-block; margin-right: 10px;" })
+            <button class="js-find-location button--link nhsuk-u-margin-top-2" type="button" style="display: none; font-size: 18px;" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
+
+            @Html.HiddenFor(m => m.SessionId)
+            @Html.HiddenFor(m => m.Campaign)
+            @Html.HiddenFor(m => m.FilterServices)
+            @Html.HiddenFor(m => m.StartParameter)
+            @Html.HiddenFor(m => m.PathwayNo)
+            @Html.HiddenFor(m => m.IsCovidJourney)
+        </div>
+
+        <button type="submit" class="button--next">Next</button>
+    }
+</div>
 
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
@@ -60,7 +61,10 @@
     function showError() {
         stopPageLoadingIndicator();
         logEvent(EventTypes.Error, "Geolocation failed")
-        if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
+        if ($(".js-location-error").length == 0) {
+            $("#CurrentPostcode").before('<p class="error-message js-location-error" role="alert">We were unable to find your location. Please enter your current postcode.</p>');
+            $(".form-group").addClass("form-group-error")
+        }
     }
 
     function post(path, params, method) {
@@ -84,27 +88,4 @@
         form.submit();
     }
 
-    $(document).ready(function() {
-        $.validator.setDefaults({
-            showErrors: function() {
-                var valid = this.validElements()
-                $(valid).siblings(".field-validation-error").removeClass("field-validation-error")
-                    .addClass("field-validation-valid");
-                $(valid).parent().removeClass("form-group-error");
-                $(valid).removeAttr("aria-invalid").removeAttr("role");
-
-
-                var invalid = this.invalidElements();
-                $(invalid).siblings(".field-validation-valid").removeClass("field-validation-valid")
-                    .addClass("field-validation-error");
-                $(invalid).parent().addClass("form-group-error");
-                $(invalid).attr("aria-invalid", true).attr("role", "alert");
-            }
-        });
-
-        $("button[type='submit']").one("click",
-            function(e) {
-                $(this).valid();
-            });
-    });
 </script>

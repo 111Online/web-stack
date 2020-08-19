@@ -84,8 +84,6 @@
     <Content Include="src\scripts\vendor\modernizr-custom.min.js" />
     <Content Include="src\scripts\vendor\ospoint.js" />
     <Content Include="src\scripts\vendor\spin.js" />
-    <Content Include="src\styles\components\app-panel\app-panel.njk" />
-    <Content Include="src\styles\components\app-panel\_app-panel.scss" />
     <Content Include="src\styles\components\_button.scss" />
     <Content Include="src\styles\components\_callout.scss" />
     <Content Include="src\styles\components\_card.scss" />
@@ -109,6 +107,7 @@
     <Content Include="src\styles\components\_location.scss" />
     <Content Include="src\styles\components\_map.scss" />
     <Content Include="src\styles\components\_overrides.scss" />
+    <Content Include="src\styles\components\_personal-details.scss" />
     <Content Include="src\styles\components\_phase-banner.scss" />
     <Content Include="src\styles\components\_service-details.scss" />
     <Content Include="src\styles\components\_cookie-banner.scss" />
@@ -117,6 +116,7 @@
     <Content Include="src\styles\components\_notification-banner.scss" />
     <Content Include="src\styles\components\_search.scss" />
     <Content Include="src\styles\components\_skiplinks.scss" />
+    <Content Include="src\styles\components\_summary-list.scss" />
     <Content Include="src\styles\environment\generic\_border-box.scss" />
     <Content Include="src\styles\environment\generic\_index.scss" />
     <Content Include="src\styles\environment\generic\_reset.scss" />
@@ -170,7 +170,6 @@
     <Folder Include="src\scripts\vendor\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\styles\components\" />
-    <Folder Include="src\styles\components\app-panel\" />
     <Folder Include="src\styles\environment\" />
     <Folder Include="src\styles\environment\generic\" />
     <Folder Include="src\styles\environment\settings\" />

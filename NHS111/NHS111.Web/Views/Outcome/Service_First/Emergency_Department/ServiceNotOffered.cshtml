@@ -1,0 +1,40 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    ViewBag.Title = "RecommendedServiceNotOffered";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/recommendedservicenotoffered/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Recommended service not offered'
+            }];
+    </script>
+}
+@section Title { NHS 111 - Recommended Service }
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionNotOffered, Model) })
+}
+<div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+    <h1 class="h2">
+        Go to A&E (accident & emergency)
+    </h1>
+    <p>
+        Go there now.
+    </p>
+
+    @Html.Partial("_ActionLink", new ActionLinkViewModel() { Text = "Find accident and emergency services", Url = "https://www.nhs.uk/service-search/other-services/Hospital/LocationSearch/7" })
+
+</div>
+
+<div class="measure">
+    @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
+</div>
+<div class="measure nhsuk-u-margin-top-4">
+    @Html.Partial("_rs_WorseningAdvice", Model)
+</div>

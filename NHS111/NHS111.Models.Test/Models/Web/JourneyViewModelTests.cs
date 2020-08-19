@@ -65,10 +65,10 @@ namespace NHS111.Models.Test.Models.Web
         }
 
         [Test]
-        public void FormattedPostcode_NULL_returns_NULL()
+        public void FormattedPostcode_NULL_returns_EMPTY()
         {
             _journeyViewModel.CurrentPostcode = null;
-            Assert.IsNull(_journeyViewModel.FormattedCurrentPostcode);
+            Assert.IsEmpty(_journeyViewModel.FormattedCurrentPostcode);
         }
 
         [Test]

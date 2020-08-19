@@ -32,8 +32,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public string PublicName
         {
             get { return string.IsNullOrEmpty(_publicName) ? Name : _publicName; }
-            set { _publicName = !string.IsNullOrEmpty(value) ? value : Name; }
+            set { _publicName = value; }
         }
+
+        [JsonProperty(PropertyName = "publicNameOnlyField")]
+        public string PublicNameOnly { get; set; }
 
         [JsonProperty(PropertyName = "postcodeField")]
         public string PostCode { get; set; }

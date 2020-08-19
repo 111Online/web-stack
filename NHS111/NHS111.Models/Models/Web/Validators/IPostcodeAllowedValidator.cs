@@ -17,21 +17,19 @@ namespace NHS111.Models.Models.Web.Validators
     {
         ValidPostcodePathwaysAreaUndefined,
         PostcodeNotFound,
-        OutsidePathwaysArea,
         InvalidSyntax,
         InPathwaysAreaWithPharmacyServices,
-        InPathwaysAreaWithoutPharmacyServices,
-        OutsidePathwaysAreaWithPharmacyServices
+        InPathwaysAreaWithoutPharmacyServices
     }
 
     public static class PostcodeValidatioResponseExtension
     {
-        public static bool IsInPilotAreaForOutcome(this PostcodeValidatorResponse response, OutcomeGroup outcome)
+        public static bool IsInAreaForOutcome(this PostcodeValidatorResponse response)
         {
-            if (!outcome.IsPharmacyGroup && (response == PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices || response == PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices))
+            if (response == PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices || response == PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices)
                 return true;
 
-            return outcome.IsPharmacyGroup && response == PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
+            return response == PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
         }
     }
 }

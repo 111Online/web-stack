@@ -193,7 +193,7 @@ namespace NHS111.Web.Presentation.Builders
         private bool NeedToRequeryDos(OutcomeViewModel model)
         {
             return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) &&
-                   (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth)) &&
+                   (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth) || model.OutcomeGroup.Equals(OutcomeGroup.ServiceFirst)) &&
                    FromOutcomeViewModelToDosViewModel.DispositionResolver.IsDOSRetry(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
         }
@@ -272,6 +272,11 @@ namespace NHS111.Web.Presentation.Builders
             {
                 model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
                 model.RecommendedService = await _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
+            }
+            else if (model.RecommendedService != null)
+            {
+                //reset the recommended service
+                model.RecommendedService = null;
             }
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);

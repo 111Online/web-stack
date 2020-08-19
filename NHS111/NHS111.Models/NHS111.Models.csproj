@@ -258,13 +258,13 @@
     <Compile Include="Models\Web\Enums\OutcomePage.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
     <Compile Include="Models\Web\MicroSurvey\SurveyResult.cs" />
+    <Compile Include="Models\Web\Outcome\ServiceGroup.cs" />
     <Compile Include="Models\Web\PageCustomContent.cs" />
     <Compile Include="Models\Web\Parsers\JourneyJsonParser.cs" />
     <Compile Include="Models\Web\PersonalDetails\DateOfBirthViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\InformantTypeViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\PersonViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
-    <Compile Include="Models\Web\RecommendedServiceViewModel.cs" />
     <Compile Include="Models\Web\SearchReservedCovidTerms.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
@@ -354,6 +354,7 @@
     <Compile Include="Models\Web\PersonalDetailViewModel.cs" />
     <Compile Include="Models\Web\QuestionInfoViewModel.cs" />
     <Compile Include="Models\Web\QuestionViewModel.cs" />
+    <Compile Include="Models\Web\RecommendedServiceViewModel.cs" />
     <Compile Include="Models\Web\ReferralResultViewModel.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
@@ -368,6 +369,7 @@
     <Compile Include="Models\Web\Validators\DateYearValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\LocationViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\GuidedSearchJourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />

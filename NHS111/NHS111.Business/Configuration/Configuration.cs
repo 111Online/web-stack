@@ -261,6 +261,11 @@ namespace NHS111.Business.Configuration
             int timeout;
             return int.TryParse(ConfigurationManager.AppSettings["RestClientTimeoutMs"], out timeout) ? timeout : 30000;
         }
+        
+        public string APIMSubscriptionKey 
+        {
+            get { return ConfigurationManager.AppSettings["APIMSubscriptionKey"]; } 
+        }
     }
 
     public interface IConfiguration
@@ -326,5 +331,6 @@ namespace NHS111.Business.Configuration
 
         int GetServicePointManagerDefaultConnectionLimit();
         int GetRestClientTimeoutMs();
+        string APIMSubscriptionKey { get; }
     }
 }

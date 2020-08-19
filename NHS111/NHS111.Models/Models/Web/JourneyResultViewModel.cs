@@ -22,7 +22,7 @@ namespace NHS111.Models.Models.Web
         {
             var outcome = outcomeResultViewModel.OutcomeModel.OutcomeGroup;
             var subfolder = "";
-            if (outcome.IsPharmacyGroup)
+            if (outcome.IsServiceFirst)
                 subfolder = outcome.Id + "/";
             if (outcome.IsPrimaryCare)
                 subfolder = "Primary_Care/";
@@ -40,14 +40,18 @@ namespace NHS111.Models.Models.Web
             var viewFilePath = "../Outcome/" + subfolder;
 
             var model = outcomeResultViewModel.OutcomeModel;
-            if (model.OutcomeGroup.IsUsingRecommendedService)
+            if (model.OutcomeGroup.IsServiceFirst)
             {
-                if (model.RecommendedService == null) return viewFilePath + "RecommendedServiceNotOffered";
+                if (model.RecommendedService == null) return viewFilePath + model.ServiceGroup.Id + "/ServiceNotOffered";
 
-                if (model.OutcomeGroup.RequiresOutcomePreamble(model.HasSeenPreamble))
-                    viewFilePath += "Outcome_Preamble";
+                if (model.IsEmergencyPrescriptionOutcome && !model.HasSeenPreamble)
+                    viewFilePath += "Emergency_Prescription/Outcome_Preamble";
                 else
+                {
+                    if (model.ShouldOfferCallback)
+                        return "../Outcome/SP_Accident_and_emergency_callback";
                     viewFilePath += "RecommendedService";
+                }
             }
             else
                 viewFilePath += model.OutcomeGroup.Id;

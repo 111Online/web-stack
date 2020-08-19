@@ -46,6 +46,6 @@
 {
 @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 }
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent && !Model.OutcomeModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {
+@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent && !Model.OutcomeModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) && !Model.OutcomeModel.OutcomeGroup.Equals(OutcomeGroup.ServiceFirst)) {
 @Html.Partial("_WorseningAdviceWithTitle", Model.OutcomeModel)
 }

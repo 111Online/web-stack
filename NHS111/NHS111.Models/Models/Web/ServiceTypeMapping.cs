@@ -5,10 +5,10 @@ namespace NHS111.Models.Models.Web
 {
     public class ServiceTypeMapping
     {
-        private const string CALLBACK_VIEW_NAME = "_rs_callback_type";
-        private const string GOTO_VIEW_NAME = "_rs_goto_type";
-        private const string PUBLICPHONE_VIEW_NAME = "_rs_phone_type";
-        private const string REFERRINGANDGO_VIEW_NAME = "_rs_refer_ring_and_go";
+        private const string CALLBACK_VIEW_NAME = "_callback_type";
+        private const string GOTO_VIEW_NAME = "_goto_type";
+        private const string PUBLICPHONE_VIEW_NAME = "_phone_type";
+        private const string REFERRINGANDGO_VIEW_NAME = "_refer_ring_and_go";
         public ServiceTypeMapping(OnlineDOSServiceType typeGroup)
         {
             _typeGroup = typeGroup;

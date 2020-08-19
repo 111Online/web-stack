@@ -1,6 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OtherServicesViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OtherServicesViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     //set this here since this property is used to pass through to each partial
@@ -28,42 +28,38 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "other-services"));
     dataDictionary.Add(new KeyValuePair<string, object>("OtherServicesChangePostcode", "true"));
-    var previousAction = Model.RecommendedService == null ? "DispositionWithServices" : "RecommendedService";
+    var previousAction = Model.IsEmergencyPrescriptionOutcome ? "RecommendedService" : "DispositionWithServices";
 }
 
 @section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionOtherServices, Model) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-    }
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceFirstOtherServices, Model) })
 }
 
 <div class="nhsuk-core">
     @using (Html.BeginForm(previousAction, "Outcome", FormMethod.Post))
     {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary { { "OtherServicesBack", true } })
+        @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "RecommendedService" } })
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        <button class="button--link search__button--back">Back</button>
+        <button class="button--link search__button--back" data-event-trigger="click" data-event-value="Other services back">Back</button>
     }
 
-    <div class="measure nhsuk-u-margin-top-2">
+    <div class="measure">
         <h1>Other ways to get help</h1>
-        @Html.Partial("_rs_Timings", Model)
+        @Html.Partial("_TimingInfo", Model)
     </div>
-
+    <div class="measure">
+        @Html.Partial("_ChangePostcode", Model, dataDictionary)
+    </div>
     <div class="other-services">
-        @Html.Partial("_rs_ChangePostcodeLink", dataDictionary)
         @foreach (var service in Model.OtherServices)
         {
             Model.RecommendedService = service;
             <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
-                <summary>
-                    <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
+                <summary data-event-trigger="click" data-event-value="@string.Format("Service {0}", WebUtility.HtmlDecode(service.PublicName))">
+                    <p>
+                        @Html.Raw(service.GetOtherServicesServiceDisplayHtml())
+                    </p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
                     {
                         <p class="service-listing__info">Telephone service</p>
@@ -75,17 +71,18 @@
                     <span class="service-listing__toggle--hide">Hide</span>
                     <span class="service-listing__toggle--show">More information</span>
                 </summary>
-                @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model)
+                @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model, new ViewDataDictionary { { "IsOtherService", bool.TrueString } })
             </details>
         }
     </div>
-    
-    @* Emergency Prescription pathway is for non-symptomatic, so the worsening advice should not be offered *@
-    @if (Model.PathwayNo != "PW1827")
+    @if (!Model.IsEmergencyPrescriptionOutcome)
     {
-        <hr/>
-        
-        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
-        @Html.Partial("_rs_WorseningAdvice", Model)
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
     }
+    <div class="measure">
+        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
+    </div>
+    <div class="measure nhsuk-u-margin-top-4">
+        @Html.Partial("_rs_WorseningAdvice", Model)
+    </div>
 </div>

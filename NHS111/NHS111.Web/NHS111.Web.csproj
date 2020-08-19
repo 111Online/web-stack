@@ -256,6 +256,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\AuditingController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\HealthzController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -462,34 +463,21 @@
     <Content Include="Views\Location\Location.cshtml" />
     <Content Include="Views\Location\OutOfArea.cshtml" />
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
-    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedService.cshtml" />
-    <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
     <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
     <Content Include="Views\Shared\_rs_WorseningAdvice.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionLink.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionButton.cshtml" />
     <Content Include="Views\Shared\_rs_ChangePostcodeLink.cshtml" />
-    <Content Include="Views\Shared\_rs_Recommeded_DOS_Service.cshtml" />
-    <Content Include="Views\Shared\_rs_goto_type.cshtml" />
-    <Content Include="Views\Shared\_rs_phone_type.cshtml" />
-    <Content Include="Views\Shared\_rs_callback_type.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\Confirmation.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\GP_Pharmacy.cshtml" />
-    <Content Include="Views\Outcome\Repeat_Prescription\Outcome_Preamble.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsRecommendedServiceViewModel.cshtml" />
-    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedServiceNotOffered.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
     <Content Include="Views\Pathway\EmergencyPrescriptionsOutOfArea.cshtml" />
-    <Content Include="Views\Shared\_rs_refer_ring_and_go.cshtml" />
     <Content Include="Views\Question\Page.cshtml" />
-    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedServiceOtherServices.cshtml" />
-    <Content Include="Views\Shared\Repeat_Prescription\_Refer_And_Go.cshtml" />
-    <Content Include="Views\Shared\Repeat_Prescription\_Callback.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\DuplicateReferral.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\DuplicateReferral.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\ServiceUnavailable.cshtml" />
     <Content Include="Views\Outcome\No_Further_Action.cshtml" />
-    <Content Include="Views\Outcome\Repeat_Prescription\ReferralExplanation.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress_Change.cshtml" />
     <Content Include="Views\PersonalDetails\CheckAtHome.cshtml" />
@@ -506,7 +494,6 @@
     <Content Include="Views\Outcome\SP_Mental_health.cshtml" />
     <Content Include="Views\Shared\Elements\_InlineSpinner.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
-    <Content Include="Views\Shared\_rs_Timings.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsSurveyLinkViewModel.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_1.cshtml" />
     <Content Include="Views\Shared\_EmergencyAlert.cshtml" />
@@ -559,7 +546,27 @@
     <Content Include="Views\Shared\_CovidEliminator.cshtml" />
     <Content Include="Views\Search\Coronavirus_Explainer.cshtml" />
     <Content Include="Views\Shared\_GeneralCovidAdvice.cshtml" />
+    <Content Include="Views\Outcome\Service_First\RecommendedService.cshtml" />
+    <Content Include="Views\Outcome\Service_First\OtherServices.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Prescription\ServiceNotOffered.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Prescription\Outcome_Preamble.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Prescription\ReferralExplanation.cshtml" />
+    <Content Include="Views\Shared\Service_First\_DoSRecommendedService.cshtml" />
+    <Content Include="Views\Shared\Service_First\_OtherServices.cshtml" />
+    <Content Include="Views\Shared\Service_First\_ChangePostcode.cshtml" />
+    <Content Include="Views\Shared\Service_First\service_types\_callback_type.cshtml" />
+    <Content Include="Views\Shared\Service_First\service_types\_goto_type.cshtml" />
+    <Content Include="Views\Shared\Service_First\service_types\_phone_type.cshtml" />
+    <Content Include="Views\Shared\Service_First\service_types\_refer_ring_and_go.cshtml" />
+    <Content Include="Views\Shared\Service_First\_TimingInfo.cshtml" />
+    <Content Include="Views\Shared\Service_First\_ServiceWhy.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Callback.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Refer_And_Go.cshtml" />
     <Content Include="Views\Question\Not_Found.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Department\ServiceNotOffered.cshtml" />
+    <Content Include="Views\Help\Accessibility.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\RegisterForSMS\Closed.cshtml" />
     <Content Include="Views\Help\Accessibility.cshtml" />
     <Content Include="Views\Shared\_RecommendedServiceSurvey.cshtml" />
     <None Include="Web.Development.config">
@@ -575,7 +582,6 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

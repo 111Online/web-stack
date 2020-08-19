@@ -1,4 +1,5 @@
-﻿@model NHS111.Models.Models.Web.FeedbackViewModel
+﻿@using NHS111.Models.Models.Web
+@model NHS111.Models.Models.Web.FeedbackViewModel
 @{ Model.DateAdded = DateTime.Now; }
 @{
     const int maxFeedbackLength = 1200;
@@ -17,17 +18,23 @@
             @(String.IsNullOrEmpty(Model.Heading) ? "Help us improve this page" : Model.Heading)
         </summary>
         <div>
-            @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions {InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);"}))
+            @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);" }))
             {
                 @Html.HiddenFor(m => m.UserId)
-                @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() {TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "PageData"}})
+                @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "PageData" } })
 
-               
+                if (Model.PageData.Page.Equals(PageDataViewModel.PageType.ServiceFirstRecommendedService) || Model.PageData.Page.Equals(PageDataViewModel.PageType.ServiceFirstOtherServices))
+                {
+                    <p>We use feedback to make these pages better.  We don't check feedback every day and cannot reply or pass comments on to other NHS services.</p>
+                    <p>Do not include any medical or personal information like your name, email or phone number.</p>
+                }
+                else
+                {
                     <p>Does it make sense?</p>
                     <p>We only use this feedback to make the service better.</p>
                     <p>Do not leave any personal or contact information. <strong>No one will contact you or reply to requests for medical help.</strong></p>
                     <p>Call 111 if you need to speak to someone.</p>
-               
+                }
 
                 @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @class = "feedback__input nhsuk-u-margin-bottom-3", @maxlength = maxFeedbackLength, @aria_labelledby = "feedback__summary"})
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>

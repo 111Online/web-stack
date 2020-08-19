@@ -26,7 +26,8 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         public ActionResult Home(JourneyViewModel model)
-        {            
+        {
+            ModelState.Clear();
             return View(model);
         }
 
@@ -35,6 +36,7 @@ namespace NHS111.Web.Controllers
         [Route("Location")]
         public ActionResult Location(LocationViewModel model)
         {
+            ModelState.Clear();
             return View(model);
         }
 
@@ -54,7 +56,7 @@ namespace NHS111.Web.Controllers
 
             if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
             {
-                ModelState.AddModelError("invalid-postcode", "Please enter a valid postcode");
+                ModelState.AddModelError("CurrentPostcode", "Enter a valid postcode");
                 return View("Location", model);
             }
 

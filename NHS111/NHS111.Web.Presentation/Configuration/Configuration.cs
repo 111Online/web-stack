@@ -290,6 +290,11 @@ namespace NHS111.Web.Presentation.Configuration
         {
             return ConfigurationManager.AppSettings["BusinessDosApiMonitorHealthUrl"];
         }
+
+        public string APIMSubscriptionKey
+        {
+            get { return ConfigurationManager.AppSettings["APIMSubscriptionKey"]; }
+        }
     }
 
 
@@ -373,7 +378,7 @@ namespace NHS111.Web.Presentation.Configuration
         string DosMobilePassword { get; }
         int ServicePointManagerDefaultConnectionLimit { get; }
         int RestClientTimeoutMs { get; }
-
+        string APIMSubscriptionKey { get; }
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }
         string Expert24Url { get; }

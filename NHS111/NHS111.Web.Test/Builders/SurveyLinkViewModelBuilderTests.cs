@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
+using AutoMapper;
 using FakeItEasy;
 using Newtonsoft.Json;
 using NHS111.Features;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
@@ -11,6 +15,7 @@ using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
 using RestSharp;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -28,6 +33,8 @@ namespace NHS111.Web.Presentation.Test.Builders
         [SetUp]
         public void Setup()
         {
+            Mapper.Initialize(m => m.AddProfile<FromServiceViewModelToRecommendedServiceViewModelMapper>());
+
             var _fakeConfiguration = A.Fake<IConfiguration>();
             var _fakeLoggingRestClient = A.Fake<ILoggingRestClient>();
             var _fakeSurveyLinkFeature = A.Fake<ISurveyLinkFeature>();
@@ -47,7 +54,26 @@ namespace NHS111.Web.Presentation.Test.Builders
                 Id = "TestId",
                 OutcomeGroup = OutcomeGroup.ItkPrimaryCare,
                 JourneyJson = JsonConvert.SerializeObject(journeyModel),
-                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Gender = "Male", Age = 30 } }
+                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Gender = "Male", Age = 30 } },
+                SelectedServiceId = "1",
+                DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult
+                {
+                    Success = new SuccessObject<ServiceViewModel>
+                    {
+                        Services = new[] 
+                        {
+                            new ServiceViewModel
+                            {
+                                Id = 1,
+                                ServiceTypeAlias = "Test alias name",
+                                ServiceType = new ServiceType
+                                {
+                                    Id = 1,
+                                }
+                            }
+                        }.ToList()
+                    }
+                }
             };
 
             A.CallTo(() => _fakeRestResponse.IsSuccessful).Returns(true);
@@ -79,7 +105,8 @@ namespace NHS111.Web.Presentation.Test.Builders
                 {
                     new GroupedDOSServices(OnlineDOSServiceType.Callback, _services)
                 },
-                OutcomePage = OutcomePage.Outcome
+                OutcomePage = OutcomePage.Outcome,
+                OutcomeGroup = OutcomeGroup.ItkPrimaryCare
             };
 
             _modelNoService = new OutcomeViewModel()
@@ -99,7 +126,8 @@ namespace NHS111.Web.Presentation.Test.Builders
                         Services = _services
                     }
                 },
-                OutcomePage = OutcomePage.Outcome
+                OutcomePage = OutcomePage.Outcome,
+                OutcomeGroup = OutcomeGroup.ItkPrimaryCare
             };
         }
 
@@ -182,6 +210,60 @@ namespace NHS111.Web.Presentation.Test.Builders
 
             Assert.AreEqual(string.Empty, surveyLinkViewModel.ServiceOptions);
             Assert.AreEqual(0, surveyLinkViewModel.ServiceCount);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_outcome_is_not_service_first()
+        {
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual(string.Empty, result.RecommendedServiceTypeAlias);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_outcome_service_first()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual("Test alias name", result.RecommendedServiceTypeAlias);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_outcome_service_first_and_no_results()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            _outcomeViewModel.DosCheckCapacitySummaryResult.Success.Services.RemoveAll(s => s.Id == 1);
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual("no-results", result.RecommendedServiceTypeAlias);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_outcome_service_first_and_dos_errors()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            _outcomeViewModel.DosCheckCapacitySummaryResult.Success = null;
+            _outcomeViewModel.DosCheckCapacitySummaryResult.Error = new ErrorObject();
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual("no-results", result.RecommendedServiceTypeAlias);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_ooh_service_first_and_not_callback()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            _outcomeViewModel.SelectedService.ServiceType.Id = 25;
+            _outcomeViewModel.SelectedService.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual(string.Empty, result.RecommendedServiceTypeAlias);
+        }
+
+        [Test]
+        public void ServiceTypeAlias_has_correct_value_when_cas_service_first_and_not_callback()
+        {
+            _outcomeViewModel.OutcomeGroup = OutcomeGroup.ServiceFirst;
+            _outcomeViewModel.SelectedService.ServiceType.Id = 130;
+            _outcomeViewModel.SelectedService.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            var result = _sut.SurveyLinkBuilder(_outcomeViewModel).Result;
+            Assert.AreEqual(string.Empty, result.RecommendedServiceTypeAlias);
         }
     }
 }

@@ -35,8 +35,7 @@ namespace NHS111.Web.Presentation.IoC
                 .Ctor<ILoggingRestClient>("restClientPostcodeApi")
                 .Is(GetLoggingRestClientFor(_configuration.PostcodeApiBaseUrl))
                 .Ctor<ILoggingRestClient>("restClientItkDispatcherApi")
-                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl,
-                    LogManager.GetLogger("log")));
+                .Is(GetLoggingRestClientFor(_configuration.ItkDispatcherApiBaseUrl));
             For<IRegisterForSMSViewModelBuilder>().Singleton()
                 .Use<RegisterForSMSViewModelBuilder>()
                 .Ctor<ILoggingRestClient>("restClientCaseDataCaptureApi")
@@ -69,7 +68,7 @@ namespace NHS111.Web.Presentation.IoC
 
         private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
         {
-            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.ServicePointManagerDefaultConnectionLimit, _configuration.RestClientTimeoutMs);
+            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.ServicePointManagerDefaultConnectionLimit, _configuration.RestClientTimeoutMs, _configuration.APIMSubscriptionKey);
         }
     }
 }
