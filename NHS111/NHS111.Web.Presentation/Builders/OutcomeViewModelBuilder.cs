@@ -279,7 +279,8 @@ namespace NHS111.Web.Presentation.Builders
                 model.RecommendedService = null;
             }
 
-            _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            //_surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 
             _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 

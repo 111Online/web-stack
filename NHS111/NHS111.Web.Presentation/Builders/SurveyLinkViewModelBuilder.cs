@@ -5,6 +5,7 @@ using System.Web;
 using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Mappers.WebMappings;
+using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Parsers;
@@ -60,6 +61,8 @@ namespace NHS111.Web.Presentation.Builders
             var isPharmacyPathway = result.EndPathwayNo == "PW1827";
             result.SurveyId = isPharmacyPathway ? _surveyLinkFeature.PharmacySurveyId : _surveyLinkFeature.SurveyId;
             AddServiceInformation(model, result);
+
+            result.EmbeddedData = Mapper.Map<EmbeddedData>(model);
 
             return result;
         }
