@@ -562,13 +562,14 @@
     <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Callback.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Service_first\Emergency_Prescription\_Refer_And_Go.cshtml" />
     <Content Include="Views\Question\Not_Found.cshtml" />
-    <Content Include="Views\Shared\_OtherLanguageSummary.cshtml" />
-    <Content Include="Views\Shared\_DeafSummary.cshtml" />
-    <Content Include="Views\Shared\_DeafReassurance.cshtml" />
+    <Content Include="Views\Shared\Help\_OtherLanguageSummary.cshtml" />
+    <Content Include="Views\Shared\Help\_DeafSummary.cshtml" />
+    <Content Include="Views\Shared\Help\_DeafReassurance.cshtml" />
     <Content Include="Views\Help\Accessibility.cshtml" />
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\ServiceBookingFailure.cshtml" />
     <Content Include="Views\RegisterForSMS\Closed.cshtml" />
-    <Content Include="Views\Shared\_DeafSignposting.cshtml" />
+    <Content Include="Views\Shared\Help\_DeafSignposting.cshtml" />
+    <Content Include="Views\Outcome\Service_First\Emergency_Department\ServiceNotOffered.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -582,9 +583,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Shared\Help\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
