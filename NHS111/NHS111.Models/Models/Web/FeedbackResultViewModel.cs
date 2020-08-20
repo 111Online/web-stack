@@ -12,8 +12,8 @@
         protected string ResolveMessageByPathway(bool displayShortenedMessage)
         {
             return displayShortenedMessage ?
-                @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help. Deaf people can contact 111 using text relay on 18000 111.</p>" :
-                @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help. Deaf people can contact 111 using text relay on 18000 111.</p> <p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>"; ;
+                @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help. Deaf people can contact 111 using text relay on 18001 111.</p>" :
+                @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help. Deaf people can contact 111 using text relay on 18001 111.</p> <p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>"; ;
         }
 
         public abstract string Message { get; }
