@@ -275,9 +275,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
       <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
