@@ -45,21 +45,24 @@
 
     <br />
 
-    <div class="outcome-additional-info measure">
+    <div class="outcome-additional-info measure nhsuk-u-margin-bottom-3">
         <p>Pharmacists are trained to deal with common health problems.</p>
         <hr style="margin-bottom: 0px" />
-        <br />
     </div>
 
-    <div class="outcome-additional-info measure">
-        @Html.Partial("_SeePharmaciesThatCanHelp", Model)
+    <div class="outcome-additional-info measure nhsuk-u-margin-bottom-6">
+        @{
+            @Html.Partial("_SeePharmaciesThatCanHelp", Model, dataDictionary)
+        }
     </div>
-    <br /><br />
     <hr />
 
-    @Html.Partial("_rs_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "DisplayWorseningCareAdvice", Model.DisplayWorseningCareAdvice } })
-    <br />
-    @Html.Partial("_rs_WorseningAdvice", Model)
+    <div class="measure">
+        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
+    </div>
+    <div class="measure nhsuk-u-margin-top-4">
+        @Html.Partial("_rs_WorseningAdvice", Model)
+    </div>
 </section>
 
 

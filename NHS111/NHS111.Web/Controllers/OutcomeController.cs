@@ -130,8 +130,6 @@ namespace NHS111.Web.Controllers
             return View(viewRouter.ViewName, outcomeModel);
         }
 
-
-
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
         public ActionResult Disposition(int? age, string gender, string dxCode, string symptomGroup,
@@ -231,7 +229,9 @@ namespace NHS111.Web.Controllers
                     }
                 }
 
-                if (model.OutcomeGroup.IsServiceFirst || model.OutcomeGroup.IsPrimaryCare)
+                if (model.OutcomeGroup.IsServiceFirst || 
+                    model.OutcomeGroup.IsPrimaryCare || 
+                    model.OutcomeGroup.IsPharmacy)
                 {
                     var otherServices =
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services).ConfigureAwait(false);

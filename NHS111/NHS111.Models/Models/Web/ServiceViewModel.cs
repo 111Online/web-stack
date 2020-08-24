@@ -16,6 +16,7 @@ namespace NHS111.Models.Models.Web
     {
         private readonly IClock _clock;
         private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137, 138 };
+        private const int _callBackPharmacyCASId = 137;
         private readonly IEnumerable<long> _gotoEDIdList = new List<long> { 40, 105, 120 };
         private readonly long _oohServiceId = 25;
 
@@ -357,6 +358,11 @@ namespace NHS111.Models.Models.Web
         public bool IsNotACallbackServiceWithPublicName
         {
             get { return !string.IsNullOrEmpty(PublicNameOnly) && !IsCallbackService; }
+        }
+
+        public bool IsPharmacyCASCallback()
+        {
+            return ServiceType.Id.Equals(_callBackPharmacyCASId);
         }
     }
 

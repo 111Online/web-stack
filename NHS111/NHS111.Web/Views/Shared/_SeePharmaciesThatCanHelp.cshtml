@@ -1,6 +1,6 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 
-@using (Html.BeginForm(Model.OutcomeGroup.SearchDestination, "Outcome", FormMethod.Post, new { id = "seeServicesThatCanHelpForm" }))
+@using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post, new { id = "seeServicesThatCanHelpForm" }))
 {
     @Html.HiddenFor(x => Model.Id)
     @Html.HiddenFor(x => Model.JourneyJson)

@@ -6,6 +6,7 @@
     //set this here since this property is used to pass through to each partial
     //further down.  Need this to always be the ACTUAL recommended service.
     var recommendedService = Model.RecommendedService;
+
 }
 
 @section Title {
@@ -45,11 +46,28 @@
     }
 
     <div class="measure">
-        <h1>Other ways to get help</h1>
+        @if (Model.OutcomeGroup.IsPharmacy)
+        {
+            <h1>Services that can help</h1>
+            if (Model.OtherServices.Count() > 1)
+            {
+                <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-6">
+                COVID-19 and social distancing means that some pharmacies are asking people to phone first.
+            </div>
+            <hr />
+            }
+        }
+        else
+        {
+            <h1>Other ways to get help</h1>
+        }
         @Html.Partial("_TimingInfo", Model)
     </div>
     <div class="measure">
-        @Html.Partial("_ChangePostcode", Model, dataDictionary)
+        @if (!Model.OutcomeGroup.IsPharmacy)
+        {
+            @Html.Partial("_ChangePostcode", Model, dataDictionary)
+        }
     </div>
     <div class="other-services">
         @foreach (var service in Model.OtherServices)
@@ -75,6 +93,9 @@
             </details>
         }
     </div>
+
+    @Html.Partial("_PharmacyFooterInformation")
+
     @if (!Model.IsEmergencyPrescriptionOutcome)
     {
         <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />

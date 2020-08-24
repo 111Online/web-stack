@@ -203,6 +203,14 @@ namespace NHS111.Models.Models.Domain
             }
         }
 
+        public bool IsPharmacy
+        {
+            get
+            {
+                return Equals(Pharmacy);
+            }
+        }
+
         public bool CoronaVirusServiceDetailsMessageDontGo
         {
             get

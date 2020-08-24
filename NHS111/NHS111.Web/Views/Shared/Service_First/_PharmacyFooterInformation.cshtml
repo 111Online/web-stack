@@ -1,0 +1,14 @@
+﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OtherServicesViewModel>
+
+@if (Model.OutcomeGroup.IsPharmacy)
+{
+    @Html.Partial("_ChangePostcode", Model, ViewContext.ViewData)
+    if (Model.OtherServices.Count() == 1)
+    {
+        @Html.Partial("_ServiceWhy")
+    }
+    else
+    {
+        @Html.Partial("_ServicesWhy")
+    }
+}
