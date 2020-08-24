@@ -16,7 +16,7 @@ namespace NHS111.Models.Models.Web
     {
         private readonly IClock _clock;
         private readonly IEnumerable<long> _callbackCASIdList = new List<long> { 130, 133, 137, 138 };
-        private const int _callBackPharmacyCASId = 137;
+        private readonly IEnumerable<long> _callBackPharmacyCASIdList = new List<long>() { 137, 138 };
         private readonly IEnumerable<long> _gotoEDIdList = new List<long> { 40, 105, 120 };
         private readonly long _oohServiceId = 25;
 
@@ -260,6 +260,11 @@ namespace NHS111.Models.Models.Web
 
         public string GetOtherServicesServiceDisplayHtml()
         {
+            if (IsPharmacyCASCallback())
+            {
+                return GetServiceTypePharmacyCASAliasHtml();
+            }
+
             var serviceDisplayHtml = GetServiceTypeAliasHtml();
             if (IsCallbackServiceNotOfferingCallback && !ShouldShowAddress)
                 return serviceDisplayHtml;
@@ -282,6 +287,11 @@ namespace NHS111.Models.Models.Web
         {
             var serviceTypeAlias = IsCallbackServiceNotOfferingCallback ? PublicName : ServiceTypeAlias;
             return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(serviceTypeAlias));
+        }
+
+        private string GetServiceTypePharmacyCASAliasHtml()
+        {
+            return "<b class=\"service-details__alias\">Book a call with a pharmacy</b>";
         }
 
         private string GetServiceNameHtml()
@@ -362,7 +372,7 @@ namespace NHS111.Models.Models.Web
 
         public bool IsPharmacyCASCallback()
         {
-            return ServiceType.Id.Equals(_callBackPharmacyCASId);
+            return _callBackPharmacyCASIdList.Contains(ServiceType.Id);
         }
     }
 

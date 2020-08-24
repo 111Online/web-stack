@@ -1,6 +1,7 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OtherServicesViewModel>
+
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     //set this here since this property is used to pass through to each partial
@@ -49,13 +50,6 @@
         @if (Model.OutcomeGroup.IsPharmacy)
         {
             <h1>Services that can help</h1>
-            if (Model.OtherServices.Count() > 1)
-            {
-                <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-6">
-                COVID-19 and social distancing means that some pharmacies are asking people to phone first.
-            </div>
-            <hr />
-            }
         }
         else
         {

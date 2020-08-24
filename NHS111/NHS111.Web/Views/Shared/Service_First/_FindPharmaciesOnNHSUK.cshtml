@@ -1,0 +1,17 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OtherServicesViewModel>
+
+@if (Model.OtherServices.OnlyServiceIsPharmacyCAS())
+{
+    <div>
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+        <h3>Go to pharmacy</h3>
+        <p>
+            You can
+            <a href="https://www.nhs.uk/service-search/find-a-pharmacy/" target="_blank">
+                find pharmacies near you on NHS.UK
+            </a>
+        </p>
+        <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+    </div>
+}

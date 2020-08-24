@@ -17,6 +17,7 @@
         }];
     </script>
 }
+
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
@@ -39,11 +40,13 @@
     dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 <section class="measure nhsuk-core">
-    <div class="callout callout--attention measure">
+    <div class="callout callout--attention measure nhsuk-u-margin-bottom-6">
         <h2 class="heading-medium">Contact a pharmacist today or tomorrow</h2>
     </div>
 
-    <br />
+    <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-6">
+        COVID-19 and social distancing means that some pharmacies are asking people to phone first.
+    </div>
 
     <div class="outcome-additional-info measure nhsuk-u-margin-bottom-3">
         <p>Pharmacists are trained to deal with common health problems.</p>
@@ -51,7 +54,16 @@
     </div>
 
     <div class="outcome-additional-info measure nhsuk-u-margin-bottom-6">
-        @{
+        @if (Model.DosCheckCapacitySummaryResult.ResultListEmpty)
+        {
+            <div class="nhsuk-u-margin-top-4">
+                <p>
+                    <a target="_blank" href="https://www.nhs.uk/service-search/find-a-pharmacy/">Find pharmacies near you on NHS.UK</a>
+                </p>
+            </div>
+        }
+        else
+        {
             @Html.Partial("_SeePharmaciesThatCanHelp", Model, dataDictionary)
         }
     </div>

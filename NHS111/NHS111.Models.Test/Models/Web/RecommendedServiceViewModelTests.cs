@@ -712,6 +712,14 @@ namespace NHS111.Models.Test.Models.Web
             Assert.IsTrue(_recommendedServiceViewModel.ShouldShowOtherServicesServiceTypeDescription(true));
         }
 
-        
+        [Test]
+        public void GetOtherServicesServiceDisplayHtml_CASPharmacy_Returns_Correct_Alias()
+        {
+            _recommendedServiceViewModel.ServiceType.Id = 138;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.ReferRingAndGo;
+            var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
+            Assert.AreEqual("<b class=\"service-details__alias\">Book a call with a pharmacy</b>", html);
+        }
+
     }
 }
