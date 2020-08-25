@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,6 +10,7 @@ using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Parsers;
+using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
@@ -62,9 +64,24 @@ namespace NHS111.Web.Presentation.Builders
             result.SurveyId = isPharmacyPathway ? _surveyLinkFeature.PharmacySurveyId : _surveyLinkFeature.SurveyId;
             AddServiceInformation(model, result);
 
-            result.EmbeddedData = Mapper.Map<EmbeddedData>(model);
+            model.SurveyLink = result;
+            AddEmbeddedDataInformation(model, result);            
 
             return result;
+        }
+
+        private void AddEmbeddedDataInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)
+        {
+            var embeddedData = Mapper.Map<EmbeddedData>(model);
+            if (HttpContext.Current != null && HttpContext.Current.Request != null)
+            {
+                var request = HttpContext.Current.Request;
+                embeddedData.Referrer = request.Url.Scheme + "://" + request.Url.Authority + request.ApplicationPath.TrimEnd('/') + "/micro-survey";
+
+                var browserInfo = new BrowserInfo(new HttpRequestWrapper(request));
+                embeddedData.DeviceType = browserInfo.DeviceType;
+            }
+            surveyLinkViewModel.EmbeddedData = embeddedData;
         }
 
         public void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)

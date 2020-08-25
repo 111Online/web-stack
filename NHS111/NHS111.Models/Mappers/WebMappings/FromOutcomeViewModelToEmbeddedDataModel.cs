@@ -17,7 +17,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     opt => opt.MapFrom(src =>
                         DateTime.SpecifyKind(src.SurveyLink.DispositionDateTime, DateTimeKind.Utc).Date.ToString("O")))
                 .ForMember(dest => dest.DispositionTime,
-                    opt => opt.MapFrom(src => src.SurveyLink.DispositionDateTime.TimeOfDay))
+                    opt => opt.MapFrom(src => src.SurveyLink.DispositionDateTime.ToString("HH:mm:ss")))
                 .ForMember(dest => dest.Ccg, opt => opt.MapFrom(src => src.Source))
                 .ForMember(dest => dest.LaunchPage,
                     opt => opt.MapFrom(src =>
@@ -38,8 +38,11 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.SdCode, opt => opt.MapFrom(src => src.SymptomDiscriminatorCode ?? ""))
                 .ForMember(dest => dest.SdDescription,
                     opt => opt.MapFrom(src => src.SymptomDiscriminator.Description ?? ""))
-                .ForMember(dest => dest.SgCode, opt => opt.MapFrom(src => src.SymptomGroup ?? ""));
-            //.ForMember(dest => dest.SgDescription, opt => opt.Ignore());
+                .ForMember(dest => dest.SgCode, opt => opt.MapFrom(src => src.SymptomGroup ?? ""))
+                .ForMember(dest => dest.StartPathwayTitle, opt => opt.MapFrom(src => src.PathwayTitle))
+                .ForMember(dest => dest.EndPathwayTitle, opt => opt.MapFrom(src => src.SurveyLink.EndPathwayTitle))
+                .ForMember(dest => dest.Referrer, opt => opt.Ignore())
+                .ForMember(dest => dest.DeviceType, opt => opt.Ignore());
         }
     }
 }

@@ -38,8 +38,14 @@ namespace NHS111.Models.Models.Business.MicroSurvey
         public string SdDescription { get; set; }
         [JsonProperty(PropertyName = "sg_code")]
         public string SgCode { get; set; }
-        //[JsonProperty(PropertyName = "sg_description")]
-        //public string SgDescription { get; set; }
+        [JsonProperty(PropertyName = "Referer")]
+        public string Referrer { get; set; }
+        [JsonProperty(PropertyName = "stg_pw_dig_title")]
+        public string StartPathwayTitle { get; set; }
+        [JsonProperty(PropertyName = "edg_pw_title")]
+        public string EndPathwayTitle { get; set; }
+        [JsonProperty(PropertyName = "device_type")]
+        public string DeviceType { get; set; }
     }
 
 }
