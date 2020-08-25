@@ -44,7 +44,7 @@ namespace NHS111.Models.Models.Business.MicroSurvey
         public string StartPathwayTitle { get; set; }
         [JsonProperty(PropertyName = "edg_pw_title")]
         public string EndPathwayTitle { get; set; }
-        [JsonProperty(PropertyName = "device_type")]
+        [JsonProperty(PropertyName = "device_micro")]
         public string DeviceType { get; set; }
     }
 
