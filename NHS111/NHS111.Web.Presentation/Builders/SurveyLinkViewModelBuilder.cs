@@ -10,9 +10,7 @@ using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Parsers;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
-using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
@@ -73,14 +71,6 @@ namespace NHS111.Web.Presentation.Builders
         private void AddEmbeddedDataInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)
         {
             var embeddedData = Mapper.Map<EmbeddedData>(model);
-            if (HttpContext.Current != null && HttpContext.Current.Request != null)
-            {
-                var request = HttpContext.Current.Request;
-                embeddedData.Referrer = request.Url.Scheme + "://" + request.Url.Authority + request.ApplicationPath.TrimEnd('/') + "/micro-survey";
-
-                var browserInfo = new BrowserInfo(new HttpRequestWrapper(request));
-                embeddedData.DeviceType = browserInfo.DeviceType;
-            }
             surveyLinkViewModel.EmbeddedData = embeddedData;
         }
 

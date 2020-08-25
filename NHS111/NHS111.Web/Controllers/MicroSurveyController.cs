@@ -2,10 +2,12 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using NHS111.Models.Models.Web.MicroSurvey;
+using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
 {
+    [LogHandleErrorForMVC]
     public class MicroSurveyController : Controller
     {
         private readonly IMicroSurveyBuilder _microSurveyBuilder;

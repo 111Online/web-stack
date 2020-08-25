@@ -1,6 +1,19 @@
 ﻿@using Newtonsoft.Json
-@using NHS111.Models.Models.Web
+@using NHS111.Utils.Helpers;
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+
+@{
+    Model.EmbeddedData.Referrer = string.Empty;
+    Model.EmbeddedData.DeviceType = string.Empty;
+    if (HttpContext.Current != null && HttpContext.Current.Request != null)
+    {
+        var request = HttpContext.Current.Request;
+        Model.EmbeddedData.Referrer = request.Url.Scheme + "://" + request.Url.Authority + request.ApplicationPath.TrimEnd('/') + "/micro-survey";
+
+        var browserInfo = new BrowserInfo(new HttpRequestWrapper(request));
+        Model.EmbeddedData.DeviceType = browserInfo.DeviceType;
+    }
+}
 
 @if (SurveyLinkFeature.IsEnabled)
 {
