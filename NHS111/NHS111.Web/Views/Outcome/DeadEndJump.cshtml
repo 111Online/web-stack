@@ -36,7 +36,7 @@
     <div class="callout callout--attention nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-2">
         <h1 class="nhsuk-heading-l">@Model.TitleWithoutBullets</h1>
         <p>A health adviser needs to speak to you as we can’t help you with this problem online.</p>
-        <p>See @Html.ActionLink("other ways you can contact 111", "OtherWays", "Help", null, new { id = "language-link", target = "_blank" }) if you are deaf or hard of hearing.</p>
+        <p>See @Html.ActionLink("other ways you can contact 111", "OtherWays", "Help", null, new { id = "language-link", target = "_blank", data_event_trigger = "click", data_event_value = "Other ways to contact 111" }) if you are deaf or hard of hearing.</p>
     </div>
 
         @Html.Partial("_CovidEliminator", Model)
