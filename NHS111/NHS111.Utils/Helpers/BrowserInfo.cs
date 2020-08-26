@@ -164,6 +164,14 @@ namespace NHS111.Utils.Helpers
             }
         }
 
+        public string Resolution
+        {
+            get
+            {
+                return _request.Browser != null ? string.Format("{0}x{1}", _request.Browser.ScreenPixelsHeight, _request.Browser.ScreenPixelsWidth) : string.Empty;
+            }
+        }
+
         private string getVersion(string userAgentString, string browser)
         {
             var str = browser + "/";

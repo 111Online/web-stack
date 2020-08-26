@@ -136,6 +136,7 @@ jQuery(document).ready(function () {
     $("#microSurveyLink").hide()
     $("#microSurveyQuestions").show()
     $(".micro-survey--offering").removeClass("micro-survey--offering")
+    var surveyStart = Date.now();
 
     questions = _questions
     embeddedData = _embeddedData
@@ -168,6 +169,10 @@ jQuery(document).ready(function () {
       }
       else {
 
+        var surveyEnd = Date.now();
+        var delta = surveyEnd - surveyStart;
+        var surveyDurationSeconds = Math.floor(delta / 1000);
+        embeddedData.surveyDurationSeconds = surveyDurationSeconds;
         // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
 

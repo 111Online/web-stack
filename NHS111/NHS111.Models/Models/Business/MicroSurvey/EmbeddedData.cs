@@ -38,6 +38,8 @@ namespace NHS111.Models.Models.Business.MicroSurvey
         public string SdDescription { get; set; }
         [JsonProperty(PropertyName = "sg_code")]
         public string SgCode { get; set; }
+        [JsonProperty(PropertyName = "Q_URL")]
+        public string QURL { get; set; }
         [JsonProperty(PropertyName = "Referer")]
         public string Referrer { get; set; }
         [JsonProperty(PropertyName = "stg_pw_dig_title")]
@@ -46,6 +48,18 @@ namespace NHS111.Models.Models.Business.MicroSurvey
         public string EndPathwayTitle { get; set; }
         [JsonProperty(PropertyName = "device-micro")]
         public string DeviceType { get; set; }
+        [JsonProperty(PropertyName = "Q_TotalDuration")]
+        public string SurveyDurationSeconds { get; set; }
+        [JsonProperty(PropertyName = "distributionChannel")]
+        public string DistributionChannel { get; set; }
+        [JsonProperty(PropertyName = "QID4_BROWSER")]
+        public string Browser { get; set; }
+        [JsonProperty(PropertyName = "QID4_VERSION")]
+        public string Version { get; set; }
+        [JsonProperty(PropertyName = "QID4_OS")]
+        public string OperatingSystem { get; set; }
+        [JsonProperty(PropertyName = "QID4_RESOLUTION")]
+        public string Resolution { get; set; }
     }
 
 }

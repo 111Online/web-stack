@@ -21,6 +21,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _mockRestClient = new Mock<ILoggingRestClient>();
             _mockConfiguration = new Mock<IConfiguration>();
 
+            _mockConfiguration.Setup(m => m.QualtricsApiBaseUrl).Returns("http://test.survey.com/");
             _mockConfiguration.Setup(m => m.QualtricsApiToken).Returns("ABC123");
             _mockConfiguration.Setup(m => m.QualtricsRecommendedServiceSurveyId).Returns("testsurveyid");
         }
