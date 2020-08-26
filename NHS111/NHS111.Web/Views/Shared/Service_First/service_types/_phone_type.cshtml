@@ -20,7 +20,7 @@
         <p class="service-details__phone">
             <a href="tel:@recommendedService.ContactDetails">Call @recommendedService.ContactDetails</a>
         </p>
-
+        @Html.Partial("_DeafReassurance")
         <div class="service-details__hours">
             @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
         </div>
