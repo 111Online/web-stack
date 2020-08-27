@@ -45,32 +45,33 @@
 
 @if (noITKServicesAreAvailable && Model.CurrentPostcode != null)
 {
-    <div class="itk-message measure nhsuk-core">
-        <h1 class="nhsuk-heading-xl">Call 111 now</h1>
-        @Html.Partial("_CovidEliminator", Model)
-        @if (Model.NeedsGeneralCovidAdvice)
-        {
-            @Html.Partial("_GeneralCovidAdvice")
-        }
-        <p>We are unable to book a call for you at the moment.</p>
-        <p>You need to call 111 to get more help. Tell them you completed an assessment online.</p>
-        <p>When you call 111 the health adviser will:</p>
-        <ul>
-            <li>
-                ask you to repeat your answers
-            </li>
-            <li>
-                transfer you to a nurse if necessary
-            </li>
-            <li>
-                book an appointment for you if you need one
-            </li>
-        </ul>
+<div class="itk-message measure nhsuk-core">
+    <h1 class="nhsuk-heading-xl">Call 111 now</h1>
+    <p>Deaf people can use text relay to call 18001 111.</p>
+    @Html.Partial("_CovidEliminator", Model)
+    @if (Model.NeedsGeneralCovidAdvice)
+    {
+        @Html.Partial("_GeneralCovidAdvice")
+    }
+    <p>We are unable to book a call for you at the moment.</p>
+    <p>You need to call 111 to get more help. Tell them you completed an assessment online.</p>
+    <p>When you call 111 the health adviser will:</p>
+    <ul>
+        <li>
+            ask you to repeat your answers
+        </li>
+        <li>
+            transfer you to a nurse if necessary
+        </li>
+        <li>
+            book an appointment for you if you need one
+        </li>
+    </ul>
 
-        <div class="callout callout--info">
-            <p>Your answers mean you do need to speak to someone, so it is important that you call 111.</p>
-        </div>
+    <div class="callout callout--info">
+        <p>Your answers mean you do need to speak to someone, so it is important that you call 111.</p>
     </div>
+</div>
 }
 else
 {

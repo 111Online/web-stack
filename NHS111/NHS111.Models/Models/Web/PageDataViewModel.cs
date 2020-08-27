@@ -10,6 +10,7 @@ namespace NHS111.Models.Models.Web
         public enum PageType
         {
             ModuleZero = 0,
+            OtherWaysHelp,
             Demographics,
             Search,
             SearchResults,

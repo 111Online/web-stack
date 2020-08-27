@@ -1,0 +1,31 @@
+﻿@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.JourneyViewModel>
+@using NHS111.Models.Models.Web
+@{ Layout = "~/Views/Shared/_LayoutNhsUK.cshtml"; }
+@section Title { Other ways to get gelp }
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.OtherWaysHelp, string.Empty, string.Empty, Model.StartParameter) })
+}
+
+<main id="content" role="main" class="content">
+    <div class="measure nhsuk-core">
+        <h1 class="nhsuk-heading-xl">
+            Other ways to contact 111
+        </h1>
+        <h3>Text relay</h3>
+        <p>
+            Call 18001 111 using text relay, 24 hours a day.
+        </p>
+        <h3>British sign language (BSL)</h3>
+        <p>
+            Use <a href="https://interpreternow.co.uk/nhs111" data-event-trigger="click" data-event-value="BSL link from language support page">interpreternow.co.uk/nhs111</a>
+        </p>
+        <h3>Help in other languages</h3>
+        <p>
+            Call 111 and ask for an interpreter.
+        </p>
+        <hr />
+        <h4>If you need help in an emergency</h4>
+        <p>Text relay users can call 18000 to get through to 999.</p>
+    </div>
+</main>

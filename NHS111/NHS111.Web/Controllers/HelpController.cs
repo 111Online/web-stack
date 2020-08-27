@@ -1,4 +1,5 @@
-﻿using NHS111.Utils.Attributes;
+﻿using NHS111.Models.Models.Web;
+using NHS111.Utils.Attributes;
 using System.Web.Mvc;
 
 namespace NHS111.Web.Controllers
@@ -31,9 +32,9 @@ namespace NHS111.Web.Controllers
             return View();
         }
 
-        public ActionResult Language()
+        public ActionResult OtherWays(JourneyViewModel model)
         {
-            return View();
+            return View(model);
         }
 
 

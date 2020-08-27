@@ -12,12 +12,7 @@
 
 *@
 
-@{ 
-    var id = "";
-    if (!Model.ID.IsEmpty()) { id = "id=\"" + Model.ID + "\""; }
-}
-
-<details role="group" class="nhsuk-u-margin-bottom-4" @Html.Raw(id)>
+<details role="group" class="nhsuk-u-margin-bottom-4" data-test-id="@Model.ID">
     <summary data-event-trigger="@Model.EventTrigger" data-event-value="@Model.EventValue">
         <span class="details__arrow" aria-hidden="true"></span>
         <span class="summary" role="button">@Model.Link</span>
