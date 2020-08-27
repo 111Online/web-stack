@@ -12,10 +12,6 @@
 
         var browserInfo = new BrowserInfo(new HttpRequestWrapper(request));
         Model.EmbeddedData.DeviceType = browserInfo.DeviceType;
-        Model.EmbeddedData.Browser = browserInfo.Browser;
-        Model.EmbeddedData.Version = browserInfo.MajorVersionString;
-        Model.EmbeddedData.OperatingSystem = browserInfo.Platform;
-        Model.EmbeddedData.Resolution = browserInfo.Resolution;
     }
 }
 

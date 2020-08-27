@@ -172,7 +172,7 @@ jQuery(document).ready(function () {
         var surveyEnd = Date.now();
         var delta = surveyEnd - surveyStart;
         var surveyDurationSeconds = Math.floor(delta / 1000);
-        embeddedData.surveyDurationSeconds = surveyDurationSeconds;
+        embeddedData.Q_TotalDuration = surveyDurationSeconds;
         // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
 
