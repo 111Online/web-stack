@@ -71,6 +71,7 @@ namespace NHS111.Web.Presentation.Builders
         private void AddEmbeddedDataInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)
         {
             var embeddedData = Mapper.Map<EmbeddedData>(model);
+            embeddedData.QURL = string.Format("{0}API/v3/surveys/{1}/responses", _configuration.QualtricsApiBaseUrl, _configuration.QualtricsRecommendedServiceSurveyId);
             surveyLinkViewModel.EmbeddedData = embeddedData;
         }
 

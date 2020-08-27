@@ -31,23 +31,13 @@ namespace NHS111.Web.Presentation.Builders
             var request = new RestRequest(uri, Method.POST);
 
             request.AddHeader("X-API-TOKEN", _configuration.QualtricsApiToken);
-            surveyResult.Values = AddUrlProperty(surveyResult.Values);
-
+            
             request.AddParameter("application/json", JsonConvert.SerializeObject(new
             {
                 values = JsonConvert.DeserializeObject(surveyResult.Values)
             }), ParameterType.RequestBody);
 
            var result = await _restClient.ExecuteAsync(request);
-        }
-
-        private string AddUrlProperty(string values)
-        {
-            var embeddedData = JsonConvert.DeserializeObject<EmbeddedData>(values);
-            if (embeddedData == null) return values;
-
-            embeddedData.QURL =  string.Format("{0}API/v3/surveys/{1}/responses", _configuration.QualtricsApiBaseUrl, _configuration.QualtricsRecommendedServiceSurveyId);
-            return JsonConvert.SerializeObject(embeddedData);
         }
     }
 
