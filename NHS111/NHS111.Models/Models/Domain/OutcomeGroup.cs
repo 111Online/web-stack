@@ -211,6 +211,14 @@ namespace NHS111.Models.Models.Domain
             }
         }
 
+        public bool IsUsingServiceList
+        {
+            get
+            {
+                return IsServiceFirst || IsPrimaryCare || IsPharmacy;
+            }
+        }
+
         public bool CoronaVirusServiceDetailsMessageDontGo
         {
             get
