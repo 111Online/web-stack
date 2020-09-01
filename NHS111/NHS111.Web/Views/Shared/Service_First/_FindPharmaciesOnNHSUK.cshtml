@@ -1,7 +1,7 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OtherServicesViewModel>
 
-@if (Model.OtherServices.OnlyServiceIsPharmacyCAS())
+@if (Model.OutcomeGroup.IsPharmacy && Model.OtherServices.OnlyServiceIsPharmacyCAS())
 {
     <div>
         <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />

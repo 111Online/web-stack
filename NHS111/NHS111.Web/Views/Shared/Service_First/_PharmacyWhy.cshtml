@@ -1,0 +1,13 @@
+﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OtherServicesViewModel>
+
+@{ 
+    var recommendedServiceText = Model.OtherServices.Count() == 1 ? "Why is this the recommended service" : "Why are these services recommended";
+}
+<details>
+    <summary data-event-trigger="click" data-event-value="Why services">
+        <span class="details__arrow" role="presentation"></span><span class="summary" id="whyTheseServices">@recommendedServiceText</span>
+    </summary>
+    <div>
+        <p>We show you nearby services that are open now, or will be within the time you've been advised to get help.</p>
+    </div>
+</details>
