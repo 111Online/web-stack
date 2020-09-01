@@ -4,12 +4,13 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 
-@section Title { NHS 111 - Go to Accident &amp; Emergency }
+<h2>Get help as soon as you can</h2>
 
-@Html.Partial("_OutcomeHeader", Model)
+@section Title {Get help as soon as you can}
+
 
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -19,9 +20,7 @@
         }];
     </script>
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
-}
+
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
@@ -41,40 +40,20 @@
     }
 </section>
 
-@{
-    var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find an A&amp;E department"));
-    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find an A&amp;E department"));
-    dataDictionary.Add(new KeyValuePair<string, object>("Label", "A&amp;E departments"));
-    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-}
-@Html.Partial("_FindService", Model, dataDictionary)
+@Html.Partial("_BeforeYouGetHelp")
 
-<section class="outcome-additional-info measure">
-    <h2 class="heading-medium">
-        Advice before you go
-    </h2>
-    <ul>
-        <li>don't drive yourself, get someone else to take you</li>
-        <li>take all your current medicines with you</li>
-        <li>don’t wash yourself or change your clothes until you have been seen by a doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the police.</li>
-    </ul>
-</section>
+@Html.Partial("_SupportAndAdvice")
 
-
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
-
-@Html.Partial("_WorseningAdviceWithTitle", Model)
-
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
-{
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    if (!Model.DisplayOutcomeReferenceOnly)
-    {
-        <div class="changeAnswers row">
-            <button id="PreviousQuestionFromOutcome" class="button button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
-        </div>
+@*@{
+        var dataDictionary = ViewContext.ViewData;
+        dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find an A&amp;E department"));
+        dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find an A&amp;E department"));
+        dataDictionary.Add(new KeyValuePair<string, object>("Label", "A&amp;E departments"));
+        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
     }
-}
+    @Html.Partial("_FindService", Model, dataDictionary)*@
+
+
+@Html.Partial("_rs_CareAdvice", Model.CareAdvices)
 
 
