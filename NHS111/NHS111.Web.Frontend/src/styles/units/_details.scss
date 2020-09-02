@@ -116,3 +116,34 @@ details .summary {
     }
   }
 }
+
+details.description summary::after {
+  content: attr(data-open);
+  opacity: 0;
+  font-size: 0px;
+}
+
+details.description[open] summary::after {
+  content: attr(data-open);
+  opacity: 1;
+  font-size: 16px;
+  padding-left: 1em;
+}
+
+details.description summary::before {
+  content: attr(data-close);
+  opacity: 0;
+  font-size: 0px;
+}
+
+details.description:not([open]) summary::before {
+  content: attr(data-close);
+  opacity: 1;
+  font-size: 16px;
+  padding-left: 1em;
+}
+
+details.description summary::-webkit-details-marker {
+  display: none;
+}
+
