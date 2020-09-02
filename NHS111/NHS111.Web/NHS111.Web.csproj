@@ -305,7 +305,6 @@
     </Content>
     <Content Include="Views\Outcome\SP_Accident_and_emergency_sexual_assault.cshtml" />
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
-    <Content Include="Views\Shared\HtmlPage1.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -571,8 +570,6 @@
     <Content Include="Views\RegisterForSMS\Closed.cshtml" />
     <Content Include="Views\Shared\Help\_DeafSignposting.cshtml" />
     <Content Include="Views\Outcome\Service_First\Emergency_Department\ServiceNotOffered.cshtml" />
-    <Content Include="Views\Shared\_BeforeYouGetHelp.cshtml" />
-    <Content Include="Views\Shared\_SupportAndAdvice.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
