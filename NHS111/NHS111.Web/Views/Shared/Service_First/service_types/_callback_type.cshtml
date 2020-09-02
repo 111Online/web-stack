@@ -6,6 +6,7 @@
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
     var showServiceDescriptionInDetails = !string.IsNullOrEmpty(recommendedService.ServiceTypeDescription) && isOtherService;
+    var serviceType = recommendedService.IsPharmacyCASCallback() ? "PharmaCAS" : "ITK";
 }
 
 
@@ -32,6 +33,6 @@
         <p class="service-details__hint measure">
             @recommendedService.ReasonText
         </p>
-        @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Use this service"})
+        @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Use this service", EventTrigger = "Click", EventValue = serviceType })
     }
 </div>

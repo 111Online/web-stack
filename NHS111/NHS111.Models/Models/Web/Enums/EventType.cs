@@ -17,6 +17,7 @@ namespace NHS111.Models.Models.Web.Enums
         Error,
         SymptomsBeganDate,
         GuidedSelection,
-        CustomStart
+        CustomStart,
+        CallbackServiceTypeOffered
     }
 }
