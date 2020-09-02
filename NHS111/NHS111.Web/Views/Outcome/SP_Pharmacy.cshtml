@@ -18,9 +18,6 @@
     </script>
 }
 
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
-}
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
