@@ -257,6 +257,11 @@ namespace NHS111.Web.Controllers
                         otherServicesModel.OtherServices = otherServices;
                     }
 
+                    if(model.OutcomeGroup.IsPharmacy)
+                    {
+                        var serviceTypeOffered = otherServices.GetServiceTypeOffered();
+                        _auditLogger.LogEvent(otherServicesModel, EventType.CallbackServiceTypeOffered, serviceTypeOffered.ToString(), "~\\Views\\Outcome\\ServiceList.cshtml");
+                    }
                     return View("~\\Views\\Outcome\\Service_First\\OtherServices.cshtml", otherServicesModel);
                 }
 
