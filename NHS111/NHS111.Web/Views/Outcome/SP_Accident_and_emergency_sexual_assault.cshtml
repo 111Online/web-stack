@@ -4,11 +4,9 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 
-<h2>Get help as soon as you can</h2>
+<h1>Get help as soon as you can</h1>
 
 @section Title {Get help as soon as you can}
-
-
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -31,6 +29,10 @@
         @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "recommended-service"));
+}
 
 <section class="measure nhsuk-core">
     @Html.Partial("_CovidEliminator", Model)
@@ -38,22 +40,137 @@
     {
         @Html.Partial("_GeneralCovidAdvice")
     }
+    <style>
+        details.description summary::after {
+            content: attr(data-open);
+            opacity: 0;
+            font-size: 0px;
+        }
+
+        details.description[open] summary::after {
+            content: attr(data-open);
+            opacity: 1;
+            font-size: 16px;
+            padding-left: 1em;
+        }
+
+        details.description summary::before {
+            content: attr(data-close);
+            opacity: 0;
+            font-size: 0px;
+        }
+
+        details.description:not([open]) summary::before {
+            content: attr(data-close);
+            opacity: 1;
+            font-size: 16px;
+            padding-left: 1em;
+        }
+
+        details.description summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+
+    <div class="disposition-set">
+        <div class="disposition-unit">
+            <!--Before you get help-->
+            <div class="collapse-title">
+                <h2 class="nhsuk-heading-l">
+                    Before you get help
+                </h2>
+                <div>
+                    <details class="description">
+                        <summary data-open="Hide" data-close="Show">
+                        </summary>
+                        <div>
+                            <p>If you think you might report the assault to the police:</p>
+                            <ul>
+                                <li>cover any cuts, but don't wash them</li>
+                                <li>keep the clothes you were wearing and don't wash them</li>
+                                <li>don't brush your teeth</li>
+                                <li>if you have brushed your teeth and used chewing gum, save that</li>
+                            </ul>
+                        </div>
+                        <div class="callout callout--attention">
+                            <p>
+                                Call 999 to report it to the police. GOV.UK has information on what happens when you <a href=""><b><u>report a rape or sexual assault.</u></b></a>
+                            </p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+        <div class="disposition-unit">
+            <!--Where to get help-->
+            <div class="collapse-title">
+                <h2 class="nhsuk-heading-2">
+                    Where to get help
+                </h2>
+                <div>
+                    <details class="description  nhsuk-u-margin-top-4">
+                        <summary data-open="Hide" data-close="Show">
+                        </summary>
+                        <div class="collapse-content measure">
+                            @Html.Partial("_DoSRecommendedService", Model)
+                            <div class="measure">
+                                @Html.Partial("_ServiceWhy", Model)
+                            </div>
+                            <div class="measure nhsuk-u-margin-top-4">
+                                @Html.Partial("_ChangePostcode", Model)
+                            </div>
+                            @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                            {
+                                dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+                                @Html.Partial("_OtherServices", Model, dataDictionary)
+                            }
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+        <div class="disposition-unit">
+            <!--Get support and advice-->
+            <div class="collapse-title">
+                <h2 class="nhsuk-heading-2">
+                    Get support and advice
+                </h2>
+                <div>
+                    <details class="description">
+                        <summary data-open="Hide" data-close="Show">
+                        </summary>
+                        <div>
+                            <p>
+                                You can speak to charities and support groups for advice about what to
+                                do. Examples of specialist voluntary services offering independent,
+                                confidential advice and support are:
+                            </p>
+                            <ul>
+                                <li>
+                                    <a href="https://rapecrisis.org.uk">Rape crisis</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.victimsupport.org.uk/">Victim Support</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.thesurvivorstrust.org/">The Survivors Trust</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.galop.org.uk/">Galop</a> &mdash; for LGBT communities
+                                </li>
+                                <li>
+                                    <a href="https://www.survivorsuk.org/">Survivors UK</a> &mdash; for men
+                                </li>
+                            </ul>
+
+                            <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+
+                            @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
-
-@Html.Partial("_BeforeYouGetHelp")
-
-@Html.Partial("_SupportAndAdvice")
-
-@*@{
-        var dataDictionary = ViewContext.ViewData;
-        dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find an A&amp;E department"));
-        dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find an A&amp;E department"));
-        dataDictionary.Add(new KeyValuePair<string, object>("Label", "A&amp;E departments"));
-        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-    }
-    @Html.Partial("_FindService", Model, dataDictionary)*@
-
-
-@Html.Partial("_rs_CareAdvice", Model.CareAdvices)
-
 
