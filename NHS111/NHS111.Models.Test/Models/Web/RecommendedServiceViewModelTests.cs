@@ -718,7 +718,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.ServiceType.Id = 138;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.ReferRingAndGo;
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml();
-            Assert.AreEqual("<b class=\"service-details__alias\">Book a call with a pharmacy</b>", html);
+            Assert.AreEqual("<b class=\"service-details__alias\">Book a call with a pharmacist</b>", html);
         }
 
     }

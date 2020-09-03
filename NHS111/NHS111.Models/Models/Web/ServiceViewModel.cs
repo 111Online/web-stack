@@ -291,7 +291,7 @@ namespace NHS111.Models.Models.Web
 
         private string GetServiceTypePharmacyCASAliasHtml()
         {
-            return "<b class=\"service-details__alias\">Book a call with a pharmacy</b>";
+            return "<b class=\"service-details__alias\">Book a call with a pharmacist</b>";
         }
 
         private string GetServiceNameHtml()
