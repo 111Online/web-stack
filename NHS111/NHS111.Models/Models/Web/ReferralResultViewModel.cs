@@ -150,6 +150,18 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class PharmacyReferralConfirmationResultsViewModel
+        : ReferralConfirmationResultViewModel
+    {
+        public override string ViewName { get { return string.Format("Confirmation/Pharmacy/Confirmation"); } }
+
+        public PharmacyReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new PharmacyReferralConfirmationAnalysticsDataLayer(this); 
+        }
+    }
+
     public class ReferralFailureResultViewModel
         : ReferralResultViewModel
     {
@@ -237,6 +249,18 @@ namespace NHS111.Models.Models.Web {
             : base(itkConfirmationViewModel)
         {
             AnalyticsDataLayer = new ServiceFirstReferralFailureAnalyticsDataLayer(this);
+        }
+    }
+
+    public class PharmacyReferralFailureResultsViewModel : ReferralFailureResultViewModel
+    {
+        public override string ViewName { get { return "Confirmation/Pharmacy/ServiceBookingFailure"; } }
+        public override string PageTitle { get { return "Sorry, there's a problem with the service"; } }
+
+        public PharmacyReferralFailureResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new PharmacyReferralFailureAnalyticsDataLayer(this);
         }
     }
 
@@ -403,6 +427,21 @@ namespace NHS111.Models.Models.Web {
         public Coronavirus111CallbackUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
         {
             AnalyticsDataLayer = new Coronavirus111CallbackServiceUnavailableReferralAnalyticsDataLayer(this);
+        }
+    }
+    public class PharmacyUnavailablReferralResultsViewModel : ServiceUnavailableReferralResultViewModel
+    {
+        public override string ViewName
+        {
+            get { return "Confirmation/Pharmacy/ServiceUnavailable"; }
+        }
+        public override string PageTitle { get { return "Sorry, this service has now closed"; } }
+
+        public string Type { get; set; }
+
+        public PharmacyUnavailablReferralResultsViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
+        {
+            AnalyticsDataLayer = new PharmacyUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 }

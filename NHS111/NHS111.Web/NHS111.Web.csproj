@@ -574,6 +574,10 @@
     <Content Include="Views\Shared\Service_First\_PharmacyWhy.cshtml" />
     <Content Include="Views\Shared\Service_First\_FindPharmaciesOnNHSUK.cshtml" />
     <Content Include="Views\Shared\Service_First\_PharmacyFooterInformation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Pharmacy\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Pharmacy\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Pharmacy\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Shared\_ReferralPharmacyFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
