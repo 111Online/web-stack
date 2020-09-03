@@ -60,7 +60,7 @@
                     </div>
                     <div class="callout callout--attention">
                         Call 999 to report it to the police. GOV.UK has information on what
-                        happens when you <a href="https://www.gov.uk/report-rape-sexual-assault">
+                        happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank">
                             report a rape or sexual assault.
                         </a>
                     </div>
@@ -82,12 +82,35 @@
                         <div class="measure nhsuk-u-margin-top-4">
                             @Html.Partial("_ChangePostcode", Model)
                         </div>
-                        @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                    </div>
+                    <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+                    @if (Model.PathwayNo == NHS111.Models.Models.Domain.DispositionCode.Dx94.Value && (Model.RecommendedService.ServiceType.Id == 48 || Model.RecommendedService.ServiceType.Id == 29))
+                    {
+                        if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
                         {
                             dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
                             @Html.Partial("_OtherServices", Model, dataDictionary)
                         }
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="measure">
+                            <h2>If you don’t want to go to A&amp;E</h2>
+
+                            <p>
+                                Sexual assault referral centres (SARCs) have specially trained staff
+                                to help if don’t want to go to your local hospital. They are not in
+                                every area.
+                            </p>
+
+                            <p>
+                                <a href="javascript:return false;" target="_blank">
+                                    Search for a sexual assault referral centre near you
+                                </a>
+                            </p>
+
+                        </div>
+                    }
                 </details>
             </div>
         </div>
@@ -106,19 +129,19 @@
                         </p>
                         <ul>
                             <li>
-                                <a href="https://rapecrisis.org.uk">Rape crisis</a>
+                                <a href="https://rapecrisis.org.uk" target="_blank">Rape crisis</a>
                             </li>
                             <li>
-                                <a href="https://www.victimsupport.org.uk/">Victim Support</a>
+                                <a href="https://www.victimsupport.org.uk/" target="_blank">Victim Support</a>
                             </li>
                             <li>
-                                <a href="https://www.thesurvivorstrust.org/">The Survivors Trust</a>
+                                <a href="https://www.thesurvivorstrust.org/" target="_blank">The Survivors Trust</a>
                             </li>
                             <li>
-                                <a href="https://www.galop.org.uk/">Galop</a> &mdash; for LGBT communities
+                                <a href="https://www.galop.org.uk/" target="_blank">Galop</a> &mdash; for LGBT communities
                             </li>
                             <li>
-                                <a href="https://www.survivorsuk.org/">Survivors UK</a> &mdash; for men
+                                <a href="https://www.survivorsuk.org/" target="_blank">Survivors UK</a> &mdash; for men
                             </li>
                         </ul>
 
