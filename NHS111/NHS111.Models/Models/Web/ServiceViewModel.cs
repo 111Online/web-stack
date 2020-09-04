@@ -1,4 +1,5 @@
-﻿using NHS111.Models.Models.Web.Clock;
+﻿using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
 using System;
@@ -258,9 +259,9 @@ namespace NHS111.Models.Models.Web
             return serviceDisplayHtml;
         }
 
-        public string GetOtherServicesServiceDisplayHtml()
+        public string GetOtherServicesServiceDisplayHtml(OutcomeGroup outcomeGroup)
         {
-            if (IsPharmacyCASCallback())
+            if (IsPharmacyCASCallback() && outcomeGroup.IsPharmacy)
             {
                 return GetServiceTypePharmacyCASAliasHtml();
             }

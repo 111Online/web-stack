@@ -23,26 +23,32 @@
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
 }
-    <div class="measure nhsuk-core">
+<div class="measure nhsuk-core">
 
-        <h1 class="nhsuk-heading-xl">You’ll get a call within @Model.ItkConfirmationModel.WaitTimeText</h1>
-        
-        <p>
-            It was booked at @DateTime.Now.ToString("h:mmtt").ToLower(). The service will call @Model.OutcomeModel.UserInfo.TelephoneNumber. The number might show as ‘unknown’ on your display.
-        </p>
-    </div>
+    <h1 class="nhsuk-heading-xl">You’ll get a call within @Model.ItkConfirmationModel.WaitTimeText</h1>
+
+    <p>
+        It was booked at @DateTime.Now.ToString("h:mmtt").ToLower(). The service will call @Model.OutcomeModel.UserInfo.TelephoneNumber. The number might show as ‘unknown’ on your display.
+    </p>
+</div>
+<hr class="nhsuk-u-margin-top-6" />
+<div class="measure">
     @Html.Partial("_rs_CareAdvice", Model.ItkConfirmationModel.CareAdvices)
+</div>
+<div class="measure nhsuk-u-margin-top-4">
+    @Html.Partial("_rs_WorseningAdvice", Model.ItkConfirmationModel)
+</div>
 
-    @section FeedbackSection {
-        @if (!SurveyLinkFeature.IsEnabled)
-        {
-            @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.OutcomeModel) })
-        }
-        else
-        {
-            @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
-        }
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.OutcomeModel) })
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    }
+}
 
 
 
