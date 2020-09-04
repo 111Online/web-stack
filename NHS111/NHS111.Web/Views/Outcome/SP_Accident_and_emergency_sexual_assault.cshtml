@@ -2,6 +2,9 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+    var isNotSarcServiceType = Model.RecommendedService.ServiceType.Id != 48 && Model.RecommendedService.ServiceType.Id != 29;
+    var isNotDx94 = Model.Id != NHS111.Models.Models.Domain.DispositionCode.Dx94.Value;
+    var IsEmergencyDepartment = isNotDx94 || isNotSarcServiceType;
 }
 
 <h1>Get help as soon as you can</h1>
@@ -47,7 +50,7 @@
             <h2 class="nhsuk-heading-l">Before you get help</h2>
             <div>
                 <details class="description">
-                    <summary data-open="Hide" data-close="Show">
+                    <summary data-open="Hide" data-close="Show" data_event_trigger = "click", data_event_value = "Before you get help">
                     </summary>
                     <div>
                         <p>If you think you might report the assault to the police:</p>
@@ -60,7 +63,7 @@
                     </div>
                     <div class="callout callout--attention">
                         Call 999 to report it to the police. GOV.UK has information on what
-                        happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank">
+                        happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger = "click", data_event_value = "Report a rape or sexual assault">
                             report a rape or sexual assault.
                         </a>
                     </div>
@@ -83,17 +86,15 @@
                             @Html.Partial("_ChangePostcode", Model)
                         </div>
                     </div>
-                    <div class="content-seperator content-seperator--equalvertspacing--large"></div>
-                    @if (Model.PathwayNo == NHS111.Models.Models.Domain.DispositionCode.Dx94.Value && (Model.RecommendedService.ServiceType.Id == 48 || Model.RecommendedService.ServiceType.Id == 29))
+                    @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
                     {
-                        if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
-                        {
-                            dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-                            @Html.Partial("_OtherServices", Model, dataDictionary)
-                        }
+                        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+                        @Html.Partial("_OtherServices", Model, dataDictionary)
                     }
-                    else
+
+                    @if (IsEmergencyDepartment)
                     {
+                        <div class="content-seperator content-seperator--equalvertspacing--large"></div>
                         <div class="measure">
                             <h2>If you don’t want to go to A&amp;E</h2>
 
@@ -104,7 +105,8 @@
                             </p>
 
                             <p>
-                                <a href="javascript:return false;" target="_blank">
+                                <a href="https://www.nhs.uk/service-search/other-services/Rape%20and%20sexual%20assault%20referral%20centres/LocationSearch/364" 
+                                   target="_blank" data_event_trigger = "click", data_event_value = "Search for a sexual assault referral centre">
                                     Search for a sexual assault referral centre near you
                                 </a>
                             </p>
@@ -129,19 +131,29 @@
                         </p>
                         <ul>
                             <li>
-                                <a href="https://rapecrisis.org.uk" target="_blank">Rape crisis</a>
+                                <a href="https://rapecrisis.org.uk" target="_blank" data_event_trigger = "click", data_event_value = "Rape crisis">
+                                Rape crisis
+                                </a>
                             </li>
                             <li>
-                                <a href="https://www.victimsupport.org.uk/" target="_blank">Victim Support</a>
+                                <a href="https://www.victimsupport.org.uk/" target="_blank" data_event_trigger = "click", data_event_value = "Victim support">
+                                Victim Support
+                                </a>
                             </li>
                             <li>
-                                <a href="https://www.thesurvivorstrust.org/" target="_blank">The Survivors Trust</a>
+                                <a href="https://www.thesurvivorstrust.org/" target="_blank" data_event_trigger = "click", data_event_value = "The Survivors Trust">
+                                The Survivors Trust
+                                </a>
                             </li>
                             <li>
-                                <a href="https://www.galop.org.uk/" target="_blank">Galop</a> &mdash; for LGBT communities
+                                <a href="https://www.galop.org.uk/" target="_blank" data_event_trigger = "click", data_event_value = "Galop">
+                                Galop
+                                </a> &mdash; for LGBT communities
                             </li>
                             <li>
-                                <a href="https://www.survivorsuk.org/" target="_blank">Survivors UK</a> &mdash; for men
+                                <a href="https://www.survivorsuk.org/" target="_blank" data_event_trigger = "click", data_event_value = "Survivors UK">
+                                Survivors UK
+                                </a> &mdash; for men
                             </li>
                         </ul>
 
