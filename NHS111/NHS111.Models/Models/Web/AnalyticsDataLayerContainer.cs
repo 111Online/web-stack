@@ -270,6 +270,14 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class PharmacyReferralDuplicateAnalyticsDataLayer : DuplicateReferralResultAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Pharmacy Confirmation - Duplicate Booking"; } }
+
+        public PharmacyReferralDuplicateAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
     public class ServiceUnavailableReferralAnalyticsDataLayer
         : ReferralResultAnalyticsDataLayer
     {

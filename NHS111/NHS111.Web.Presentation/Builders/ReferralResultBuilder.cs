@@ -91,6 +91,9 @@ namespace NHS111.Web.Presentation.Builders
                 if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
                     //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
                     return new TemporaryServiceFirstDuplicateReferralResultViewModel(itkConfirmationViewModel);
+
+                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacy)
+                    return new PharmacyReferralDuplicateResultViewModel(itkConfirmationViewModel);
             }
             //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
             // return new DuplicateReferralResultViewModel(itkConfirmationViewModel); Temporarily removed until status of Dupe bug is known
