@@ -16,7 +16,7 @@
         }
         <div class="service-details__address">
             <p>
-                @Html.Raw(recommendedService.GetServiceDisplayHtml())
+                @Html.Raw(recommendedService.GetServiceDisplayHtml(Model.OutcomeGroup))
             </p>
         </div>
         <div class="service-details__hours">

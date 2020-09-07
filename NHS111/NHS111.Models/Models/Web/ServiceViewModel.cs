@@ -246,9 +246,9 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        public string GetServiceDisplayHtml()
+        public string GetServiceDisplayHtml(OutcomeGroup outcomeGroup)
         {
-            var serviceDisplayHtml = GetServiceTypeAliasHtml();
+            var serviceDisplayHtml = GetServiceTypeAliasHtml(outcomeGroup);
             if (IsCallbackServiceOfferingCallback && !IsOohService) return serviceDisplayHtml;
 
             serviceDisplayHtml += GetServiceNameHtml();
@@ -261,12 +261,7 @@ namespace NHS111.Models.Models.Web
 
         public string GetOtherServicesServiceDisplayHtml(OutcomeGroup outcomeGroup)
         {
-            if (IsPharmacyCASCallback() && outcomeGroup.IsPharmacy)
-            {
-                return GetServiceTypePharmacyCASAliasHtml();
-            }
-
-            var serviceDisplayHtml = GetServiceTypeAliasHtml();
+            var serviceDisplayHtml = GetServiceTypeAliasHtml(outcomeGroup);
             if (IsCallbackServiceNotOfferingCallback && !ShouldShowAddress)
                 return serviceDisplayHtml;
 
@@ -284,15 +279,19 @@ namespace NHS111.Models.Models.Web
             return !string.IsNullOrEmpty(ServiceTypeDescription) && isFromOtherServices && !IsCallbackServiceNotOfferingCallback;
         }
 
-        private string GetServiceTypeAliasHtml()
+        private string GetServiceTypeAliasHtml(OutcomeGroup outcomeGroup)
         {
+            if (IsPharmacyCASCallback() && outcomeGroup.IsPharmacy)
+                return GetServiceTypePharmacyCASAliasHtml();
+
             var serviceTypeAlias = IsCallbackServiceNotOfferingCallback ? PublicName : ServiceTypeAlias;
             return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(serviceTypeAlias));
         }
 
         private string GetServiceTypePharmacyCASAliasHtml()
         {
-            return "<b class=\"service-details__alias\">Book a call with a pharmacist</b>";
+            var serviceTypeAlias = IsCallbackServiceNotOfferingCallback ? PublicName : "Book a call with a pharmacist";
+            return string.Format("<b class=\"service-details__alias\">{0}</b>", WebUtility.HtmlDecode(serviceTypeAlias));
         }
 
         private string GetServiceNameHtml()

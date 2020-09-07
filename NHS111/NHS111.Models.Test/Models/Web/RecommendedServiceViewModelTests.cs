@@ -36,7 +36,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetServiceDisplayHtml_CallBackCAS_ContainsOnlyServiceAlias()
         {
             _recommendedServiceViewModel.ServiceType.Id = 130;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)), html);
         }
 
@@ -45,7 +45,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 130;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.Name)), html);
         }
 
@@ -54,7 +54,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 130;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndAddress = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.Name)) + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndAddress, html);
         }
@@ -65,7 +65,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.ServiceType.Id = 130;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)), html);
         }
 
@@ -76,7 +76,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.PublicName)), html);
         }
 
@@ -87,7 +87,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndAddress = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.PublicName)) + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndAddress, html);
         }
@@ -96,7 +96,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetServiceDisplayHtml_CallBackGPOOH_ContainsOnlyServiceAlias()
         {
             _recommendedServiceViewModel.ServiceType.Id = 25;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)), html);
         }
 
@@ -105,7 +105,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 25;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.Name)), html);
         }
 
@@ -114,7 +114,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 25;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndAddress = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.Name)) + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndAddress, html);
         }
@@ -125,7 +125,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.ServiceType.Id = 25;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.PublicName);
             Assert.AreEqual(aliasAndName, html);
         }
@@ -137,7 +137,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.PublicName)), html);
         }
 
@@ -148,7 +148,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndAddress = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.PublicName)) + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndAddress, html);
         }
@@ -157,7 +157,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetServiceDisplayHtml_CallbackOther_ContainsOnlyServiceAliasAndName()
         {
             _recommendedServiceViewModel.ServiceType.Id = 100;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.Name);
             Assert.AreEqual(aliasAndName, html);
         }
@@ -167,7 +167,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 100;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.Name);
             Assert.AreEqual(aliasAndName, html);
         }
@@ -177,7 +177,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 100;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndAddress = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndAddress, html);
         }
@@ -187,7 +187,7 @@ namespace NHS111.Models.Test.Models.Web
         {
             _recommendedServiceViewModel.ServiceType.Id = 40;
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.Name);
             var aliasNameAndAddress = aliasAndName + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasNameAndAddress, html);
@@ -199,7 +199,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.ServiceType.Id = 100;
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.PublicName);
             Assert.AreEqual(aliasAndName, html);
         }
@@ -211,7 +211,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.PublicName);
             Assert.AreEqual(aliasAndName, html);
         }
@@ -223,7 +223,7 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.PublicNameOnly);
             var aliasAndNameAndAddress = aliasAndName + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndNameAndAddress, html);
@@ -236,10 +236,32 @@ namespace NHS111.Models.Test.Models.Web
             _recommendedServiceViewModel.PublicName = "Test public name";
             _recommendedServiceViewModel.PublicNameOnly = "Test public name";
             _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
-            var html = _recommendedServiceViewModel.GetServiceDisplayHtml();
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.ServiceFirst);
             var aliasAndName = string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.ServiceTypeAlias)) + string.Format("<br />{0}", _recommendedServiceViewModel.PublicNameOnly);
             var aliasAndNameAndAddress = aliasAndName + string.Format("<br />{0}", _recommendedServiceViewModel.AddressLines.Where(address => !string.IsNullOrEmpty(address)).Aggregate(string.Empty, (current, address) => current + string.Format("{0}<br />", WebUtility.HtmlDecode(address))));
             Assert.AreEqual(aliasAndNameAndAddress, html);
+        }
+
+        [Test]
+        public void GetServiceDisplayHtml_CallbackCAS_WithPublicName_PharmacyOutcome_ContainsOnlyAlias()
+        {
+            _recommendedServiceViewModel.ServiceType.Id = 138;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.Callback;
+            _recommendedServiceViewModel.PublicName = "Test public name";
+            _recommendedServiceViewModel.PublicNameOnly = "Test public name";
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.Pharmacy);
+            Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode("Book a call with a pharmacist")), html);
+        }
+
+        [Test]
+        public void GetServiceDisplayHtml_PhoneCAS_WithPublicName_PharmacyOutcome_ContainsOnlyPublicName()
+        {
+            _recommendedServiceViewModel.ServiceType.Id = 138;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+            _recommendedServiceViewModel.PublicName = "Test public name";
+            _recommendedServiceViewModel.PublicNameOnly = "Test public name";
+            var html = _recommendedServiceViewModel.GetServiceDisplayHtml(OutcomeGroup.Pharmacy);
+            Assert.AreEqual(string.Format(_serviceAliasHtml, WebUtility.HtmlDecode(_recommendedServiceViewModel.PublicName)), html);
         }
 
         [Test]
@@ -717,7 +739,7 @@ namespace NHS111.Models.Test.Models.Web
         public void GetOtherServicesServiceDisplayHtml_CASPharmacy_PharmacyOutcome_Returns_Correct_Alias()
         {
             _recommendedServiceViewModel.ServiceType.Id = 138;
-            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.ReferRingAndGo;
+            _recommendedServiceViewModel.OnlineDOSServiceType = OnlineDOSServiceType.Callback;
             var html = _recommendedServiceViewModel.GetOtherServicesServiceDisplayHtml(OutcomeGroup.Pharmacy);
             Assert.AreEqual("<b class=\"service-details__alias\">Book a call with a pharmacist</b>", html);
         }
