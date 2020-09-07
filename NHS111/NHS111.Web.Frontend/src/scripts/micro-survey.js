@@ -174,8 +174,6 @@ jQuery(document).ready(function () {
         var surveyDurationSeconds = Math.floor(delta / 1000);
         embeddedData.Q_TotalDuration = surveyDurationSeconds;
         embeddedData.progress = 100;
-        // Add a unique email address to enable data linking between micro-survey and onsite survey
-        embeddedData.QID5_1 = embeddedData.journey_id + '@nhs.net';
         // Displays thank you regardless of success or failure of submitting micro survey
         displayThanksForYourFeedback();
 

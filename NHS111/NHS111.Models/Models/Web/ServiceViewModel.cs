@@ -1,4 +1,5 @@
-﻿using NHS111.Models.Models.Web.Clock;
+﻿using AutoMapper;
+using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
 using System;
@@ -357,6 +358,15 @@ namespace NHS111.Models.Models.Web
         public bool IsNotACallbackServiceWithPublicName
         {
             get { return !string.IsNullOrEmpty(PublicNameOnly) && !IsCallbackService; }
+        }
+
+        public static string GetServiceTypeAliasValue(OutcomeViewModel model)
+        {
+            if (!model.OutcomeGroup.IsServiceFirst) return string.Empty;
+            if (model.DosCheckCapacitySummaryResult.ResultListEmpty) return "no-results";
+            var firstService = model.DosCheckCapacitySummaryResult.Success.FirstService;
+            var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
+            return recommendedService.IsCallbackServiceNotOfferingCallback ? string.Empty : firstService.ServiceTypeAlias;
         }
     }
 

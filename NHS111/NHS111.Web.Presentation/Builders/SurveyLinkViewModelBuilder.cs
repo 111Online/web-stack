@@ -54,7 +54,7 @@ namespace NHS111.Web.Presentation.Builders
                 CampaignSource = model.Source,
                 ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue,
                 GuidedSelection = GetGuidedSelectionParameterFrom(model),
-                RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model),
+                RecommendedServiceTypeAlias = ServiceViewModel.GetServiceTypeAliasValue(model),
                 StartUrl = model.StartParameter
             };
 
@@ -120,7 +120,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var serviceTypeId = model.SelectedService != null ? model.SelectedService.ServiceType.Id : -1;
             surveyLinkViewModel.BookPharmacyCall = BookPharmacyCallModelBuilder.BookPharmacyCallValue(model.Id, serviceTypeId, services, OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup));
-            surveyLinkViewModel.RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model);
+            surveyLinkViewModel.RecommendedServiceTypeAlias = ServiceViewModel.GetServiceTypeAliasValue(model);
         }
 
         public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)
