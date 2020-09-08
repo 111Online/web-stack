@@ -2,9 +2,9 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var isNotSarcServiceType = Model.RecommendedService.ServiceType.Id != 48 && Model.RecommendedService.ServiceType.Id != 29;
-    var isNotDx94 = Model.Id != NHS111.Models.Models.Domain.DispositionCode.Dx94.Value;
-    var IsEmergencyDepartment = isNotDx94 || isNotSarcServiceType;
+    var isEmergencyDepartmentServiceType = Model.RecommendedService.ServiceType.Id == 48 || Model.RecommendedService.ServiceType.Id == 29;
+    var isDx94 = Model.Id == NHS111.Models.Models.Domain.DispositionCode.Dx94.Value;
+    var IsEmergencyDepartment = isDx94 && isEmergencyDepartmentServiceType;
 }
 
 <h1>Get help as soon as you can</h1>
@@ -74,8 +74,8 @@
         <div class="disposition-unit">
             <h2 class="nhsuk-heading-2">Where to get help</h2>
             <div>
-                <details class="description  nhsuk-u-margin-top-4">
-                    <summary data-open="Hide" data-close="Show">
+                <details class="description">
+                    <summary data-open="Hide" data-close="Show" class="collapse-content">
                     </summary>
                     <div class="collapse-content measure">
                         @Html.Partial("_DoSRecommendedService", Model)
