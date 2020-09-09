@@ -1,11 +1,13 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OtherServicesViewModel>
+
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     //set this here since this property is used to pass through to each partial
     //further down.  Need this to always be the ACTUAL recommended service.
     var recommendedService = Model.RecommendedService;
+
 }
 
 @section Title {
@@ -32,7 +34,14 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceFirstOtherServices, Model) })
+    @if (!SurveyLinkFeature.IsEnabled || !Model.OutcomeGroup.IsPharmacy)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
 }
 
 <div class="nhsuk-core">
@@ -45,11 +54,21 @@
     }
 
     <div class="measure">
-        <h1>Other ways to get help</h1>
+        @if (Model.OutcomeGroup.IsPharmacy)
+        {
+            <h1>Services that can help</h1>
+        }
+        else
+        {
+            <h1>Other ways to get help</h1>
+        }
         @Html.Partial("_TimingInfo", Model)
     </div>
     <div class="measure">
-        @Html.Partial("_ChangePostcode", Model, dataDictionary)
+        @if (!Model.OutcomeGroup.IsPharmacy)
+        {
+            @Html.Partial("_ChangePostcode", Model, dataDictionary)
+        }
     </div>
     <div class="other-services">
         @foreach (var service in Model.OtherServices)
@@ -58,7 +77,7 @@
             <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary data-event-trigger="click" data-event-value="@string.Format("Service {0}", WebUtility.HtmlDecode(service.PublicName))">
                     <p>
-                        @Html.Raw(service.GetOtherServicesServiceDisplayHtml())
+                        @Html.Raw(service.GetOtherServicesServiceDisplayHtml(Model.OutcomeGroup))
                     </p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
                     {
@@ -75,6 +94,11 @@
             </details>
         }
     </div>
+
+    @Html.Partial("_PharmacyFooterInformation")
+
+    @Html.Partial("_FindPharmaciesOnNHSUK")
+
     @if (!Model.IsEmergencyPrescriptionOutcome)
     {
         <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
