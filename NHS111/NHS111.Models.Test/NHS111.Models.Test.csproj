@@ -160,6 +160,7 @@
     <Compile Include="Models\Web\JourneyViewModelTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequestTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosResponseTest.cs" />
+    <Compile Include="Models\Web\OtherServiceViewModelTests.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModelTest.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\CurrentStatusTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\IsOpenTests.cs" />

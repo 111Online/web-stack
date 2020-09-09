@@ -1,0 +1,43 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PharmacyUnavailablReferralResultsViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "unavailable"));
+    dataDictionary.Add(new KeyValuePair<string, object>("GuidedSelection", Model.OutcomeModel.ViaGuidedSelection.HasValue ? Model.OutcomeModel.ViaGuidedSelection.ToString().ToLower() : null));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+}
+<div class="measure nhsuk-core">
+
+    <h1>@Model.PageTitle</h1>
+
+    <p>We couldn't send your details.</p>
+    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Find a pharmacy", Url = "https://www.nhs.uk/service-search/find-a-pharmacy/", Target = "_blank" })
+
+    @section FeedbackSection {
+        @if (!SurveyLinkFeature.IsEnabled)
+        {
+            @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingUnavailable, Model.OutcomeModel) })
+        }
+        else
+        {
+            @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+        }
+    }
+    </div>

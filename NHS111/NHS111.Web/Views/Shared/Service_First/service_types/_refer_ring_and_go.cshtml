@@ -5,6 +5,7 @@
 @{
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
+    var serviceType = recommendedService.IsPharmacyCASCallback() ? "PharmaCAS" : "ITK";
 }
 <div class="service-details nhsuk-u-margin-bottom-4">
     @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService))
@@ -16,7 +17,7 @@
     }
     <div class="service-details__address">
         <p>
-            @Html.Raw(recommendedService.GetServiceDisplayHtml())
+            @Html.Raw(recommendedService.GetServiceDisplayHtml(Model.OutcomeGroup))
         </p>
     </div>
     <div class="service-details__hours nhsuk-u-margin-bottom-4">
@@ -37,7 +38,7 @@
             @Html.Hidden("SelectedServiceId", @recommendedService.Id)
             <p class="service-details__hint">This service needs some more details from you.</p>
 
-            @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Refer me to this service"})
+            @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Refer me to this service", EventTrigger = "click", EventValue = serviceType })
         }
     </div>
 </div>
