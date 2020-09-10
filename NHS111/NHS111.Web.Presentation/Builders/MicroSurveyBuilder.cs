@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Helpers;
-using System.Web.Mvc;
-using Azure.Core;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Web.MicroSurvey;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
@@ -13,7 +7,7 @@ using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    public class MicroSurveyBuilder : IMicroSurveyBuilder
+    public class MicroSurveyBuilder : BaseBuilder, IMicroSurveyBuilder
     {
         private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
@@ -24,25 +18,25 @@ namespace NHS111.Web.Presentation.Builders
             _configuration = configuration;
         }
 
-        public async Task PostMicroSurveyResponse(SurveyResult surveyResult)
+        public async Task<IRestResponse> PostMicroSurveyResponse(SurveyResult surveyResult)
         {
             var uri = string.Format("API/v3/surveys/{0}/responses", _configuration.QualtricsRecommendedServiceSurveyId);
 
             var request = new RestRequest(uri, Method.POST);
 
             request.AddHeader("X-API-TOKEN", _configuration.QualtricsApiToken);
-            
+
             request.AddParameter("application/json", JsonConvert.SerializeObject(new
             {
                 values = JsonConvert.DeserializeObject(surveyResult.Values)
             }), ParameterType.RequestBody);
 
-           var result = await _restClient.ExecuteAsync(request);
+            return await _restClient.ExecuteAsync(request);            
         }
     }
 
     public interface IMicroSurveyBuilder
     {
-        Task PostMicroSurveyResponse(SurveyResult json);
+        Task<IRestResponse> PostMicroSurveyResponse(SurveyResult json);
     }
 }
