@@ -14,7 +14,7 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, EmbeddedData>()
                 .ForMember(dest => dest.JourneyId, opt => opt.MapFrom(src => src.JourneyId))
                 .ForMember(dest => dest.DxCode, opt => opt.MapFrom(src => src.SurveyLink.DispositionCode))
-                .ForMember(dest => dest.DispositionDate, opt => opt.MapFrom(src => src.SurveyLink.DispositionDateTime.Date.ToString("yyyy-MM-ddTHH:mm:ss")))
+                .ForMember(dest => dest.DispositionDate, opt => opt.MapFrom(src => DateTime.SpecifyKind(src.SurveyLink.DispositionDateTime, DateTimeKind.Utc).Date.ToString("O")))
                 .ForMember(dest => dest.DispositionTime, opt => opt.MapFrom(src => src.SurveyLink.DispositionDateTime.ToString("HH:mm:ss")))
                 .ForMember(dest => dest.Ccg, opt => opt.MapFrom(src => src.Source ?? ""))
                 .ForMember(dest => dest.LaunchPage, opt => opt.MapFrom(src => "outcome"))
