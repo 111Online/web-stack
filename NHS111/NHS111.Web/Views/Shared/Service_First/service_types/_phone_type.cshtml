@@ -15,7 +15,7 @@
             <hr />
         }
         <p class="service-details__name">
-            @Html.Raw(recommendedService.GetServiceDisplayHtml())
+            @Html.Raw(recommendedService.GetServiceDisplayHtml(Model.OutcomeGroup))
         </p>
         <p class="service-details__phone">
             <a href="tel:@recommendedService.ContactDetails">Call @recommendedService.ContactDetails</a>

@@ -6,8 +6,6 @@
 
 @section Title { NHS 111 - See a Pharmacist }
 
-@Html.Partial("_OutcomeHeader", Model)
-
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -19,9 +17,7 @@
         }];
     </script>
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
-}
+
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
@@ -41,40 +37,41 @@
     dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 <section class="measure nhsuk-core">
-    @Html.Partial("_CovidEliminator", Model)
-    @if (Model.NeedsGeneralCovidAdvice)
-    {
-        @Html.Partial("_GeneralCovidAdvice")
-    }
-    @Html.Partial("_FindService", Model, dataDictionary)
-
-    <div class="outcome-additional-info measure">
-        <h2 class="heading-medium">Did you know?</h2>
-        <p>In an emergency, some NHS pharmacies can supply prescription medicines outside normal opening hours.</p>
-        <br />
-        <p>Find out more about:</p>
-        <ul>
-            <li><a href="http://www.nhs.uk/Livewell/Pharmacy/Pages/Medicinesoutofhours.aspx">out-of-hours medicines</a></li>
-            <li><a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/pharmacists/Pages/pharmacistsandchemists.aspx">NHS pharmacies and the services they can offer</a></li>
-        </ul><br />
-        <p>By going to a pharmacist rather than your GP, you could save the NHS around £50.</p>
+    <div class="callout callout--attention measure nhsuk-u-margin-bottom-6">
+        <h2 class="heading-medium">Contact a pharmacist today or tomorrow</h2>
     </div>
 
-    @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+    <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-6">
+        COVID-19 and social distancing means that some pharmacies are asking people to phone first.
+    </div>
 
+    <div class="outcome-additional-info measure nhsuk-u-margin-bottom-3">
+        <p>Pharmacists are trained to deal with common health problems.</p>
+        <hr style="margin-bottom: 0px" />
+    </div>
 
-    @Html.Partial("_WorseningAdviceWithTitle", Model)
-
-    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
-    {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        if (!Model.DisplayOutcomeReferenceOnly)
+    <div class="outcome-additional-info measure nhsuk-u-margin-bottom-6">
+        @if (Model.DosCheckCapacitySummaryResult.ResultListEmpty)
         {
-            <div class="changeAnswers row">
-                <button id="PreviousQuestionFromOutcome" class="button button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
+            <div class="nhsuk-u-margin-top-4">
+                <p>
+                    <a target="_blank" href="https://www.nhs.uk/service-search/find-a-pharmacy/">Find pharmacies near you on NHS.UK</a>
+                </p>
             </div>
         }
-    }
+        else
+        {
+            @Html.Partial("_SeePharmaciesThatCanHelp", Model, dataDictionary)
+        }
+    </div>
+    <hr />
+
+    <div class="measure">
+        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
+    </div>
+    <div class="measure nhsuk-u-margin-top-4">
+        @Html.Partial("_rs_WorseningAdvice", Model)
+    </div>
 </section>
 
 

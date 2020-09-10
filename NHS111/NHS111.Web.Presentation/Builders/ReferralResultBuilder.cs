@@ -65,6 +65,8 @@ namespace NHS111.Web.Presentation.Builders
                     return new Coronavirus111CallbackReferralFailureResultViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
                     return new ServiceFirstReferralFailureResultViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacy)
+                    return new PharmacyReferralFailureResultsViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralFailureResultViewModel(itkConfirmationViewModel);
@@ -89,6 +91,9 @@ namespace NHS111.Web.Presentation.Builders
                 if (itkConfirmationViewModel.OutcomeGroup.IsServiceFirst)
                     //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
                     return new TemporaryServiceFirstDuplicateReferralResultViewModel(itkConfirmationViewModel);
+
+                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacy)
+                    return new PharmacyReferralDuplicateResultViewModel(itkConfirmationViewModel);
             }
             //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
             // return new DuplicateReferralResultViewModel(itkConfirmationViewModel); Temporarily removed until status of Dupe bug is known
@@ -112,6 +117,8 @@ namespace NHS111.Web.Presentation.Builders
                     return new ServiceFirstReferralConfirmationResultsViewModel(itkConfirmationViewModel);
                 if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     return new Coronavirus111CallbackReferralConfirmationResultsViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacy)
+                    return new PharmacyReferralConfirmationResultsViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralConfirmationResultViewModel(itkConfirmationViewModel);
@@ -133,6 +140,8 @@ namespace NHS111.Web.Presentation.Builders
                     result = new ServiceFirstServiceUnavailableReferralResultViewModel(outcomeViewModel);
                 if (outcomeViewModel.OutcomeGroup.IsCoronaVirusCallback)
                     result = new Coronavirus111CallbackUnavailableReferralResultViewModel(outcomeViewModel);
+                if (outcomeViewModel.OutcomeGroup.IsPharmacy)
+                    return new PharmacyUnavailablReferralResultsViewModel(outcomeViewModel);
             }
 
             result.OutcomeModel = outcomeViewModel;

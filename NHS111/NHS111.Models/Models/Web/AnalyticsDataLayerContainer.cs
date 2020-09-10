@@ -124,6 +124,17 @@ namespace NHS111.Models.Models.Web
         }
     }
 
+    public class PharmacyReferralConfirmationAnalysticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
+
+        public PharmacyReferralConfirmationAnalysticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel)
+        {
+            this[VirtualPageTitleKey] = string.Format("Pharmacy {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
+        }
+    }
+
     public class ReferralFailureResultAnalyticsDataLayer
         : ReferralResultAnalyticsDataLayer
     {
@@ -198,6 +209,16 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class PharmacyReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Pharmacy first ITK Confirmation - Failure"; } }
+
+        public PharmacyReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
     public class DuplicateReferralResultAnalyticsDataLayer
         : ReferralResultAnalyticsDataLayer
     {
@@ -246,6 +267,14 @@ namespace NHS111.Models.Models.Web
         protected override string VirtualPageTitle { get { return "Service First ITK Confirmation - Duplicate Booking"; } }
 
         public ServiceFirstDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+    public class PharmacyReferralDuplicateAnalyticsDataLayer : DuplicateReferralResultAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Pharmacy Confirmation - Duplicate Booking"; } }
+
+        public PharmacyReferralDuplicateAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
@@ -299,5 +328,12 @@ namespace NHS111.Models.Models.Web
         protected override string VirtualPageTitle { get { return "Coronavirus 111 Callback - Unavailable"; } }
 
         public Coronavirus111CallbackServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+    }
+
+    public class PharmacyUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Pharmacy Confirmation - Unavailable"; } }
+
+        public PharmacyUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
     }
 }
