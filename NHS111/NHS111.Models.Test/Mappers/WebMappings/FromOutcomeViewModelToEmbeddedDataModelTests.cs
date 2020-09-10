@@ -45,7 +45,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         {
             var dateTime = new DateTime(2002, 11, 2, 3, 15, 33);
 
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.DispositionDateTime = dateTime, ed => ed.DispositionDate, "2002-11-02T00:00:00.0000000Z");
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink.DispositionDateTime = dateTime, ed => ed.DispositionDate, "2002-11-02");
         }
 
         [Test]
