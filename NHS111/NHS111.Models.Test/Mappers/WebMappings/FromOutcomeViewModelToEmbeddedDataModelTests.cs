@@ -101,7 +101,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         [Test]
         public void FromOutcomeViewModelToEmbeddedDataModel_Mapper_Maps_Correct_For_RecommendedService_Alias()
         {
-            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.RecommendedService = new RecommendedServiceViewModel(){ ServiceTypeAlias = "TestAlias123"}, ed => ed.RecommendedServiceAlias, "TestAlias123");
+            FromOutcomeViewModelToEmbeddDataModel_Mapper_TestHelper(o => o.SurveyLink = new SurveyLinkViewModel{ RecommendedServiceTypeAlias = "TestAlias123", }, ed => ed.RecommendedServiceAlias, "TestAlias123");
         }
 
         [Test]

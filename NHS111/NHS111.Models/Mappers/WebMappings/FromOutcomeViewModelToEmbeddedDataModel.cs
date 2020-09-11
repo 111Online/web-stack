@@ -24,7 +24,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.RecommendedServiceDosType, opt => opt.MapFrom(src => src.RecommendedService.OnlineDOSServiceType.Id))
                 .ForMember(dest => dest.RecommendedServiceId, opt => opt.MapFrom(src => src.RecommendedService.Id))
                 .ForMember(dest => dest.ResommendedServiceName, opt => opt.MapFrom(src => src.RecommendedService.Name))
-                .ForMember(dest => dest.RecommendedServiceAlias, opt => opt.MapFrom(src => src.RecommendedService.ServiceTypeAlias))
+                .ForMember(dest => dest.RecommendedServiceAlias, opt => opt.MapFrom(src => src.SurveyLink.RecommendedServiceTypeAlias))
                 .ForMember(dest => dest.RecommendedServiceDistance, opt => opt.MapFrom(src => src.RecommendedService.Distance))
                 .ForMember(dest => dest.SdCode, opt => opt.MapFrom(src => src.SymptomDiscriminatorCode ?? ""))
                 .ForMember(dest => dest.SdDescription, opt => opt.MapFrom(src => src.SymptomDiscriminator.Description ?? ""))

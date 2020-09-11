@@ -133,14 +133,6 @@ namespace NHS111.Web.Presentation.Builders
                 ? model.IsViaGuidedSelection ? "true" : "false"
                 : string.Empty;
         }
-        private string GetServiceTypeAliasParameterFrom(OutcomeViewModel model)
-        {
-            if (!model.OutcomeGroup.IsServiceFirst) return string.Empty;
-            if(model.DosCheckCapacitySummaryResult.ResultListEmpty) return "no-results";
-            var firstService = model.DosCheckCapacitySummaryResult.Success.FirstService;
-            var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
-            return recommendedService.IsCallbackServiceNotOfferingCallback ? string.Empty : firstService.ServiceTypeAlias;
-        }
     }
 
     public interface ISurveyLinkViewModelBuilder
