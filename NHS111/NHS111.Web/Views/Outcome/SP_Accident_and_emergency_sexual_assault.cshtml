@@ -2,9 +2,8 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var isEmergencyDepartmentServiceType = Model.RecommendedService.ServiceType.Id == 48 || Model.RecommendedService.ServiceType.Id == 29;
     var isDx94 = Model.Id == NHS111.Models.Models.Domain.DispositionCode.Dx94.Value;
-    var IsEmergencyDepartment = isDx94 && isEmergencyDepartmentServiceType;
+    var IsEmergencyDepartment = isDx94 && (Model.RecommendedService == null ? false : Model.RecommendedService.IsGoToEdService);
 }
 
 <h1>Get help as soon as you can</h1>
