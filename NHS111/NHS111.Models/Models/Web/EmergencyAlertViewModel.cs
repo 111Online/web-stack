@@ -4,5 +4,6 @@
     {
         public bool OverrideDisplay { get; set; }
         public string StartParameter { get; set; }
+        public string Campaign { get; set; }
     }
 }

@@ -18,6 +18,7 @@
 @using (Html.BeginForm("Location", "Location", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.SessionId)
+    @Html.HiddenFor(m => m.Campaign)
     @Html.HiddenFor(m => m.StartParameter)
     @Html.Hidden("IsCovidJourney", true)
     <div class="measure nhsuk-core">

@@ -23,6 +23,7 @@ namespace NHS111.Models.Models.Web.Logging
         private string _dosRequest = string.Empty;
         private string _dosResponse = string.Empty;
         private string _page = string.Empty;
+        private string _campaign = string.Empty;
 
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }
@@ -132,31 +133,11 @@ namespace NHS111.Models.Models.Web.Logging
             set { _page = value; }
         }
 
-    }
-
-    public static class AuditViewModelExtensions
-    {
-        public static AuditEntry ToAuditEntry(this AuditViewModel operand)
+        [JsonProperty(PropertyName = "campaign")]
+        public string Campaign
         {
-            return new AuditEntry
-            {
-                PathwayId = operand.PathwayId,
-                PathwayTitle = operand.PathwayTitle,
-                AnswerTitle = operand.AnswerTitle,
-                AnswerOrder = operand.AnswerOrder,
-                QuestionTitle = operand.QuestionTitle,
-                QuestionNo = operand.QuestionNo,
-                QuestionId = operand.QuestionId,
-                DxCode = operand.DxCode,
-                EventData = operand.EventData,
-                EventKey = operand.EventKey,
-                EventValue = operand.EventValue,
-                DosRequest = operand.DosRequest,
-                DosResponse = operand.DosResponse,
-                SessionId = operand.SessionId,
-                Page = operand.Page,
-                JourneyId = operand.JourneyId
-            };
+            get { return _campaign; }
+            set { _campaign = value; }
         }
     }
 }
