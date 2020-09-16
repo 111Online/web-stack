@@ -59,6 +59,8 @@ namespace NHS111.Web.Presentation.Filters
                 var isNHSApp = filterContext.HttpContext.Request.QueryString["utm_medium"] == "nhs app";
                 var isSMSReferral = !string.IsNullOrEmpty(filterContext.HttpContext.Request.QueryString["d"]);
                 var referrer = isNHSApp ? "NHS App" : isSMSReferral ? "SMS Text" : browserInfo.Referer;
+                var campaign = filterContext.HttpContext.Request.QueryString["Campaign"];
+                model.Campaign = campaign;
 
                 _auditLogger.LogEvent(model, EventType.Browser, browserInfo.Browser, pageName);
                 _auditLogger.LogEvent(model, EventType.BrowserVersion, browserInfo.MajorVersionString, pageName);

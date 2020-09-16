@@ -32,7 +32,8 @@ function initEventHandlers() {
 window.createAuditEntry = function (eventKey, eventValue) {
   return {
     "sessionId": $.cookie("nhs111-session-id"),
-    "journeyId": $("#journeyId").value,
+    "journeyId": $("#JourneyId").val(),
+    "campaign": $("#Campaign").val(),
     "eventKey": eventKey,
     "eventValue": eventValue,
     "page": location.pathname

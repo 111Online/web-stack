@@ -55,7 +55,7 @@ namespace NHS111.Web.Presentation.Filters
         }
     }
 
-    public static class JourneyViewModelExtensions
+    public static class ViewModelExtensions
     {
 
         private static readonly string CampaignTestingId = "NHS111Testing";
@@ -96,6 +96,30 @@ namespace NHS111.Web.Presentation.Filters
             };
 
             return audit;
+        }
+
+        public static AuditEntry ToAuditEntry(this AuditViewModel operand)
+        {
+            return new AuditEntry
+            {
+                PathwayId = operand.PathwayId,
+                PathwayTitle = operand.PathwayTitle,
+                AnswerTitle = operand.AnswerTitle,
+                AnswerOrder = operand.AnswerOrder,
+                QuestionTitle = operand.QuestionTitle,
+                QuestionNo = operand.QuestionNo,
+                QuestionId = operand.QuestionId,
+                DxCode = operand.DxCode,
+                EventData = operand.EventData,
+                EventKey = operand.EventKey,
+                EventValue = operand.EventValue,
+                DosRequest = operand.DosRequest,
+                DosResponse = operand.DosResponse,
+                SessionId = GetSessionId(operand.Campaign, operand.SessionId),
+                Page = operand.Page,
+                JourneyId = operand.JourneyId,
+                Campaign = operand.Campaign
+            };
         }
 
         private static void AddLatestJourneyStepToAuditEntry(Journey journey, AuditEntry auditEntry)
