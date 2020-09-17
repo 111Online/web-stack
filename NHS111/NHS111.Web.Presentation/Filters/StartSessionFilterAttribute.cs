@@ -20,6 +20,23 @@ namespace NHS111.Web.Presentation.Filters
             _auditLogger = auditLogger;
         }
 
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if (filterContext.HttpContext.Response.HeadersWritten)
+                return;
+
+            var model = filterContext.Controller.ViewData.Model as JourneyViewModel;
+            if (model == null) return;
+            var hasCookie = filterContext.HttpContext.Request.Cookies.AllKeys.Contains(SessionCookieName);
+            if(hasCookie)
+            {
+                var sessionCookie = filterContext.HttpContext.Request.Cookies[SessionCookieName];
+                var isSessionIdInModelSameAsInCookie = model.SessionId.ToString().Equals(sessionCookie.Value);
+                if (!isSessionIdInModelSameAsInCookie)
+                    SetCookieValue(filterContext.HttpContext.Response.Cookies, model.SessionId);
+            }
+        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (filterContext.HttpContext.Response.HeadersWritten)
@@ -39,20 +56,7 @@ namespace NHS111.Web.Presentation.Filters
             if (!hasCookie && !hasSessionInModel)
             {
                 model.SessionId = Guid.NewGuid();
-                var secureCookies = true;
-
-#if DEBUG
-                secureCookies = false;
-#endif
-
-                var cookie = new HttpCookie(SessionCookieName, model.SessionId.ToString())
-                {
-                    Secure = secureCookies,
-                    Expires = DateTime.Now.AddHours(4), //expire within 4 hours?
-                    SameSite = SameSiteMode.Strict,
-                    HttpOnly = true
-                };
-                filterContext.HttpContext.Response.Cookies.Add(cookie);
+                SetCookieValue(filterContext.HttpContext.Response.Cookies, model.SessionId);
 
                 // Check if the referrer is NHS App, ideally should use the cookie but that is not set till after this. 
                 // That's not an issue as the app will always be using the query string on session start.
@@ -79,6 +83,22 @@ namespace NHS111.Web.Presentation.Filters
                 var covidValue = filterContext.HttpContext.Request.QueryString["d"];
                 _auditLogger.LogEvent(model, EventType.Clicked, string.Format("External COVID-19 SMS Text : {0}", covidValue), pageName);
             }
+        }
+
+        private void SetCookieValue(HttpCookieCollection cookies, Guid sessionId)
+        {
+            var secureCooky = true;
+#if DEBUG
+            secureCooky = false;
+#endif
+            var cookie = new HttpCookie(SessionCookieName, sessionId.ToString())
+            {
+                Secure = secureCooky,
+                Expires = DateTime.Now.AddHours(4), //expire within 4 hours?
+                SameSite = SameSiteMode.Strict,
+                HttpOnly = true
+            };
+            cookies.Add(cookie);
         }
     }
 }
