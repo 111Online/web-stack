@@ -33,7 +33,11 @@ namespace NHS111.Web.Presentation.Test.Builders
         [SetUp]
         public void Setup()
         {
-            Mapper.Initialize(m => m.AddProfile<FromServiceViewModelToRecommendedServiceViewModelMapper>());
+            Mapper.Initialize(m =>
+            {
+                m.AddProfile<FromServiceViewModelToRecommendedServiceViewModelMapper>();
+                m.AddProfile<FromOutcomeViewModelToEmbeddedDataModel>();
+            });
 
             var _fakeConfiguration = A.Fake<IConfiguration>();
             var _fakeLoggingRestClient = A.Fake<ILoggingRestClient>();
