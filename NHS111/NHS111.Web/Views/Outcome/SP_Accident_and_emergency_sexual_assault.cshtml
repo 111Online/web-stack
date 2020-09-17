@@ -77,7 +77,7 @@
                 <details class="description">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Where to get help">
                     </summary>
-                    @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                    @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 0)
                     {
                         <div class="collapse-content measure">
                             @Html.Partial("_DoSRecommendedService", Model)
