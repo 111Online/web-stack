@@ -38,6 +38,8 @@
 <div class="nhsuk-core">
     <h1>Get help as soon as you can</h1>
 
+    <hr />
+
     <section class="measure">
         @Html.Partial("_CovidEliminator", Model)
         @if (Model.NeedsGeneralCovidAdvice)
@@ -99,7 +101,7 @@
 
                         @if (IsEmergencyDepartment)
                         {
-                            <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+                            <hr />
                             <div class="measure">
                                 <h2>If you don’t want to go to A&amp;E</h2>
 
@@ -162,7 +164,7 @@
                                 </li>
                             </ul>
 
-                            <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+                            <hr />
 
                             @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
                         </div>
