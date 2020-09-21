@@ -89,8 +89,11 @@
                         <div class="measure nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-6">
                             @Html.Partial("_ChangePostcode", Model)
                         </div>
-                        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-                        @Html.Partial("_OtherServices", Model, dataDictionary)
+                        if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                        {
+                            dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+                            @Html.Partial("_OtherServices", Model, dataDictionary)
+                        }
                     }
                     else
                     {
