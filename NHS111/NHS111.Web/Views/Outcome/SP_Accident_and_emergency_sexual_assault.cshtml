@@ -7,8 +7,6 @@
     var IsEmergencyDepartment = isDx94 && (Model.RecommendedService == null ? false : Model.RecommendedService.IsGoToEdService);
 }
 
-<h1>Get help as soon as you can</h1>
-
 @section Title {Get help as soon as you can}
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
@@ -37,7 +35,11 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "recommended-service"));
 }
 
-<section class="measure nhsuk-core">
+<div class="nhsuk-core">
+    <h1>Get help as soon as you can</h1>
+
+    <hr />
+
     @Html.Partial("_CovidEliminator", Model)
     @if (Model.NeedsGeneralCovidAdvice)
     {
@@ -47,12 +49,12 @@
     <div class="disposition-set">
         <!--Before you get help-->
         <div class="disposition-unit">
-            <h2 class="nhsuk-heading-l">Before you get help</h2>
+            <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Before you get help</h2>
             <div>
                 <details class="description">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Before you get help">
                     </summary>
-                    <div>
+                    <div class="measure">
                         <p>If you think you might report the assault to the police:</p>
                         <ul>
                             <li>cover any cuts, but don't wash them</li>
@@ -60,33 +62,30 @@
                             <li>don't brush your teeth</li>
                             <li>if you have brushed your teeth and used chewing gum, save that</li>
                         </ul>
-                    </div>
-                    <div class="callout callout--attention">
-                        Call 999 to report it to the police. GOV.UK has information on what
-                        happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger="click" , data_event_value="Report a rape or sexual assault">
-                            report a rape or sexual assault.
-                        </a>
+                        <div class="callout callout--attention">
+                            <p>
+                                Call 999 to report it to the police. GOV.UK has information on what happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger="click" , data_event_value="Report a rape or sexual assault">report a rape or sexual assault.</a>
+                            </p>
+                        </div>
                     </div>
                 </details>
             </div>
         </div>
         <!--Where to get help-->
         <div class="disposition-unit">
-            <h2 class="nhsuk-heading-2">Where to get help</h2>
+            <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Where to get help</h2>
             <div>
                 <details class="description">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Where to get help">
                     </summary>
                     @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 0)
                     {
-                        <div class="collapse-content measure">
-                            @Html.Partial("_DoSRecommendedService", Model)
-                            <div class="measure">
-                                @Html.Partial("_ServiceWhy", Model)
-                            </div>
-                            <div class="measure nhsuk-u-margin-top-4">
-                                @Html.Partial("_ChangePostcode", Model)
-                            </div>
+                        @Html.Partial("_DoSRecommendedService", Model)
+                        <div class="measure">
+                            @Html.Partial("_ServiceWhy", Model)
+                        </div>
+                        <div class="measure nhsuk-u-margin-top-4">
+                            @Html.Partial("_ChangePostcode", Model)
                         </div>
                         dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
                         @Html.Partial("_OtherServices", Model, dataDictionary)
@@ -98,7 +97,7 @@
 
                     @if (IsEmergencyDepartment)
                     {
-                        <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+                        <hr />
                         <div class="measure">
                             <h2>If you don’t want to go to A&amp;E</h2>
 
@@ -122,12 +121,12 @@
         </div>
         <!--Get support and advice-->
         <div class="disposition-unit">
-            <h2 class="nhsuk-heading-2">Get support and advice</h2>
+            <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Get support and advice</h2>
             <div>
                 <details class="description">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Get support and advice">
                     </summary>
-                    <div>
+                    <div class="measure">
                         <p>
                             You can speak to charities and support groups for advice about what to
                             do. Examples of specialist voluntary services offering independent,
@@ -161,7 +160,7 @@
                             </li>
                         </ul>
 
-                        <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+                        <hr />
 
                         @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
                     </div>
@@ -169,5 +168,5 @@
             </div>
         </div>
     </div>
-</section>
 
+</div>
