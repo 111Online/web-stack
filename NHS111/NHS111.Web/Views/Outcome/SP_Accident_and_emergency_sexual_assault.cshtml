@@ -54,7 +54,7 @@
                 <details class="description">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Before you get help">
                     </summary>
-                    <div>
+                    <div class="measure">
                         <p>If you think you might report the assault to the police:</p>
                         <ul>
                             <li>cover any cuts, but don't wash them</li>
@@ -62,11 +62,11 @@
                             <li>don't brush your teeth</li>
                             <li>if you have brushed your teeth and used chewing gum, save that</li>
                         </ul>
-                    </div>
-                    <div class="callout callout--attention">
-                        <p>
-                            Call 999 to report it to the police. GOV.UK has information on what happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger="click" , data_event_value="Report a rape or sexual assault">report a rape or sexual assault.</a>
-                        </p>
+                        <div class="callout callout--attention">
+                            <p>
+                                Call 999 to report it to the police. GOV.UK has information on what happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger="click" , data_event_value="Report a rape or sexual assault">report a rape or sexual assault.</a>
+                            </p>
+                        </div>
                     </div>
                 </details>
             </div>
@@ -80,14 +80,12 @@
                     </summary>
                     @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 0)
                     {
-                        <div class="collapse-content measure">
-                            @Html.Partial("_DoSRecommendedService", Model)
-                            <div class="measure">
-                                @Html.Partial("_ServiceWhy", Model)
-                            </div>
-                            <div class="measure nhsuk-u-margin-top-4">
-                                @Html.Partial("_ChangePostcode", Model)
-                            </div>
+                        @Html.Partial("_DoSRecommendedService", Model)
+                        <div class="measure">
+                            @Html.Partial("_ServiceWhy", Model)
+                        </div>
+                        <div class="measure nhsuk-u-margin-top-4">
+                            @Html.Partial("_ChangePostcode", Model)
                         </div>
                         dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
                         @Html.Partial("_OtherServices", Model, dataDictionary)
@@ -128,7 +126,7 @@
                 <details class="description">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Get support and advice">
                     </summary>
-                    <div>
+                    <div class="measure">
                         <p>
                             You can speak to charities and support groups for advice about what to
                             do. Examples of specialist voluntary services offering independent,
