@@ -1,0 +1,87 @@
+﻿@using Newtonsoft.Json
+@using NHS111.Utils.Helpers;
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+
+@{
+    Model.EmbeddedData.Referrer = string.Empty;
+    Model.EmbeddedData.DeviceType = string.Empty;
+    if (HttpContext.Current != null && HttpContext.Current.Request != null)
+    {
+        var request = HttpContext.Current.Request;
+        Model.EmbeddedData.Referrer = request.Url.Scheme + "://" + request.Url.Authority + request.ApplicationPath.TrimEnd('/') + "/micro-survey";
+
+        var browserInfo = new BrowserInfo(new HttpRequestWrapper(request));
+        Model.EmbeddedData.DeviceType = browserInfo.DeviceType;
+    }
+}
+
+@if (SurveyLinkFeature.IsEnabled)
+{
+    <div class="js-hide">
+        @Html.Partial("_SurveyLink", Model, ViewContext.ViewData)
+    </div>
+
+    <div class="micro-survey js-show nhsuk-core micro-survey--offering" style="display: none">
+        <div id="microSurveyContainer" class="page-section">
+            <div id="microSurveyLink" class="notification-banner--hiviz">
+                <p class="nhsuk-u-margin-bottom-0">Help us improve. <button type="button" id="microSurveyStart" class="button--link" data-event-trigger="click" data-event-value="Start micro survey (recommended service)">Will you use the recommended service?</button></p>
+            </div>
+
+            <form id="microSurveyQuestions" class="measure" action="javascript: void(0);"></form>
+
+            <div id="microSurveyEnd" class="measure" style="display:none;">
+                <h3 class="nhsuk-heading-s">Thanks for your feedback</h3>
+                <p>We'll use it to improve the services we recommend.</p>
+
+                @{
+                    // Use this one for the micro survey's survey link only
+                    var dataDictionary = ViewContext.ViewData;
+                    dataDictionary.Add(new KeyValuePair<string, object>("isMicroSurvey", true));
+                }
+
+                @Html.Partial("_SurveyLink", Model, dataDictionary)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var embeddedData = @Html.Raw(JsonConvert.SerializeObject(Model.EmbeddedData));
+        var questions = {
+            "QID1": {
+                title: "Will you use the recommended service?",
+                answerType: "Number",
+                choices: [
+                    { choiceText: "Yes", choiceId: 1, inputType: "radio" },
+                    { choiceText: "No", choiceId: 2, inputType: "radio", nextQuestionID: "QID2" }
+                ],
+            },
+            "QID2": {
+                title: "Why won't you use the recommended service?",
+                answerType: "[Number]",
+                choices: [
+                    { choiceText: "It's too hard to get to", choiceId: 1, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                    { choiceText: "I'll go somewhere else I know", choiceId: 2, inputType: "checkbox", showIfServiceType: ["GoTo"] },
+                    { choiceText: "I don't want to use the phone", choiceId: 3, inputType: "checkbox", showIfServiceType: ["PublicPhone", "Callback"] },
+                    { choiceText: "I don't have a phone", choiceId: 4, inputType: "checkbox", showIfServiceType: ["PublicPhone", "Callback"] },
+                    { choiceText: "I can't use a phone", choiceId: 5, inputType: "checkbox", showIfServiceType: ["PublicPhone", "Callback"] },
+                    {
+                        choiceText: "I can't speak privately and don't want to be heard",
+                        choiceId: 6,
+                        inputType: "checkbox",
+                        showIfServiceType: ["PublicPhone", "Callback"]
+                    },
+                    { choiceText: "I'll go to my GP instead", choiceId: 7, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone", "Callback"] },
+                    { choiceText: "I'll have to wait too long to get help", choiceId: 8, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone", "Callback"] },
+                    { choiceText: "I'm going to wait to see if I feel better", choiceId: 9, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone", "Callback"] },
+                    { choiceText: "Another reason", choiceId: 10, inputType: "checkbox", showIfServiceType: ["GoTo", "PublicPhone", "Callback"], showTextFieldID: "QID2_10_TEXT", textFieldLabel: "Tell us the reason" }
+                ]
+            }
+        }
+
+        $("#microSurveyContainer").on('click',
+            '#microSurveyStart',
+            function () {
+                startMicroSurvey(questions, embeddedData);
+            });
+    </script>
+}

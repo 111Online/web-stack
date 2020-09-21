@@ -1,0 +1,29 @@
+@import "../environment/settings/_colours.scss";
+@import "../environment/tools/mixins/layout";
+
+.micro-survey {
+  background: #f2f6f7;
+  border-top: 4px solid #fada8b;
+}
+
+
+.micro-survey__toggle-element {
+    display: none;
+}
+
+input:checked ~ .micro-survey__toggle-element {
+    display: block;
+}
+
+#microSurveyPrevious {
+    display: block;
+}
+
+.micro-survey--offering {
+  background: #fada8b;
+  border: none;
+}
+
+.micro-survey--offering .page-section {
+    padding: 16px 0;
+}

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web.Outcome;
+using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Web.Parsers;
 using StructureMap.Query;
 
@@ -158,8 +159,6 @@ namespace NHS111.Models.Models.Web
         public bool? HasAcceptedCallbackOffer { get; set; }
 
         public RecommendedServiceViewModel RecommendedService { get; set; }
-
-
         public OutcomeViewModel()
         {
             SurgeryViewModel = new SurgeryViewModel();

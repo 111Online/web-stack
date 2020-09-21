@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Mappers.WebMappings;
+using NHS111.Models.Models.Business.MicroSurvey;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Parsers;
 using NHS111.Utils.RestTools;
-using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
@@ -53,7 +54,7 @@ namespace NHS111.Web.Presentation.Builders
                 CampaignSource = model.Source,
                 ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue,
                 GuidedSelection = GetGuidedSelectionParameterFrom(model),
-                RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model),
+                RecommendedServiceTypeAlias = ServiceViewModel.GetServiceTypeAliasValue(model),
                 StartUrl = model.StartParameter
             };
 
@@ -61,7 +62,17 @@ namespace NHS111.Web.Presentation.Builders
             result.SurveyId = isPharmacyPathway ? _surveyLinkFeature.PharmacySurveyId : _surveyLinkFeature.SurveyId;
             AddServiceInformation(model, result);
 
+            model.SurveyLink = result;
+            AddEmbeddedDataInformation(model, result);            
+
             return result;
+        }
+
+        private void AddEmbeddedDataInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)
+        {
+            var embeddedData = Mapper.Map<EmbeddedData>(model);
+            embeddedData.QURL = string.Format("{0}API/v3/surveys/{1}/responses", _configuration.QualtricsApiBaseUrl, _configuration.QualtricsRecommendedServiceSurveyId);
+            surveyLinkViewModel.EmbeddedData = embeddedData;
         }
 
         public void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)
@@ -109,7 +120,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var serviceTypeId = model.SelectedService != null ? model.SelectedService.ServiceType.Id : -1;
             surveyLinkViewModel.BookPharmacyCall = BookPharmacyCallModelBuilder.BookPharmacyCallValue(model.Id, serviceTypeId, services, OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup));
-            surveyLinkViewModel.RecommendedServiceTypeAlias = GetServiceTypeAliasParameterFrom(model);
+            surveyLinkViewModel.RecommendedServiceTypeAlias = ServiceViewModel.GetServiceTypeAliasValue(model);
         }
 
         public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)
@@ -121,14 +132,6 @@ namespace NHS111.Web.Presentation.Builders
             return model.HasBeenViaGuidedSelection
                 ? model.IsViaGuidedSelection ? "true" : "false"
                 : string.Empty;
-        }
-        private string GetServiceTypeAliasParameterFrom(OutcomeViewModel model)
-        {
-            if (!model.OutcomeGroup.IsServiceFirst) return string.Empty;
-            if(model.DosCheckCapacitySummaryResult.ResultListEmpty) return "no-results";
-            var firstService = model.DosCheckCapacitySummaryResult.Success.FirstService;
-            var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
-            return recommendedService.IsCallbackServiceNotOfferingCallback ? string.Empty : firstService.ServiceTypeAlias;
         }
     }
 

@@ -174,6 +174,7 @@
     <Compile Include="Mappers\WebMappings\FromDateOfBirthViewModelToPersonalDetailsViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToEmbeddedDataModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToOtherServicesViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToPersonalDetailViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
     <Compile Include="Models\Business\Location\PostcodeResult.cs" />
+    <Compile Include="Models\Business\MicroSurvey\EmbeddedData.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwayPhraseResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\BodytagResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\ReservedSearchResult.cs" />
@@ -255,6 +257,7 @@
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
     <Compile Include="Models\Web\Enums\OutcomePage.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
+    <Compile Include="Models\Web\MicroSurvey\SurveyResult.cs" />
     <Compile Include="Models\Web\Outcome\ServiceGroup.cs" />
     <Compile Include="Models\Web\PageCustomContent.cs" />
     <Compile Include="Models\Web\Parsers\JourneyJsonParser.cs" />
