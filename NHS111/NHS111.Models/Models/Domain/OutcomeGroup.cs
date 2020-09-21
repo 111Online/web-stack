@@ -195,6 +195,11 @@ namespace NHS111.Models.Models.Domain
             get { return this.Equals(OutcomeGroup.ItkPrimaryCare) || this.Equals(OutcomeGroup.ItkPrimaryCareNer) || this.Equals(OutcomeGroup.GP); }
         }
 
+        public bool IsAccidentAndEmergencySexualAssault
+        {
+            get { return Equals(OutcomeGroup.AccidentAndEmergencySexualAssault); }
+        }
+
         public bool IsCoronaVirus
         {
             get
