@@ -47,36 +47,38 @@
     }
 
     <div class="disposition-set">
-        <!--Before you get help-->
+
         <div class="disposition-unit">
-            <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Before you get help</h2>
-            <div>
-                <details class="description">
-                    <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Before you get help">
-                    </summary>
-                    <div class="measure">
-                        <p>If you think you might report the assault to the police:</p>
-                        <ul>
-                            <li>cover any cuts, but don't wash them</li>
-                            <li>keep the clothes you were wearing and don't wash them</li>
-                            <li>don't brush your teeth</li>
-                            <li>if you have brushed your teeth and used chewing gum, save that</li>
-                        </ul>
-                        <div class="callout callout--attention">
-                            <p>
-                                Call 999 to report it to the police. GOV.UK has information on what happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger="click" , data_event_value="Report a rape or sexual assault">report a rape or sexual assault.</a>
-                            </p>
-                        </div>
+            <details class="disposition-unit-content">
+                <summary data_event_trigger="click" data_event_value="Before you get help">
+                    <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Before you get help</h2>
+                    <span class="disposition-unit-content__toggle--show">Show</span>
+                    <span class="disposition-unit-content__toggle--hide">Hide</span>
+                </summary>
+                <div class="measure">
+                    <p>If you think you might report the assault to the police:</p>
+                    <ul>
+                        <li>cover any cuts, but don't wash them</li>
+                        <li>keep the clothes you were wearing and don't wash them</li>
+                        <li>don't brush your teeth</li>
+                        <li>if you have brushed your teeth and used chewing gum, save that</li>
+                    </ul>
+                    <div class="callout callout--attention">
+                        <p>
+                            Call 999 to report it to the police. GOV.UK has information on what happens when you <a href="https://www.gov.uk/report-rape-sexual-assault" target="_blank" data_event_trigger="click" , data_event_value="Report a rape or sexual assault">report a rape or sexual assault.</a>
+                        </p>
                     </div>
-                </details>
-            </div>
+                </div>
+            </details>
         </div>
-        <!--Where to get help-->
+
         <div class="disposition-unit">
-            <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Where to get help</h2>
             <div>
-                <details class="description">
+                <details class="disposition-unit-content">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Where to get help">
+                        <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Where to get help</h2>
+                        <span class="disposition-unit-content__toggle--show">Show</span>
+                        <span class="disposition-unit-content__toggle--hide">Hide</span>
                     </summary>
                     @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 0)
                     {
@@ -87,11 +89,8 @@
                         <div class="measure nhsuk-u-margin-top-4">
                             @Html.Partial("_ChangePostcode", Model)
                         </div>
-                        if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
-                        {
-                            dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-                            @Html.Partial("_OtherServices", Model, dataDictionary)
-                        }
+                        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+                        @Html.Partial("_OtherServices", Model, dataDictionary)
                     }
                     else
                     {
@@ -122,12 +121,14 @@
                 </details>
             </div>
         </div>
-        <!--Get support and advice-->
+
         <div class="disposition-unit">
-            <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Get support and advice</h2>
             <div>
-                <details class="description">
+                <details class="disposition-unit-content">
                     <summary data-open="Hide" data-close="Show" data_event_trigger="click" , data_event_value="Get support and advice">
+                        <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-1">Get support and advice</h2>
+                        <span class="disposition-unit-content__toggle--show">Show</span>
+                        <span class="disposition-unit-content__toggle--hide">Hide</span>
                     </summary>
                     <div class="measure">
                         <p>
