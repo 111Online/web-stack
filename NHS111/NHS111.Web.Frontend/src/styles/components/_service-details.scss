@@ -141,10 +141,20 @@
 
 // Dx94 specific as of 2020-09-21
 .disposition-unit-content {
+
+  summary {
+    padding-left: 0;
+    text-indent: 0;
+
+    [class^="nhsuk-heading-"] {
+      color: $black;
+    }
+  }
+
   .disposition-unit-content__toggle--hide,
   .disposition-unit-content__toggle--show {
     @include nhsuk-font(16);
-    /*@include nhsuk-link-style-default;*/
+    @include nhsuk-link-style-default;
     text-decoration: underline;
     @include user-select(none);
   }

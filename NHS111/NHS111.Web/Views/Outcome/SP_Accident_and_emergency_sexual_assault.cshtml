@@ -86,7 +86,7 @@
                         <div class="measure">
                             @Html.Partial("_ServiceWhy", Model)
                         </div>
-                        <div class="measure nhsuk-u-margin-top-4">
+                        <div class="measure nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-6">
                             @Html.Partial("_ChangePostcode", Model)
                         </div>
                         dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
@@ -99,7 +99,7 @@
 
                     @if (IsEmergencyDepartment)
                     {
-                        <hr />
+                        <hr class="nhsuk-u-margin-top-6" />
                         <div class="measure">
                             <h2>If you don’t want to go to A&amp;E</h2>
 
@@ -164,7 +164,7 @@
                             </li>
                         </ul>
 
-                        <hr />
+                        <hr class="nhsuk-u-margin-top-6" />
 
                         @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
                     </div>
