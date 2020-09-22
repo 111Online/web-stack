@@ -10,7 +10,7 @@ namespace NHS111.Web.Controllers
 {
     public class HealthzController : ApiController
     {
-        private readonly HttpClient _httpClient = new HttpClient(); // using classic HttpClient here to avoid larger changes in IoC
+        private static readonly HttpClient _httpClient = new HttpClient(); // using classic HttpClient here to avoid larger changes in IoC
 
         private readonly Uri CCGApiMonitorUrl;
         private readonly Uri BusinessApiMonitorUrl;
