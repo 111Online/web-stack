@@ -14,7 +14,14 @@
     @if (showServiceDescriptionInDetails)
     {
         <p class="service-listing__info">
-            @recommendedService.ServiceTypeDescription
+            @if (@recommendedService.IsSarcService)
+            {
+                @recommendedService.SARCServiceTypeDescription
+            }
+            else
+            {
+                @recommendedService.ServiceTypeDescription
+            }
         </p>
         <hr />
     }

@@ -9,9 +9,16 @@
     <div class="service-details">
         @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService))
         {
-            <p class="service-listing__info">
+        <p class="service-listing__info">
+            @if (@recommendedService.IsSarcService)
+            {
+                @recommendedService.SARCServiceTypeDescription
+            }
+            else
+            {
                 @recommendedService.ServiceTypeDescription
-            </p>
+            }
+        </p>
             <hr />
         }
         <div class="service-details__address">

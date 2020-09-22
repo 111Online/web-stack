@@ -11,7 +11,14 @@
     {
         <div class="measure">
             <p>
-                @recommendedService.ServiceTypeDescription
+                @if (@recommendedService.IsSarcService)
+                {
+                    @recommendedService.SARCServiceTypeDescription
+                }
+                else
+                {
+                    @recommendedService.ServiceTypeDescription
+                }
             </p>
         </div>
     }
