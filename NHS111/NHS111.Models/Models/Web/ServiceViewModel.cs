@@ -261,7 +261,7 @@ namespace NHS111.Models.Models.Web
         }
         public bool IsSarcService
         {
-            get { return PublicName.Contains("SARC"); }
+            get { return PublicName.ToLower().Contains("sarc") || PublicName.ToLower().Contains("sexual assault referral centre"); }
         }
 
         private static int IncrementDayOfWeek(int dayOfWeek)
