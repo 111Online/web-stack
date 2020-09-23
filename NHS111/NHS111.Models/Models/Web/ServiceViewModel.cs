@@ -261,7 +261,14 @@ namespace NHS111.Models.Models.Web
         }
         public bool IsSarcService
         {
-            get { return PublicName.ToLower().Contains("sarc") || PublicName.ToLower().Contains("sexual assault referral centre"); }
+            get
+            {
+                return
+                    PublicName.ToLower().Contains("sarc") ||
+                    PublicName.ToLower().Contains("sexual assault referral centre") ||
+                    Name.ToLower().Contains("sarc") ||
+                    Name.ToLower().Contains("sexual assault referral centre");
+            }
         }
 
         private static int IncrementDayOfWeek(int dayOfWeek)
