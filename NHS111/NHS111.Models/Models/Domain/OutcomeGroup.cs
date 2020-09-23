@@ -220,7 +220,7 @@ namespace NHS111.Models.Models.Domain
         {
             get
             {
-                return IsServiceFirst || IsPrimaryCare || IsPharmacy;
+                return IsServiceFirst || IsPrimaryCare || IsPharmacy || IsAccidentAndEmergencySexualAssault;
             }
         }
 
