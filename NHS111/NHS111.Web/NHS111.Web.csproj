@@ -578,7 +578,10 @@
     <Content Include="Views\Outcome\Confirmation\Pharmacy\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Pharmacy\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Pharmacy\ServiceUnavailable.cshtml" />
-	  <Content Include="Views\Shared\_RecommendedServiceSurvey.cshtml" />
+    <Content Include="Views\Shared\_RecommendedServiceSurvey.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SexualAssault\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SexualAssault\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SexualAssault\Confirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
