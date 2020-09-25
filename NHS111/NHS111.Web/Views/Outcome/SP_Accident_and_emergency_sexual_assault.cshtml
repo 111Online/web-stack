@@ -80,7 +80,7 @@
                         <span class="disposition-unit-content__toggle--show">Show</span>
                         <span class="disposition-unit-content__toggle--hide">Hide</span>
                     </summary>
-                    @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 0)
+                    @if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty && Model.DosCheckCapacitySummaryResult.Success.ServiceCount > 0)
                     {
                         @Html.Partial("_DoSRecommendedService", Model)
                         <div class="measure">
