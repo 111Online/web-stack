@@ -7,7 +7,7 @@
 }
 
     <div class="service-details nhsuk-u-margin-bottom-4">
-        @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService))
+        @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService) || @recommendedService.IsSarcService)
         {
         <p class="service-listing__info">
             @if (@recommendedService.IsSarcService)
