@@ -4,21 +4,16 @@
 @{
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
+    var serviceDescription = recommendedService.IsSarcService ? recommendedService.SARCServiceTypeDescription : recommendedService.ServiceTypeDescription;
 }
+
 <div class="service-details-container nhsuk-u-margin-bottom-4">
     <div class="service-details">
-        @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService) || @recommendedService.IsSarcService)
+        @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService) || (recommendedService.IsSarcService && isOtherService))
         {
-        <p class="service-listing__info">
-            @if (@recommendedService.IsSarcService)
-            {
-                @recommendedService.SARCServiceTypeDescription
-            }
-            else
-            {
-                @recommendedService.ServiceTypeDescription
-            }
-        </p>
+            <p class="service-listing__info">
+                @serviceDescription
+            </p>
             <hr />
         }
         <div class="service-details__address">

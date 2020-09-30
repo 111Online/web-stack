@@ -11,10 +11,10 @@
 
 
 <div class="service-details nhsuk-u-margin-bottom-4">
-    @if (showServiceDescriptionInDetails || @recommendedService.IsSarcService)
+    @if (showServiceDescriptionInDetails || (recommendedService.IsSarcService && isOtherService))
     {
         <p class="service-listing__info">
-            @if (@recommendedService.IsSarcService)
+            @if (recommendedService.IsSarcService)
             {
                 @recommendedService.SARCServiceTypeDescription
             }
