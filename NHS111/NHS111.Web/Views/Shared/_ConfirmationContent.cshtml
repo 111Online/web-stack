@@ -7,6 +7,7 @@
     var FOUR_HOURS = 240;
 
     var dontGetCallbackText = "";
+    bool useDispositionTime = Model.ItkConfirmationModel != null && Model.ItkConfirmationModel.DispositionTime != null;
 
     // need a way to base this on the outcome not the group but for now can just do it for all as only used for
     // EP and ED
@@ -62,7 +63,15 @@
 <section class="nhsuk-core measure">
     <h1 class="nhsuk-heading-xl">You'll get a call within @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</h1>
     <p>
-        It was booked at @DateTime.Now.ToString("h:mmtt").ToLower(). A nurse will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number might show as &lsquo;unknown&rsquo; on your display.
+        It was booked at
+        @if (useDispositionTime)
+        {
+            @Model.ItkConfirmationModel.DispositionTime.ToString("h:mmtt").ToLower();
+        }
+        else
+        {   
+            @DateTime.Now.ToString("h:mmtt").ToLower()
+        }. A nurse will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number might show as &lsquo;unknown&rsquo; on your display.
     </p>
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
