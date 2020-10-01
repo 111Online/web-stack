@@ -14,7 +14,7 @@
     @if (showServiceDescriptionInDetails || (recommendedService.IsSarcService && isOtherService))
     {
         <p class="service-listing__info">
-            @if (recommendedService.IsSarcService)
+            @if (recommendedService.IsSarcService && Model.OutcomeGroup.IsAccidentAndEmergencySexualAssault)
             {
                 @recommendedService.SARCServiceTypeDescription
             }

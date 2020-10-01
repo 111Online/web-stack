@@ -4,7 +4,7 @@
 @{
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
-    var serviceDescription = recommendedService.IsSarcService ? recommendedService.SARCServiceTypeDescription : recommendedService.ServiceTypeDescription;
+    var serviceDescription = recommendedService.IsSarcService && Model.OutcomeGroup.IsAccidentAndEmergencySexualAssault ? recommendedService.SARCServiceTypeDescription : recommendedService.ServiceTypeDescription;
 }
 
 <div class="service-details nhsuk-u-margin-bottom-4">

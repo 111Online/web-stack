@@ -6,7 +6,7 @@
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
     var serviceType = recommendedService.IsPharmacyCASCallback() ? "PharmaCAS" : "ITK";
-    var serviceDescription = recommendedService.IsSarcService ? recommendedService.SARCServiceTypeDescription : recommendedService.ServiceTypeDescription;
+    var serviceDescription = recommendedService.IsSarcService && Model.OutcomeGroup.IsAccidentAndEmergencySexualAssault ? recommendedService.SARCServiceTypeDescription : recommendedService.ServiceTypeDescription;
 }
 <div class="service-details nhsuk-u-margin-bottom-4">
     @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService) || (recommendedService.IsSarcService && isOtherService))
