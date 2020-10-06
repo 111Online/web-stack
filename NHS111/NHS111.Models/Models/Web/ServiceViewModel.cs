@@ -193,7 +193,7 @@ namespace NHS111.Models.Models.Web
 
         public static string GetServiceTypeAliasValue(OutcomeViewModel model)
         {
-            if (!model.OutcomeGroup.IsServiceFirst)
+            if (!model.OutcomeGroup.IsServiceFirst && !model.OutcomeGroup.IsAccidentAndEmergencySexualAssault)
                 return string.Empty;
             if (model.DosCheckCapacitySummaryResult.ResultListEmpty)
                 return "no-results";
