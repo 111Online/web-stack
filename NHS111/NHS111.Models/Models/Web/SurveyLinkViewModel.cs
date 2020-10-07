@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using NHS111.Models.Models.Business.MicroSurvey;
 
 namespace NHS111.Models.Models.Web
@@ -36,7 +37,13 @@ namespace NHS111.Models.Models.Web
 
         public string RecommendedServiceType { get; set; }
         public int RecommendedServiceId { get; set; }
-        public string RecommendedServiceName { get; set; }
+
+        private string _recommendedServiceName;
+        public string RecommendedServiceName {
+            //Decode Html encoded chars from DOS an let View renderer handle encoding itslef 
+            get { return WebUtility.HtmlDecode(_recommendedServiceName); } 
+            set { _recommendedServiceName = value; } 
+        }
 
         public string DispositionChoiceReasoning { get; set; }
 
