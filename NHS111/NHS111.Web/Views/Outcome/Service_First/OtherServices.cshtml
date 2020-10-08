@@ -35,7 +35,7 @@
 
 @section FeedbackSection {
     @*this addition for IsAccidentAndEmergencySexualAssault is a hack for dx94*@
-    @if (!SurveyLinkFeature.IsEnabled || !Model.OutcomeGroup.IsPharmacy || !Model.OutcomeGroup.IsAccidentAndEmergencySexualAssault)
+    @if (!SurveyLinkFeature.IsEnabled || (!Model.OutcomeGroup.IsPharmacy && !Model.OutcomeGroup.IsAccidentAndEmergencySexualAssault))
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
     }
