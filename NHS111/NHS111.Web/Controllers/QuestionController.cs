@@ -359,11 +359,11 @@ namespace NHS111.Web.Controllers
 
             var minimumServicesNeededForServiceList = (outcomeModel.OutcomeGroup.IsServiceFirst || outcomeModel.OutcomeGroup.IsAccidentAndEmergencySexualAssault) ? 2 : 1;
 
-            if (outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count >= minimumServicesNeededForServiceList)
+            if (outcomeModel.DosCheckCapacitySummaryResult.Success != null && outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count >= minimumServicesNeededForServiceList)
                 return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint)
                     .ConfigureAwait(false);
 
-            return View("../Outcome/Service_First/ServiceNotOffered", outcomeModel);
+            return View("../Outcome/DeadEndJump", outcomeModel);
         }
 
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers, string postcode)
