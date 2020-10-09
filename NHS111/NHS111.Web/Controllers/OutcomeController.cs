@@ -233,7 +233,8 @@ namespace NHS111.Web.Controllers
 
                 if (model.OutcomeGroup.IsServiceFirst || 
                     model.OutcomeGroup.IsPrimaryCare || 
-                    model.OutcomeGroup.IsPharmacy)
+                    model.OutcomeGroup.IsPharmacy || 
+                    model.OutcomeGroup.IsAccidentAndEmergencySexualAssault)
                 {
                     var otherServices =
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services).ConfigureAwait(false);

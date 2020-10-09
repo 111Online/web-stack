@@ -7,6 +7,7 @@
     var FOUR_HOURS = 240;
 
     var dontGetCallbackText = "";
+    bool useDispositionTime = Model.ItkConfirmationModel != null && Model.ItkConfirmationModel.DispositionTime != null;
 
     // need a way to base this on the outcome not the group but for now can just do it for all as only used for
     // EP and ED
@@ -62,31 +63,45 @@
 <section class="nhsuk-core measure">
     <h1 class="nhsuk-heading-xl">You'll get a call within @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</h1>
     <p>
-        It was booked at @DateTime.Now.ToString("h:mmtt").ToLower(). A nurse will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number might show as &lsquo;unknown&rsquo; on your display.
+        It was booked at
+        @if (useDispositionTime)
+        {
+            @Model.ItkConfirmationModel.DispositionTime.ToString("h:mmtt").ToLower();
+        }
+        else
+        {
+            @DateTime.Now.ToString("h:mmtt").ToLower()
+        }. A nurse will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number might show as &lsquo;unknown&rsquo; on your display.
     </p>
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
         Link = "What if I don't get a call back within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + "?",
         Summary = dontGetCallbackText,
-        ID = "confirmationWaiting"
+        ID = "confirmationWaiting",
+        EventTrigger = "click",
+        EventValue = "What if I don't get a call back within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + "?"
     })
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
         Link = "What if I miss the call?",
-        Summary = Model.OutcomeModel.OutcomeGroup.Is999NonUrgent ? 
-            "<p>A nurse will try and ring you up to 3 times."
-            :
-            "<p>A nurse will try and ring you up to 3 times. After the third time, they'll leave a message to say they tried to contact you, but you won't be able to call them back. You will have to start again, either online or by calling 111.</p>",
-        ID = "confirmationMiss"
+        Summary = Model.OutcomeModel.OutcomeGroup.Is999NonUrgent ?
+                    "<p>A nurse will try and ring you up to 3 times."
+                    :
+                    "<p>A nurse will try and ring you up to 3 times. After the third time, they'll leave a message to say they tried to contact you, but you won't be able to call them back. You will have to start again, either online or by calling 111.</p>",
+        ID = "confirmationMiss",
+        EventTrigger = "click",
+        EventValue = "What if I miss the call?"
     })
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
         Link = "What if the symptoms get worse while I'm waiting?",
         Summary = symptomsGetWorseText,
-        ID = "confirmationWorsening"
+        ID = "confirmationWorsening",
+        EventTrigger = "click",
+        EventValue = "What if the symptoms get worse while I'm waiting?"
     })
 
 
@@ -94,7 +109,9 @@
     {
         Link = "Can I cancel the call?",
         Summary = "<p>If you need to cancel, ring 111 and tell them you booked a call online.</p>",
-        ID = "confirmationCancel"
+        ID = "confirmationCancel",
+        EventTrigger = "click",
+        EventValue = "Can I cancel the call?"
     })
 
 

@@ -304,6 +304,7 @@
     <Content Include="sitemap.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Outcome\SP_Accident_and_emergency_sexual_assault.cshtml" />
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -396,7 +397,6 @@
     <Content Include="Views\Shared\_SaveOutcomeDialogue.cshtml" />
     <Content Include="Views\Outcome\SP_Optician.cshtml" />
     <Content Include="Views\Outcome\SP_GUM_Clinic.cshtml" />
-    <Content Include="Views\Outcome\SP_Accident_and_emergency_sexual_assault.cshtml" />
     <Content Include="Views\Outcome\SP_Emergency_dental.cshtml" />
     <Content Include="Views\Shared\_WorseningAdvice.cshtml" />
     <Content Include="Views\Outcome\SP_Dental.cshtml" />
@@ -578,7 +578,10 @@
     <Content Include="Views\Outcome\Confirmation\Pharmacy\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Pharmacy\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Pharmacy\ServiceUnavailable.cshtml" />
-	  <Content Include="Views\Shared\_RecommendedServiceSurvey.cshtml" />
+    <Content Include="Views\Shared\_RecommendedServiceSurvey.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SexualAssault\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SexualAssault\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SexualAssault\Confirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

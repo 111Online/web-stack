@@ -6,12 +6,13 @@
     var recommendedService = Model.RecommendedService;
     var isOtherService = ViewData.ContainsKey("IsOtherService");
     var serviceType = recommendedService.IsPharmacyCASCallback() ? "PharmaCAS" : "ITK";
+    var serviceDescription = recommendedService.IsSarcService && Model.OutcomeGroup.IsAccidentAndEmergencySexualAssault ? recommendedService.SARCServiceTypeDescription : recommendedService.ServiceTypeDescription;
 }
 <div class="service-details nhsuk-u-margin-bottom-4">
-    @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService))
+    @if (recommendedService.ShouldShowOtherServicesServiceTypeDescription(isOtherService) || (recommendedService.IsSarcService && isOtherService))
     {
         <p class="service-listing__info">
-            @recommendedService.ServiceTypeDescription
+            @serviceDescription
         </p>
         <hr />
     }
@@ -34,7 +35,7 @@
         {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-            @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.RecommendedService, new ViewDataDictionary() {TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService"}})
+            @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.RecommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "RecommendedService" } })
             @Html.Hidden("SelectedServiceId", @recommendedService.Id)
             <p class="service-details__hint">This service needs some more details from you.</p>
 

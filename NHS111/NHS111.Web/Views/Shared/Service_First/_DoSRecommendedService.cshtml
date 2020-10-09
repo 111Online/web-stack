@@ -7,11 +7,18 @@
     <div>
         @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
     </div>
-    if (recommendedService.ShouldShowServiceTypeDescription())
+    if (recommendedService.ShouldShowServiceTypeDescription() || @recommendedService.IsSarcService)
     {
         <div class="measure">
             <p>
-                @recommendedService.ServiceTypeDescription
+                @if (@recommendedService.IsSarcService)
+                {
+                    @recommendedService.SARCServiceTypeDescription
+                }
+                else
+                {
+                    @recommendedService.ServiceTypeDescription
+                }
             </p>
         </div>
     }

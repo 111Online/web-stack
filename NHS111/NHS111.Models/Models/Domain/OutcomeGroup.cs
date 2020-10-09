@@ -49,7 +49,7 @@ namespace NHS111.Models.Models.Domain
 
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "Urgent healthcare services", ITK = false };
 
-        public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "A&amp;E departments", ITK = false };
+        public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "A&amp;E departments", ITK = false, PostcodeFirst = true };
 
         public static OutcomeGroup HomeCare = new OutcomeGroup { Id = "Home_Care", Text = "Home Care" };
 
@@ -84,7 +84,7 @@ namespace NHS111.Models.Models.Domain
         public static OutcomeGroup Verify_SMS = new OutcomeGroup { Id = "Verify_SMS", Text = "Verify_SMS", DefaultTitle = "Verify sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false };
         #endregion
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, ItkPrimaryCareNer, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, ServiceFirst, Isolate111, Pharmacy };
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, ItkPrimaryCareNer, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, ServiceFirst, Isolate111, AccidentAndEmergencySexualAssault, Pharmacy };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ItkPrimaryCareNer, ClinicianCallBack };
         
         public static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
@@ -195,6 +195,11 @@ namespace NHS111.Models.Models.Domain
             get { return this.Equals(OutcomeGroup.ItkPrimaryCare) || this.Equals(OutcomeGroup.ItkPrimaryCareNer) || this.Equals(OutcomeGroup.GP); }
         }
 
+        public bool IsAccidentAndEmergencySexualAssault
+        {
+            get { return Equals(OutcomeGroup.AccidentAndEmergencySexualAssault); }
+        }
+
         public bool IsCoronaVirus
         {
             get
@@ -215,7 +220,7 @@ namespace NHS111.Models.Models.Domain
         {
             get
             {
-                return IsServiceFirst || IsPrimaryCare || IsPharmacy;
+                return IsServiceFirst || IsPrimaryCare || IsPharmacy || IsAccidentAndEmergencySexualAssault;
             }
         }
 

@@ -89,6 +89,16 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
+    public class AccidentAndEmergencySexualAssaultReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "A&E Sexual Assault ITK Confirmation - Success"; } }
+
+        public AccidentAndEmergencySexualAssaultReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
 
     public class CoronaReferralConfirmationAnalyticsDataLayer
         : ReferralConfirmationResultAnalyticsDataLayer
@@ -154,6 +164,16 @@ namespace NHS111.Models.Models.Web
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Failure"; } }
 
         public AccidentAndEmergencyReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+    public class AccidentAndEmergencySexualAssaultReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "A&E Sexual Assault ITK Confirmation - Failure"; } }
+
+        public AccidentAndEmergencySexualAssaultReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
@@ -241,7 +261,17 @@ namespace NHS111.Models.Models.Web
             : base(viewModel) { }
     }
 
-    
+    public class AccidentAndEmergencySexualAssaultDuplicateReferralAnalyticsDataLayer
+        : DuplicateReferralResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "A&E Sexual Assault ITK Confirmation - Duplicate Booking"; } }
+
+        public AccidentAndEmergencySexualAssaultDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+
     public class ClinicianDuplicateReferralAnalyticsDataLayer
         : DuplicateReferralResultAnalyticsDataLayer
     {
@@ -297,6 +327,16 @@ namespace NHS111.Models.Models.Web
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Unavailable"; } }
 
         public AccidentAndEmergencyServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+    public class AccidentAndEmergencySexualAssaultServiceUnavailableReferralAnalyticsDataLayer
+        : ServiceUnavailableReferralAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "A&E Sexual Assault ITK Confirmation - Unavailable"; } }
+
+        public AccidentAndEmergencySexualAssaultServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
